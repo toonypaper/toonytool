@@ -22,7 +22,7 @@
 		(SELECT idno FROM toony_admin_menuInfo WHERE lockMenu='Y' AND vtype='$vtype' LIMIT 1) main_idno,
 		(SELECT name FROM toony_admin_menuInfo WHERE lockMenu='Y' AND vtype='$vtype' LIMIT 1) main_name
 		FROM toony_admin_menuInfo
-		WHERE (idno!=1&&idno!=18) AND vtype='$vtype' AND drop_regdate IS NULL
+		WHERE callName!='main' AND vtype='$vtype' AND drop_regdate IS NULL
 		ORDER BY zindex ASC, depth ASC
 	");
 	
