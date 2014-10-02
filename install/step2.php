@@ -17,11 +17,11 @@
 	}
 	//path.info.php 파일 생성
 	$file = @fopen("../include/path.info.php","w");
-	@fwrite($file,"<?php\n    define(\"__DIR_PATH__\",\"".str_replace('install/'.basename(__FILE__),'',realpath(__FILE__))."\");\n    define(\"__URL_PATH__\",\"".str_replace('install/'.basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'])."\");\n?>");
+	@fwrite($file,"<?php\n    define(\"__DIR_PATH__\",\"".str_replace('install/'.basename(__FILE__),'',str_replace("\\","/",realpath(__FILE__)))."\");\n    define(\"__URL_PATH__\",\"".str_replace('install/'.basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'])."\");\n?>");
 	@fclose($file);
 	//engine.inc.php 파일 생성
 	$file = @fopen("../include/engine.inc.php","w");
-	@fwrite($file,"<?php\n    header(\"Content-Type: text/html; charset=UTF-8\");\n    ini_set(\"display_errors\", 1);\n    ini_set(\"error_reporting\",E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);\n    include_once \"".str_replace('install/'.basename(__FILE__),'',realpath(__FILE__))."include/path.info.php\";\n    include_once __DIR_PATH__.\"/include/session.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.class.php\";\n    include_once __DIR_PATH__.\"/include/lib.class.php\";\n    include_once __DIR_PATH__.\"/include/paging.class.php\";\n    include_once __DIR_PATH__.\"/include/modeling.class.php\";\n    include_once __DIR_PATH__.\"/include/mailSender.class.php\";\n    include_once __DIR_PATH__.\"/include/fileUploader.class.php\";\n?>");
+	@fwrite($file,"<?php\n    header(\"Content-Type: text/html; charset=UTF-8\");\n    ini_set(\"display_errors\", 1);\n    ini_set(\"error_reporting\",E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);\n    include_once \"".str_replace('install/'.basename(__FILE__),"",str_replace("\\","/",realpath(__FILE__)))."include/path.info.php\";\n    include_once __DIR_PATH__.\"/include/session.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.class.php\";\n    include_once __DIR_PATH__.\"/include/lib.class.php\";\n    include_once __DIR_PATH__.\"/include/paging.class.php\";\n    include_once __DIR_PATH__.\"/include/modeling.class.php\";\n    include_once __DIR_PATH__.\"/include/mailSender.class.php\";\n    include_once __DIR_PATH__.\"/include/fileUploader.class.php\";\n?>");
 	@fclose($file);
 	
 ?>
