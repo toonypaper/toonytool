@@ -3,9 +3,6 @@
 	
 	$method = new methodController();
 	$lib = new libraryClass();
-	$header = new skinController();
-	$loop = new skinController();
-	$footer = new skinController();
 	$mysql = new mysqlConnection();
 	$paging = new pagingClass();
 	

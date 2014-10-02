@@ -36,15 +36,18 @@
 		}
 		//헤더영역 지정
 		function skin_loop_header($start_str){
-			$this->area = mb_substr($this->skin,0,strpos($this->skin,$start_str));
+			$this->start_str_pos = strpos($this->skin,$start_str);
+			$this->area = mb_substr($this->skin,0,$this->start_str_pos);
 			$this->skin = $this->area;
 		}
 		//중간영역 지정
 		function skin_loop_middle($start_str,$end_str){
 			$this->str_length = strlen($end_str);
+			$this->start_str_length = strlen($start_str);
+			$this->start_str_length = strlen($start_str);
 			$this->start_str_pos = strpos($this->skin,$start_str);
 			$this->end_str_pos = strpos($this->skin,$end_str);
-			$this->area = mb_substr($this->skin,$this->start_str_pos+$this->str_length,$this->end_str_pos-$this->start_str_pos-$this->str_length);
+			$this->area = mb_substr($this->skin,$this->start_str_pos+$this->start_str_length,$this->end_str_pos-$this->start_str_pos-$this->start_str_length);
 			$this->skin = $this->area;
 		}
 		//하단영역 지정
@@ -66,6 +69,17 @@
 		}
 		//특정 영역 보이기&감추기
 		function skin_modeling_hideArea($start_str,$end_str,$type){
+			if($this->loop_area!=""){
+				if($this->skin_re==""){
+					$this->loopSkin = $this->loop_area;
+					$this->skin = $this->loop_area;
+					$this->skin_re = 1;
+				}else{
+					$this->loopSkin = $this->skin;
+				}
+			}else{
+				$this->loopSkin = $this->skin;
+			}
 			$this->str_length = strlen($start_str);
 			$this->end_str_length = strlen($end_str);
 			$this->start_str_pos = strpos($this->skin,$start_str);
@@ -75,14 +89,14 @@
 				return;
 			}
 			//치환
-			$hide_area = mb_substr($this->skin,$this->start_str_pos,($this->end_str_pos-$this->start_str_pos)+$this->end_str_length);
-			$show_area = mb_substr($this->skin,$this->start_str_pos+$this->str_length,$this->end_str_pos-$this->start_str_pos-$this->str_length);
+			$hide_area = mb_substr($this->loopSkin,$this->start_str_pos,($this->end_str_pos-$this->start_str_pos)+$this->end_str_length);
+			$show_area = mb_substr($this->loopSkin,$this->start_str_pos+$this->str_length,$this->end_str_pos-$this->start_str_pos-$this->str_length);
 			switch($type){
 				case "hide" :
-					$this->skin = str_replace($hide_area,"",$this->skin);
+					$this->skin = str_replace($hide_area,"",$this->loopSkin);
 					break;
 				case "show" :
-					$this->skin = str_replace($hide_area,$show_area,$this->skin);
+					$this->skin = str_replace($hide_area,$show_area,$this->loopSkin);
 					break;
 			}
 		}

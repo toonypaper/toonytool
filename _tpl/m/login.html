@@ -53,9 +53,17 @@ $(document).ready(function(){
 	var $form = $("form[name=loginForm]");
 	var id_value = $("input[name=id]",$form).val();
 	var password_value = $("input[name=password]",$form).val();
-	$("input",$form).focus(function(){
+	$("input[type=text],input[type=password]",$form).focus(function(){
 		if($(this).val()==id_value||$(this).val()==password_value){
 			$(this).val("");
+		}
+	});
+	$("input[type=text],input[type=password]",$form).blur(function(){
+		if($("input[name=id]").val()==""){
+			$("input[name=id]").val(id_value);
+		}
+		if($("input[name=password]").val()==""){
+			$("input[name=password]").val(password_value);
 		}
 	});
 });
@@ -75,4 +83,3 @@ $(document).ready(function(){
 		<li><a href="?article=account">신규 회원가입</a></li><li><a href="?article=findPassword">비밀번호 찾기</a></li>
 	</ul>
 </form>
-</div>

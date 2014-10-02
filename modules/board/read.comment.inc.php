@@ -141,9 +141,13 @@
 		
 		if($mysql->numRows()>0){
 			do{
+				$mysql->htmlspecialchars = 1;
+				$mysql->nl2br = 1;
 				$mysql->fetchArray("ln,rn,idno,bo_idno,me_idno,writer,regdate,tr_1,tr_2,tr_3,tr_4,tr_5");
 				$carray = $mysql->array;
-				$carray[comment] = $mysql->fetch("comment");
+				$mysql->htmlspecialchars = 0;
+				$mysql->nl2br = 1;
+				$carray['comment'] = $mysql->fetch("comment");
 				$tpl_list->skin_modeling("[reply_comment_depthClass]",reply_comment_depthClass());
 				$tpl_list->skin_modeling("[writer]",bbs_me_nick());
 				$tpl_list->skin_modeling("[comment]",comment_comment_div());

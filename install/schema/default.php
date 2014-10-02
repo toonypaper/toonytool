@@ -225,7 +225,7 @@
 	";
 	
 	/*
-	홈페이지 메뉴 설정 DB
+	메뉴 설정 DB
 	*/
 	$db_toony_admin_menuInfo = "
 		create table toony_admin_menuInfo(
@@ -273,6 +273,8 @@
 		,('p','mypage','마이페이지','15','1','15','','','myInformation','fm',now(),'N','Y')
 		,('p','myInformation','개인정보 변경','15','2','16','','myInformation','','mp',now(),'N','Y')
 		,('p','myPoint','나의 포인트 내역','15','2','17','','myPoint','','mp',now(),'N','Y')
+		,('p','search','통합검색','18','1','18','','','search_board','fm',now(),'N','Y')
+		,('p','search_board','전체 게시판 검색','18','2','19','','search_board','','mp',now(),'N','Y')
 		
 		,('m','main','메인화면','18','1','1','?p=main','','','pm',now(),'Y','Y')
 		,('m','introduce','회사소개','19','1','2','','','greetings','fm',now(),'Y','N')
@@ -290,7 +292,9 @@
 		,('m','account','신규 회원가입','28','2','14','','account','','mp',now(),'N','Y')
 		,('m','mypage','마이페이지','32','1','15','','','myInformation','fm',now(),'N','N')
 		,('m','myInformation','개인정보 변경','32','2','16','','myInformation','','mp',now(),'N','Y')
-		,('m','myPoint','나의 포인트 내역','32','2','17','','myPoint','','mp',now(),'N','Y');
+		,('m','myPoint','나의 포인트 내역','32','2','17','','myPoint','','mp',now(),'N','Y')
+		,('m','search','통합검색','35','1','18','','','search_board','fm',now(),'N','Y')
+		,('m','search_board','전체 게시판 검색','35','2','19','','search_board','','mp',now(),'N','Y');
 	";
 	
 	/*

@@ -44,6 +44,36 @@ function getCookie( name ){
 	return ""; 
 }
 /*
+AJAX 통신 시작하는 처리
+*/
+$(document).ajaxStart(function(){
+	//중복 클릭 방지를 위한 DIV Cover 띄움
+	$body_div_cover = $("<div id='body_div_cover'></div>");
+	$body_div_cover.css({
+		"background-color":"#ffffff",
+		"opacity":"0.4",
+		"position":"fixed",
+		"width":"100%",
+		"height":"100%",
+		"z-index":"999",
+		"top":"0",
+		"left":"0"
+	}).appendTo("body");
+	$body_loading = $("<img src='"+__URL_PATH__+"images/loading.gif' />");
+	$body_loading.css({
+		"position":"fixed",
+		"margin-top":"20px",
+		"margin-left":"20px",
+		"z-index":"999",
+		"top":"10px",
+		"left":"10px"
+	}).appendTo("body");
+})
+.ajaxSuccess(function(){
+	$body_div_cover.remove();
+	$body_loading.remove();
+});
+/*
 jQuery-ui Datepicker 설정
 */
 $(document).ready(function(){

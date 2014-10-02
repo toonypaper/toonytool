@@ -1,0 +1,66 @@
+<script type="text/javascript">
+//Tab active 처리
+$(document).ready(function(){
+	$tab = $("#search_board .tab");
+	$("li",$tab).each(function(){
+		if($(this).attr("tabName")=="[tab_value_txt]"){
+			$(this).addClass("active");
+		}
+	});
+});
+//검색폼 where radio 자동 선택
+$(document).ready(function(){
+	var $searchBoardForm = $("form[name=searchBoardForm]");
+	var now_chk_where = "[chk_where_value]";
+	$("input[name=chk_where][value="+now_chk_where+"]",$searchBoardForm).attr("checked",true);
+});
+//검색폼 urlencode 처리
+$(document).ready(function(){
+	var $searchBoardForm = $("form[name=searchBoardForm]");
+	$searchBoardForm.submit(function(e){
+		e.preventDefault();
+		var searchBoardFormKeyword = encodeURIComponent($("input[name=keyword]",$searchBoardForm).val());
+		var searchBoardFormWhere = $("input[name=chk_where]:checked",$searchBoardForm).val();
+		document.location.href = __URL_PATH__+"m/?article=search_board&chk_where="+searchBoardFormWhere+"&keyword="+searchBoardFormKeyword;
+	});
+});
+</script>
+<div id="search_board">
+	<form name="searchBoardForm" id="searchBoardForm">
+		<label><input type="radio" name="chk_where" value="all" checked />제목+내용검색</label>
+		<label><input type="radio" name="chk_where" value="subject" />제목검색</label>
+		<label><input type="radio" name="chk_where" value="ment" />내용검색</label>
+		<input type="text" name="keyword" class="keyword" value="[keyword_txt]" />
+		<div class="btnArea">
+			<input type="submit" class="__button_submit" value="검색" />
+		</div>
+	</form>
+	<h5>"[keyword_txt]" 에 대한 게시판 검색 결과</h5>
+	<ul class="tab">
+		<li tabName="">
+			<a href="?article=search_board&chk_where=[chk_where_value]&keyword=[keyword]&tab_value=">전체</a>
+		</li>
+		[{tab_start}]
+		<li tabName="[tab_name]">
+			<a href="?article=search_board&chk_where=[chk_where_value]&keyword=[keyword]&tab_value=[tab_link_name]">[tab_name]</a>
+		</li>
+		[{tab_end}]
+	</ul>
+	<ul class="search_board_list">
+		[{loop_start}]
+		<li class="title">
+			<a href="[article_link]" class="article_name">[article_name_txt]</a>
+			<span class="total_count">(<strong>[total_count]</strong>건 검색)</span>
+			<a href="?article=search_board&keyword=[keyword]&tab_value=[article_name]" class="more">더보기</a>
+		</li>
+			[{data_loop_start}]
+			<li class="data_li">
+				<a href="[data_link]" class="data_title">[data_title]</a>
+				<a href="[data_link]" class="data_memo">
+					[memo]
+				</a>
+			</li>
+			[{data_loop_end}]
+		[{loop_end}]
+	</ul>
+</div>

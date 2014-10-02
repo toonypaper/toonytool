@@ -12,7 +12,7 @@
 	//댓글 갯수
 	function latest_comment_func($comment){
 		if($comment>0){
-			return "(".$comment.")";
+			return number_format($comment);
 		}else{
 			return "";
 		}

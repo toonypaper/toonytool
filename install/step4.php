@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	//Step3이 진행되어 있는 경우 engine을 호출
 	if(is_file("../include/mysql.info.php")){
 		include "../include/engine.inc.php";
@@ -35,6 +35,7 @@
 	$lib = new libraryClass();
 	
 	if($id){
+		mb_internal_encoding('UTF-8');
 		//검사
 		if(trim($id)==""){
 			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("아이디를 입력해 주세요.");history.back();</script>'; exit;

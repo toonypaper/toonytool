@@ -65,6 +65,8 @@
 	if($mysql->numRows()<1){
 		$lib->error_alert_location("해당 게시물이 존재하지 않습니다.",__URL_PATH__.$viewDir,"A");
 	}
+	$mysql->htmlspecialchars = 1;
+	$mysql->nl2br = 1;
 	$mysql->fetchArray("rn,ln,category,regdate,subject,writer,me_idno,cmtnum,view,vote,password,use_secret,use_notice,use_html,me_idno,file1,file2,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
 	$array = $mysql->array;
 	$mysql->htmlspecialchars = 0;

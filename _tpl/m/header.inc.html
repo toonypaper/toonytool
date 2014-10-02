@@ -1,5 +1,39 @@
+<script type="text/javascript">
+//검색폼 등장/숨기기 및 검색어 urlencode 처리
+$(document).ready(function(){
+	var $searchForm = $("form[name=searchForm]");
+	var $keyword_input = $("input[name=keyword]",$searchForm);
+	var $submit_input = $("input.submit",$searchForm);
+	var $searchForm_btn = $("input.btn",$searchForm);
+	//검색폼 등장/숨기기
+	$searchForm_btn.toggle(
+		function(){
+			$keyword_input.show();
+			$submit_input.show();
+			$keyword_input.focus();
+		},function(){
+			$keyword_input.hide();
+			$submit_input.hide();
+		}
+	);
+	//검색어 urlencode 처리
+	$searchForm.submit(function(e){
+		e.preventDefault();
+		var searchFormKeyword = encodeURIComponent($keyword_input.val());
+		document.location.href = __URL_PATH__+"m/?article=search_board&keyword="+searchFormKeyword;
+	});
+});
+</script>
 <header>
-	<div class="logo"><a href="[site_url]"><h1><img src="[logo]" title="[site_name]" style="width:150px" /></h1></a></div>
+	<div class="logo">
+		<a href="[site_url]">
+			<h1><img src="[logo]" title="[site_name]" style="width:120px" /></h1>
+		</a>
+	</div>
+	<form name="searchForm" id="searchForm">
+		<input type="button" class="btn" />
+		<input type="text" name="keyword" class="keyword" /><input type="submit" value="검색" class="submit" />
+	</form>
 	<ul class="gnb">
 		[{menu_start}][menu][{menu_end}]
 	</ul>

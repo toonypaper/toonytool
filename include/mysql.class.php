@@ -7,6 +7,7 @@
 		private $db_name = __DB_NAME__;
 		private $db_user = __DB_USER__;
 		private $db_pass = __DB_PASS__;
+		
 		//Mysql 연결 초기화
 		function __construct(){
 			$this->connect = mysql_connect($this->host,$this->db_user,$this->db_pass ,true);
@@ -70,10 +71,10 @@
 		function fetch($fieldName){
 			$this->ROW_RE = stripslashes($this->ROW[$fieldName]);
 			if($this->htmlspecialchars==1){
-				$this->ROW_RE = htmlspecialchars($this->ROW[$fieldName]);
+				$this->ROW_RE = htmlspecialchars($this->ROW_RE);
 			}
 			if($this->nl2br==1){
-				$this->ROW_RE = nl2br($this->ROW[$fieldName]);
+				$this->ROW_RE = nl2br($this->ROW_RE);
 			}
 			return $this->ROW_RE;
 		}

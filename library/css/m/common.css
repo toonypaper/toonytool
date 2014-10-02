@@ -87,6 +87,9 @@ select{
 input[disabled]{
 	background-color:#f3f3f3;
 }
+input[type=button],input[type=submit]{
+	-webkit-appearance:none;
+}
 input[type=checkbox][disabled],input[type=radio][disabled]{
 	background-color:#ffffff;
 }

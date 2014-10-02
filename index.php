@@ -272,7 +272,7 @@
 						if(getCookie("toony_popup_1week_'.$popup['name'].'")!="true"){
 							$(".__toony_popup_'.$popup['name'].'").css({
 								"position":"absolute",
-								"z-index":999,
+								"z-index":800,
 								"left":"'.$popup['bleft'].'px",
 								"top":"'.$popup['btop'].'px"
 							}).show();

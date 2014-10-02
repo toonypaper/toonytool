@@ -178,7 +178,7 @@
 	function array_subject_comment(){
 		global $array, $c_array;
 		if($array['cmtnum']>=1&&$c_array['use_comment']=="Y"){
-			return "(".$array['cmtnum'].")";
+			return number_format($array['cmtnum']);
 		}
 	}
 	//작성 버튼 출력
@@ -321,6 +321,7 @@
 	$array_total = $mysql->numRows();
 	if($array_total>0){
 		do{
+			$mysql->htmlspecialchars = 1;
 			$mysql->fetchArray("category,writer,subject,name,ment,me_nick,idno,me_idno,regdate,view,vote,cmtnum,use_notice,use_secret,use_html,file1,file2,rn,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
 			$array = $mysql->array;
 			$notice_loop->skin_modeling("[controll_chk]",array_subject_controll_chk());
@@ -382,6 +383,7 @@
 	if($array_total>0){
 		$j = 1;
 		do{
+			$mysql->htmlspecialchars = 1;
 			$mysql->fetchArray("category,writer,subject,name,ment,me_idno,idno,regdate,view,vote,cmtnum,use_notice,use_secret,use_html,file1,file2,rn,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
 			$array = $mysql->array;
 			$array_loop->skin_modeling("[controll_chk]",array_subject_controll_chk());

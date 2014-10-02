@@ -68,12 +68,28 @@ $(document).ready(function(){
 			$("#read_form").attr({method:"POST",action:__URL_PATH__+"?article="+article+"&category="+category+"&p=delete"}).submit();
 		}
 	});
-	
 	//textarea 가로 폭 지정
 	function textareaResize(obj){
 		var boxWidth = obj.width();
 		$("textarea",obj).css({
 			"width":boxWidth-70+"px"
+		});
+	}
+	//댓글 내에서 url 문자열을 자동링크
+	function comment_replace_url(){
+		var url_patt = /((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\wㄱ-ㅎㅏ-ㅣ가-힣\;\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?)/gi;
+		var $comment_modify = $("#read_comment_form .comment_list .memo .comment_modify");
+		$comment_modify.each(function(){
+			//.comment_modify DIV의 name attribute와 내용을 새로 생성한 .comment_modify_org DIV에 상속시킴
+			$(this).after("<div class='comment_modify_org' style='display:none;' name='"+$(this).attr("name")+"'>"+$(this).html()+"</div>").attr("name","");
+			//url문자열을 찾아 자동 링크를 걸어줌
+			var match_url = String($(this).html().match(url_patt));
+			var match_url2 = match_url.split(",");
+			var replace_url = $(this).html();
+			for(i=1;i<=match_url2.length;i++){
+				replace_url = replace_url.replace(match_url2[i-1],"<a href='"+match_url2[i-1]+"' target='_blank'>"+match_url2[i-1]+"</a>");
+			}
+			$(this).html(replace_url);
 		});
 	}
 	//댓글 박스 AJAX 로드
@@ -83,10 +99,10 @@ $(document).ready(function(){
 		var article = $("#read_form input[name='article']").val();
 		$("._CALLING_COMMENT").load(__URL_PATH__+"modules/board/read.comment.inc.php?board_id="+board_id+"&read="+read+"&article="+article+"&viewDir=",function(){
 			textareaResize($(".comment_form"));
+			comment_replace_url();
 		});
 	}
 	read_comment_include();
-	
 	//댓글 작성
 	$(document).on("submit","#read_comment_form",function(e){
 	e.preventDefault();
@@ -208,10 +224,10 @@ $(document).ready(function(){
 			$("#read_comment_form .replyWriteArea").hide();
 			//수정창을 show
 			$imgVar = $(this);
-			$("#read_comment_form .comment_modify").each(function(index){
+			$("#read_comment_form .comment_modify_org").each(function(index){
 				if($(this).attr("name")==$imgVar.attr("name")){
-					if($(this).css("display")!="none"){
-						$(this).hide();
+					if($(this).parent().children(".comment_modify").css("display")!="none"){
+						$(this).parent().children(".comment_modify").hide();
 						$(this).after("<div class=\"comment_modify_box comment_modify_div_"+index+" comment_form_box\"><textarea name=\"comment_modify\" class=\"comment_modify_textarea_"+index+"\" style=\"height:50px;\">"+$(this).html().replace(/<BR>\n/gi,"\n").replace(/<BR>/gi,"\n")+"</textarea> <input type=\"button\" id=\"comment_modify_button\" class=\"__button_small\" value=\"수정\"></div>")
 						.next().hide().fadeIn({duration:200});
 						textareaResize($(".comment_modify_box"));
@@ -219,12 +235,12 @@ $(document).ready(function(){
 						$("#read_comment_form input[name='mode']").val("2");
 						$("#read_comment_form input[name='cidno']").val($(this).attr("name").substr(15));
 					}else{
-						$(this).fadeIn({duration:200});
+						$(this).parent().children(".comment_modify").fadeIn({duration:200});
 						$("#read_comment_form .comment_modify_div_"+index).remove();
 						$("#read_comment_form input[name='mode']").val("1");
 					}
 				}else{
-					$(this).fadeIn({duration:200});
+					$(this).parent().children(".comment_modify").fadeIn({duration:200});
 					$("#read_comment_form .comment_modify_div_"+index).remove();
 				}
 		   });
@@ -378,6 +394,8 @@ $(document).ready(function(){
 		}
 	});
 	$("#write_form .write_submit_btn").click(function(e){
+		var $btn_org = $(this);
+		var btn_org_value = $(this).val();
 		$(this).attr("disabled",true).val("등록중...");
 		$("#write_form").attr({method:"POST",action:__URL_PATH__+"modules/board/write.submit.php"});
 		oEditors.getById["ment"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -394,6 +412,7 @@ $(document).ready(function(){
 									window.location.href=msg.substr(7);
 								}else{
 									alert(msg);
+									$btn_org.attr("disabled",false).val(btn_org_value);
 								}
 							}
 		});

@@ -1,7 +1,6 @@
 <?php
 	include_once "include/pageJustice.inc.php";
 	
-	$method = new methodController();
 	$lib = new libraryClass();
 	$tpl = new skinController();
 	$mysql = new mysqlConnection();
