@@ -1,0 +1,186 @@
+
+
+
+
+
+[{write_password_form_start}]
+<!--s:비회원인 경우에만 비밀번호 입력폼 노출-->
+<form name="modify_password_form" id="modify_password_form" method="post">
+	<input type="hidden" name="article" value="[article_value]" />
+	<input type="hidden" name="category_ed" value="[category_value]" />
+	<input type="hidden" name="p" value="write" />
+	<input type="hidden" name="s_board_id" value="[board_id_value]" />
+	<input type="hidden" name="s_mode" value="[mode_value]" />
+	<input type="hidden" name="s_read" value="[read_value]" />
+	<input type="hidden" name="s_page" value="[page_value]" />
+	<input type="hidden" name="where" value="[where_value]" />
+	<input type="hidden" name="keyword" value="[keyword_value]" />
+	<table cellpadding="0" cellspacing="0" id="guest_password" class="board_table" style="width:400px;" align="center">
+		<thead>
+			<tr>
+				<th>비밀번호를 입력하세요</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="padding:20px; text-align:center;">
+					<input type="password" name="s_password" style="width:120px;" />
+					<input type="submit" class="__button_small" id="read_password_btn" value="확인" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<!--e:비회원인 경우에만 비밀번호 입력폼 노출-->
+[{write_password_form_end}]
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="smartEditor/js/HuskyEZCreator.js"></script>
+<form name="write_form" id="write_form" enctype="multipart/form-data">
+	<input type="hidden" name="board_id" value="[board_id_value]" />
+	<input type="hidden" name="mode" value="[mode_value]" />
+	<input type="hidden" name="read" value="[read_value]" />
+	<input type="hidden" name="page" value="[page_value]" />
+	<input type="hidden" name="where" value="[where_value]" />
+	<input type="hidden" name="keyword" value="[keyword_value]" />
+	<input type="hidden" name="article" value="[article_value]" />
+	<input type="hidden" name="category_ed" value="[category_value]" />
+	<input type="hidden" name="use_html" value="Y" />
+	<input type="hidden" name="type" value="[type_value]" />
+	<table cellpadding="0" cellspacing="0" id="read_table" class="board_table">
+	<thead>
+		<th colspan="2">[write_title]</th>
+	</thead>
+	<tbody>
+		<tr>
+			<th style="width:100px;">제목</th>
+			<td>
+				<input type="text" name="subject" class="subject" value="[subject]" maxlength="50" style="width:450px;" />
+			</td>
+		</tr>
+		[{write_category_start}]
+		<tr>
+			<th>카테고리</th>
+			<td>
+				[bbs_category]
+			</td>
+		</tr>
+		[{write_category_end}]
+		<tr>
+			<th>
+				옵션
+			</th>
+			<td>
+				[option_notice] [option_secret] [option_email]
+			</td>
+		</tr>
+		[{write_writer_start}]
+		<tr>
+			<th>
+				작성자
+			</th>
+			<td>
+				<input type="text" name="writer" value="[writer]" maxlength="8" style="width:200px;" />
+			</td>
+		</tr>
+		[{write_writer_end}]
+		[{write_password_start}]
+		<tr>
+			<th>
+				비밀번호
+			</th>
+			<td>
+				<input type="password" name="password" value="[password]" maxlength="20" style="width:200px;" />
+			</td>
+		</tr>
+		[{write_password_end}]
+		[{write_email_start}]
+		<tr>
+			<th>
+				이메일주소
+			</th>
+			<td>
+				<input type="text" name="email" value="[email]" style="width:300px;" />
+			</td>
+		</tr>
+		[{write_email_end}]
+		<tr>
+			<td colspan="2">
+				<textarea name="ment" id="ment" style="width:100%; height:300px;">[memo]</textarea>
+			</td>
+		</tr>
+		[{write_file1_start}]
+		<tr>
+			<th>
+				첨부파일
+			</th>
+			<td>
+				<input type="file" name="file1" id="file1"><span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px; font-size:11px;">[write_file_byte]</span>
+			</td>
+		</tr>
+		[{write_file1_end}]
+		[{write_file1_name_start}]
+		<tr>
+			<th>
+				첨부된 파일
+			</th>
+			<td>
+				[file1_name]
+				<input type="hidden" name="file1_ed" value="[file1_name]"> <input type="checkbox" name="file1_del" id="file1_del"><label for="file1_del">삭제</label>
+			</td>
+		</tr>
+		[{write_file1_name_end}]
+		[{write_file2_start}]
+		<tr>
+			<th>
+				첨부파일2
+			</th>
+			<td>
+				<input type="file" name="file2" id="file2"><span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px; font-size:11px;">[write_file_byte]</span>
+			</td>
+		</tr>
+		[{write_file2_end}]
+		[{write_file2_name_start}]
+		<tr>
+			<th>
+				첨부된 파일2
+			</th>
+			<td>
+				[file2_name]
+				<input type="hidden" name="file2_ed" value="[file2_name]"> <input type="checkbox" name="file2_del" id="file2_del"><label for="file2_del">삭제</label>
+			</td>
+		</tr>
+		[{write_file2_name_end}]
+		[{write_capcha_start}]
+		<tr>
+			<th>
+				스팸방지코드
+			</th>
+			<td>
+				[capcha_img]
+				<input name="capcha" id="capcha" type="text" style="width:100px; padding:5px; padding-top:6px; vertical-align:top;" />
+				<span class="__article_sment">위에 보이는 스팸방지 코드를 입력란에 입력해 주세요.</span>
+			</td>
+		</tr>
+		[{write_capcha_end}]
+	</tbody>
+	</table>
+	<script type="text/javascript"> 
+	oEditors = [];
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ment",
+		sSkinURI: "smartEditor/SmartEditor2Skin.html",
+		fCreator: "createSEditor2"
+	});
+	</script>
+	<div class="read_btnArea">
+	[submit_btn][return_btn]
+	</div>
+</form>

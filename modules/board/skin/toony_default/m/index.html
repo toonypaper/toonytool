@@ -1,0 +1,80 @@
+
+<form name="array_form" id="array_form">
+	<input type="hidden" name="article" value="[article_value]" />
+	<input type="hidden" name="category" value="[category_value]" />
+	<input type="hidden" name="board_id" value="[board_id_value]" />
+	<input type="hidden" name="page" value="[page_value]" />
+	<!-- List Start-->
+	<div class="settingArea">
+		<table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td style="text-align:left;">[bbs_category]</td>
+				<td style="text-align:right;">[bbs_setting]</td>
+			</tr>
+		</table>
+	</div>
+	<table cellpadding="0" cellspacing="0" style="width:100%;" class="board_table">
+		<thead>
+			<tr>
+				[{controll_chk_start}]
+				<th width="20"><input type="checkbox" name="cnum_allCheck" class="cnum_allCheck" /></th>
+				[{controll_chk_end}]
+				<th width="30">번호</th>
+				<th>제목</th>
+				[{likes_start}]
+				<th width="40">추천</td>
+				[{likes_end}]
+			</tr>
+		</thead>
+		<tbody>
+			<!--Notice-->
+			[{notice_loop_start}]
+			<tr class="notice">
+				[{controll_chk_start}]
+				<td>[controll_chk]</td>
+				[{controll_chk_end}]
+				<td style="font-size:11px; color:#666; text-align:center;"><strong>공지</strong></td>
+				<td>
+					<strong class="category">[category_name]</strong> [secret_ico]<strong>[subject]</strong>[file_ico][mobile_ico]<span style="font-size:11px; color:#999; padding-left:10px;">[comment_num]</span><br />
+					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [write_date] / <strong>조회</strong> [hit]</span>
+				</td>
+				[{likes_start}]
+				<td style="font-size:11px; color:#666; text-align:center;"><strong>[likes]</strong><span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</td>
+				[{likes_end}]
+			</tr>
+			[{notice_loop_end}]
+			<!--Array-->
+			[{array_loop_start}]
+			<tr>
+				[{controll_chk_start}]
+				<td>[controll_chk]</td>
+				[{controll_chk_end}]
+				<td style="font-size:11px; color:#666; text-align:center;">[number]</td>
+				<td>
+					<strong class="category">[category_name]</strong> [secret_ico][subject][file_ico][secret_ico][mobile_ico]<span style="font-size:11px; color:#999; padding-left:10px;">[comment_num]</span><br />
+					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [write_date] / <strong>조회</strong> [hit]</span>
+				</td>
+				[{likes_start}]
+				<td style="font-size:11px; color:#666; text-align:center;"><strong>[likes]</strong><span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</td>
+				[{likes_end}]
+			</tr>
+			[{array_loop_end}]
+		</tbody>
+	</table>
+	[{array_not_loop_start}]
+	<span class="not_loop_span">등록된 글이 없습니다.</span>
+	[{array_not_loop_end}]
+	<!-- List End -->
+	[paging_area]
+	<div class="btnArea">
+		[controll_btn][write_btn]
+	</div>
+	<div class="scArea">
+		<select name="where" class="where">
+			<option value="subject" [ss_selected]>제목</option>
+			<option value="ment" [sm_selected]>내용</option>
+			<option value="writer" [sw_selected]>작성자</option>
+		</select>
+		<input type="text" name="keyword" class="keyword" value="[keyword_value]" style="width:80px; padding:3px;"> [search_btn][search_cancel_btn]
+	</div>
+</form>

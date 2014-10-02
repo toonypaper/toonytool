@@ -1,0 +1,85 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	var $form = $("form[name=loginForm]");
+	$form.submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			type		:	"POST",
+			url			:	__URL_PATH__+"login.submit.php",
+			cache		:	false,
+			data		:	$form.serialize(),
+			async		:	false,
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--error::logged-->" :
+										alert("이미 로그인 되어 있습니다.");
+										break;
+									case "<!--error::null_id-->" :
+										alert("아이디를 입력 하세요.");
+										break;
+									case "<!--error::null_password-->" :
+										alert("비밀번호를 입력 하세요.");
+										break;
+									case "<!--error::not_member-->" :
+										alert("아이디 또는 비밀번호를 확인 하세요.");
+										break;
+									case "<!--error::not_idCheck-->" :
+										if(confirm("아이디 인증이 완료되지 않은 아이디 입니다.\n\n아이디 인증 메일을 재발송 하시겠습니까?")==true){
+											$.ajax({
+												type		:	"POST",
+												url			:	__URL_PATH__+"account.idCheck.send.php",
+												cache		:	false,
+												data		:	{ "id":$("input[name=id]",$form).val() },
+												async		:	false,
+												dataType	:	"HTML",
+												success		:	function(msg){
+													if(msg=="<!--success::1-->"){
+														alert("인증 메일이 재발송 되었습니다.\n\n메일을 확인하여 인증을 완료해 주세요.");
+													}else{
+														alert(msg);
+													}
+												}
+											});
+										}
+										break;
+									default :
+										document.location.href = msg;
+								}
+							}
+		});
+	});
+	//인풋 레이블 컨트롤
+	var $form = $("form[name=loginForm]");
+	var id_value = $("input[name=id]",$form).val();
+	var password_value = $("input[name=password]",$form).val();
+	$("input",$form).focus(function(){
+		if($(this).val()==id_value||$(this).val()==password_value){
+			$(this).val("");
+		}
+	});
+	$("input",$form).blur(function(){
+		if($("input[name=id]").val()==""){
+			$(this).val(id_value);
+		}
+		if($("input[name=password]").val()==""){
+			$(this).val(password_value);
+		}
+	});
+});
+</script>
+<form name="loginForm" id="loginForm">
+	<input type="hidden" name="redirect" value="[redirectUri]" />
+	<input type="hidden" name="viewDir" value="[viewDir_value]" />
+	<div class="inner">
+		<input type="submit" class="submit" value="로그인" />
+		<input type="text" name="id" class="id" value="[id_value]" />
+		<input type="password" name="password" class="password" value="[password_value]" />
+		<span class="checkArea">
+			<label><input type="checkbox" name="save_id" value="checked" [save_id_checked] /> 회원 아이디를 저장 하겠습니다.</label>
+		</span>
+	</div>
+	<ul class="btnArea">
+		<li><a href="?article=account">신규 회원가입</a></li><li><a href="?article=findPassword">비밀번호 찾기</a></li>
+	</ul>
+</form>

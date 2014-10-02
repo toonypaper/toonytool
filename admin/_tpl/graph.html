@@ -1,0 +1,36 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>통계 그래프</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					통계 그래프를 통해 각종 추이를 살펴볼 수 있습니다.
+				</div>
+				<div class="contTitle">
+					<h4>회원/방문자 통계</h4>
+				</div>
+				<div class="contArticle" style="text-align:center; font-size:0; margin-top:20px;">
+					<iframe class="result_grp" src="./graph_visit.inc.php" frameborder="0" width="390px" height="310px" scrolling="no"></iframe>
+					<iframe class="result_grp" src="./graph_sex.inc.php" frameborder="0" width="390px" height="310px" scrolling="no"></iframe>
+				</div>
+				<div class="contTitle">
+					<h4>최근 6개월간 방문/회원가입 추이</h4>
+				</div>
+				<div class="contArticle" style="text-align:center; font-size:0;">
+					<iframe class="result_grp" src="./graph_account.inc.php" frameborder="0" width="775px" height="230px" scrolling="no"></iframe>
+				</div>
+				<div class="contTitle">
+					<h4>최근 6개월간 회원 활동량 추이(월간 누적 회원 포인트)</h4>
+				</div>
+				<div class="contArticle" style="text-align:center; font-size:0;">
+					<iframe class="result_grp" src="./graph_active.inc.php" frameborder="0" width="775px" height="230px" scrolling="no"></iframe>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

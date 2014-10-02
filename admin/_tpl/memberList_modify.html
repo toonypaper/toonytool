@@ -1,0 +1,200 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	//정보 수정
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=memberList_modifyForm]");
+		$.ajax({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			url			:	__URL_PATH__+"admin/memberList_modify.submit.php",
+			data		:	$form.serialize(),
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--error::not_samePassword-->" :
+										alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+										break;
+									case "<!--error::null_nick-->" :
+										alert("이름을 입력 하세요.");
+										break;
+									case "<!--error::not_nick-->" :
+										alert("이름이 올바르지 않습니다.");
+										break;
+									case "<!--error::not_phone-->" :
+										alert("휴대전화가 올바르지 않습니다.");
+										break;
+									case "<!--error::not_telephone-->" :
+										alert("집전화가 올바르지 않습니다.");
+										break;
+									case "<!--error::not_password-->" :
+										alert("비밀번호가 올바르지 않습니다.");
+										break;
+									case "<!--success::1-->" :
+										alert("성공적으로 수정 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+	});
+	//회원 탈퇴
+	$("._leaveBtn").click(function(){
+		if(confirm("정말로 탈퇴 처리 하시겠습니까?")==true){
+			var $form = $("form[name=memberList_modifyForm]");
+			$("input[name=type]",$form).val("leave");
+			$.ajax({
+				cache		:	false,
+				async		:	false,
+				type		:	"POST",
+				url			:	__URL_PATH__+"admin/memberList_modify.submit.php",
+				data		:	$form.serialize(),
+				dataType	:	"HTML",
+				success		:	function(msg){
+									switch(msg){
+										case "<!--error::not_member-->" :
+											alert("회원이 존재하지 않거나 탈퇴 하였습니다.");
+											break;
+										case "<!--success::2-->" :
+											alert("성공적으로 탈퇴 되었습니다.");
+											document.location.href = __URL_PATH__+"admin/?p=memberList";
+											break;
+										default :
+											alert(msg);
+									}
+								}
+			});
+		}
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>가입회원 보기</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					회원의 정보를 관리 하세요.
+				</div>
+				<div class="contArticle">
+					<form name="memberList_modifyForm">
+						<input type="hidden" name="type" value="modify" />
+						<input type="hidden" name="idno" value="[idno_value]" />
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<thead>
+								<tr>
+									<th colspan="2">가입 회원 정보</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th style="width:100px;">이메일 아이디</th>
+									<td>
+										<strong>[id]</strong><span style="color:#999; padding-left:15px; font-size:11px; letter-spacing:-1px;">( 아이디 인증 : <strong>[idCheck]</strong> )</span>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">이메일 인증</th>
+									<td>
+										<label><input type="radio" name="idCheck" value="Y" [idCheck_checked_value_Y] />완료상태로 변경</label>
+										<label><input type="radio" name="idCheck" value="N" [idCheck_checked_value_N] />미완료상태로 변경</label>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호</th>
+									<td>
+										<input type="password" name="password" />
+										<span class="__article_sment">
+											- 비밀번호 변경시에만 입력<br />
+											- 최소 5자 ~ 최대 30자로 입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인</th>
+									<td>
+										<input type="password" name="password02" />
+										<span class="__article_sment">
+											- 비밀번호 확인을 위해 재입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td>
+										<input type="text" name="nick" value="[nick_value]" style="width:150px;" />
+									</td>
+								</tr>
+								<tr>
+									<th>성별</th>
+									<td>
+										<label><input type="radio" name="sex" value="M" [sex_checked_value_M] />남</label>
+										<label><input type="radio" name="sex" value="F" [sex_checked_value_F] />여</label>
+									</td>
+								</tr>
+								<tr>
+									<th>레벨</th>
+									<td>
+										<select name="level" style="">
+											[level_selectbox_options]
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>휴대전화</th>
+									<td>
+										<input type="text" name="phone" value="[phone_value]" />
+										<span class="__article_sment">
+											- 하이픈(-) 없이 입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>집전화</th>
+									<td>
+										<input type="text" name="telephone" value="[telephone_value]" />
+										<span class="__article_sment">
+											- 하이픈(-) 없이 입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>보유 포인트</th>
+									<td>
+										<input type="text" name="point" value="[point_value]" style="width:80px;" />
+										<span class="__article_sment">
+											- 포인트 수정시 포인트 변경 이력에 기록됨
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>가입일</th>
+									<td>[regdate]</td>
+								</tr>
+								<tr>
+									<th>최근 로그인</th>
+									<td>[login_regdate]</td>
+								</tr>
+								<tr>
+									<th>최근 로그인 IP</th>
+									<td>[login_ip]</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						<input type="button" class="__btn_leave _leaveBtn" />
+						<a href="./?p=memberList" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>

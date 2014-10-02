@@ -1,0 +1,55 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>페이지 관리</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					생성된 페이지를 관리 하세요.
+				</div>
+				<ul class="__article_tab">
+					<li[tab_active_p]><a href="?p=pageList">홈페이지</a></li>
+					<li[tab_active_m]><a href="?p=pageList&vtype=m">모바일</a></li>
+				</ul>
+				<div class="contArticle pageList">
+					<form name="pageListForm">
+						<table cellpadding="0" cellspacing="0" class="__article_table">
+							<thead>
+								<tr>
+									<th class="___f" style="width:35px;">번호</th>
+									<th style="width:70px;">페이지명</th>
+									<th style="text-align:left;">페이지 설명</th>
+									<th class="___l" style="width:35px;">설정</th>
+								</tr>
+							</thead>
+							<tbody>
+								[{loop_start}]
+								<tr>
+									<td class="___number">[number]</td>
+									<td style="text-align:center; font-weight:bold;">[name]</td>
+									<td>[memo]</td>
+									<td style="text-align:center;">[modify_btn]</td>
+								</tr>
+								[{loop_end}]
+								[{not_content_start}]
+								<tr>
+									<td colspan="4">생성된 페이지가 없습니다.</td>
+								</tr>
+								[{not_content_end}]
+							</tbody>
+						</table>
+						[paging_area]
+					</form>
+					<div class="__article_btnArea">
+						<a href="?p=pageList_modify&vtype=[vtype]&type=new" class="__btn_pageList_add"></a>
+						<a href="./?p=pageList" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

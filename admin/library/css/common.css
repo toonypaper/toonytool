@@ -1,0 +1,104 @@
+@charset "utf-8";
+/**************************************************
+	
+	Common
+	
+**************************************************/
+@font-face{
+	font-family:MalgunGothic;
+	src:url(../../../library/font/MalgunGothic.eot);
+	src:local('※'), url(../../../library/font/MalgunGothic.woff) format('woff');
+}
+*{
+	-webkit-text-size-adjust:none;
+	-webkit-border-radius:0;
+}
+body,form,dl,dd{
+	margin:0;
+	padding:0;
+}
+body,td,select,input,div,form,textarea,center,option,pre,p,span,blockquote,td,li,dd{
+	font-family:dotum, gullim, Tahoma, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#343434;
+	letter-spacing:0;
+}
+body{
+	background-color:#ffffff;
+	line-height:18px;
+}
+label{
+	cursor:pointer;
+}
+dd,header,footer,section,article,nav,hgroup{
+	display:block;
+}
+input[type=search]{
+	border:none;
+	height:50px;
+}
+img{
+	border:none;
+	vertical-align:middle;
+}
+p{
+	margin:0;
+	padding:0;
+}
+fieldset{
+	margin:0;
+	padding:0;
+	border:none;
+}
+legend{
+	margin:0;
+	padding:0;
+}
+h1,h2,h3,h4{
+	margin:0;
+	padding:0;
+	text-align:left;
+	font-size:1px;
+}
+/* Inputs */
+input[type=checkbox],input[type=radio]{
+	border:none;
+	vertical-align:middle;
+	cursor:pointer;
+}
+input[type=text],input[type=password],input[type=search],input[type=email],input[type=url],input[type=number],textarea{
+	width:300px;
+	padding:5px;
+	border:1px solid #D0CFCF;
+	border-right:1px solid #EDEDED;
+	border-bottom:1px solid #EDEDED;
+	background:#FAF9F9;
+}
+input[type=text]:hover,input[type=password]:hover,input[type=search]:hover,input[type=email]:hover,input[type=url]:hover,input[type=number]:hover,select:hover,textarea:hover{
+	border:1px solid #D0CFCF;
+	border-right:1px solid #EDEDED;
+	border-bottom:1px solid #EDEDED;
+	background:#fff;
+}
+input[type=text]:focus,input[type=password]:focus,input[type=search]:focus,input[type=email]:focus,input[type=url]:focus,input[type=number]:focus,select:focus,textarea:focus{
+	background-color:#ffffff;
+}
+select{
+	padding:5px;
+	border:1px solid #D0CFCF;
+	border-right:1px solid #EDEDED;
+	border-bottom:1px solid #EDEDED;
+	background:#FAF9F9;
+	cursor:pointer;
+}
+input[disabled]{
+	background-color:#f3f3f3;
+}
+input[type=checkbox][disabled],input[type=radio][disabled]{
+	background-color:#ffffff;
+}
+/* Links */
+A:link{text-decoration:none; color:#666666}
+A:visited {text-decoration:none; color:#666666}
+A:active {text-decoration:none; color:#666666}
+A:hover{text-decoration:underline; color:#000000}

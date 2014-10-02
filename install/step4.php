@@ -1,0 +1,108 @@
+<?php
+	//Step3이 진행되어 있는 경우 engine을 호출
+	if(is_file("../include/mysql.info.php")){
+		include "../include/engine.inc.php";
+		$connect = @mysql_connect(__HOST__,__DB_USER__,__DB_PASS__);
+		mysql_select_db(__DB_NAME__,$connect);
+	}
+	//index가 진행되어 있지 않으면 첫화면으로 이동
+	function permission_check($file){
+		$open = @is_writable($file);
+		if(!$open){
+			return "N";
+		}else{
+			return "Y";
+		}
+	}
+	if(permission_check("../include/")=="N"||permission_check("../upload/")=="N"){
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
+	//Step1이 진행되어 있지 않으면 첫 화면으로 이동
+	}else if(!is_file("../include/path.info.php")){
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
+	//Step2가 진행되어 있지 않으면 첫화면으로 이동
+	}else if(!is_file("../include/mysql.info.php")&&!$_POST['host']){
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
+	//Step2 테이블 생성이 진행되어 있지 않으면 Step2로 이동
+	}else if(!mysql_query("select * from toony_admin_siteconfig")){
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "step2.php";</script>'; exit;
+	//Step3이 진행되어 있지 않으면 Step2로 이동
+	}else if(mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1&&!$_POST['id']){
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "step3.php";</script>'; exit;
+	}
+	//변수 처리
+	$method = new methodController();
+	$method->method_param("POST","id,password,password02,name");
+	$lib = new libraryClass();
+	
+	if($id){
+		//검사
+		if(trim($id)==""){
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("아이디를 입력해 주세요.");history.back();</script>'; exit;
+		}
+		$filter = "/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/";
+		if(!preg_match($filter,$id)){ echo '<script type="text/javascript">alert("아이디가 올바르지 않습니다.");history.back();</script>'; exit; }
+		if(trim($password)==""){
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("비밀번호를 입력해 주세요.");history.back();</script>'; exit;
+		}
+		if(trim($password02)==""){
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("비밀번호 확인을 입력해 주세요.");history.back();</script>'; exit;
+		}
+		if($password!=$password02){
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");history.back();</script>'; exit;
+		}
+		if(mb_strlen($password)<5||mb_strlen($password)>30){ echo '<script type="text/javascript">alert("비밀번호가 올바르지 않습니다.");history.back();</script>'; exit; }
+		if(trim($name)==""){
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("이름을 입력해 주세요.");history.back();</script>'; exit;
+		}
+		$filter = "/^[a-zA-Z0-9가-힣]+$/";
+		if(!preg_match($filter,$name)){ echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("이름이 올바르지 않습니다.");history.back();</script>'; exit; }
+		//운영자 정보 기록
+		if(mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1){
+			mysql_query("set names UTF8",$connect);
+			mysql_query("
+				insert into toony_member_list
+				(me_admin,me_id,me_password,me_nick,me_level,me_regdate,me_idCheck)
+				values
+				('Y','$id',password('$password'),'$name','1',now(),'Y')
+			",$connect);
+		}
+	}
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>투니페이퍼 투니툴 - 설치하기</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../library/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="../library/js/jquery-ui.js"></script>
+<script type="text/javascript" src="../library/js/ghost_html5.js"></script>
+<script type="text/javascript" src="../library/js/respond.min.js"></script>
+</head>
+<body>
+<header>
+	<img src="images/title.jpg" alt="투니툴 엔진 설치" />
+</header>
+<form name="step2Form" action="step3.php" method="post">
+<article>
+	<div class="inner">
+		<div class="t">
+			<strong>완료</strong>설치를 모두 완료 하였습니다.
+		</div>
+		<div class="c">
+			<span class="stitle">
+				투니툴 설치를 모두 완료 하였습니다.<br />
+				아래 링크를 클릭하여 관리모드로 접속하여 투니툴 설정을 해주시기 바랍니다.<br />
+				이용해 주셔서 감사 합니다.
+			</span>
+			<span class="tb">
+				<strong>관리모드 바로가기</strong><a href="<?=__URL_PATH__."admin/"?>" style="padding-left:10px;"><?=__URL_PATH__."admin/"?></a>
+			</span>
+		</div>
+	</div>
+	
+</article>
+</form>
+</body>
+</html>

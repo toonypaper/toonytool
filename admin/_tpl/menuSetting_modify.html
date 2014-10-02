@@ -1,0 +1,330 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	var $form = $("form[name=menuSetting_modifyForm]");
+	//메뉴 연결 라디오 버튼을 클릭하는 경우 해당 TR을 보이게 함.
+	var choiceHref = "[href_value]";
+	if(!choiceHref){
+		choiceHref = "pm";
+	}
+	function href_change_func(thisClass){
+		$("._linkHideEle",$form).hide();
+		$("._linkHideEle."+thisClass,$form).show();
+	}
+	$("input[name=href]",$form).change(function(){
+		var thisClass = "_"+$(this).val();
+		href_change_func(thisClass);
+	});
+	$("input[name=href]",$form).click(function(){
+		var thisClass = "_"+$(this).val();
+		href_change_func(thisClass);
+	});
+	$("input[name=href][value="+choiceHref+"]",$form).click();
+	//수정 버튼을 클릭하는 경우
+	$("._submitBtn").click(function(){
+		$form.attr("action",__URL_PATH__+"admin/menuSetting_modify.submit.php");
+		$form.ajaxForm({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "error::not_change_useMenu" :
+										alert("1차 메뉴의  헤더 노출 옵션이 꺼져 있기 때문에\n\n헤더 노출 옵션을 켤 수 없습니다.");
+										break;
+									case "error::null_callName" :
+										alert("메뉴 호출명을 입력 하세요.");
+										break;
+									case "error::not_callName" :
+										alert("메뉴 호출명이 올바르지 않습니다.");
+										break;
+									case "error::have_callName" :
+										alert("이미 존재하는 메뉴 호출명 입니다.");
+										break;
+									case "error::null_name" :
+										alert("메뉴명을 입력 하세요.");
+										break;
+									case "error::null_name" :
+										alert("메뉴명을 입력 하세요.");
+										break;
+									case "error::null_page" :
+										alert("연결할 페이지를 선택 하세요.");
+										break;
+									case "error::null_linkDoc" :
+										alert("연결할 문서를 입력 하세요.");
+										break;
+									case "error::null_forward" :
+										alert("포워딩할 메뉴를 선택 하세요.");
+										break;
+									case "error::not_title_imgType" :
+										alert("첨부할 수 없는 타이틀 이미지 형식입니다.");
+										break;
+									case "error::not_imgType" :
+										alert("첨부할 수 없는 이미지 형태입니다.");
+										break;
+									case "error::not_img2Type" :
+										alert("첨부할 수 없는 마우스 오버 이미지 형식입니다.");
+										break;
+									case "success::1" :
+										alert("성공적으로 완료 되었습니다.");
+										document.location.href=__URL_PATH__+'admin/?p=menuSetting&vtype=[vtype_value]';
+										break;
+									case "success::2" :
+										alert("성공적으로 적용 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+		$form.submit();
+	});
+	//삭제 버튼을 클릭하는 경우
+	$("._deleteBtn").click(function(){
+		if(confirm("정말로 삭제 하시겠습니까?")==true){
+			$("input[name=type]",$form).val("delete");
+			$form.attr("action",__URL_PATH__+"admin/menuSetting_modify.submit.php");
+			$form.ajaxForm({
+				cache		:	false,
+				async		:	false,
+				type		:	"POST",
+				dataType	:	"HTML",
+				success		:	function(msg){
+									switch(msg){
+										case "error::have_children" :
+											alert("하위 메뉴가 있는 경우 삭제가 불가능 합니다.");
+											$("input[name=type]",$form).val("modify");
+											break;
+										case "error::is_lock" :
+											alert("삭제가 불가능한 메뉴입니다.");
+											$("input[name=type]",$form).val("modify");
+											break;
+										case "success::3" :
+											alert("성공적으로 삭제 되었습니다.");
+											document.location.href=__URL_PATH__+'admin/?p=menuSetting&vtype=[vtype_value]';
+											break;
+										default :
+											alert(msg);
+									}
+								}
+			});
+			$form.submit();
+		}
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>사이트 메뉴 관리</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					홈페이지의 메뉴를 구성 하세요. 홈페이지는 3차, 모바일은 2차 하위 메뉴까지 생성 가능합니다.
+				</div>
+				<div class="contArticle menuSetting_modify">
+					<form name="menuSetting_modifyForm" enctype="multipart/form-data" method="post">
+						<input type="hidden" name="vtype" value="[vtype_value]" />
+						<input type="hidden" name="type" value="[type_value]" />
+						<input type="hidden" name="org" value="[org_value]" />
+						<input type="hidden" name="class" value="[class_value]" />
+						<input type="hidden" name="parent" value="[parent_value]" />
+						<input type="hidden" name="depth" value="[depth_value]" />
+						<input type="hidden" name="module" value="" />
+						<input type="hidden" name="page" value="" />
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<thead>
+								<tr>
+									<th colspan="2">사이트 메뉴 설정 변경</th>
+								</tr>
+							</thead>
+							<tbody>
+								[{callName_modify_start}]
+								<tr>
+									<th style="width:100px;">메뉴 호출명</th>
+									<td>
+										<input type="text" name="callName" style="width:150px;" />
+										<span class="__article_sment">
+											- 한번 지정하면 수정이 불가능 합니다.<br />
+											- 영어 대소문자, 숫자 조합만 가능합니다.
+										</span>
+									</td>
+								</tr>
+								[{callName_modify_end}]
+								[{callName_new_start}]
+								<tr>
+									<th style="width:100px;">메뉴 호출명</th>
+									<td>
+										<input type="hidden" name="callName" value="[callName_value]" />
+										<strong>[callName_value]</strong>
+										<span class="__article_sment">
+											[callName_url]
+										</span>
+									</td>
+								</tr>
+								[{callName_new_end}]
+								<tr>
+									<th style="width:100px;">메뉴명</th>
+									<td>
+										<input type="text" name="name" value="[id_value]" />
+									</td>
+								</tr>
+								[{1depth_titleImg_start}]
+								<tr>
+									<th>1차메뉴 타이틀<br />이미지</th>
+									<td>
+										<ul style="margin:0; padding:0; list-style-type:none;">
+											<li>
+												<input type="file" name="title_img" />
+												<span class="__article_sment">
+													- jpg,gif,bmp,png 파일 업로드<br />
+													- 메뉴 이미지가 없는 경우 텍스트로 출력 됩니다.
+												</span>
+											</li>
+											[title_img_hidden_start]
+											<li  class="imgHiddenBox">
+												<input type="hidden" name="title_img_ed" value="[title_img_file_name]" />
+												<img src="../upload/siteInformations/[title_img_file_name]" />
+												<label><input type="checkbox" name="del_title_img" value="checked" />삭제</label>
+											</li>
+											[title_img_hidden_end]
+										</ul>
+									</td>
+								</tr>
+								[{1depth_titleImg_end}]
+								[{menu_Img_start}]
+								<tr>
+									<th>메뉴이미지</th>
+									<td>
+										<ul style="margin:0; padding:0; list-style-type:none;">
+											<li>
+												<input type="file" name="img" />
+												<span class="__article_sment">
+													- jpg,gif,bmp,png 파일 업로드<br />
+													- 메뉴 이미지가 없는 경우 텍스트로 출력 됩니다.
+												</span>
+											</li>
+											[img_hidden_start]
+											<li class="imgHiddenBox">
+												<input type="hidden" name="img_ed" value="[img_file_name]" />
+												<img src="../upload/siteInformations/[img_file_name]" />
+												<label><input type="checkbox" name="del_img" value="checked" />삭제</label>
+											</li>
+											[img_hidden_end]
+										</ul>
+									</td>
+								</tr>
+								[{menu_Img_end}]
+								[{menuOver_Img_start}]
+								<tr>
+									<th>마우스 오버시<br />메뉴이미지</th>
+									<td>
+										<ul style="margin:0; padding:0; list-style-type:none;">
+											<li>
+												<input type="file" name="img2" />
+												<span class="__article_sment">
+													- jpg,gif,bmp,png 파일 업로드<br />
+													- 메뉴 이미지가 없는 경우 텍스트로 출력 됩니다.
+												</span>
+											</li>
+											[img2_hidden_start]
+											<li class="imgHiddenBox">
+												<input type="hidden" name="img2_ed" value="[img2_file_name]" />
+												<img src="../upload/siteInformations/[img2_file_name]" />
+												<label><input type="checkbox" name="del_img2" value="checked" />삭제</label>
+											</li>
+											[img2_hidden_end]
+										</ul>
+									</td>
+								</tr>
+								[{menuOver_Img_end}]
+								[{not_mainPage_start}]
+								<tr>
+									<th rowspan="2">메뉴 링크</th>
+									<td>
+										<label><input type="radio" name="href" value="bm" />빈 링크</label>
+										<label><input type="radio" name="href" value="pm" />페이지 또는 모듈</label>
+										<label><input type="radio" name="href" value="mp" />문서 직접 연결</label>
+										<label><input type="radio" name="href" value="fm" />타 메뉴 연동(메뉴 포워딩)</label>
+									</td>
+								</tr>
+								<tr class="_linkHideEle _bm">
+									<td>
+										<span class="__article_sment">
+											- 링크를 빈 링크로 설정 합니다.<br />
+											- 빈 링크로 설정 하면 메뉴 클릭시 아무런 동작도 없습니다.
+										</span>
+									</td>
+								</tr>
+								<tr class="_linkHideEle _pm">
+									<td>
+										<select name="link" style="width:400px;">
+											[page_selectbox_options]
+										</select>
+										<span class="__article_sment">
+											- 연결 페이지 추가는 '디자인관리 > <a href="?p=pageList">페이지 관리</a>' 혹은 각 모듈에서 가능합니다.
+										</span>
+									</td>
+								</tr>
+								<tr class="_linkHideEle _mp">
+									<td>
+										투니툴 설치 경로/ <input type="text" name="linkDoc" value="[linkDoc_value]" style="width:150px;" /> .php
+										<span class="__article_sment">
+											- 직접 제작한 문서를 연결 하려면, 'Toonytool' 디렉터리에 저장된 문서의 파일명을 입력 하세요.
+										</span>
+									</td>
+								</tr>
+								<tr class="_linkHideEle _fm">
+									<td>
+										<select name="forward" style="width:300px;">
+											[forward_selectbox_options]
+										</select>
+										<span class="__article_sment">
+											- 메뉴를 클릭시 선택한 메뉴로 포워딩 됩니다.
+										</span>
+									</td>
+								</tr>
+								[{not_mainPage_end}]
+								[{have_lockMenu_start}]
+									<input type="hidden" name="link" value="[link_value]" />
+									<input type="hidden" name="forward" value="[forward_value]" />
+									<input type="hidden" name="href" value="[href_value]" />
+									<input type="hidden" name="linkDoc" value="[linkDoc_value]" />
+								[{have_lockMenu_end}]
+								<tr>
+									<th rowspan="2">메뉴 노출 유무</th>
+									<td>
+										<input type="hidden" name="useMenu_header_val" value="[useMenu_header_disabled_value]" /><label><input type="checkbox" name="useMenu" value="checked" [useMenu_checked_value] [useMenu_header_disabled_value] /> 메뉴를 헤더 영역에 노출 합니다.</label>
+										<span class="__article_sment">
+											- 메뉴를 노출하지 않는 경우, 헤더 영역 메뉴바에 노출되지 않습니다.<br />
+											- 1차 메뉴를 노출하지 않는 경우, 1차 메뉴에 포함된 하위 메뉴도 노출되지 않습니다.
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="hidden" name="useMenu_side_val" value="[useMenu_side_disabled_value]" /><label><input type="checkbox" name="useMenu_side" value="checked" [useMenu_side_checked_value] [useMenu_side_disabled_value]  /> 메뉴를 사이드바(서브페이지 좌측) 영역에 노출 합니다.</label>
+										<span class="__article_sment">
+											- 메뉴를 노출하지 않는 경우, 사이드바 영역에 노출되지 않습니다.<br />
+											- 2차 메뉴를 노출하지 않는 경우, 2차 메뉴에 포함된 3차 메뉴도 노출되지 않습니다.
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						[{deleteBtn_start}]<input type="button" class="__btn_delete _deleteBtn" />[{deleteBtn_end}]
+						<a href="?p=menuSetting&vtype=[vtype_value]" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

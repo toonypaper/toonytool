@@ -1,0 +1,52 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>현재 접속자 보기</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					현재 접속중인 회원을 확인 하세요.
+				</div>
+				<div class="contArticle">
+					<table cellpadding="0" cellspacing="0" class="__article_table">
+						<thead>
+							<tr>
+								<th class="___f" style="width:35px;">번호</th>
+								<th style="width:120px;">레벨</th>
+								<th>아이디</th>
+								<th style="width:150px;">이름</th>
+								<th style="width:70px;">포인트</th>
+								<th style="width:70px;">가입일</th>
+								<th class="___noPadding" style="width:25px;">메일</th>
+								<th class="___l ___noPadding" style="width:25px;">정보</th>
+							</tr>
+						</thead>
+						<tbody>
+							[{loop_start}]
+							<tr>
+								<td class="___number">[number]</td>
+								<td style="text-align:center;">[member_type]</td>
+								<td style="text-align:center; font-weight:bold;">[id]</td>
+								<td style="text-align:center;">[name]</td>
+								<td class="___number">[point]</td>
+								<td class="___number">[regdate]</td>
+								<td class="___noPadding" style="text-align:center;">[mail_btn]</td>
+								<td class="___noPadding" style="text-align:center;">[modify_btn]</td>
+							</tr>
+							[{loop_end}]
+							[{not_content_start}]
+							<tr>
+								<td colspan="8">현재 접속중인 회원이 없습니다.</td>
+							</tr>
+							[{not_content_end}]
+						</tbody>
+					</table>
+					[paging_area]
+				</div>
+			</div>
+		</div>
+	</article>
+</div>

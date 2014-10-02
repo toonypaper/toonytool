@@ -1,0 +1,53 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>게시판 리스트</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					생성된 게시판을 관리 하세요.
+				</div>
+				<div class="contArticle">
+					<table cellpadding="0" cellspacing="0" class="__article_table">
+						<thead>
+							<tr>
+								<th class="___f" style="width:35px;">번호</th>
+								<th>타이틀</th>
+								<th style="width:80px;">등록글수</th>
+								<th style="width:150px;">스킨</th>
+								<th style="width:60px;">생성일</th>
+								<th class="___l" style="width:35px;">관리</th>
+							</tr>
+						</thead>
+						<tbody>
+							[{loop_start}]
+							<tr>
+								<td class="___number">[number]</td>
+								<td><strong style="padding-right:10px;">[title]</strong>([name])</td>
+								<td style="text-align:center;"><strong>[data_count]</strong>개의 글</td>
+								<td style="text-align:center;">[skin]</td>
+								<td class="___number">[regdate]</td>
+								<td style="text-align:center;">[modify_btn]</td>
+							</tr>
+							[{loop_end}]
+							[{not_content_start}]
+							<tr>
+								<td colspan="5">생성된 게시판이 존재하지 않습니다.</td>
+							</tr>
+							[{not_content_end}]
+						</tbody>
+					</table>
+					[paging_area]
+					<div class="__article_btnArea">
+						<a href="./?m=board&p=boardList_modify&type=new" class="__btn_add"></a>
+						<a href="./" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

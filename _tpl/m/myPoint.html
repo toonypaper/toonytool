@@ -1,0 +1,30 @@
+<div name="myPointBone" id="myPointBone">
+	<span class="totalPoint">현재 <strong>[total]</strong>포인트 보유중</span>
+	<table cellpadding="0" cellspacing="0" class="__article_table">
+		<thead>
+			<tr>
+				<th style="width:200px;">날짜</th>
+				<th style="width:100px;">적립</th>
+				<th style="width:100px;">차감</th>
+			</tr>
+		</thead>
+		<tbody>
+			[{loop_start}]
+			<tr>
+				<td colspan="3" style="text-align:center; font-size:12px; letter-spacing:-1px; color:#666;"><strong>[memo]</strong></td>
+			</tr>
+			<tr>
+				<td style="text-align:center; border-bottom:2px solid #dedede; color:#999; font-size:11px;">[date]</td>
+				<td style="text-align:center; border-bottom:2px solid #dedede; color:#999; font-size:11px; font-weight:bold;">[in]</td>
+				<td style="text-align:center; border-bottom:2px solid #dedede; color:#999; font-size:11px; font-weight:bold;">[out]</td>
+			</tr>
+			[{loop_end}]
+			[{not_loop_start}]
+			<tr>
+				<td colspan="3">포인트 내역이 없습니다.</td>
+			</tr>
+			[{not_loop_end}]
+		</tbody>
+	</table>
+	[paging_area]
+</div>

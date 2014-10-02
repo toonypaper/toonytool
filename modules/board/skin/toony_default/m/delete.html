@@ -1,0 +1,30 @@
+
+
+<!--s:비회원인 경우에만 비밀번호 입력폼 노출-->
+<form name="delete_password_form" id="delete_password_form" method="post">
+	<input type="hidden" name="article" value="[article_value]">
+	<input type="hidden" name="category" value="[category_value]">
+	<input type="hidden" name="p" value="delete">
+	<input type="hidden" name="board_id" value="[board_id_value]">
+	<input type="hidden" name="read" value="[read_value]">
+	<input type="hidden" name="page" value="[page_value]">
+	<input type="hidden" name="where" value="[where_value]">
+	<input type="hidden" name="keyword" value="[keyword_value]">
+	<input type="hidden" name="value" value="2">
+	<table cellpadding="0" cellspacing="0" id="guest_password" class="__article_table" align="center">
+		<thead>
+			<tr>
+				<th>비밀번호를 입력하세요</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="padding:20px; text-align:center;">
+					<input type="password" name="s_password" style="width:120px; padding:2px;" />
+					<input type="submit" class="__button_small" id="read_password_btn" value="확인" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<!--e:비회원인 경우에만 비밀번호 입력폼 노출-->

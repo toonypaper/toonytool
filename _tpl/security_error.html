@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>홈페이지에 접근할 수 없음</title>
+<style type="text/css">
+*{ font-family:dotum; }
+#security_error_box{
+	width:500px; padding:0 0 20px 0; margin:100px auto 0 auto; border:1px solid #000000;
+	border-color:#53586A;
+	background: #787e94; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #F7F7F7 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#F7F7F7)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 0%,#F7F7F7 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 0%,#F7F7F7 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 0%,#F7F7F7 100%); /* IE10+ */
+	background: linear-gradient(top, #ffffff 0%,#F7F7F7 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#F7F7F7',GradientType=0 ); /* IE6-9 */
+	box-shadow:0 0 7px #dedede;
+	-moz-box-shadow:0 0 7px #dedede;
+	-webkit-box-shadow:0 0 7px #dedede;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+#security_error_box .se_er_title{ margin:0; padding:0; }
+#security_error_box .se_er_title h1{ font-size:30px; text-align:center; letter-spacing:-4px; font-weight:bold; }
+#security_error_box .se_er_cont{ margin:10px 0 0 0; font-size:11px; text-align:center; letter-spacing:-1px; line-height:17px; }
+#security_error_box .se_er_why{ font-size:12px; letter-spacing:-1px; margin:40px 0 0 0; }
+#security_error_box .se_er_why .red{ color:red; font-size:12px; letter-spacing:-1px; }
+#security_error_box .se_er_when{ font-size:12px; margin:4px 0 0 0; }
+#security_error_box .se_er_email > a{ font-size:12px; letter-spacing:0; }
+</style>
+</head>
+<body>
+	<div id="security_error_box">
+		<div class="se_er_title">
+			<h1>홈페이지에 접근할 수 없음</h1>
+		</div>
+		<div class="se_er_cont">
+			운영자에 의해 접근이 제한되었습니다.<br />
+			아래 제한 사유를 확인 바라며, 문의는 이메일로 보내주십시오.
+			<div class="se_er_why">
+				<strong>차단사유</strong> : <span class="red">[why]</span>
+			</div>
+			<div class="se_er_when">
+				<strong>차단일자</strong> : [when]
+			</div>
+			<div class="se_er_email">
+				<strong>문의</strong> : [email]
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<script type="text/javascript">
+order = "[order_value]";
+orderby = "[orderby_value]";
+href = "./?p=memberList&where=[where_link_value]&keyword=[keyword_link_value]";
+if(orderby=="DESC"){
+	orderby2 = "ASC";
+}else{
+	orderby2 = "DESC";
+}
+$(document).ready(function(){
+	$(".__article_table thead tr th a").each(function(){
+		if($(this).attr("order")==order){
+			$(this).attr("href",href+"&order="+order+"&orderby="+orderby2);
+			if(orderby=="DESC"){
+				$("img[orderSpr]",this).attr("src","images/sort_spr_down_on.png");
+				$(this).attr("title","오름차순으로 보기");
+			}else{
+				$("img[orderSpr]",this).attr("src","images/sort_spr_up_on.png");
+				$(this).attr("title","내림차순으로 보기");
+			}
+		}else{
+			$(this).attr("href",href+"&order="+$(this).attr("order")+"&orderby=DESC");
+			$("img[orderSpr]",this).attr("src","images/sort_spr_down_off.png");
+			$(this).attr("title","내림차순으로 보기");
+		}
+	});
+});
+</script>
+
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>가입회원 보기</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					현재까지 가입된 회원을 관리 하세요.
+				</div>
+				<div class="contArticle">
+					<ul class="__article_dataTab">
+						<li class="active">
+							<a href="./?p=memberList">전체회원 <strong>[total_member]</strong></a>
+						</li>
+						<li>
+							<a href="./?p=memberList&where=me_idCheck&keyword=Y">이메일 인증 회원 <strong>[total_idCheckMember]</strong></a>
+						</li>
+						<li>
+							<a href="./?p=memberList&where=me_idCheck&keyword=N">이메일 미인증 회원 <strong>[total_noIdCheckMember]</strong></a>
+						</li>
+					</ul>
+					<form name="memberListForm">
+						<input type="hidden" name="p" value="memberList" />
+						<div class="__article_table_search">
+							<select name="where">
+								<option value="me_nick" [where_value_me_nick]>이름</option>
+								<option value="me_id" [where_value_me_id]>아이디</option>
+								<option value="me_login_ip" [where_value_me_login_ip]>아이피</option>
+							</select>
+							<input type="text" name="keyword" value="[keyword_value]" style="width:150px;" />
+							<input type="submit" class="submit" value="" />
+						</div>
+						<table cellpadding="0" cellspacing="0" class="__article_table">
+							<thead>
+								<tr>
+									<th class="___f" style="width:35px;">번호</th>
+									<th style="width:60px;">
+										<a href="#" order="me_regdate">
+											가입일<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+										</a>
+									</th>
+									<th style="width:120px;">
+										<a href="#" order="me_level">
+											레벨<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+										</a>
+									</th>
+									<th>
+										<a href="#" order="me_id">
+											아이디<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+										</a>
+									</th>
+									<th style="width:150px;">
+										<a href="#" order="me_nick">
+											이름<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+										</a>
+									</th>
+									<th style="width:70px;">
+										<a href="#" order="me_point">
+											포인트<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+										</a>
+									</th>
+									<th class="___noPadding" style="width:25px;">메일</th>
+									<th class="___l ___noPadding" style="width:25px;">정보</th>
+								</tr>
+							</thead>
+							<tbody>
+								[{loop_start}]
+								<tr>
+									<td class="___number">[number]</td>
+									<td class="___number">[regdate]</td>
+									<td style="text-align:center;">[member_type]</td>
+									<td style="font-weight:bold;">[id]</td>
+									<td style="text-align:center;">[name]</td>
+									<td class="___number">[point]</td>
+									<td class="___noPadding">[mail_btn]</td>
+									<td class="___noPadding">[modify_btn]</td>
+								</tr>
+								[{loop_end}]
+								[{not_content_start}]
+								<tr>
+									<td colspan="8">가입한 회원이 존재하지 않습니다.</td>
+								</tr>
+								[{not_content_end}]
+							</tbody>
+						</table>
+						[paging_area]
+					</form>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

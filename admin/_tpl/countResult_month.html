@@ -1,0 +1,28 @@
+<div class="__article_table_search">
+	<select name="RV_year" class="RV_year" style="width:80px;">
+		[month_select_option]
+	</select>
+</div>
+<table cellpadding="0" cellspacing="0" class="__article_table">
+	<colgroup>
+		<col style="width:565px;">
+		<col style="width:60px;">
+		<col style="width:60px;">
+	</colgroup>
+	<tbody>
+		[{loop_start}]
+		<tr class="array">
+			<td class="___number" style="text-align:left; padding-left:20px;">[date]</td>
+			<td class="___number"><strong>[count]</strong></td>
+			<td style="text-align:center;">[day_btn]</td>
+		</tr>
+		[{loop_end}]
+	</tbody>
+	<thead>
+		<tr>
+			<th class="___f" style="text-align:left; padding-left:20px;">날짜</th>
+			<th>방문수</th>
+			<th class="___l">일별</th>
+		</tr>
+	</thead>
+</table>

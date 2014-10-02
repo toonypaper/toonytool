@@ -1,0 +1,147 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	var board_id = $("input[name=board_id]").val();
+	var article = $("input[name=article]").val();
+	var cnum = $("input[name=cnum]").val();
+	var keyword = $("input[name=keyword]").val();
+	var where = $("input[name=where]").val();
+	var page = $("input[name=page]").val();
+	var category = $("input[name=category]").val();
+	//삭제 버튼을 클릭하는 경우
+	$("input[deleteBtn]").click(function(){
+		if(confirm("정말로 삭제 하시겠습니까?")==true){
+			$.ajax({
+				type		:	"POST",
+				url			:	__URL_PATH__+"modules/board/controll.submit.php",
+				cache		:	false,
+				async		:	false,
+				dataType	:	"HTML",
+				data		:	{
+									'board_id':board_id,
+									'article':article,
+									'where':where,
+									'keyword':keyword,
+									'page':page,
+									'category':category,
+									'cnum':cnum,
+									'type':"delete"
+								},
+				success		:	function(msg){
+									if(msg=="<!--success::1-->"){
+										alert("성공적으로 삭제 되었습니다.");
+										window.close();
+										opener.location.href=__URL_PATH__+"m/?article="+article+"&category="+category+"&page="+page+"&where="+where+"&keyword="+keyword;
+									}else{
+										alert(msg);
+									}
+								}
+			});
+		}
+	});
+	//복사 버튼을 클릭하는 경우
+	$("input[copyBtn]").click(function(){
+		var tar_board_id = $("select[name=tar_board_id] option:selected").val();
+		if(confirm("답글은 복사 되지 않습니다.\n\n계속 진행 하시겠습니까?")==true){
+			$.ajax({
+				type		:	"POST",
+				url			:	__URL_PATH__+"modules/board/controll.submit.php",
+				cache		:	false,
+				async		:	false,
+				dataType	:	"HTML",
+				data		:	{
+									'board_id':board_id,
+									'article':article,
+									'where':where,
+									'keyword':keyword,
+									'page':page,
+									'category':category,
+									'cnum':cnum,
+									'type':"copy",
+									'tar_board_id':tar_board_id
+								},
+				success		:	function(msg){
+									if(msg=="<!--success::2-->"){
+										alert("성공적으로 복사 되었습니다.");
+										window.close();
+										opener.location.href=__URL_PATH__+"m/?article="+article+"&category="+category+"&page="+page+"&where="+where+"&keyword="+keyword;
+									}else{
+										alert(msg);
+									}
+								}
+			});
+		}
+	});
+	//이동 버튼을 클릭하는 경우
+	$("input[moveBtn]").click(function(){
+		var tar_board_id = $("select[name=tar_board_id] option:selected").val();
+		if(confirm("답글은 부모글 없이 단독으로 이동되지 않습니다.\n\n계속 진행 하시겠습니까?")==true){
+			$.ajax({
+				type		:	"POST",
+				url			:	__URL_PATH__+"modules/board/controll.submit.php",
+				cache		:	false,
+				async		:	false,
+				dataType	:	"HTML",
+				data		:	{
+									'board_id':board_id,
+									'article':article,
+									'where':where,
+									'keyword':keyword,
+									'page':page,
+									'category':category,
+									'cnum':cnum,
+									'type':"move",
+									'tar_board_id':tar_board_id
+								},
+				success		:	function(msg){
+									if(msg=="<!--success::3-->"){
+										alert("성공적으로 이동 되었습니다.");
+										window.close();
+										opener.location.href=__URL_PATH__+"m/?article="+article+"&category="+category+"&page="+page+"&where="+where+"&keyword="+keyword;
+									}else{
+										alert(msg);
+									}
+								}
+			});
+		}
+	});
+	//닫기 버튼을 클릭하는 경우
+	$("._calcel_btn").click(function(){
+		window.close();
+	});
+});
+</script>
+<article id="list_controll">
+	<div class="title">
+		게시물 관리하기
+	</div>
+	<div class="cont">
+		<input type="hidden" name="board_id" value="[board_id]" />
+		<input type="hidden" name="article" value="[article]" />
+		<input type="hidden" name="cnum" value="[cnum]" />
+		<input type="hidden" name="where" value="[where]" />
+		<input type="hidden" name="keyword" value="[keyword]" />
+		<input type="hidden" name="page" value="[page]" />
+		<input type="hidden" name="category" value="[category]" />
+		<table cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td>
+					<strong class="select_count">[select_count]</strong><strong>개의 선택된 게시물을</strong>
+					<input type="button" class="__button_small" value="삭제" deleteBtn />
+				</td>
+			</tr>
+			<tr>
+				<td style="line-height:22px;">
+					또는<br />
+					<select name="tar_board_id">
+						[board_list_options]
+					</select><br />
+					게시판으로<br />
+					<input type="button" class="__button_small_gray" value="복사" copyBtn /> <span style="color:#999;">OR</span> <input type="button" class="__button_small_gray" value="이동" moveBtn />
+				</td>
+			</tr>
+		</table>
+		<div class="btnArea">
+			<input type="button" class="__button_cancel _calcel_btn" value="닫기" />
+		</div>
+	</div>
+</article>

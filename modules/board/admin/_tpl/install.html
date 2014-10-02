@@ -1,0 +1,46 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>게시판 모듈 설치</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					게시판 모듈을 설치 하세요.
+				</div>
+				<div class="contArticle">
+					<form name="installForm" action="?m=board&p=install" method="post">
+						<input type="hidden" name="submitVal" value="true" />
+						<table cellpadding="0" cellspacing="0" border="0" class="__article_table_read">
+							<tbody>
+								<tr>
+									<td style="color:#666; font-size:11px; letter-spacing:-1px; line-height:15px; padding:20px;">
+										게시판 모듈을 이용 하려면, 모듈 설치가 필요합니다.<br />
+										아래 설치하기 버튼을 클릭하여 설치를 진행 하시기 바랍니다.<br /><br />
+										게시판 모듈 설치를 위해선 아래 파일 혹은 디렉토리의 권한 변경이 필요합니다.
+										<span style="background-color:#f1f1f1; border:1px dotted #dedede; padding:10px; margin-top:10px; display:block; font-size:11px; letter-spacing:-1px; color:#666;">
+											1. <strong>modules/board/upload</strong> 디텍토리 [permissionCheck_upload]
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						[{installBtn_start}]
+						<div class="__article_btnArea">
+							<input type="submit" class="__btn_install_submit" value="" />
+						</div>
+						[{installBtn_end}]
+						[{recheckBtn_start}]
+						<div class="__article_btnArea">
+							<a href="./?m=board&p=boardList" class="__btn_install_check"></a>
+						</div>
+						[{recheckBtn_end}]
+					</form>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

@@ -1,0 +1,92 @@
+<script type="text/javascript">
+order = "[order_value]";
+orderby = "[orderby_value]";
+href = "./?p=questionList";
+if(orderby=="DESC"){
+	orderby2 = "ASC";
+}else{
+	orderby2 = "DESC";
+}
+$(document).ready(function(){
+	$(".__article_table thead tr th a").each(function(){
+		if($(this).attr("order")==order){
+			$(this).attr("href",href+"&order="+order+"&orderby="+orderby2);
+			if(orderby=="DESC"){
+				$("img[orderSpr]",this).attr("src","images/sort_spr_down_on.png");
+				$(this).attr("title","오름차순으로 보기");
+			}else{
+				$("img[orderSpr]",this).attr("src","images/sort_spr_up_on.png");
+				$(this).attr("title","내림차순으로 보기");
+			}
+		}else{
+			$(this).attr("href",href+"&order="+$(this).attr("order")+"&orderby=DESC");
+			$("img[orderSpr]",this).attr("src","images/sort_spr_down_off.png");
+			$(this).attr("title","내림차순으로 보기");
+		}
+	});
+});
+</script>
+
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>고객문의 내역</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					홈페이지에서 접수된 고객 문의 내역을 확인 하세요.
+				</div>
+				<div class="contArticle">
+					<table cellpadding="0" cellspacing="0" class="__article_table">
+						<thead>
+							<tr>
+								<th class="___f" style="width:35px;">번호</th>
+								<th style="width:60px;">
+									<a href="#" order="A.regdate">
+										문의일<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+									</a>
+								</th>
+								<th style="width:100px;">
+									<a href="#" order="B.me_level">
+										레벨<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+									</a>
+								</th>
+								<th style="width:60px;">
+									이름
+								</th>
+								<th>내용</th>
+								<th class="___l" style="width:60px;">
+									<a href="#" order="C.re_idno">
+										상태<img src="images/sort_spr_down_off.png" style="padding-left:3px;" orderSpr />
+									</a>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							[{loop_start}]
+							<tr>
+								<td class="___number" style="text-align:center;">[number]</td>
+								<td class="___number" style="text-align:center;">[regdate]</td>
+								<td style="text-align:center;">[member_type]</td>
+								<td style="text-align:center;">[name]</td>
+								<td>[memo]</td>
+								<td style="text-align:center;">[answer]</td>
+							</tr>
+							[{loop_end}]
+							[{not_content_start}]
+							<tr>
+								<td colspan="8">고객 문의 내역이 존재하지 않습니다.</td>
+							</tr>
+							[{not_content_end}]
+						</tbody>
+					</table>
+					[paging_area]
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

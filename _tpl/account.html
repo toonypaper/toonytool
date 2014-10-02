@@ -1,0 +1,175 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	var $form = $("form[name=accountForm]");
+	$form.submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			type		:	"POST",
+			url			:	__URL_PATH__+"account.submit.php",
+			cache		:	false,
+			data		:	$form.serialize(),
+			async		:	false,
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--error::null_agreement-->" :
+										alert("이용약관에 동의 하셔야 합니다.");
+										break;
+									case "<!--error::null_private-->" :
+										alert("개인정보취급방침에 동의 하셔야 합니다.");
+										break;
+									case "<!--error::logged-->" :
+										alert("이미 로그인 되어 있습니다.");
+										break;
+									case "<!--error::null_id-->" :
+										alert("아이디를 입력 하세요.");
+										$("input[name=id]",$form).focus();
+										break;
+									case "<!--error::not_id-->" :
+										alert("아이디가 올바르지 않습니다.");
+										$("input[name=id]",$form).focus();
+										break;
+									case "<!--error::null_nick-->" :
+										alert("이름을 입력 하세요.");
+										$("input[name=nick]",$form).focus();
+										break;
+									case "<!--error::not_nick-->" :
+										alert("이름이 올바르지 않습니다.");
+										$("input[name=nick]",$form).focus();
+										break;
+									case "<!--error::null_password-->" :
+										alert("비밀번호를 입력 하세요.");
+										$("input[name=password]",$form).focus();
+										break;
+									case "<!--error::not_password-->" :
+										alert("비밀번호가 올바르지 않습니다.");
+										$("input[name=password]",$form).focus();
+										break;
+									case "<!--error::not_samePassword-->" :
+										alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+										$("input[name=password02]",$form).focus();
+										break;
+									case "<!--error::not_phone-->" :
+										alert("휴대전화가 올바르지 않습니다.");
+										$("input[name=phone]",$form).focus();
+										break;
+									case "<!--error::not_telephone-->" :
+										alert("집전화가 올바르지 않습니다.");
+										$("input[name=telephone]",$form).focus();
+										break;
+									case "<!--error::have_id-->" :
+										alert("이미 존재하는 아이디 입니다.");
+										$("input[name=id]",$form).focus();
+										break;
+									default :
+										alert("회원가입이 완료 되었습니다.\n\n이메일로 발송된 인증 메일을 확인 후 로그인 가능합니다.");
+										document.location.href = __URL_PATH__+"?article=login";
+								}
+							}
+		});
+	});
+});
+</script>
+<form name="accountForm" id="accountForm">
+	<table cellpadding="0" cellspacing="0" style="border:1px solid #999; width:100%; background:#fefefe;">
+		<tbody>
+			<tr>
+				<td style="padding:0;">
+					<div style="width:100%; height:100px; overflow:hidden; overflow-y:scroll;">
+						<? include_once "agreement.html"; ?>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="chkArea">
+		<label><input type="checkbox" name="chk_agreement" value="checked" /> 이용약관에 동의 합니다.</label>
+	</div>
+	<table cellpadding="0" cellspacing="0" style="border:1px solid #999; width:100%; background:#fefefe;">
+		<tbody>
+			<tr>
+				<td style="padding:0;">
+					<div style="width:100%; height:100px; overflow:hidden; overflow-y:scroll;">
+						<? include_once "private.html"; ?>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="chkArea">
+		<label><input type="checkbox"name="chk_private" value="checked"  /> 개인정보취급방침에 동의 합니다.</label>
+	</div>
+	
+	<table cellpadding="0" cellspacing="0" class="__article_table_read">
+		<thead>
+			<tr>
+				<th colspan="2">회원정보 입력</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th style="width:100px;"><span style="color:#EA3A5A;">*</span> 이메일 아이디</th>
+				<td>
+					<input type="text" name="id" />
+					<span class="__article_sment">
+						- 이메일 형태로 입력 하세요.<br />
+						- 입력한 이메일로 아이디 인증 메일이 발송 됩니다.
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th><span style="color:#EA3A5A;">*</span> 비밀번호</th>
+				<td>
+					<input type="password" name="password" style="width:200px;" />
+					<span class="__article_sment">
+						- 최소 5자 ~ 최대 30자로 입력
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th><span style="color:#EA3A5A;">*</span> 비밀번호 확인</th>
+				<td>
+					<input type="password" name="password02" style="width:200px;" />
+					<span class="__article_sment">
+						- 비밀번호 확인을 위해 재입력
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th><span style="color:#EA3A5A;">*</span> 이름</th>
+				<td>
+					<input type="text" name="nick" style="width:150px;" />
+				</td>
+			</tr>
+			<tr>
+				<th><span style="color:#EA3A5A;">*</span> 성별</th>
+				<td>
+					<label><input type="radio" name="sex" value="M" checked />남</label>
+					<label><input type="radio" name="sex" value="F" />여</label>
+				</td>
+			</tr>
+			<tr>
+				<th>휴대전화</th>
+				<td>
+					<input type="text" name="phone" />
+					<span class="__article_sment">
+						- 하이픈(-) 없이 입력
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th>집전화</th>
+				<td>
+					<input type="text" name="telephone" />
+					<span class="__article_sment">
+						- 하이픈(-) 없이 입력
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="__article_btnArea">
+		<input type="submit" class="__button_submit _submitBtn" value="회원가입" />
+		<input type="button" class="__button_cancel" onClick="location.href='./';" value="취소" />
+	</div>
+</form>

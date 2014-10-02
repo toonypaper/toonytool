@@ -1,0 +1,167 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=siteDefaultInfoForm]");
+		$form.attr("action",__URL_PATH__+"admin/siteDefaultInfo.submit.php");
+		$form.ajaxForm({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "error::null_site_name" :
+										alert("사이트 명칭을 입력해야 합니다.");
+										break;
+									case "error::null_site_title" :
+										alert("브라우저 타이틀을 입력해야 합니다.");
+										break;
+									case "error::null_ad_email" :
+										alert("고객 문의용 Email을 입력해야 합니다.");
+										break;
+									case "error::null_ad_phone" :
+										alert("운영자 연락처를 입력해야 합니다.");
+										break;
+									case "error::not_paviconType" :
+										alert("저장할 수 없는 파비콘 파일입니다.");
+										break;
+									case "error::fail_paviconSave" :
+										alert("파비콘 파일 저장에 실패 하였습니다.");
+										break;
+									case "error::not_logoType" :
+										alert("저장할 수 없는 로고 파일입니다.");
+										break;
+									case "error::fail_logoSave" :
+										alert("로고 파일 저장에 실패 하였습니다.");
+										break;
+									case "success::1" :
+										alert("성공적으로 수정 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+		$form.submit();
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>사이트 기본 정보</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					사이트 기본 정보를 변경 가능합니다.
+				</div>
+				<div class="contArticle siteDefaultInfo">
+					<form name="siteDefaultInfoForm" enctype="multipart/form-data" method="post">
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<thead>
+								<tr>
+									<th colspan="2">사이트 기본 정보 변경</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>사이트명칭</th>
+									<td>
+										<input type="text" name="site_name" value="[site_name_value]" />
+									</td>
+								</tr>
+								<tr>
+									<th>홈페이지 주소</th>
+									<td>
+										<a href="[site_url_value]" target="_blank">[site_url_value]</a>
+									</td>
+								</tr>
+								<tr>
+									<th>모바일 주소</th>
+									<td>
+										<a href="[msite_url_value]" target="_blank">[msite_url_value]</a>
+									</td>
+								</tr>
+								<tr>
+									<th>모바일 사용유무</th>
+									<td>
+										<label><input type="checkbox" name="use_msite" value="checked" [use_msite_checked] /> 모바일 사이트를 사용 하겠습니다.</label>
+									</td>
+								</tr>
+								<tr>
+									<th>브라우저 타이틀</th>
+									<td>
+										<input type="text" name="site_title" value="[site_title_value]" />
+										<span class="__article_sment">
+											- 브라우저 타이틀바에 출력 됩니다.
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>고객 문의용 Email</th>
+									<td>
+										<input type="text" name="ad_email" value="[ad_email_value]" />
+										<span class="__article_sment">
+											- 전체 메일 발송시 이용 됩니다.
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>운영자 연락처</th>
+									<td>
+										<input type="text" name="ad_phone" value="[ad_phone_value]" />
+									</td>
+								</tr>
+								<tr>
+									<th>로고</th>
+									<td>
+										<ul style="margin:0; padding:0; list-style-type:none;">
+											<li>
+												<input type="file" name="logo" />
+												<span class="__article_sment">
+													- jpg,png,bmp,gif 파일 첨부 가능
+												</span>
+											</li>
+											<li class="imgHiddenBox">
+												[logo_file_name]
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<th>파비콘</th>
+									<td>
+										<ul style="margin:0; padding:0; list-style-type:none;">
+											<li>
+												<input type="file" name="pavicon" />
+												<span class="__article_sment">
+													- 가급적 16x16 또는 32x32 사이즈의 ico 파일을 업로드
+												</span>
+											</li>
+											[pavicon_hidden_start]
+											<li class="imgHiddenBox">
+												<input type="hidden" name="pavicon_ed" value="[pavicon_file_name]" />
+												[pavicon_file_name]
+												<label><input type="checkbox" name="del_pavicon" value="checked" />삭제</label>
+											</li>
+											[pavicon_hidden_end]
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						<a href="./" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

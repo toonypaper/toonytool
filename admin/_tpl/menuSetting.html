@@ -1,0 +1,176 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=menuSettingForm]");
+		$.ajax({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			url			:	__URL_PATH__+"admin/menuSetting.submit.php",
+			data		:	$form.serialize(),
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--success::1-->" :
+										alert("성공적으로 적용 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+	});
+	//Up&Down 클릭 함수
+	function upAndDown_func(obj,type){
+		var depth = $(obj).attr("depth");
+		//Down
+		if(type=="down"){
+			switch(depth){
+				case "3":
+					var $depth_box = $(obj).parent().parent().parent().parent();
+					var $depth_box_next = $depth_box.next();
+					break;
+				case "2":
+					var $depth_box = $(obj).parent().parent().parent().parent().parent();
+					var $depth_box_next = $depth_box.next();
+					break;
+				case "1" :
+					var $depth_box = $(obj).parent().parent().parent().parent().parent().parent();
+					var $depth_box_next =  $depth_box.next();
+					break;
+			}
+			depth_box_use = $depth_box.css("border-top-color");
+			depth_box_next_use = $depth_box_next.css("border-top-color");
+			depth_box_source = $depth_box.html();
+			depth_box_next_source = $depth_box_next.html();
+			if(depth_box_next_source!=null){
+				$depth_box.html("");
+				$depth_box_next.html("");
+				$depth_box.html(depth_box_next_source).css("border-color",depth_box_next_use);
+				$depth_box_next.html(depth_box_source).css("border-color",depth_box_use);
+			}
+		}
+		//Up
+		if(type=="up"){
+			switch(depth){
+				case "3":
+					var $depth_box = $(obj).parent().parent().parent().parent();
+					var $depth_box_prev = $depth_box.prev();
+					break;
+				case "2":
+					var $depth_box = $(obj).parent().parent().parent().parent().parent();
+					var $depth_box_prev = $depth_box.prev();
+					break;
+				case "1" :
+					var $depth_box = $(obj).parent().parent().parent().parent().parent().parent();
+					var $depth_box_prev =  $depth_box.prev();
+					break;
+			}
+			depth_box_use = $depth_box.css("border-top-color");
+			depth_box_prev_use = $depth_box_prev.css("border-top-color");
+			depth_box_source = $depth_box.html();
+			depth_box_prev_source = $depth_box_prev.html();
+			if(depth_box_prev_source!=null&&$depth_box_prev.attr("moveDisabled")!="true"){
+				if(depth==3&&$depth_box_prev.attr("class")!="depth3_tr"){
+					return;
+				}
+				$depth_box.html("");
+				$depth_box_prev.html("");
+				$depth_box.html(depth_box_prev_source).css("border-color",depth_box_prev_use);
+				$depth_box_prev.html(depth_box_source).css("border-color",depth_box_use);
+				
+			}
+		}
+		//zindex 재정렬
+		$("input._zindex").each(function(e){
+			var index = parseInt($("input._zindex").index($(this))+2);
+			$(this).val(index);
+		});
+	}
+	//Down버튼 클릭
+	$(document).on("click","._btn_down",function(e){
+		e.preventDefault();
+		upAndDown_func($(this),"down");
+	});	
+	//Down버튼 클릭
+	$(document).on("click","._btn_up",function(e){
+		e.preventDefault();
+		upAndDown_func($(this),"up");
+	});	
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>사이트 메뉴 관리</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					사이트 메뉴를 구성 하세요. 홈페이지는 3차, 모바일은 2차 하위 메뉴까지 생성 가능합니다.
+				</div>
+				<ul class="__article_tab">
+					<li[tab_active_p]><a href="?p=menuSetting">홈페이지</a></li>
+					<li[tab_active_m]><a href="?p=menuSetting&vtype=m">모바일</a></li>
+				</ul>
+				<div class="contArticle menuSetting">
+					<div class="topBtnArea">
+						<a href="?p=menuSetting_modify&type=new&vtype=[vtype_value]" class="__btn_menuSetting_add" style="margin:0;"></a>
+					</div>
+					<form name="menuSettingForm">
+						<table cellpadding="0" cellspacing="0" class="menuTable" style="border:none;" moveDisabled="true">
+							<tr>
+								<td style="background:#5D5E67; border:none; border-bottom:1px solid #D5D5D7; text-align:left; font-weight:bold; padding:10px 20px; font-size:0;">
+									<div style="position:relative;">
+										<span style="font-size:12px; color:#fff;">[mainPage_name]</span>
+										<span style="color:#BCBCBE; font-size:11px; font-weight:normal; padding-left:15px;">메인화면은 위치 이동 및 하위 메뉴를 추가할 수 없습니다.</span>
+										<a href="?p=menuSetting_modify&type=modify&vtype=[vtype_value]&org=[idno]" class="__btn_s_setting_black" style="position:absolute; top:-1px; right:-10px;" title="설정 변경"></a>
+									</div>
+								</th>
+							</tr>
+						[{loop_start}]
+							[{inner_bottom_start}]
+								</tbody>
+							</table>
+							[{inner_bottom_end}]
+							[{inner_top_start}]
+							<table cellpadding="0" cellspacing="0" class="menuTable" style="[not_useMenu_class]">
+							[{inner_top_end}]
+									[{depth2_bottom_start}]
+									</tbody>
+									[{depth2_bottom_end}]
+									[{depth2_top_start}]
+									<tbody [{moveDisabled_start}] moveDisabled="true"[{moveDisabled_end}]>
+									[{depth2_top_end}]
+										<tr[{depth3_tr_start}] class="depth3_tr"[{depth3_tr_end}] >
+											<th>
+												<div style="position:relative;">
+													<div style="position:absolute; left:-40px; top:-4px;"><a href="#" class="_btn_up" depth="[depth]"></a></div>
+													<div style="position:absolute; left:-40px; top:9px;"><a href="#" class="_btn_down" depth="[depth]"></a></div>
+													<span[{depth1_red_font_start}] style="color:#E71C41;"[{depth1_red_font_end}]>[{depth2_bull_start}]<img src="images/menuSetting_sub_bull.jpg" style="margin-top:-8px; padding-left:30px;" /> [{depth2_bull_end}][name]</span>
+												</div>
+											</th>
+											<td>
+												<input type="hidden" name="idno[]" value="[idno]" />
+												<input type="hidden" name="zindex[]" class="_zindex" value="[zindex]" />
+												[{add_btn_start}]<a href="?p=menuSetting_modify&type=new&class=[add_idno]&parent=[parent]&vtype=[vtype_value]&depth=[depth_value]" class="__btn_s_add" title="[depth_value]차메뉴 추가"></a>[{add_btn_end}]
+												<a href="?p=menuSetting_modify&type=modify&vtype=[vtype_value]&org=[idno]" class="__btn_s_setting" title="설정 변경"></a>
+											</td>
+										</tr>
+						[{loop_end}]
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						<a href="?p=menuSetting_modify&type=new&vtype=[vtype]" class="__btn_menuSetting_add"></a>
+						<a href="./" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

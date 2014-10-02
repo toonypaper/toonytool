@@ -1,0 +1,247 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	//수정 버튼 클릭시
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=popupList_modifyForm]");
+		$form.attr("action",__URL_PATH__+"admin/popupList_modify.submit.php");
+		$form.ajaxForm({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "error::null_name" :
+										alert("팝업 이름을 입력 하세요.");
+										break;
+									case "error::not_name" :
+										alert("팝업 이름이 올바르지 않습니다.");
+										break;
+									case "error::null_memo" :
+										alert("팝업 제목을 입력 하세요.");
+										break;
+									case "error::null_btop" :
+										alert("상단 위치를 입력 하세요.");
+										break;
+									case "error::null_bleft" :
+										alert("좌측 위치를 입력 하세요.");
+										break;
+									case "error::have_name" :
+										alert("이미 존재하는 팝업 이름입니다.");
+										break;
+									case "error::null_img" :
+										alert("팝업 파일을 첨부 하세요.");
+										break;
+									case "error::not_imgType" :
+										alert("저장할 수 없는 팝업 이미지 파일입니다.");
+										break;
+									case "error::fail_paviconSave" :
+										alert("팝업 이미지 파일 저장에 실패 하였습니다.");
+										break;
+									case "error::not_level" :
+										alert("최대 레벨보다 최소 레벨이 클 수 없습니다.");
+										break;
+									case "error::null_pop_article_txt" :
+										alert("노출될 article을 입력해 주세요.");
+										break;
+									case "success::1" :
+										alert("성공적으로 생성 되었습니다.");
+										document.location.href = __URL_PATH__+"admin/?p=popupList";
+										break;
+									case "success::2" :
+										alert("성공적으로 수정 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+		$form.submit();
+	});
+	//삭제 버튼 클릭시
+	$("._deleteBtn").click(function(){
+		if(confirm("정말로 삭제 하시겠습니까?")==true){
+			var $form = $("form[name=popupList_modifyForm]");
+			$("input[name=type]",$form).val("delete");
+			$.ajax({
+				cache		:	false,
+				async		:	false,
+				type		:	"POST",
+				url			:	__URL_PATH__+"admin/popupList_modify.submit.php",
+				data		:	$form.serialize(),
+				dataType	:	"HTML",
+				success		:	function(msg){
+									switch(msg){
+										case "success::3" :
+											alert("성공적으로 삭제 되었습니다.");
+											document.location.href = __URL_PATH__+"admin/?p=popupList";
+											break;
+										default :
+											alert(msg);
+									}
+								}
+			});
+		}
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>팝업 설정 관리</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					팝업 설정을 관리 하세요.
+				</div>
+				<div class="contArticle">
+					<form name="popupList_modifyForm" enctype="multipart/form-data" method="post">
+						<input type="hidden" name="type" value="[type_value]" />
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<thead>
+								<tr>
+									<th colspan="2">팝업 설정 관리</th>
+								</tr>
+							</thead>
+							<tbody>
+								[{name_modify_start}]
+								<tr>
+									<th style="width:100px;">팝업 이름</th>
+									<td>
+										<input type="hidden" name="name" value="[name]" />
+										<strong>[name]</strong>
+									</td>
+								</tr>
+								[{name_modify_end}]
+								[{name_new_start}]
+								<tr>
+									<th style="width:100px;">팝업 이름</th>
+									<td>
+										<input type="text" name="name" style="width:150px;" />
+										<span class="__article_sment">
+											- 한번 지정하면 수정이 불가능 합니다.<br />
+											- 영어 대소문자, 숫자 조합만 가능합니다.
+										</span>
+									</td>
+								</tr>
+								[{name_new_end}]
+								<tr>
+									<th style="width:100px;">팝업 제목</th>
+									<td>
+										<input type="text" name="memo" value="[memo]" style="width:500px;" />
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">노출 위치</th>
+									<td>
+										<strong style="display:inline-block; *display:inline; *zoom:1; width:80px; font-weight:bold; font-size:11px; letter-spacing:-1px; color:#666;">상단(Top)</strong>
+										<input type="text" name="btop" value="[btop]" style="width:60px;" /> Pixel
+										<p style="display:block; height:5px; padding:0; margin:0;"></p>
+										<strong style="display:inline-block; *display:inline; *zoom:1; width:80px; font-weight:bold; font-size:11px; letter-spacing:-1px; color:#666;">좌측(Left)</strong>
+										<input type="text" name="bleft" value="[bleft]" style="width:60px;" /> Pixel
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">연결 링크</th>
+									<td>
+										<strong style="display:inline-block; *display:inline; *zoom:1; width:80px; font-weight:bold; font-size:11px; letter-spacing:-1px; color:#666;">링크주소</strong>
+										<input type="text" name="link" value="[link]" style="width:400px;" />
+										<p style="display:block; height:5px; padding:0; margin:0;"></p>
+										<strong style="display:inline-block; *display:inline; *zoom:1; width:80px; font-weight:bold; font-size:11px; letter-spacing:-1px; color:#666;">링크위치</strong>
+										<label><input type="radio" name="target" value="_self" [target_radio_self_checked] />현재창</label>
+										<label><input type="radio" name="target" value="_blank" [target_radio_blank_checked] />새창</label>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">노출될 위치</th>
+									<td>
+										<script type="text/javascript">
+										function change_pop_article($this){
+											var thisOption = $("select[name=pop_article] > option:selected");
+											if(thisOption.val()=="select"){
+												$("._pop_article_txtArea").show();
+											}else{
+												$("._pop_article_txtArea").hide();
+											}
+										}
+										$(document).ready(function(){
+											$("select[name=pop_article]").change(change_pop_article)
+											change_pop_article();
+										});
+										</script>
+										<select name="pop_article">
+											[pop_article_option_value]
+										</select>
+										<div class="_pop_article_txtArea" style="display:none;">
+											[site_url]?article= <input type="text" name="pop_article_txt" style="width:150px;" value="[pop_article_txt]" />
+											<span class="__article_sment">
+												- 콤마(,)로 여러개의 article 지정 가능 (ex: myPage,login)
+											</span>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">노출될 회원레벨</th>
+									<td>
+										최소
+										<select name="start_level">
+											[memeber_level_option_value]
+										</select>
+										부터 ~ 최대
+										<select name="end_level">
+											[memeber_level_option_value_end]
+										</select>
+										까지
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">링크 사용 여부</th>
+									<td>
+										<label><input type="radio" name="void_link" value="Y" [link_radio_Y_checked]/>링크를 사용 합니다.</label>
+										<label><input type="radio" name="void_link" value="N" [link_radio_N_checked] />링크를 사용하지 않습니다.</label>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">팝업 사용 여부</th>
+									<td>
+										<label><input type="radio" name="void_use" value="Y" [use_radio_Y_checked] />팝업을 사용 합니다.</label>
+										<label><input type="radio" name="void_use" value="N" [use_radio_N_checked] />팝업을 사용하지 않습니다.</label>
+									</td>
+								</tr>
+								<tr>
+									<th>팝업 이미지</th>
+									<td>
+										<ul style="margin:0; padding:0; list-style-type:none;">
+											<li>
+												<input type="file" name="img" />
+												<span class="__article_sment">
+													- jpg,png,bmp,gif 파일 첨부 가능
+												</span>
+											</li>
+											[{popup_modify_start}]
+											<li style="padding:4px; border:1px dotted #999; margin-top:5px;">
+												<input type="hidden" name="img_ed" value="[img_value]" />
+												[img_file_name]
+											</li>
+											[{popup_modify_end}]
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						[{deleteBtn_start}]<input type="button" class="__btn_delete _deleteBtn" />[{deleteBtn_end}]
+						<a href="?p=popupList" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

@@ -1,0 +1,95 @@
+<div id="layout">
+	<?php include __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>투니툴 관리모드에 오신 것을 환영합니다.</h2>
+			</div>
+			<div class="cont main">
+				<div class="__article_notice">
+					좌측 관리 메뉴를 선택 하세요.
+				</div>
+				<section class="resultArea">
+					<div class="totalCount">
+						<div class="visited">
+							<span class="stitle">전체방문자</span>
+							<span class="num">[total_visited]</span>
+						</div>
+						<div class="account">
+							<span class="stitle">전체회원</span>
+							<span class="num">[total_member]</span>
+						</div>
+					</div>
+					<iframe class="result_grp" src="./main_grp.inc.php" frameborder="0" width="595px" height="165px" scrolling="no"></iframe>
+				</section>
+				<section class="siteInfoArea">
+					<!--s:이 영역은 라이센스에 따라 삭제 하실 수 없습니다.-->
+					<iframe src="http://www.toonypaper.com/_toonytool/admin_src_outLink_notice.php" frameborder="0" scrolling="no" width="100%;" height="35px" style="display:block;"></iframe>
+					<!--e:여기 까지의 영역은 라이센스에 따라 삭제 하실 수 없습니다.-->
+					<div class="defaultInformations">
+						<div class="siteInfo">
+							<div class="title">
+								투니툴 기본 정보
+								<a href="?p=siteDefaultInfo" class="__btn_s_setting_black" style="position:absolute; top:5px; right:5px;" title="설정 변경"></a>
+							</div>
+							<div class="cont">
+								<table cellpadding="0" cellspacing="0" border="0">
+									<tr>
+										<th>사이트 명칭</th>
+										<td><strong>[ad_site_name]</strong></td>
+									</tr>
+									<tr>
+										<th>브라우저 타이틀</th>
+										<td><strong>[ad_site_title]</strong></td>
+									</tr>
+									<tr>
+										<th>고객 문의용 Email</th>
+										<td><a href="mailto:[ad_email]">[ad_email]</a></td>
+									</tr>
+									<tr>
+										<th>운영자 연락처</th>
+										<td>[ad_phone]</td>
+									</tr>
+									<tr>
+										<th>홈페이지 주소</th>
+										<td><a href="[ad_site_url]" target="_blank">[ad_site_url]</a></td>
+									</tr>
+									<tr>
+										<th>모바일 주소</th>
+										<td><a href="[ad_msite_url]" target="_blank">[ad_msite_url]</a></td>
+									</tr>
+									<tr>
+										<th>모바일 사용유무</th>
+										<td><img src="images/main_mobile_ico.jpg" style="padding-right:5px;" />[ad_use_msite]</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<ul class="qmenu">
+							<li class="q1">
+								<a href="?p=menuSetting">사이트 메뉴 관리</a>
+							</li>
+							<li class="q2">
+								<a href="?p=memberList">가입회원 보기</a>
+							</li>
+							<li class="q3">
+								<a href="?p=countResult">기간별 방문자 내역</a>
+							</li>
+							<li class="q4">
+								<a href="?p=questionList">고객문의 내역</a>
+							</li>
+							<li class="q5">
+								<a href="?p=popupList">팝업 관리하기</a>
+							</li>
+						</ul>
+					</div>
+					<!--s:이 영역은 라이센스에 따라 삭제 하실 수 없습니다.-->
+					<iframe src="http://www.toonypaper.com/_toonytool/admin_src_outLink_banner.php" frameborder="0" scrolling="no" width="100%;" height="300px" style="display:block; margin-top:10px;"></iframe>
+					<!--e:여기 까지의 영역은 라이센스에 따라 삭제 하실 수 없습니다.-->
+				</section>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

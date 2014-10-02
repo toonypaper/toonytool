@@ -1,0 +1,204 @@
+<?php
+	include_once __DIR_PATH__."modules/board/install/installCheck.php";
+	
+	$tpl = new skinController();
+	$mysql = new mysqlConnection();
+	$method = new methodController();
+	
+	$method->method_param("GET","act,type");
+	
+	/*
+	변수 처리
+	*/
+	if(!$type){
+		$type = "new";
+	}
+	
+	/*
+	수정 모드인 경우 기본 정보 로드
+	*/
+	if($type=="modify"){
+		$mysql->select("
+			SELECT *
+			FROM toony_module_board_config
+			WHERE board_id='$act'
+		");
+		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file");
+		$array = $mysql->array;
+		$mysql->htmlspecialchars = 0;
+		$mysql->nl2br = 0;
+		$array['top_source'] = $mysql->fetch("top_source");
+		$array['bottom_source'] = $mysql->fetch("bottom_source");
+	}
+	
+	/*
+	검사
+	*/
+	if($type=="modify"&&$mysql->numRows()<1){
+		$lib->error_alert_location("게시판이 존재하지 않습니다.",$site_config['ad_site_url'],"A");
+	}
+	if(!$type){
+		$lib->error_alert_location("호출 값이 없습니다.",$site_config['ad_site_url'],"A");
+	}
+	
+	/*
+	템플릿 로드
+	*/
+	$tpl->skin_file_path("modules/board/admin/_tpl/boardList_modify.html");
+	
+	/*
+	템플릿 함수
+	*/
+	function use_checked($var,$fieldName){
+		global $array;
+		if($var=="Y"){
+			switch($array[use_."$fieldName"]){
+				case "Y" : 
+					return "checked";
+					break;
+				default :
+			}
+		}
+		if($var=="N"){
+			switch($array[use_."$fieldName"]){
+				case "N" : 
+					return "checked";
+					break;
+				default :
+					return "";
+			}
+		}
+	}
+	function level_option_value($fieldName,$slt){
+		global $array,$member_type_var;
+		if($fieldName=="undefined"){
+			for($i=1;$i<=10;$i++){
+				$selected_var = "";
+				if($slt==$i){
+					$selected_var = "selected";
+				}
+				$option .= "<option value=\"".$i."\" ".$selected_var.">".$i." (".$member_type_var[$i].")</option>\n";
+			}
+		}else{
+			for($i=1;$i<=10;$i++){
+				$selected_var = "";
+				if($array[$fieldName."_level"]==$i){
+					$selected_var = "selected";
+				}
+				$option .= "<option value=\"".$i."\" ".$selected_var.">".$i." (".$member_type_var[$i].")</option>\n";
+			}
+		}
+		return $option;
+	}
+	function skin_option_value($fieldName){
+		global $array;
+		$path = opendir(__DIR_PATH__."modules/board/skin/");
+		$i = 0;
+		while($dir = readdir($path)){
+			if($dir!="."&&$dir!=".."){
+				$skins[$i] = $dir;
+			}
+			$i++;
+		}
+		foreach($skins as $key=>$val){
+			$selected_var = "";
+			if($val==$array[$fieldName]){
+				$selected_var = "selected";
+			}
+			$option .= "<option value=\"".$val."\" ".$selected_var.">".$val."</option>\n";
+		}
+		return $option;
+	}
+
+	/*
+	템플릿 치환
+	*/
+	if($type=="modify"){
+		$tpl->skin_modeling_hideArea("[{name_new_start}]","[{name_new_end}]","hide");
+		$tpl->skin_modeling_hideArea("[{name_modify_start}]","[{name_modify_end}]","show");
+		$tpl->skin_modeling_hideArea("[{deleteBtn_start}]","[{deleteBtn_end}]","show");
+	}else if($type=="new"){
+		$tpl->skin_modeling_hideArea("[{name_new_start}]","[{name_new_end}]","show");
+		$tpl->skin_modeling_hideArea("[{name_modify_start}]","[{name_modify_end}]","hide");
+		$tpl->skin_modeling_hideArea("[{deleteBtn_start}]","[{deleteBtn_end}]","hide");
+	}
+	if($type=="modify"){
+		$tpl->skin_modeling("[use_comment_checked_Y]",use_checked("Y","comment"));
+		$tpl->skin_modeling("[use_comment_checked_N]",use_checked("N","comment"));
+		$tpl->skin_modeling("[use_likes_checked_Y]",use_checked("Y","likes"));
+		$tpl->skin_modeling("[use_likes_checked_N]",use_checked("N","likes"));
+		$tpl->skin_modeling("[use_reply_checked_Y]",use_checked("Y","reply"));
+		$tpl->skin_modeling("[use_reply_checked_N]",use_checked("N","reply"));
+		$tpl->skin_modeling("[use_vote_checked_Y]",use_checked("Y","vote"));
+		$tpl->skin_modeling("[use_vote_checked_N]",use_checked("N","vote"));
+		$tpl->skin_modeling("[use_file1_checked_Y]",use_checked("Y","file1"));
+		$tpl->skin_modeling("[use_file1_checked_N]",use_checked("N","file1"));
+		$tpl->skin_modeling("[use_file2_checked_Y]",use_checked("Y","file2"));
+		$tpl->skin_modeling("[use_file2_checked_N]",use_checked("N","file2"));
+		$tpl->skin_modeling("[use_list_checked_Y]",use_checked("Y","list"));
+		$tpl->skin_modeling("[use_list_checked_N]",use_checked("N","list"));
+		$tpl->skin_modeling("[use_category_checked_Y]",use_checked("Y","category"));
+		$tpl->skin_modeling("[use_category_checked_N]",use_checked("N","category"));
+		$tpl->skin_modeling("[category_value]",$array['category']);
+		$tpl->skin_modeling("[list_limit_value]",$array['list_limit']);
+		$tpl->skin_modeling("[length_limit_value]",$array['length_limit']);
+		$tpl->skin_modeling("[file_limit_value]",$array['file_limit']);
+		$tpl->skin_modeling("[skin_option_value]",skin_option_value("skin"));
+		$tpl->skin_modeling("[controll_level_option_value]",level_option_value("controll",""));
+		$tpl->skin_modeling("[write_level_option_value]",level_option_value("write",""));
+		$tpl->skin_modeling("[read_level_option_value]",level_option_value("read",""));
+		$tpl->skin_modeling("[secret_level_option_value]",level_option_value("secret",""));
+		$tpl->skin_modeling("[comment_level_option_value]",level_option_value("comment",""));
+		$tpl->skin_modeling("[array_level_option_value]",level_option_value("array",""));
+		$tpl->skin_modeling("[reply_level_option_value]",level_option_value("reply",""));
+		$tpl->skin_modeling("[delete_level_option_value]",level_option_value("delete",""));
+		$tpl->skin_modeling("[write_point_value]",$array['write_point']);
+		$tpl->skin_modeling("[read_point_value]",$array['read_point']);
+		$tpl->skin_modeling("[top_file]",$array['top_file']);
+		$tpl->skin_modeling("[top_source]",$array['top_source']);
+		$tpl->skin_modeling("[bottom_file]",$array['bottom_file']);
+		$tpl->skin_modeling("[bottom_source]",$array['bottom_source']);
+	}else{
+		$tpl->skin_modeling("[use_comment_checked_Y]","checked");
+		$tpl->skin_modeling("[use_comment_checked_N]","");
+		$tpl->skin_modeling("[use_likes_checked_Y]","checked");
+		$tpl->skin_modeling("[use_likes_checked_N]","");
+		$tpl->skin_modeling("[use_reply_checked_Y]","checked");
+		$tpl->skin_modeling("[use_reply_checked_N]","");
+		$tpl->skin_modeling("[use_vote_checked_Y]","checked");
+		$tpl->skin_modeling("[use_vote_checked_N]","");
+		$tpl->skin_modeling("[use_file1_checked_Y]","checked");
+		$tpl->skin_modeling("[use_file1_checked_N]","");
+		$tpl->skin_modeling("[use_file2_checked_Y]","");
+		$tpl->skin_modeling("[use_file2_checked_N]","checked");
+		$tpl->skin_modeling("[use_list_checked_Y]","checked");
+		$tpl->skin_modeling("[use_list_checked_N]","");
+		$tpl->skin_modeling("[use_category_checked_Y]","");
+		$tpl->skin_modeling("[use_category_checked_N]","checked");
+		$tpl->skin_modeling("[category_value]","");
+		$tpl->skin_modeling("[list_limit_value]","15");
+		$tpl->skin_modeling("[length_limit_value]","15");
+		$tpl->skin_modeling("[file_limit_value]","5242880");
+		$tpl->skin_modeling("[skin_option_value]",skin_option_value("undefined"));
+		$tpl->skin_modeling("[controll_level_option_value]",level_option_value("undefined","3"));
+		$tpl->skin_modeling("[write_level_option_value]",level_option_value("undefined","9"));
+		$tpl->skin_modeling("[read_level_option_value]",level_option_value("undefined","9"));
+		$tpl->skin_modeling("[secret_level_option_value]",level_option_value("undefined","1"));
+		$tpl->skin_modeling("[comment_level_option_value]",level_option_value("undefined","9"));
+		$tpl->skin_modeling("[array_level_option_value]",level_option_value("undefined","9"));
+		$tpl->skin_modeling("[reply_level_option_value]",level_option_value("undefined","9"));
+		$tpl->skin_modeling("[delete_level_option_value]",level_option_value("undefined","9"));
+		$tpl->skin_modeling("[write_point_value]","10");
+		$tpl->skin_modeling("[read_point_value]","0");
+		$tpl->skin_modeling("[top_file]","");
+		$tpl->skin_modeling("[top_source]","");
+		$tpl->skin_modeling("[bottom_file]","");
+		$tpl->skin_modeling("[bottom_source]","");
+	}
+	$tpl->skin_modeling("[board_id]",$array['board_id']);
+	$tpl->skin_modeling("[type_value]",$type);
+	$tpl->skin_modeling("[name]",$array['name']);
+	$tpl->skin_modeling("[max_file_limit]",ini_get('upload_max_filesize')."  ( ".(ini_get('upload_max_filesize')*1024*1024)." byte )");
+	
+	echo $tpl->skin_echo();
+?>

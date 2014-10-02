@@ -1,0 +1,111 @@
+
+
+
+
+
+
+
+[{read_password_start}]
+<!--s:비회원인 경우에만 비밀번호 입력폼 노출-->
+<form name="read_password_form" id="read_password_form" method="post">
+	<input type="hidden" name="article" value="[article_value]" />
+	<input type="hidden" name="category" value="[category_value]" />
+	<input type="hidden" name="p" value="read" />
+	<input type="hidden" name="s_board_id" value="[board_id_value]" />
+	<input type="hidden" name="s_read" value="[read_value]" />
+	<input type="hidden" name="s_page" value="[page_value]" />
+	<input type="hidden" name="where" value="[where_value]" />
+	<input type="hidden" name="keyword" value="[keyword_value]" />
+	<table cellpadding="0" cellspacing="0" id="guest_password" class="board_table" style="width:400px;" align="center">
+		<thead>
+			<tr>
+				<th>비밀번호를 입력하세요</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="padding:20px; text-align:center;">
+					<input type="password" name="s_password" style="width:120px;" />
+					<input type="submit" class="__button_small" id="read_password_btn" value="확인" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<!--e:비회원인 경우에만 비밀번호 입력폼 노출-->
+[{read_password_end}]
+
+
+
+
+
+
+
+
+
+
+
+<form name="read_form" id="read_form">
+<input type="hidden" name="board_id" value="[board_id_value]" />
+<input type="hidden" name="read" value="[read_value]" />
+<input type="hidden" name="page" value="[page_value]" />
+<input type="hidden" name="where" value="[where_value]" />
+<input type="hidden" name="keyword" value="[keyword_value]" />
+<input type="hidden" name="article" value="[article_value]" />
+<input type="hidden" name="category" value="[category_value]" />
+<input type="hidden" name="p" value="" />
+</form>
+<table cellpadding="0" cellspacing="0" id="read_table" class="board_table">
+	<thead>
+		<tr>
+			<th class="informations">
+				<span class="inforArea"><strong>작성</strong> [write_date], <strong>조회</strong> [hit]</span>
+				[secret_ico] [mobile_ico] <strong class="category">[category_name]</strong> [subject]<span class="writer">[writer]</span>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="read_contArea">
+				<div id="board_memo_area">
+					[img1]
+					[img2]
+					[memo]
+				</div>
+				
+				[{read_likes_start}]
+				<ul class="_read_likesArea">
+					<li>
+						<a href="#" class="_likes_btn" title="추천"><img src="modules/board/images/array_read_likes.gif" /><span class="__count">[likes_count]</span></a>
+					</li>
+					<li>
+						<a href="#" class="_unlikes_btn" title="비추천"><img src="modules/board/images/array_read_unlikes.gif" /><span class="__count">[unlikes_count]</span></a>
+					</li>
+				</ul>
+				[{read_likes_end}]
+					
+				<ul class="fileBox">
+					[{read_file1_start}]
+					<li>
+						<strong>첨부파일1</strong>[file1]
+					</li>
+					[{read_file1_end}]
+					[{read_file2_start}]
+					<li>
+						<strong>첨부파일2</strong>[file2]
+					</li>
+					[{read_file2_end}]
+				</ul>
+				
+				[{read_comment_start}]
+				<ul class="commentBox">
+					<div class="_CALLING_COMMENT">댓글을 불러오는 중입니다.</div>
+				</ul>
+				[{read_comment_end}]
+			</td>
+		</tr>
+	</tbody>
+</table>	
+<div class="read_btnArea">
+	[array_btn][delete_btn][modify_btn][reply_btn]
+</div>

@@ -1,0 +1,91 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	//작성글 보기 버튼을 클릭하는 경우
+	$("._findContent_btn").click(function(){
+		var article = $(this).attr("article");
+		var member_nick = $(this).attr("member_nick");
+		opener.location.href = __URL_PATH__+"?article="+article+"&where=writer&keyword="+member_nick;
+		window.close();
+	});
+	//닫기 버튼을 클릭하는 경우
+	$("._calcel_btn").click(function(){
+		window.close();
+	});
+});
+</script>
+<article id="member_profile">
+	<div class="title">
+		회원 정보보기
+	</div>
+	<div class="cont">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<th>
+					회원이름
+				</th>
+				<td>
+					<strong>[nick]</strong>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					성별
+				</th>
+				<td>
+					<strong>[sex]</strong>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					아이디
+				</th>
+				<td>
+					[id]
+				</td>
+			</tr>
+			<tr>
+				<th>
+					레벨
+				</th>
+				<td>
+					<strong>[level]</strong> ([member_type])
+				</td>
+			</tr>
+			<tr>
+				<th>
+					포인트
+				</th>
+				<td>
+					<strong>[point]</strong> Point
+				</td>
+			</tr>
+			<tr>
+				<th>
+					회원가입일
+				</th>
+				<td>
+					[regdate]
+				</td>
+			</tr>
+			<tr>
+				<th>
+					최근로그인
+				</th>
+				<td>
+					[login_regdate]
+				</td>
+			</tr>
+			<tr>
+				<th>
+					최근로그인ip
+				</th>
+				<td>
+					[login_ip]
+				</td>
+			</tr>
+		</table>
+		<div class="btnArea">
+			<input type="button" class="__button_submit _findContent_btn" value="회원의 작성글 보기" article="[article]" member_nick="[nick]" /><input type="button" class="__button_cancel _calcel_btn" value="닫기" />
+		</div>
+	</div>
+</article>

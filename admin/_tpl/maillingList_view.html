@@ -1,0 +1,55 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>메일링 발송 내역</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					구체적인 메일링 발송 내역을 볼 수 있습니다.
+				</div>
+				<div class="contArticle">
+					<table cellpadding="0" cellspacing="0" class="__article_table_read">
+						<thead>
+							<tr>
+								<th colspan="2">메일링 발송 내역</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th style="width:100px;">수신 범위</th>
+								<td>
+									[receive]
+								</td>
+							</tr>
+							<tr>
+								<th style="width:100px;">발송일</th>
+								<td>
+									[regdate]
+								</td>
+							</tr>
+							<tr>
+								<th style="width:100px;">제목</th>
+								<td>
+									<strong>[subject]</strong>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:100px;">내용</th>
+								<td>
+									[memo]
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="__article_btnArea">
+						<a href="./?p=maillingList" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

@@ -1,0 +1,73 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("._submitBtn").click(function(){
+		if(confirm("정말로 모든 임시 파일을 삭제 하시겠습니까?")==true){
+			$.ajax({
+				cache		:	false,
+				async		:	false,
+				type		:	"POST",
+				url			:	__URL_PATH__+"admin/emptyTempFiles.submit.php",
+				dataType	:	"HTML",
+				success		:	function(msg){
+									if(msg=="<!--error::not_sessionCookiesPath-->"){
+										alert("Session Cookie 디렉터리가 존재하지 않습니다.");
+									}else if(msg.indexOf("<!--success::1-->")!=-1){
+										var countMsg = msg.substring(17);
+										alert("총 "+countMsg+"개의 임시 파일을 성공적으로 삭제 하였습니다.");
+										document.location.reload();
+									}else{
+										alert(msg);
+									}
+								}
+			});
+		}
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>임시 파일 비우기</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					누적된 임시 파일 저장소를 비워 속도를 향상시킬 수 있습니다.
+				</div>
+				<div class="contArticle">
+					<table cellpadding="0" cellspacing="0" class="__article_table_read">
+						<thead>
+							<tr>
+								<th>임시 파일 삭제 안내</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="padding:15px;">
+									작동중 임시 생성된 누적파일을 모두 삭제합니다. 삭제시 최대 몇 분이 소요될 수 있으며, 비워지는 폴더는 아래와 같습니다.
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<ol style="line-height:20px;">
+										<li>
+											<strong>Session Cookie 경로</strong>
+											<span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px;">( [sessionCookiePath] )</span>
+										</li>
+									</ol>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						<a href="./" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

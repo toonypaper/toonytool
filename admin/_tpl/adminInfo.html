@@ -1,0 +1,148 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=adminInfoForm]");
+		$.ajax({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			url			:	__URL_PATH__+"admin/adminInfo.submit.php",
+			data		:	$form.serialize(),
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--error::not_samePassword-->" :
+										alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+										break;
+									case "<!--error::null_id-->" :
+										alert("아이디를 입력 하세요.");
+										break;
+									case "<!--error::not_id-->" :
+										alert("아이디가 올바르지 않습니다.");
+										break;
+									case "<!--error::null_nick-->" :
+										alert("이름을 입력 하세요.");
+										break;
+									case "<!--error::not_nick-->" :
+										alert("이름이 올바르지 않습니다.");
+										break;
+									case "<!--error::not_phone-->" :
+										alert("휴대전화가 올바르지 않습니다.");
+										break;
+									case "<!--error::not_telephone-->" :
+										alert("집전화가 올바르지 않습니다.");
+										break;
+									case "<!--error::not_password-->" :
+										alert("비밀번호가 올바르지 않습니다.");
+										break;
+									case "<!--success::1-->" :
+										alert("성공적으로 수정 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>최고 관리자 정보 변경</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					최고 관리자 기본 정보 변경은 투니툴 설치시 생성된 아이디로만 가능합니다.
+				</div>
+				<div class="contArticle">
+					<form name="adminInfoForm">
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<thead>
+								<tr>
+									<th colspan="2">관리자 기본 정보 변경</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>이메일 아이디</th>
+									<td>
+										<input type="text" name="id" value="[id_value]" />
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호</th>
+									<td>
+										<input type="password" name="password" style="width:200px;" />
+										<span class="__article_sment">
+											- 비밀번호 변경시에만 입력<br />
+											- 최소 5자 ~ 최대 30자로 입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인</th>
+									<td>
+										<input type="password" name="password02" style="width:200px;" />
+										<span class="__article_sment">
+											- 비밀번호 확인을 위해 재입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td>
+										<input type="text" name="nick" value="[nick_value]" style="width:150px;" />
+									</td>
+								</tr>
+								<tr>
+									<th>성별</th>
+									<td>
+										<label><input type="radio" name="sex" value="M" [sex_checked_value_M] />남자</label>
+										<label><input type="radio" name="sex" value="F" [sex_checked_value_F] />여자</label>
+									</td>
+								</tr>
+								<tr>
+									<th>휴대전화</th>
+									<td>
+										<input type="text" name="phone" value="[phone_value]" />
+										<span class="__article_sment">
+											- 하이픈(-) 없이 입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>집전화</th>
+									<td>
+										<input type="text" name="telephone" value="[telephone_value]" />
+										<span class="__article_sment">
+											- 하이픈(-) 없이 입력
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<th>보유 포인트</th>
+									<td>
+										<input type="text" name="point" value="[point_value]" style="width:80px;" />
+										<span class="__article_sment">
+											- 포인트 수정시 포인트 변경 이력에 기록됨
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn"/>
+						<a href="./" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

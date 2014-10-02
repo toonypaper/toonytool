@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+.board_table{ border-top:1px solid #666; width:100%; }
+.board_table thead th{ padding:7px 5px; background:#F5F5F5; font-size:12px; letter-spacing:-1px; }
+.board_table thead th.informations{ padding:15px; height:28px; font-size:14px !important; }
+.board_table tbody th{ border-bottom:1px solid #EEEEEE; text-align:left; padding-left:15px; }
+.board_table tbody td{ padding:7px 5px; border-bottom:1px solid #EEEEEE; }
+.board_table tbody td.read_contArea{ padding:20px; border:1px solid #EEEEEE; border-top:none; }
+
+/*게시판 리스트*/
+#array_form .settingArea{ position:relative; text-align:right; padding-bottom:5px; }
+#array_form .btnArea{ position:relative; text-align:center !important; padding-top:20px; }
+#array_form .scArea{ background-color:#f8f8f8; border:1px solid #eee; margin:0 auto; margin-top:20px; padding:5px; text-align:center; }
+#array_form .scArea input.keyword{ padding:5px; }
+#array_form .scArea select.where{ padding:5px; }
+#array_form .not_loop_span{ display:block; border-bottom:1px solid #eee; text-align:center; padding:10px; color:#666; }
+#array_form .category{ color:#900; }
+
+/*게시판 글읽기*/
+#board_memo_area{ word-break:break-all; line-height:normal; }
+#read_table .writer{ font-size:11px font-weight:bold; color:#666; padding-left:20px; }
+#read_table .voteArea{ text-align:center; padding-top:20px; }
+#read_table .fileBox{ background-color:#f1f1f1; border:1px dotted #dedede; margin-top:10px; padding:5px; }
+#read_table .fileBox > strong{ padding-right:10px; }
+#read_table .informations{ position:relative; text-align:left; padding:5px; padding-left:10px; font-size:13px }
+#read_table .informations .inforArea{ font-size:11px; color:#999; font-weight:normal; font-size:11px; color:#666; font-weight:normal; }
+#read_table .category{ color:#900; }
+
+#read_table .commentBox{ position:relative; margin:0; padding:0; list-style-type:none; margin-top:80px; padding:10px; background-color:#f8f8f8; border:1px dotted #dedede; }
+#read_table .commentBox .count{ position:absolute; top:-20px; left:0; font-size:11px; color:#666; }
+.read_btnArea{ text-align:center; padding-top:15px; padding-bottom:30px; }
+._read_likesArea{ margin:30px 0; padding:0; list-style-type:none; font-size:0; text-align:center; }
+._read_likesArea > li{ display:inline-block; *display:inline; *zoom:1; padding:0 10px; }
+._read_likesArea > li > a > *{ vertical-align:middle; }
+._read_likesArea > li > a .__count{ font-size:13px; font-weight:bold; display:inline-block; *display:block; *zoom:1; padding-left:3px; font-family:tahoma; }
+
+.comment_writer{ font-weight:bold; padding-bottom:5px; }
+
+.comment_form{ margin-bottom:10px; text-align:center; }
+
+.comment_list{ background:#fff; margin:0; list-style-type:none; padding:5px; border-top:1px dotted #dedede; }
+.comment_list .writer{ font-weight:bold; color:#333 !important; padding-left:0 !important; margin:0; }
+.comment_list .date{ display:block; font-size:11px; color:#999; text-align:right; }
+.comment_list .memo{ display:block; padding-top:0; position:relative; word-break:break-all; }
+.comment_list .memo > div{ text-align:center; }
+.comment_list .memo > div.comment_modify{ text-align:left; }
+.comment_list .memo .btnArea{ text-align:right; line-height:13px; }
+
+.comment_list .replyWriteArea{ text-align:center; padding-top:5px; }
+
+/*게시판 대댓글 들여쓰기 고정 Class*/
+.reply_comment_depthClass1,
+.reply_comment_depthClass2,
+.reply_comment_depthClass3,
+.reply_comment_depthClass4,
+.reply_comment_depthClass5,
+.reply_comment_depthClass6,
+.reply_comment_depthClass7{ background:#fff url(../../../images/reply_comment_bull.gif) no-repeat; }
+.reply_comment_depthClass1{ padding-left:22px; background-position:7px 5px; }
+.reply_comment_depthClass2{ padding-left:32px; background-position:17px 5px; }
+.reply_comment_depthClass3{ padding-left:42px; background-position:27px 5px; }
+.reply_comment_depthClass4{ padding-left:52px; background-position:37px 5px; }
+.reply_comment_depthClass5{ padding-left:62px; background-position:47px 5px; }
+.reply_comment_depthClass6{ padding-left:72px; background-position:57px 5px; }
+.reply_comment_depthClass7{ padding-left:82px; background-position:673px 5px; }
+
+
+
+
+

@@ -1,0 +1,130 @@
+<script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//정보 수정
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=questionList_viewForm]");
+		oEditors.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []);
+		$.ajax({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			url			:	__URL_PATH__+"admin/questionList_view.submit.php",
+			data		:	$form.serialize(),
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--error::null_memo-->" :
+										alert("답변 내용을 입력 하세요.");
+										break;
+									case "<!--success::1-->" :
+										alert("성공적으로 답변이 발송 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+	});
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>고객문의 내역 보기 및 답변</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					고객 문의를 자세히 볼 수 있으며, 고객의 이메일로 답변이 가능합니다.
+				</div>
+				<div class="contArticle">
+					<form name="questionList_viewForm">
+						<input type="hidden" name="idno" value="[idno_value]" />
+						<input type="hidden" name="email" value="[email]" />
+						<input type="hidden" name="name" value="[name_value]" />
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<thead>
+								<tr>
+									<th colspan="2">고객 문의 내역</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th style="width:100px;">고객 이름</th>
+									<td>
+										<strong>[name]</strong> / [member_type]
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">고객 이메일</th>
+									<td>
+										<strong>[email]</strong>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">고객 연락처</th>
+									<td>
+										[phone]
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">문의 내용</th>
+									<td>
+										[memo]
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">문의 일시</th>
+									<td>
+										[regdate]
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table cellpadding="0" cellspacing="0" class="__article_table_read" style="margin-top:10px; border-bottom:none;">
+							<thead>
+								<tr>
+									<th>문의에 대한 답변</th>
+								</tr>
+							</thead>
+							<tbody>
+								[{answered_start}]
+								<tr>
+									<td>
+										[re_memo]
+										<span class="__article_sment">[re_regdate] 에 답변함</span>
+									</td>
+								</tr>
+								[{answered_end}]
+								[{answer_start}]
+								<tr>
+									<td style="padding:0; border:none;">
+										<textarea class="sourceCode" id="memo" name="memo" style="width:100%; border:none; height:250px;"></textarea>
+									</td>
+								</tr>
+								<script type="text/javascript">
+								oEditors = [];
+								nhn.husky.EZCreator.createInIFrame({
+									oAppRef: oEditors,
+									elPlaceHolder: "memo",
+									sSkinURI: "../smartEditor/SmartEditor2Skin.html",
+									fCreator: "createSEditor2"
+								});
+								</script>
+								[{answer_end}]
+							</tbody>
+						</table>
+					</form>
+					<div class="__article_btnArea">
+						[{answerBtn_start}]<input type="button" class="__btn_submit _submitBtn"/>[{answerBtn_end}]
+						<a href="./?p=questionList" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>

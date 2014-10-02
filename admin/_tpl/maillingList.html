@@ -1,0 +1,47 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>발송 이력 보기</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					현재까지 발송된 메일링 이력을 확인 하세요.
+				</div>
+				<div class="contArticle">
+					<table cellpadding="0" cellspacing="0" class="__article_table">
+						<thead>
+							<tr>
+								<th class="___f" style="width:35px;">번호</th>
+								<th style="width:100px;">발송시간</th>
+								<th style="width:100px;">수신</th>
+								<th>내용</th>
+								<th class="___l ___noPadding" style="width:35px;">보기</th>
+							</tr>
+						</thead>
+						<tbody>
+							[{loop_start}]
+							<tr>
+								<td class="___number">[number]</td>
+								<td class="___number">[regdate]</td>
+								<td style="text-align:center;">[receive]</td>
+								<td>[memo]</td>
+								<td class="___noPadding" style="text-align:center;">[view_btn]</td>
+							</tr>
+							[{loop_end}]
+							[{not_content_start}]
+							<tr>
+								<td colspan="5">메일링 발송 내역이 존재하지 않습니다.</td>
+							</tr>
+							[{not_content_end}]
+						</tbody>
+					</table>
+					[paging_area]
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

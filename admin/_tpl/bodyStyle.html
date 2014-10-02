@@ -1,0 +1,143 @@
+<link rel='stylesheet' href='library/css/spectrum.css' />
+<script type="text/javascript" src="library/js/spectrum.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("._submitBtn").click(function(){
+		var $form = $("form[name=bodyStyleForm]");
+		$.ajax({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			url			:	__URL_PATH__+"admin/bodyStyle.submit.php",
+			data		:	$form.serialize(),
+			dataType	:	"HTML",
+			success		:	function(msg){
+								switch(msg){
+									case "<!--error::null_body_txtSize-->" :
+										alert("본문 글자 크기를 입력 하세요.");
+										break;
+									case "<!--error::null_link_txtSize-->" :
+										alert("링크 글자 크기를 입력 하세요.");
+										break;
+									case "<!--success::1-->" :
+										alert("성공적으로 수정 되었습니다.");
+										document.location.reload();
+										break;
+									default :
+										alert(msg);
+								}
+							}
+		});
+	});
+	//컬러피커 적용
+	$("input[name=body_bgColor]").spectrum({ preferredFormat: "hex", showInput: true });
+	$("input[name=body_txtColor]").spectrum({ preferredFormat: "hex", showInput: true });
+	$("input[name=link_txtColor]").spectrum({ preferredFormat: "hex", showInput: true });
+	$("input[name=link_hoverColor]").spectrum({ preferredFormat: "hex", showInput: true });
+	$("input[name=link_activeColor]").spectrum({ preferredFormat: "hex", showInput: true });
+	$("input[name=link_visitedColor]").spectrum({ preferredFormat: "hex", showInput: true });
+	$("input[name=input_txtColor]").spectrum({ preferredFormat: "hex", showInput: true });
+});
+</script>
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>본문 기본 스타일</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					배경색, 글자 스타일등 본문 기본 스타일을 지정 하세요.
+				</div>
+				<ul class="__article_tab">
+					<li[tab_active_p]><a href="?p=bodyStyle">홈페이지</a></li>
+					<li[tab_active_m]><a href="?p=bodyStyle&vtype=m">모바일</a></li>
+				</ul>
+				<div class="contArticle">
+					<form name="bodyStyleForm">
+						<input type="hidden" name="vtype" value="[vtype_value]" />
+						<h5 style="padding-top:0;">기본 스타일</h5>
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<tbody>
+								<tr>
+									<th style="width:100px;">본문 기본 배경색</th>
+									<td>
+										<input type="text" name="body_bgColor" value="[body_bgColor_value]" style="width:100px;" />
+									</td>
+									<th style="width:100px;">본문 글자 색상</th>
+									<td>
+										<input type="text" name="body_txtColor" value="[body_txtColor_value]" style="width:100px;" />
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">본문 글자 크기</th>
+									<td colspan="3">
+										<input type="text" name="body_txtSize" value="[body_txtSize_value]" style="width:50px;" /> Pixel
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<h5>링크 스타일</h5>
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<tbody>
+								<tr>
+									<th style="width:100px;">링크 글자 색상</th>
+									<td>
+										<input type="text" name="link_txtColor" value="[link_txtColor_value]" style="width:100px;" />
+									</td>
+									<th style="width:100px;">링크 마우스 오버</th>
+									<td>
+										<input type="text" name="link_hoverColor" value="[link_hoverColor_value]" style="width:100px;" />
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">링크 클릭시</th>
+									<td>
+										<input type="text" name="link_activeColor" value="[link_activeColor_value]" style="width:100px;" />
+									</td>
+									<th style="width:100px;">이미 클릭한 링크</th>
+									<td>
+										<input type="text" name="link_visitedColor" value="[link_visitedColor_value]" style="width:100px;" />
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">링크 글자 크기</th>
+									<td colspan="3">
+										<input type="text" name="link_txtSize" value="[link_txtSize_value]" style="width:50px;" /> Pixel
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<h5>인풋 스타일</h5>
+						<table cellpadding="0" cellspacing="0" class="__article_table_read">
+							<tbody>
+								<tr>
+									<th style="width:100px;">인풋 글자 색상</th>
+									<td>
+										<input type="text" name="input_txtColor" value="[input_txtColor_value]" style="width:100px;" />
+									</td>
+								</tr>
+								<tr>
+									<th style="width:100px;">인풋 글자 크기</th>
+									<td>
+										<input type="text" name="input_txtSize" value="[input_txtSize_value]" style="width:50px;" /> Pixel
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="text-align:center; font-size:11px; letter-spacing:-1px; color:#333; padding-top:10px; padding-bottom:10px;">
+							<label><input type="checkbox" name="useDefault" value="checked" [usedefault_checked] /> 위 설정 값을 무시하고 투니툴 기본 값으로 설정 합니다.</label>
+						</div>
+					</form>
+					<div class="__article_btnArea">
+						<input type="button" class="__btn_submit _submitBtn" />
+						<a href="./?p=pageList" class="__btn_cancel"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

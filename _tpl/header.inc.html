@@ -1,0 +1,24 @@
+<script type="text/javascript">
+//메인메뉴 토글 기능
+$(document).ready(function(){
+	var gnbCount = $("header .gnb > li").length;
+	var gnbWidth = 150;
+	var repeat = 1;
+	$("header .gnb > li").each(function(){
+		$(this).css({
+			"width":gnbWidth,
+			"right":(gnbWidth*gnbCount)-(repeat*gnbWidth)
+		});
+		repeat++;
+	});
+});
+</script>
+<header>
+	<ul class="status">
+		[status]
+	</ul>
+	<div class="logo"><a href="[site_url]"><h1><img src="[logo]" title="[site_name]" /></h1></a></div>
+	<ul class="gnb">
+		[{menu_start}][menu][{menu_end}]
+	</ul>
+</header>
