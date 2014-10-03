@@ -1,14 +1,15 @@
 <?php
 	include_once __DIR_PATH__."include/pageJustice.inc.php";
 	
-	$method = new methodController();
-	$lib = new libraryClass();
-	$mysql = new mysqlConnection();
-	$paging = new pagingClass();
+	$tpl = new skinController();
 	$header = new skinController();
 	$notice_loop = new skinController();
 	$array_loop = new skinController();
 	$footer = new skinController();
+	$method = new methodController();
+	$lib = new libraryClass();
+	$mysql = new mysqlConnection();
+	$paging = new pagingClass();
 	
 	$method->method_param("GET","where,keyword,page,read,category");
 	
@@ -20,7 +21,7 @@
 		FROM toony_module_board_config 
 		WHERE board_id='$board_id'
 	");
-	$mysql->fetchArray("board_id,name,use_list,use_comment,use_category,category,use_likes,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,regdate,skin,top_file,bottom_file,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$mysql->fetchArray("board_id,name,use_list,use_comment,use_category,category,use_likes,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,regdate,skin,top_file,bottom_file,thumb_width,thumb_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
@@ -90,19 +91,16 @@
 	/*
 	스킨 템플릿 로드
 	*/
-	//header
-	$header->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}index.html");
+	$tpl->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}index.html");
+	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{notice_loop_start}]");
-	//notice array
-	$notice_loop->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}index.html");
+	$notice_loop->skin_html_load($tpl->skin);
 	$notice_loop->skin_loop_array("[{notice_loop_start}]","[{notice_loop_end}]");
-	//array
-	$array_loop->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}index.html");
+	$array_loop->skin_html_load($tpl->skin);
 	$array_loop->skin_loop_array("[{array_loop_start}]","[{array_loop_end}]");
-	//footer
-	$footer->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}index.html");
+	$footer->skin_html_load($tpl->skin);
 	$footer->skin_loop_footer("[{array_loop_end}]");
-	
+
 	/*
 	템플릿 함수
 	*/
@@ -122,15 +120,13 @@
 	}
 	//제목 출력
 	function bbs_subject_title(){
-		global $article,$lib;
-		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $category;
+		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $category, $article, $lib;
 		return array_subject_reply()."<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_length_limit($array['subject'],0,$c_array['length_limit'])."</a>";
 	}
 	//내용 출력
 	function bbs_ment_title(){
-		global $article,$lib;
-		global $board_id, $page, $where, $keyword, $c_array, $array, $lib;
-		return "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\" class=\"webzine_ment\">".$lib->func_length_limit(strip_tags($lib->htmldecode($array['ment'])),0,90)."</a>";
+		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $c_array, $article, $lib;
+		return "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\" class=\"webzine_ment\">".$lib->func_length_limit(strip_tags($lib->htmldecode($array['ment'])),0,$c_array['article_length'])."</a>";
 	}
 	//모바일 작성 아이콘 출력
 	function array_subject_mobile(){
@@ -247,7 +243,7 @@
 	}
 	//썸네일 출력
 	function thumbnail_func(){
-		global $array,$lib,$board_id,$page,$where,$keyword,$article,$category;
+		global $c_array,$array,$lib,$board_id,$page,$where,$keyword,$article,$category;
 		//본문내 첫번째 이미지 태그를 추출
 		preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $lib->htmldecode($array['ment']), $match);
 		//썸네일의 파일 타입을 추출
@@ -255,14 +251,14 @@
 		$file2_type = strtolower(array_pop(explode(".",$array['file2'])));
 		//조건에 따라 썸네일 HTML코드 리턴
 		if($file1_type=="gif"||$file1_type=="jpg"||$file1_type=="bmp"||$file1_type=="png"){
-			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file1'],120,80,0,0)."</a>";
+			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file1'],$c_array['thumb_width'],$c_array['thumb_height'],0,0)."</a>";
 		}else if($file2_type=='gif'||$file2_type=='jpg'||$file2_type=='bmp'||$file2_type=='png'){
-			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file2'],120,80,0,0)."</a>";
+			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file2'],$c_array['thumb_width'],$c_array['thumb_height'],0,0)."</a>";
 		}else if($match['0']){
-			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\"><img src=\"{$match[1]}\" width=\"120\" height=\"80\" /></a>";
+			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\"><img src=\"{$match[1]}\" width=\"".$c_array['thumb_width']."\" height=\"".$c_array['thumb_height']."\" /></a>";
 		}else{
 			$thumb = "
-				<a href='{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."'><img src=\"".__URL_PATH__."images/blank_thumbnail.jpg\" width=\"120\" height=\"80\" /></a>
+				<a href='{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."'><img src=\"".__URL_PATH__."images/blank_thumbnail.jpg\" width=\"".$c_array['thumb_width']."\" height=\"".$c_array['thumb_height']."\" /></a>
 			";
 		}
 		return $thumb;
@@ -347,6 +343,11 @@
 			}else{
 				$notice_loop->skin_modeling_hideArea("[{likes_start}]","[{likes_end}]","hide");
 			}
+			$notice_loop->skin_modeling("[td_1]",$array['td_1']);
+			$notice_loop->skin_modeling("[td_2]",$array['td_2']);
+			$notice_loop->skin_modeling("[td_3]",$array['td_3']);
+			$notice_loop->skin_modeling("[td_4]",$array['td_4']);
+			$notice_loop->skin_modeling("[td_5]",$array['td_5']);
 			echo $notice_loop->skin_echo();
 		}while($mysql->nextRec());
 	}
@@ -422,6 +423,11 @@
 			}else{
 				$array_loop->skin_modeling_hideArea("[{likes_start}]","[{likes_end}]","hide");
 			}
+			$array_loop->skin_modeling("[td_1]",$array['td_1']);
+			$array_loop->skin_modeling("[td_2]",$array['td_2']);
+			$array_loop->skin_modeling("[td_3]",$array['td_3']);
+			$array_loop->skin_modeling("[td_4]",$array['td_4']);
+			$array_loop->skin_modeling("[td_5]",$array['td_5']);
 			echo $array_loop->skin_echo();
 			$j++;
 		}while($mysql->nextRec());

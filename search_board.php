@@ -1,6 +1,13 @@
 <?php
 	include_once "include/pageJustice.inc.php";
 	
+	$tpl = new skinController();
+	$header = new skinController();
+	$tab = new skinController();
+	$middle = new skinController();
+	$loop = new skinController();
+	$data_loop = new skinController();
+	$footer = new skinController();
 	$method = new methodController();
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
@@ -47,29 +54,18 @@
 	/*
 	템플릿 로드
 	*/
-	//Header
-	$header = new skinController();
-	$header->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$tpl->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{tab_start}]");
-	//Tab
-	$tab = new skinController();
-	$tab->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$tab->skin_html_load($tpl->skin);
 	$tab->skin_loop_array("[{tab_start}]","[{tab_end}]");
-	//Middle
-	$middle = new skinController();
-	$middle->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$middle->skin_html_load($tpl->skin);
 	$middle->skin_loop_middle("[{tab_end}]","[{loop_start}]");
-	//Loop
-	$loop = new skinController();
-	$loop->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$loop->skin_html_load($tpl->skin);
 	$loop->skin_loop_array("[{loop_start}]","[{loop_end}]");
-	//Data Loop
-	$data_loop = new skinController();
-	$data_loop->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$data_loop->skin_html_load($tpl->skin);
 	$data_loop->skin_loop_array("[{data_loop_start}]","[{data_loop_end}]");
-	//Footer
-	$footer = new skinController();
-	$footer->skin_file_path("_tpl/{$viewDir}search_board.html");
+	$footer->skin_html_load($tpl->skin);
 	$footer->skin_loop_footer("[{loop_end}]");
 	
 	/*

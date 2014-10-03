@@ -1,6 +1,10 @@
 <?php
 	include_once "include/pageJustice.inc.php";
 	
+	$tpl = new skinController();
+	$header = new skinController();
+	$loop = new skinController();
+	$footer = new skinController();
 	$method = new methodController();
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
@@ -34,17 +38,12 @@
 	/*
 	템플릿 로드
 	*/
-	//Header
-	$header = new skinController();
-	$header->skin_file_path("_tpl/{$viewDir}myPoint.html");
+	$tpl->skin_file_path("_tpl/{$viewDir}myPoint.html");
+	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{loop_start}]");
-	//Loop
-	$loop = new skinController();
-	$loop->skin_file_path("_tpl/{$viewDir}myPoint.html");
+	$loop->skin_html_load($tpl->skin);
 	$loop->skin_loop_array("[{loop_start}]","[{loop_end}]");
-	//Footer
-	$footer = new skinController();
-	$footer->skin_file_path("_tpl/{$viewDir}myPoint.html");
+	$footer->skin_html_load($tpl->skin);
 	$footer->skin_loop_footer("[{loop_end}]");
 	
 	/*
