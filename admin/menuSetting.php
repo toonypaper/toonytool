@@ -1,5 +1,4 @@
 <?php
-	$tpl = new skinController();
 	$header = new skinController();
 	$loop = new skinController();
 	$footer = new skinController();
@@ -30,12 +29,14 @@
 	/*
 	템플릿 로드
 	*/
-	$tpl->skin_file_path("admin/_tpl/menuSetting.html");
-	$header->skin_html_load($tpl->skin);
+	//Header
+	$header->skin_file_path("admin/_tpl/menuSetting.html");
 	$header->skin_loop_header("[{loop_start}]");
-	$loop->skin_html_load($tpl->skin);
+	//Loop
+	$loop->skin_file_path("admin/_tpl/menuSetting.html");
 	$loop->skin_loop_array("[{loop_start}]","[{loop_end}]");
-	$footer->skin_html_load($tpl->skin);
+	//Footer
+	$footer->skin_file_path("admin/_tpl/menuSetting.html");
 	$footer->skin_loop_footer("[{loop_end}]");
 	
 	/*

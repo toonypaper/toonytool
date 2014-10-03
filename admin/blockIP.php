@@ -1,5 +1,4 @@
 <?php
-	$tpl = new skinController();
 	$header = new skinController();
 	$loop = new skinController();
 	$footer = new skinController();
@@ -40,14 +39,13 @@
 	/*
 	템플릿 로드
 	*/
-	$tpl->skin_file_path("admin/_tpl/blockIP.html");
-	$header->skin_html_load($tpl->skin);
+	$header->skin_file_path("admin/_tpl/blockIP.html");
 	$header->skin_loop_header("[{loop_start}]");
-	$loop->skin_html_load($tpl->skin);
+	$loop->skin_file_path("admin/_tpl/blockIP.html");
 	$loop->skin_loop_array("[{loop_start}]","[{loop_end}]");
-	$footer->skin_html_load($tpl->skin);
+	$footer->skin_file_path("admin/_tpl/blockIP.html");
 	$footer->skin_loop_footer("[{loop_end}]");
-	
+
 	/*
 	템플릿 함수
 	*/

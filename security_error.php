@@ -1,8 +1,8 @@
 <?php
 	include_once "include/pageJustice.inc.php";
 	
-	$tpl = new skinController();
 	$lib = new libraryClass();
+	$tpl = new skinController();
 	
 	/*
 	템플릿 로드

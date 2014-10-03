@@ -1,9 +1,9 @@
 <?php
 	include_once "../include/pageJustice.inc.php";
 	
-	$tpl = new skinController();
 	$method = new methodController();
 	$lib = new libraryClass();
+	$tpl = new skinController();
 	$mysql = new mysqlConnection();
 	
 	$method->method_param("GET","redirect");
