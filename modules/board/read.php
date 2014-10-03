@@ -1,9 +1,9 @@
 <?php
 	include_once __DIR_PATH__."include/pageJustice.inc.php";
 	
+	$tpl = new skinController();
 	$method = new methodController();
 	$lib = new libraryClass();
-	$tpl = new skinController();
 	$mysql = new mysqlConnection();
 	$read_true_3 = new skinController();
 	$skin_read = new skinController();
@@ -67,7 +67,7 @@
 	}
 	$mysql->htmlspecialchars = 1;
 	$mysql->nl2br = 1;
-	$mysql->fetchArray("rn,ln,category,regdate,subject,writer,me_idno,cmtnum,view,vote,password,use_secret,use_notice,use_html,me_idno,file1,file2,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
+	$mysql->fetchArray("rn,ln,category,regdate,subject,writer,me_idno,cmtnum,view,vote,password,use_secret,use_notice,use_html,me_idno,file1,file1_cnt,file2,file2_cnt,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
 	$array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
@@ -218,11 +218,11 @@
 			return "";
 		}
 	}
-	//첨부파일 용량(Byte) 출력
-	function read_file_text($file){
+	//첨부파일명 및 용량(Byte) 출력
+	function read_file_text($cnt_field,$file){
 		global $board_id, $lib;
 		if($file){
-			return "<a href=\"".__URL_PATH__."modules/board/file_download.php?board_id=".$board_id."&file=".urlencode($file)."\">".$file."</a>&nbsp;<span style=\"font-size:11px; color:#999; padding-left:10px;\">(".$lib->func_file_size(__DIR_PATH__."modules/board/upload/".$board_id."/".$file,"K").")</span>";
+			return "<a href=\"".__URL_PATH__."modules/board/file_download.php?board_id=".$board_id."&file=".urlencode($file)."\">".$file."</a>&nbsp;<span style=\"font-size:11px; color:#999; padding-left:10px;\">(".$lib->func_file_size(__DIR_PATH__."modules/board/upload/".$board_id."/".$file,"K").")</span><span style=\"font-size:11px; color:#999; padding-left:10px;\">".number_format($cnt_field)."회 다운로드</span>";
 		}else{
 			return "";
 		}
@@ -390,8 +390,8 @@
 		$skin_read->skin_modeling("[memo]","<div class=\"smartOutput\">".memo_output_func()."</div>");
 		$skin_read->skin_modeling("[img1]",img_func($array['file1']));
 		$skin_read->skin_modeling("[img2]",img_func($array['file2']));
-		$skin_read->skin_modeling("[file1]",read_file_text($array['file1']));
-		$skin_read->skin_modeling("[file2]",read_file_text($array['file2']));
+		$skin_read->skin_modeling("[file1]",read_file_text($array['file1_cnt'],$array['file1']));
+		$skin_read->skin_modeling("[file2]",read_file_text($array['file2_cnt'],$array['file2']));
 		$skin_read->skin_modeling("[likes_count]",$array['likes_count']);
 		$skin_read->skin_modeling("[unlikes_count]",$array['unlikes_count']);
 		$skin_read->skin_modeling("[category_name]",read_category_name());
@@ -400,6 +400,11 @@
 		$skin_read->skin_modeling("[reply_btn]",read_reply_btn());
 		$skin_read->skin_modeling("[array_btn]",read_array_btn());
 		$skin_read->skin_modeling("[comment_area]","<div id=\"read_comment_area\"></div>");
+		$skin_read->skin_modeling("[td_1]",$array['td_1']);
+		$skin_read->skin_modeling("[td_2]",$array['td_2']);
+		$skin_read->skin_modeling("[td_3]",$array['td_3']);
+		$skin_read->skin_modeling("[td_4]",$array['td_4']);
+		$skin_read->skin_modeling("[td_5]",$array['td_5']);
 		echo $skin_read->skin_echo();
 	}else if($read_true==0){
 		switch($array['use_secret']){

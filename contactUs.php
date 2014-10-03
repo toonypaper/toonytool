@@ -1,8 +1,8 @@
 <?php
 	include_once "include/pageJustice.inc.php";
 	
-	$lib = new libraryClass();
 	$tpl = new skinController();
+	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	
 	/*

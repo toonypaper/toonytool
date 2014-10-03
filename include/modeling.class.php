@@ -6,13 +6,13 @@
 		var $skin_file_path = "";
 		var $skin = "";
 		var $loop_area = "";
+		//스킨 파일을 로드하여 HTML소스코드를 변수에 담음
 		function skin_file_path($obj){
 			if($obj!=""){
 				$this->skin_file_path = $obj;
 				$this->skin_file_load();
 			}
 		}
-		//스킨 파일 로드
 		function skin_file_load(){
 			global $member,$site_config,$member_type_var,$viewDir;
 			ob_start();
@@ -20,6 +20,11 @@
 			$this->skin = ob_get_contents();
 			$this->skin_org = ob_get_contents();
 			ob_end_clean();
+		}
+		//스킨 파일을 로드하지 않고 직접 스킨 HTML소스코드를 변수에 담음
+		function skin_html_load($html){
+			$this->skin = $html;
+			$this->skin_org = $html;
 		}
 		//스킨 파일 치환
 		function skin_modeling($s_str,$r_str){

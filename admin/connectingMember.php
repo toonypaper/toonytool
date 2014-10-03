@@ -1,4 +1,5 @@
 <?php
+	$tpl = new skinController();
 	$header = new skinController();
 	$loop = new skinController();
 	$footer = new skinController();
@@ -32,11 +33,12 @@
 	/*
 	템플릿 로드
 	*/
-	$header->skin_file_path("admin/_tpl/connectingMember.html");
+	$tpl->skin_file_path("admin/_tpl/connectingMember.html");
+	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{loop_start}]");
-	$loop->skin_file_path("admin/_tpl/connectingMember.html");
+	$loop->skin_html_load($tpl->skin);
 	$loop->skin_loop_array("[{loop_start}]","[{loop_end}]");
-	$footer->skin_file_path("admin/_tpl/connectingMember.html");
+	$footer->skin_html_load($tpl->skin);
 	$footer->skin_loop_footer("[{loop_end}]");
 
 	/*

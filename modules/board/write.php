@@ -1,12 +1,13 @@
 <?php
 	include_once __DIR_PATH__."include/pageJustice.inc.php";
 	
+	$tpl = new skinController();
+	$write_password = new skinController();
+	$skin_write = new skinController();
 	$method = new methodController();
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$session = new sessionController();
-	$write_password = new skinController();
-	$skin_write = new skinController();
 	
 	$method->method_param("GET","mode,read,page,where,keyword");
 	$method->method_param("POST","s_password");
@@ -139,10 +140,9 @@
 	/*
 	스킨 템플릿 로드
 	*/
-	//패스워드 입력 폼
-	$write_password->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}write.html");
-	//글 쓰기
-	$skin_write->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}write.html");
+	$tpl->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}write.html");
+	$write_password->skin_html_load($tpl->skin);
+	$skin_write->skin_html_load($tpl->skin);
 	
 	/*
 	템플릿 함수
@@ -329,6 +329,11 @@
 		$skin_write->skin_modeling("[write_file_byte]","(MAX ".($c_array['file_limit']/1024/1024)."M)");
 		$skin_write->skin_modeling("[submit_btn]",write_submit_btn());
 		$skin_write->skin_modeling("[return_btn]",write_return_btn());
+		$skin_write->skin_modeling("[td_1]",$td_1);
+		$skin_write->skin_modeling("[td_2]",$td_2);
+		$skin_write->skin_modeling("[td_3]",$td_3);
+		$skin_write->skin_modeling("[td_4]",$td_4);
+		$skin_write->skin_modeling("[td_5]",$td_5);
 		echo $skin_write->skin_echo();
 	}
 

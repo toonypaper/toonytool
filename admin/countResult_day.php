@@ -2,6 +2,7 @@
 	include_once "../include/engine.inc.php";
 	include_once __DIR_PATH__."include/global.php";
 	
+	$tpl = new skinController();
 	$header = new skinController();
 	$loop = new skinController();
 	$footer = new skinController();
@@ -18,16 +19,14 @@
 	/*
 	템플릿 로드
 	*/
-	//header
-	$header->skin_file_path("admin/_tpl/countResult_day.html");
+	$tpl->skin_file_path("admin/_tpl/countResult_day.html");
+	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{loop_start}]");
-	//loop
-	$loop->skin_file_path("admin/_tpl/countResult_day.html");
+	$loop->skin_html_load($tpl->skin);
 	$loop->skin_loop_array("[{loop_start}]","[{loop_end}]");
-	//footer
-	$footer->skin_file_path("admin/_tpl/countResult_day.html");
+	$footer->skin_html_load($tpl->skin);
 	$footer->skin_loop_footer("[{loop_end}]");
-
+	
 	/*
 	템플릿 치환
 	*/
