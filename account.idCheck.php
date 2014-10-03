@@ -1,13 +1,12 @@
 <?php
 	include_once "include/pageJustice.inc.php";
 	
-	$tpl = new skinController();
+	$check = new libraryClass();
+	$method = new methodController();
 	$success_tpl = new skinController();
 	$notAccount_tpl = new skinController();
 	$notFound_tpl = new skinController();
 	$destroy_tpl = new skinController();
-	$check = new libraryClass();
-	$method = new methodController();
 	$mysql = new mysqlConnection();
 	
 	$method->method_param("GET","code");
@@ -15,18 +14,17 @@
 	/*
 	템플릿 로드
 	*/
-	$tpl->skin_file_path("_tpl/account.idCheck.html");
 	//이메일 인증이 성공적으로 수행된 경우 템플릿
-	$success_tpl->skin_html_load($tpl->skin);
+	$success_tpl->skin_file_path("_tpl/account.idCheck.html");
 	$success_tpl->skin_loop_array("[{idCheck_success_start}]","[{idCheck_success_end}]");
 	//찾을 수 없는 인증코드인 경우 템플릿
-	$notAccount_tpl->skin_html_load($tpl->skin);
+	$notAccount_tpl->skin_file_path("_tpl/account.idCheck.html");
 	$notAccount_tpl->skin_loop_array("[{idCheck_notAccount_start}]","[{idCheck_notAccount_end}]");
 	//폐기된 인증코드인 경우
-	$notFound_tpl->skin_html_load($tpl->skin);
+	$notFound_tpl->skin_file_path("_tpl/account.idCheck.html");
 	$notFound_tpl->skin_loop_array("[{idCheck_notFound_start}]","[{idCheck_notFound_end}]");
 	//이미 인증된 인증코드인 경우
-	$destroy_tpl->skin_html_load();
+	$destroy_tpl->skin_file_path("_tpl/account.idCheck.html");
 	$destroy_tpl->skin_loop_array("[{idCheck_destroy_start}]","[{idCheck_destroy_end}]");
 	
 	/*

@@ -6,12 +6,12 @@
 		insert into toony_module_board_config
 		(
 			board_id,skin,name,use_list,use_comment,use_category,category,use_reply,use_file1,use_file2,use_likes,file_limit,list_limit,length_limit,
-			array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,thumb_width,thumb_height,article_length,regdate
+			array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,regdate
 		)
 		values
 		(
 			'$board_id','$skin','$name','$use_list','$use_comment','$use_category','$category','$use_reply','$use_file1','$use_file2','$use_likes','$file_limit','$list_limit','$length_limit',
-			'$array_level','$write_level','$secret_level','$comment_level','$delete_level','$read_level','$controll_level','$reply_level','$write_point','$read_point','$thumb_width','$thumb_height','$article_length',now()
+			'$array_level','$write_level','$secret_level','$comment_level','$delete_level','$read_level','$controll_level','$reply_level','$write_point','$read_point',now()
 		)
 	";
 	/*
@@ -30,9 +30,7 @@
 			ment text,
 			subject varchar(255),
 			file1 text default NULL,
-			file1_cnt int(11) default 0,
 			file2 text default NULL,
-			file2_cnt int(11) default 0,
 			link1 text default NULL,
 			link2 text default NULL,
 			use_secret char(1) default 'N',

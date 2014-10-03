@@ -6,10 +6,11 @@
 	include __DIR_PATH__."include/global.php";
 	include __DIR_PATH__."include/outModules.inc.php";
 	
-	$tpl = new skinController();
 	$method = new methodController();
 	$lib = new libraryClass();
+	$tpl = new skinController();
 	$mysql = new mysqlConnection();
+	
 	$method->method_param("GET","me_idno,article");
 ?>
 <!DOCTYPE HTML>

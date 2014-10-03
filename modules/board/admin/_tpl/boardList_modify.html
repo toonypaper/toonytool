@@ -37,25 +37,10 @@ $(document).ready(function(){
 										alert("첨부 파일 용량은 숫자만 입력 가능합니다.");
 										break;
 									case "<!--error::null_length_limit-->" :
-										alert("제목 글자수를 입력 하세요.");
+										alert("제목 길이를 입력하세요.");
 										break;
-									case "<!--error::null_thumb_width-->" :
-										alert("썸네일 Width 값을 입력 하세요.");
-										break;
-									case "<!--error::not_thumb_width-->" :
-										alert("썸네일 Width 값은 숫자만 입력 가능합니다.");
-										break;
-									case "<!--error::null_thumb_height-->" :
-										alert("썸네일 Height 값을 입력 하세요.");
-										break;
-									case "<!--error::not_thumb_height-->" :
-										alert("썸네일 Height 값은 숫자만 입력 가능합니다.");
-										break;
-									case "<!--error::null_article_length-->" :
-										alert("내용 미리보기 글자수를 입력 하세요.");
-										break;
-									case "<!--error::not_article_length-->" :
-										alert("내용 미리보기 글자수는 숫자만 입력 가능합니다.");
+									case "<!--error::not_length_limit-->" :
+										alert("제목 길이는 숫자만 입력 가능합니다.");
 										break;
 									case "<!--success::1-->" :
 										alert("성공적으로 생성 되었습니다.");
@@ -258,29 +243,9 @@ $(document).ready(function(){
 									</td>
 								</tr>
 								<tr>
-									<th>제목 글자수</th>
+									<th>제목 길이</th>
 									<td>
 										<input type="text" name="length_limit" value="[length_limit_value]" style="width:100px;" /> 자
-									</td>
-								</tr>
-								<tr>
-									<th>본문 미리보기 글자수</th>
-									<td>
-										<input type="text" name="article_length" value="[article_length_value]" style="width:100px;" /> 자
-										<span class="__article_sment">
-											- 웹진 게시판 스킨에 적용 됩니다.
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<th>썸네일 크기</th>
-									<td>
-										Width <input type="text" name="thumb_width" value="[thumb_width_value]" style="width:50px;" /> ,
-										Height <input type="text" name="thumb_height" value="[thumb_height_value]" style="width:50px;" />
-										<span class="__article_sment">
-											- 크기의 단위는 픽셀(Pixel)입니다.<br />
-											- 썸네일 혹은 갤러리 기능이 있는 게시판 스킨에 적용 됩니다.
-										</span>
 									</td>
 								</tr>
 							</tbody>

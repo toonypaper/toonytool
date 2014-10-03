@@ -223,7 +223,7 @@
 				do{
 					$mysql->htmlspecialchars = 0;
 					$mysql->nl2br = 0;
-					$mysql->fetchArray("idno,category,ln,rn,me_idno,writer,password,email,ment,subject,file1,file1_cnt,file2,file2_cnt,link1,link2,use_secret,use_notice,use_html,use_email,view,ip,regdate,td_1,td_2,td_3,td_4,td_5");
+					$mysql->fetchArray("idno,category,ln,rn,me_idno,writer,password,email,ment,subject,file1,file2,link1,link2,use_secret,use_notice,use_html,use_email,view,ip,regdate,td_1,td_2,td_3,td_4,td_5");
 					$array = $mysql->array;
 					//가져온 원본들의 내용을 addslashes 시킴
 					foreach($array as $key=>$value){
@@ -253,9 +253,9 @@
 					$tar_mysql->query("
 						INSERT INTO
 						toony_module_board_data_$tar_board_id
-						(category,ln,rn,me_idno,writer,password,email,ment,subject,file1,file1_cnt,file2,file2_cnt,link1,link2,use_secret,use_html,use_email,view,ip,regdate,td_1,td_2,td_3,td_4,td_5)
+						(category,ln,rn,me_idno,writer,password,email,ment,subject,file1,file2,link1,link2,use_secret,use_html,use_email,view,ip,regdate,td_1,td_2,td_3,td_4,td_5)
 						VALUES
-						('{$array['category']}','$tar_ln','{$array['rn']}','{$array['me_idno']}','{$array['writer']}','{$array['password']}','{$array['email']}','{$array['ment']}','{$array['subject']}','$file1Name','{$array['file1_cnt']}','$file2Name','{$array['file2_cnt']}','{$array['link1']}','{$array['link2']}','{$array['use_secret']}','{$array['use_html']}','{$array['use_email']}','{$array['view']}','{$array['ip']}',now(),'{$array['td_1']}','{$array['td_2']}','{$array['td_3']}','{$array['td_4']}','{$array['td_5']}')
+						('{$array['category']}','$tar_ln','{$array['rn']}','{$array['me_idno']}','{$array['writer']}','{$array['password']}','{$array['email']}','{$array['ment']}','{$array['subject']}','$file1Name','$file2Name','{$array['link1']}','{$array['link2']}','{$array['use_secret']}','{$array['use_html']}','{$array['use_email']}','{$array['view']}','{$array['ip']}',now(),'{$array['td_1']}','{$array['td_2']}','{$array['td_3']}','{$array['td_4']}','{$array['td_5']}')
 					");
 					//이동된 글의 idno값을 다시 불러옴
 					$tar_mysql->select("

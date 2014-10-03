@@ -1,9 +1,9 @@
 <?php
-	$skin_delete_form = new skinController();
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
 	$fileUploader = new fileUploader();
+	$skin_delete_form = new skinController();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");

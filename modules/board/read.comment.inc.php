@@ -2,11 +2,10 @@
 	include "../../include/engine.inc.php";
 	include __DIR_PATH__."include/global.php";
 	
-	$tpl = new skinController();
-	$tpl_list = new skinController();
 	$method = new methodController();
 	$mysql = new mysqlConnection();
-	
+	$tpl = new skinController();
+	$tpl_list = new skinController();
 	
 	$method->method_param("GET","board_id,read,viewDir");
 	
@@ -31,6 +30,7 @@
 	*/
 	//Read Comment
 	$tpl->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}read.comment.inc.html");
+	//Read Comment List
 	$tpl_list->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}read.comment_list.inc.html");
 	$tpl_list->skin_loop_array("[{read_comment_loop_start}]","[{read_comment_loop_end}]");
 	
