@@ -1,4 +1,5 @@
 <?php
+	$tpl = new skinController();
 	$header = new skinController();
 	$loop = new skinController();
 	$footer = new skinController();
@@ -28,16 +29,14 @@
 	/*
 	템플릿 로드
 	*/
-	//header
-	$header->skin_file_path("_tpl/".CALLED_VIEWDIR."sidebar.inc.html");
+	$tpl->skin_file_path("_tpl/".CALLED_VIEWDIR."sidebar.inc.html");
+	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{menu_start}]");
-	//loop
-	$loop->skin_file_path("_tpl/".CALLED_VIEWDIR."sidebar.inc.html");
+	$loop->skin_html_load($tpl->skin);
 	$loop->skin_loop_array("[{menu_start}]","[{menu_end}]");
-	//footer
-	$footer->skin_file_path("_tpl/".CALLED_VIEWDIR."sidebar.inc.html");
+	$footer->skin_html_load($tpl->skin);
 	$footer->skin_loop_footer("[{menu_end}]");
-
+	
 	/*
 	템플릿 함수
 	*/
