@@ -119,8 +119,8 @@
 			$thumb = "<a href=\"".__URL_PATH__.$viewDir."?article={$article}&p=read&read=".$idno."\" class=\"thumb\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$file1,$width,$height,$margin,$quard)."</a>";
 		}else if(strtolower(array_pop(explode(".",$file2)))=='gif'||strtolower(array_pop(explode(".",$file2)))=='jpg'||strtolower(array_pop(explode(".",$file2)))=='bmp'||strtolower(array_pop(explode(".",$file2)))=='png'){
 			echo "asdf";$thumb = "<a href=\"".__URL_PATH__.$viewDir."?article={$article}&p=read&read=".$idno."\" class=\"thumb\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$file2,$width,$height,$margin,$quard)."</a>";
-		}else if($match['0']){
-			$thumb = "<a href=\"".__URL_PATH__.$viewDir."?article={$article}&p=read&read=".$idno."\" class=\"thumb\"><img src=\"{$match['1']}\" width=\"".$width."\" height=\"".$height."\" /></a>";
+		}else if(isset($match[0])){
+			$thumb = "<a href=\"".__URL_PATH__.$viewDir."?article={$article}&p=read&read=".$idno."\" class=\"thumb\"><img src=\"{$match[1]}\" width=\"".$width."\" height=\"".$height."\" /></a>";
 		}else{
 			$thumb = "
 				<a href='".__URL_PATH__.$viewDir."?article={$article}&p=read&read=".$idno."' class='thumb'>".$lib->func_img_resize("images/","blank_thumbnail.jpg",$width,$height,$margin,$quard)."</a>

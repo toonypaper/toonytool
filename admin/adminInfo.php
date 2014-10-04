@@ -6,7 +6,7 @@
 	/*
 	검사
 	*/
-	if($member[me_admin]!="Y"){
+	if($member['me_admin']!="Y"){
 		$lib->error_alert_location("접근 권한이 없습니다.",$site_config[ad_site_url],"A");
 	}
 	

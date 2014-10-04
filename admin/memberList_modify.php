@@ -75,6 +75,7 @@
 	}
 	function level_selectbox_options(){
 		global $array,$member_type_var;
+		$option = "";
 		for($i=1;$i<=9;$i++){
 			$selected_var = "";
 			if($array['me_level']==$i){

@@ -69,7 +69,7 @@
 				$loop->skin_modeling("[modify_btn]","");
 				$loop->skin_modeling("[member_type]","비회원");
 				$loop->skin_modeling("[regdate]","");
-				$loop->skin_modeling("[point]",$array['me_admin']);
+				$loop->skin_modeling("[point]","-");
 				
 			}
 			echo $loop->skin_echo();
@@ -81,7 +81,7 @@
 	}else{
 		$footer->skin_modeling_hideArea("[{not_content_start}]","[{not_content_end}]","show");
 	}
-	$footer->skin_modeling("[paging_area]",$paging->Show(__URL_PATH__."admin/?p=connectingMember&where={$where}&keyword={$keyword}"));
+	$footer->skin_modeling("[paging_area]",$paging->Show(__URL_PATH__."admin/?p=connectingMember"));
 
 	echo $footer->skin_echo();
 ?>

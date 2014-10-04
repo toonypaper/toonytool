@@ -136,6 +136,7 @@
 	$fileUploader->file_type_filter = array("jpg","bmp","gif","png");
 	if($type=="modify"||$type=="new"){
 		//메뉴 타이틀 이미지 업로드
+		$title_img_name = "";
 		if($title_img['size']>0){
 			$fileUploader->saveFile = $title_img;
 			//경로 및 파일 검사
@@ -151,9 +152,10 @@
 			}
 		}
 		if($del_title_img=="checked"){ $fileUploader->fileDelete($title_img_ed); }
-		if($title_img_ed!=""&&!$title_img[name]&&$del_title_img!="checked"){ $title_img_name=$title_img_ed; }
+		if($title_img_ed!=""&&!$title_img['name']&&$del_title_img!="checked"){ $title_img_name=$title_img_ed; }
 		
 		//메뉴 이미지 업로드
+		$img_name = "";
 		if($img['size']>0){
 			$fileUploader->saveFile = $img;
 			//경로 및 파일 검사
@@ -169,9 +171,10 @@
 			}
 		}
 		if($del_img=="checked"){ $fileUploader->fileDelete($img_ed);  }
-		if($img_ed!=""&&!$img[name]&&$del_img!="checked"){ $img_name=$img_ed; }
+		if($img_ed!=""&&!$img['name']&&$del_img!="checked"){ $img_name=$img_ed; }
 		
 		//마우스 오버 메뉴 이미지 업로드
+		$img2_name = "";
 		if($img2['size']>0){
 			$fileUploader->saveFile = $img2;
 			//경로 및 파일 검사

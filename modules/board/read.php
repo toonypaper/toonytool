@@ -286,9 +286,9 @@
 		}
 	}
 	function read_reply_btn(){
-		global $board, $read, $page, $where, $keyword, $c_array, $article, $viewDir;
+		global $board, $read, $page, $where, $keyword, $c_array, $article, $viewDir, $category;
 		if(reply_true_func()==1){
-			return "<input type=\"button\" class=\"__button_submit\" value=\"답글작성\" onclick=\"document.location.href='".__URL_PATH__."{$viewDir}?article={$article}&p=write&mode=reply&read={$read}&page={$page}&where={$where}&keyword={$keyword}';\" />";
+			return "<input type=\"button\" class=\"__button_submit\" value=\"답글작성\" onclick=\"document.location.href='".__URL_PATH__."{$viewDir}?article={$article}&p=write&mode=reply&category=".urlencode($category)."&read={$read}&page={$page}&where={$where}&keyword={$keyword}';\" />";
 		}
 	}
 	//리스트 버튼 출력

@@ -23,6 +23,7 @@
 	임시파일 삭제
 	*/
 	$open_dir = opendir($sessionCookiesDir);
+	$del_num = 0;
 	while(($read=readdir($open_dir))!=false){
 		$fh = fopen($sessionCookiesDir.$read, 'r'); 
 		while (!feof($fh)){ 

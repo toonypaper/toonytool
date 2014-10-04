@@ -123,42 +123,49 @@
 			if($type=="GET"){
 				global $_GET;
 				$expl = explode(",",$name);
-				for($i=0;$i<sizeof($expl);$i++){
-					global $$expl[$i];
-					if(isset($_GET[$expl[$i]])&&$$expl[$i]!=""){
-						if(!is_array($_GET[$expl[$i]])){
-							$$expl[$i] = addslashes($_GET[$expl[$i]]);
+				if(sizeof($expl)>0){
+					for($i=0;$i<sizeof($expl);$i++){
+						global $$expl[$i];
+						if(isset($_GET[$expl[$i]])&&$$expl[$i]!=""){
+							if(!is_array($_GET[$expl[$i]])){
+								$$expl[$i] = addslashes($_GET[$expl[$i]]);
+							}else{
+								$$expl[$i] = $_GET[$expl[$i]];
+							}
 						}else{
-							$$expl[$i] = $_GET[$expl[$i]];
+							$$expl[$i] = NULL;
 						}
-					}else{
-						$$expl[$i] = NULL;
 					}
 				}
 			}else if($type=="POST"){
 				global $_POST;
 				$expl = explode(",",$name);
-				for($i=0;$i<sizeof($expl);$i++){
-					global $$expl[$i];
-					if(isset($_POST[$expl[$i]])){
-						if(!is_array($_POST[$expl[$i]])){
-							$$expl[$i] = addslashes($_POST[$expl[$i]]);
+				if(sizeof($expl)>0){
+					for($i=0;$i<sizeof($expl);$i++){
+						global $$expl[$i];
+						if(isset($_POST[$expl[$i]])){
+							if(!is_array($_POST[$expl[$i]])){
+								$$expl[$i] = addslashes($_POST[$expl[$i]]);
+							}else{
+								$$expl[$i] = $_POST[$expl[$i]];
+							}
 						}else{
-							$$expl[$i] = $_POST[$expl[$i]];
+							$$expl[$i] = NULL;
 						}
-					}else{
-						$$expl[$i] = NULL;
 					}
 				}
 			}else if($type=="FILE"){
 				global $_FILES;
 				$expl = explode(",",$name);
-				for($i=0;$i<sizeof($expl);$i++){
-					if(isset($expl[$i])){
-						global $$expl[$i];
-						$$expl[$i] = $_FILES[$expl[$i]];
-					}else{
-						$$expl[$i] = NULL;
+				if(sizeof($expl)>0){
+					for($i=0;$i<sizeof($expl);$i++){
+						if(isset($_FILES[$expl[$i]])){
+							global $$expl[$i];
+							$$expl[$i] = $_FILES[$expl[$i]];
+						}else{
+							global $$expl[$i];
+							$$expl[$i] = NULL;
+						}
 					}
 				}
 			}

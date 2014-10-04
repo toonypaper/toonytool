@@ -24,6 +24,8 @@
 		");
 		$mysql->fetchArray("name,img,memo,void_use,void_link,link,bleft,btop,target,pop_article,pop_article_txt,start_level,end_level");
 		$array = $mysql->array;
+	}else{
+		$array = NULL;
 	}
 	
 	/*
@@ -83,10 +85,11 @@
 	function memeber_level_option_value($type){
 		global $member_type_var,$array;
 		$member_type_var['10'] = "비회원";
+		$option = "";
 		switch($type){
 			case "start_level" :
 				for($i=1;$i<=10;$i++){
-					if(!$array['start_level']){
+					if(!isset($array['start_level'])){
 						$array['start_level'] = 10;
 					}
 					if($array['start_level']==$i){
@@ -94,13 +97,13 @@
 					}else{
 						$selected = "";
 					}
-					$option .= "<option value=\"".$i."\" ".$selected_var." ".$selected.">".$i." (".$member_type_var[$i].")</option>\n";
+					$option .= "<option value=\"".$i."\" ".$selected.">".$i." (".$member_type_var[$i].")</option>\n";
 					
 				}
 				break;
 			case "end_level" :
 				for($i=1;$i<=10;$i++){
-					if(!$array['end_level']){
+					if(!isset($array['end_level'])){
 						$array['end_level'] = 1;
 					}
 					if($array['end_level']==$i){
@@ -108,7 +111,7 @@
 					}else{
 						$selected = "";
 					}
-					$option .= "<option value=\"".$i."\" ".$selected_var." ".$selected.">".$i." (".$member_type_var[$i].")</option>\n";
+					$option .= "<option value=\"".$i."\" ".$selected.">".$i." (".$member_type_var[$i].")</option>\n";
 					
 				}
 				break;
@@ -120,6 +123,7 @@
 		global $array;
 		$marray = array("main","all","select");
 		$marrayTxt = array("메인 페이지","모든 페이지","직접 선택");
+		$option = "";
 		for($i=0;$i<sizeof($marray);$i++){
 			if($marray[$i]==$array['pop_article']){
 				$selected = "selected";

@@ -125,12 +125,12 @@
 					if($width==""||$width=="0") $width=$this->img2['0'];
 					if($height==""||$height=="0") $height=$this->img2['1'];
 					
-					if($this->img2['0']>$this->img['1']){
-						$img_per_size = $this->img2['0']/$this->img2['1'];
-						if($width<$this->img2['0']){
+					if($this->img2[0]>$this->img2[1]){
+						$img_per_size = $this->img2[0]/$this->img2[1];
+						if($width<$this->img2[0]){
 							$width_re = $width;
 						}else{
-							$width_re = $this->img2['0'];
+							$width_re = $this->img2[0];
 						}
 						$height_re = $width_re/$img_per_size;
 						if($height_re>$height){
@@ -139,7 +139,7 @@
 							$height_re = $height_re/$img_per_size;
 						}
 					}else{
-						$img_per_size = $this->img2['1']/$this->img2['0'];
+						$img_per_size = $this->img2[1]/$this->img2[0];
 						$width_re = $height_re/$img_per_size;
 						$height_re = $height;
 						if($width_re>$width){
@@ -152,8 +152,8 @@
 			}else{
 				if(strtolower(array_pop(explode(".",$img)))=='gif'||strtolower(array_pop(explode(".",$img)))=='jpg'||strtolower(array_pop(explode(".",$img)))=='bmp'||strtolower(array_pop(explode(".",$img)))=='png'){
 					$this->img2 = getimagesize(__DIR_PATH__.$path.$img);
-					if($width==""||$width=="0") $width=$this->img2['0'];
-					if($height==""||$height=="0") $height=$this->img2['1'];
+					if($width==""||$width=="0") $width=$this->img2[0];
+					if($height==""||$height=="0") $height=$this->img2[1];
 					return "<img src=\"".__URL_PATH__.$path.$img."\" border=\"0\" style=\"margin:".$margin."px; width:".$width."px; height:".$height."px;\" />";
 				}
 			}
@@ -328,22 +328,26 @@
 		*/
 		function security_filter($obj){
 			global $_SERVER, $REQUEST_METHOD;
-			switch($obj){
-				case "referer" :
-					if(!preg_match(";$_SERVER[HTTP_HOST];",$_SERVER['HTTP_REFERER'])){
-						$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
-					}
-					break;
-				case "request_post" :
-					if(getenv("REQUEST_METHOD")=="POST"){
-						$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
-					}
-					break;
-				case "request_get" :
-					if(getenv("REQUEST_METHOD")=="GET"){
-						$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
-					}
-					break;
+			if(isset($_SERVER['HTTP_REFERER'])){
+				switch($obj){
+					case "referer" :
+						if(!preg_match(";$_SERVER[HTTP_HOST];",$_SERVER['HTTP_REFERER'])){
+							$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
+						}
+						break;
+					case "request_post" :
+						if(getenv("REQUEST_METHOD")=="POST"){
+							$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
+						}
+						break;
+					case "request_get" :
+						if(getenv("REQUEST_METHOD")=="GET"){
+							$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
+						}
+						break;
+				}
+			}else{
+				$this->error_alert_location("정상적으로 접근 바랍니다.",__URL_PATH__."index.php","A");
 			}
 		}
 		

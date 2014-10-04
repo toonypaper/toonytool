@@ -25,8 +25,10 @@
 		$array = $mysql->array;
 		$mysql->htmlspecialchars = 0;
 		$mysql->nl2br = 0;
-		$array[source] = $mysql->fetch("source");
-		$array[scriptCode] = $mysql->fetch("scriptCode");
+		$array['source'] = $mysql->fetch("source");
+		$array['scriptCode'] = $mysql->fetch("scriptCode");
+	}else{
+		$array = NULL;
 	}
 	
 	/*
@@ -49,6 +51,7 @@
 	*/
 	function level_selectbox_options(){
 		global $array,$member_type_var,$type;
+		$option = "";
 		for($i=1;$i<=10;$i++){
 			$selected_var = "";
 			switch($type){
@@ -58,7 +61,7 @@
 					}
 					break;
 				case "modify" :
-					if($array[level]==$i){
+					if($array['level']==$i){
 						$selected_var = "selected";
 					}
 					break;
@@ -94,7 +97,7 @@
 	$tpl->skin_modeling("[vtype_value]",$vtype);
 	$tpl->skin_modeling("[sourceCode]",$array['source']);
 	$tpl->skin_modeling("[idno_value]",$array['idno']);
-	$tpl->skin_modeling("[name]",$array[name]);
+	$tpl->skin_modeling("[name]",$array['name']);
 	$tpl->skin_modeling("[memo_value]",$array['memo']);
 	$tpl->skin_modeling("[level_selectbox_options]",level_selectbox_options());
 	

@@ -36,7 +36,7 @@
 	$loadFile = __DIR_PATH__.$incDir.$p.".php";
 	$defFile = __DIR_PATH__."admin/main.php";
 	//레벨이 1인 경우에만 페이지 호출
-	if($member[me_level]==1||$p=="login"){
+	if($member['me_level']==1||$p=="login"){
 		if(($m||$p)&&$p!="index"&&$p!="main"&&is_file($loadFile)==true){
 			include_once $loadFile;
 		}else{

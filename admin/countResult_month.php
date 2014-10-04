@@ -41,6 +41,7 @@
 			GROUP BY month
 			ORDER BY month DESC;
 		");
+		$option = "";
 		do{
 			if($year_var==$mysql->fetch("month")){ $op_selected = " selected"; }else{ $op_selected = ""; }
 			$option.= "<option value=\"".$mysql->fetch("month")."\"".$op_selected.">".$mysql->fetch("month")."</option>\n";

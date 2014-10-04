@@ -39,6 +39,8 @@
 		if($mysql->numRows()<1){
 			$lib->error_alert_location("메뉴가 존재하지 않습니다.",$site_config['ad_site_url'],"A");
 		}
+	}else{
+		$array = NULL;
 	}
 	
 	/*
@@ -147,7 +149,7 @@
 			if($dir!="."&&$dir!=".."){
 				$modules_pageOptions[$dir] = new skinController();
 				$modules_pageOptions[$dir]->skin_file_path("modules/{$dir}/configure/menuSelectboxOptions.inc.php");
-				if($array[link]!=""){
+				if($array['link']!=""){
 					$modules_pageOptions[$dir]->skin_modeling("value=\"".$array['link']."\"","value=\"".$array['link']."\" selected");
 				}
 			}
@@ -160,7 +162,7 @@
 		return $option;
 	}
 	function useMenu_checked_value(){
-		global $array,$type,$prArray;
+		global $array,$type,$prArray,$depth;
 		if((($array['useMenu']=="Y"||$type=="new")&&($array['depth']!=3&&$depth!=3))&&$prArray['useMenu']=="Y"){
 			return "checked";
 		}else{
@@ -193,10 +195,12 @@
 	}
 	function callName_url_func(){
 		global $array,$site_config;
-		if($array['vtype']=="p"){
-			return "<a href=\"".$site_config['ad_site_url']."?article=".$array['callName']."\" target=\"_blank\">".$site_config['ad_site_url']."?article={$array[callName]}"."</a>";
+		if(isset($array['callName'])&&$array['vtype']=="p"){
+			return "<a href=\"".$site_config['ad_site_url']."?article=".$array['callName']."\" target=\"_blank\">".$site_config['ad_site_url']."?article={$array['callName']}"."</a>";
+		}else if(isset($array['callName'])&&$array['vtype']=="m"){
+			return "<a href=\"".$site_config['ad_site_url']."?article=".$array['callName']."\" target=\"_blank\">".$site_config['ad_msite_url']."?article={$array['callName']}"."</a>";
 		}else{
-			return "<a href=\"".$site_config['ad_site_url']."?article=".$array['callName']."\" target=\"_blank\">".$site_config['ad_msite_url']."?article={$array[callName]}"."</a>";
+			return "";
 		}
 	}
 	

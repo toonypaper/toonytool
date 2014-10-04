@@ -52,6 +52,7 @@
 	*/
 	$fileUploader->savePath = __DIR_PATH__."upload/siteInformations/";
 	$fileUploader->file_type_filter = array("ico");
+	$pavicon_name = "";
 	if($pavicon['size']>0){
 		$fileUploader->saveFile = $pavicon;
 		//경로 및 파일 검사

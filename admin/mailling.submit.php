@@ -31,6 +31,8 @@
 			echo '<!--error::not_member-->'; exit;
 		}
 		$receiver_idno = $mysql->fetch("me_idno");
+	}else{
+		$receiver_idno = "";
 	}
 	//수신 회원 범위 유무성 검사
 	if(trim($receiver_id)==""){

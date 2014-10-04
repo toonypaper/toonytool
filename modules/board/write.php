@@ -293,7 +293,7 @@
 		}else{
 			$skin_write->skin_modeling_hideArea("[{write_file2_name_start}]","[{write_file2_name_end}]","hide");
 		}
-		if($c_array['use_category']=="Y"){
+		if($c_array['use_category']=="Y"&&$mode!="reply"&&$array['rn']==0){
 			$skin_write->skin_modeling_hideArea("[{write_category_start}]","[{write_category_end}]","show");
 		}else{
 			$skin_write->skin_modeling_hideArea("[{write_category_start}]","[{write_category_end}]","hide");

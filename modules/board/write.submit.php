@@ -113,6 +113,7 @@
 	*/
 	$fileUploader->savePath = __DIR_PATH__."modules/board/upload/".$board_id."/";
 	//파일1 저장
+	$file1_name = "";
 	if($file1['size']>0&&$c_array['use_file1']){
 		$fileUploader->saveFile = $file1;
 		//경로 및 파일 검사
@@ -125,6 +126,7 @@
 		if($fileUploader->fileUpload($file1_name)==false){ echo '첨부파일1 업로드 실패.'; exit; }
 	}
 	//파일2 저장
+	$file2_name = "";
 	if($file2['size']>0&&$c_array['use_file2']){
 		$fileUploader->saveFile = $file2;
 		//경로 및 파일 검사

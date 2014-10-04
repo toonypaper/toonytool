@@ -112,9 +112,9 @@
 		do{
 			$mysql->fetchArray("me_idno,request,g_me_idno,me_id,g_me_id,me_nick,regdate,ip,me_drop_regdate");
 			$array = $mysql->array;
-			$array[me_id] = htmlspecialchars($array['me_id']);
-			$array[g_me_id] = htmlspecialchars($array['g_me_id']);
-			$array[me_nick] = htmlspecialchars($array['me_nick']);
+			$array['me_id'] = htmlspecialchars($array['me_id']);
+			$array['g_me_id'] = htmlspecialchars($array['g_me_id']);
+			$array['me_nick'] = htmlspecialchars($array['me_nick']);
 			$loop->skin_modeling("[id]",list_id());
 			$loop->skin_modeling("[nick]",list_nick());
 			$loop->skin_modeling("[regdate]",date("H:i:s",strtotime($array['regdate'])));

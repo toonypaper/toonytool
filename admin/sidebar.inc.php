@@ -17,6 +17,7 @@
 			}
 		}
 		if(count($modules_sidebarTpl)>0){
+			$modules_sidebarTpl_outputs = "";
 			foreach($modules_sidebarTpl as $val){
 				$modules_sidebarTpl_outputs .= $val->skin_echo();
 			}

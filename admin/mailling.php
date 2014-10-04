@@ -27,8 +27,9 @@
 	*/
 	function memeber_level_option_value(){
 		global $member_type_var;
+		$option = "";
 		for($i=1;$i<=9;$i++){
-			$option .= "<option value=\"".$i."\" ".$selected_var.">".$i." (".$member_type_var[$i].")</option>\n";
+			$option .= "<option value=\"".$i."\">".$i." (".$member_type_var[$i].")</option>\n";
 		}
 		return $option;
 	}

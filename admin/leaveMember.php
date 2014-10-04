@@ -96,7 +96,7 @@
 			$mysql->fetchArray("me_idno,me_id,me_level,me_nick,me_regdate,me_point,me_drop_regdate");
 			$array = $mysql->array;
 			$loop->skin_modeling("[number]",$paging->getNo($i));$i++;
-			$loop->skin_modeling("[member_type]",$member_type_var[$array['me_level']]." ({$array[me_level]})");
+			$loop->skin_modeling("[member_type]",$member_type_var[$array['me_level']]." ({$array['me_level']})");
 			$loop->skin_modeling("[name]",$array['me_nick']);
 			$loop->skin_modeling("[point]",number_format($array['me_point']));
 			$loop->skin_modeling("[id]",$array['me_id']);

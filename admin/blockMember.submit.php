@@ -41,7 +41,7 @@
 		if($mysql->numRows()>0){
 			echo '<!--error::have_member-->'; exit;
 		}
-		if($array[me_admin]=="Y"){
+		if($array['me_admin']=="Y"){
 			echo '<!--error::admin_member-->'; exit;
 		}
 		

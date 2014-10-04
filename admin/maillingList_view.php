@@ -31,7 +31,7 @@
 	$array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
-	$array[memo] = $mysql->fetch("memo");
+	$array['memo'] = $mysql->fetch("memo");
 	
 	/*
 	검사

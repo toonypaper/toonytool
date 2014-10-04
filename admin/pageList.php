@@ -73,7 +73,7 @@
 			$array = $mysql->array;
 			$loop->skin_modeling("[number]",$paging->getNo($i));$i++;
 			$loop->skin_modeling("[name]","<a href=\"".__URL_PATH__."admin/?p=pageList_modify&vtype={$vtype}&type=modify&act=".$array['idno']."\">".$array['name']."</a>");
-			$loop->skin_modeling("[memo]",$array[memo]);
+			$loop->skin_modeling("[memo]",$array['memo']);
 			$loop->skin_modeling("[modify_btn]","<a href=\"".__URL_PATH__."admin/?p=pageList_modify&vtype={$vtype}&type=modify&act=".$array['idno']."\" class=\"__btn_s_setting\" title=\"설정 변경\"></a>");
 			echo $loop->skin_echo();
 		}while($mysql->nextRec());

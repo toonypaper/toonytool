@@ -52,7 +52,7 @@
 	function use_checked($var,$fieldName){
 		global $array;
 		if($var=="Y"){
-			switch($array[use_."$fieldName"]){
+			switch($array['use_'."$fieldName"]){
 				case "Y" : 
 					return "checked";
 					break;
@@ -60,7 +60,7 @@
 			}
 		}
 		if($var=="N"){
-			switch($array[use_."$fieldName"]){
+			switch($array['use_'."$fieldName"]){
 				case "N" : 
 					return "checked";
 					break;
@@ -71,6 +71,7 @@
 	}
 	function level_option_value($fieldName,$slt){
 		global $array,$member_type_var;
+		$option = "";
 		if($fieldName=="undefined"){
 			for($i=1;$i<=10;$i++){
 				$selected_var = "";
@@ -100,6 +101,7 @@
 			}
 			$i++;
 		}
+		$option = "";
 		foreach($skins as $key=>$val){
 			$selected_var = "";
 			if($val==$array[$fieldName]){

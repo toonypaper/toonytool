@@ -46,7 +46,7 @@
 	function member_type_func(){
 		global $array,$member_type_var;
 		if($array['me_idno']){
-			return $member_type_var[$array['me_level']]." ({$array[me_level]})";
+			return $member_type_var[$array['me_level']]." ({$array['me_level']})";
 		}else{
 			return "비회원";
 		}
@@ -98,7 +98,7 @@
 	$tpl->skin_modeling("[regdate]",date("Y.m.d H시i분s초",strtotime($array['regdate'])));
 	$tpl->skin_modeling("[memo]",$array['memo']);
 	$tpl->skin_modeling("[phone]",phone_func());
-	if($array[re_idno]!=""){
+	if($array['re_idno']!=""){
 		$tpl->skin_modeling_hideArea("[{answered_start}]","[{answered_end}]","show");
 		$tpl->skin_modeling_hideArea("[{answer_start}]","[{answer_end}]","hide");
 		$tpl->skin_modeling_hideArea("[{answerBtn_start}]","[{answerBtn_end}]","hide");
