@@ -159,7 +159,7 @@
 	/*
 	디자인 페이지 호출 이지만, 수동으로 입력한 $p 호출 값이 있는 경우 pageAndModule 로 타입 변경
 	*/
-	if($call_type=="design_page"&&$_GET['p']){
+	if($call_type=="design_page"&&isset($_GET['p'])){
 		$call_type = "pageAndModule";	
 	}
 	

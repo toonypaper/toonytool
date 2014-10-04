@@ -9,7 +9,7 @@
 	$skin_read = new skinController();
 	$session = new sessionController();
 	
-	$method->method_param("GET","read,page,where,keyword");
+	$method->method_param("GET","read,page,where,keyword,category");
 	$method->method_param("POST","s_password");
 	
 	/*
