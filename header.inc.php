@@ -59,7 +59,7 @@
 		}else{
 			$btn = "<li><a href=\"".__URL_PATH__."{$viewDir}?article=mypage\"><strong>{$member['me_nick']}</strong>님 접속중</a></li>";
 			$btn .= "<li><a href=\"".__URL_PATH__."{$viewDir}?article=mypage\">마이페이지</a></li>";
-			$btn .= "<li><a href=\"".__URL_PATH__."{$viewDir}?article=member&p=logout.submit\">로그아웃</a></li>";
+			$btn .= "<li><a href=\"".__URL_PATH__."{$viewDir}logout.submit.php\">로그아웃</a></li>";
 		}
 		//관리자인 경우
 		if($member['me_level']==1){
@@ -115,8 +115,8 @@
 				$header_link = "?article={$array['callName']}";
 			}
 			//메뉴 출력
+			$menu = "";
 			if($array['depth']>1){
-				
 				if($depthRound==0){
 					$menu = "<ul>{$li}<a href=\"{$header_link}\">{$menu_img}</a>";
 				}else{

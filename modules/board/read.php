@@ -293,8 +293,8 @@
 	}
 	//리스트 버튼 출력
 	function read_array_btn(){
-		global $board, $idno, $page, $where, $keyword, $c_array, $article, $viewDir, $category;
-		return "<input type=\"button\" class=\"__button_cancel\" value=\"리스트\" onclick=\"document.location.href='".__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&read={$read}&page={$page}&where={$where}&keyword={$keyword}';\" />";
+		global $board, $idno, $page, $where, $keyword, $c_array, $article, $viewDir, $category, $viewDir;
+		return "<input type=\"button\" class=\"__button_cancel\" value=\"리스트\" onclick=\"document.location.href='".__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&read={$idno}&page={$page}&where={$where}&keyword={$keyword}';\" />";
 	}
 	
 	//첨부 이미지 출력

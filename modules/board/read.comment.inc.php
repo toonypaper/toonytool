@@ -152,8 +152,8 @@
 				$tpl_list->skin_modeling("[writer]",bbs_me_nick());
 				$tpl_list->skin_modeling("[comment]",comment_comment_div());
 				$tpl_list->skin_modeling("[del_btn]",comment_del_btn());
-				$tpl_list->skin_modeling("[modify_btn]",comment_modify_btn($array['idno']));
-				$tpl_list->skin_modeling("[reply_btn]",comment_reply_btn($array['idno']));
+				$tpl_list->skin_modeling("[modify_btn]",comment_modify_btn());
+				$tpl_list->skin_modeling("[reply_btn]",comment_reply_btn());
 				$tpl_list->skin_modeling("[date]",date("Y.m.d",strtotime($carray['regdate'])));
 				$tpl_list->skin_modeling("[datetime]",date("y.m.d H:i:s",strtotime($carray['regdate'])));
 				if(!isset($__toony_member_idno)){

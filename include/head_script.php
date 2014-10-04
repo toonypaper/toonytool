@@ -1,4 +1,15 @@
 <?php
+	//Index.php 거치지 않고 단독으로 Include되어 사용되는 경우를 위한 변수 초기화
+	if(!isset($m)){
+		$m = NULL;
+	}
+	if(!isset($p)){
+		$p = NULL;
+	}
+	if(!isset($saveViewType)){
+		$saveViewType = NULL;
+	}
+	//Title
 	echo "<title>".$site_config['ad_site_title']."</title>";
 	//Meta
 	echo "\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />";

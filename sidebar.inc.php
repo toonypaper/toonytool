@@ -73,7 +73,7 @@
 		}else if((CALLED_ARTICLE==$d2Array['callName'])||(CALLED_DEPTH==3&&CALLED_PARENT==$d2Array['idno'])){
 			if($d2Array['img2']&&CALLED_VIEWDIR==""){
 				$menu_img = "<li class=\"active $d3Class\"><a href=\"{$link}\"><img src=\"".__URL_PATH__."upload/siteInformations/".$d2Array['img2']."\" /></a></li>";
-			}else if($array['img']&&CALLED_VIEWDIR==""){
+			}else if($d2Array['img']&&CALLED_VIEWDIR==""){
 				$menu_img = "<li class=\"active $d3Class\"><a href=\"{$link}\"><img src=\"".__URL_PATH__."upload/siteInformations/".$d2Array['img']."\" /></a></li>";
 			}else{
 				$menu_img = "<li class=\"active $d3Class\"><a href=\"{$link}\">".$d2Array['name']."</a></li>";
@@ -98,6 +98,7 @@
 	echo $header->skin_echo();
 	//loop
 	if($mysql->numRows()>0){
+		$notDisplay = "";
 		do{
 			$mysql->fetchArray("callName,name,link,href,linkDoc,img,img2,depth,class,idno,useMenu_side,parent");
 			$d2Array = $mysql->array;

@@ -69,14 +69,18 @@
 		}
 		//레코드의 특정 필드 값을 가져옴
 		function fetch($fieldName){
-			$this->ROW_RE = stripslashes($this->ROW[$fieldName]);
-			if($this->htmlspecialchars==1){
-				$this->ROW_RE = htmlspecialchars($this->ROW_RE);
+			if(isset($this->ROW[$fieldName])){
+				$this->ROW_RE = stripslashes($this->ROW[$fieldName]);
+				if($this->htmlspecialchars==1){
+					$this->ROW_RE = htmlspecialchars($this->ROW_RE);
+				}
+				if($this->nl2br==1){
+					$this->ROW_RE = nl2br($this->ROW_RE);
+				}
+				return $this->ROW_RE;
+			}else{
+				return "";
 			}
-			if($this->nl2br==1){
-				$this->ROW_RE = nl2br($this->ROW_RE);
-			}
-			return $this->ROW_RE;
 		}
 		//레코드의 모든 필드 값을 배열로 가져옴
 		function fetchArray($fieldName){

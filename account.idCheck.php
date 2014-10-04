@@ -26,7 +26,7 @@
 	$notFound_tpl->skin_html_load($tpl->skin);
 	$notFound_tpl->skin_loop_array("[{idCheck_notFound_start}]","[{idCheck_notFound_end}]");
 	//이미 인증된 인증코드인 경우
-	$destroy_tpl->skin_html_load();
+	$destroy_tpl->skin_html_load($tpl->skin);
 	$destroy_tpl->skin_loop_array("[{idCheck_destroy_start}]","[{idCheck_destroy_end}]");
 	
 	/*

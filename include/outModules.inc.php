@@ -89,7 +89,7 @@
 		$_SERVER['QUERY_STRING'] = urlencode($_SERVER['QUERY_STRING']);
 		$lib->func_page_level(__URL_PATH__."{$viewDir}?article=login&redirect=?{$_SERVER['QUERY_STRING']}",$pageArray['level']);
 		//서브페이지와 디자인 결합
-		if($member['me_admin']=="Y"){
+		if(isset($member['me_admin'])&&$member['me_admin']=="Y"){
 			$modifyButton = '
 				<div style="text-align:right; padding-bottom:10px;">
 					<input type="button" class="__button_small_gray" value="디자인 변경" onclick="document.location.href=\''.__URL_PATH__.'admin/?p=pageList_modify&vtype='.$viewType.'&type=modify&act='.$pageArray['idno'].'\';" />

@@ -12,6 +12,7 @@
 	*/
 	function footer_status_func(){
 		global $site_config,$member,$viewDir;
+		$btn = "";
 		if($member['me_level']>9){
 			//현재 페이지의 uri를 변수에 저장
 			$nowUri = urlencode("?".$_SERVER['QUERY_STRING']);

@@ -5,6 +5,7 @@
 	class skinController{
 		var $skin_file_path = "";
 		var $skin = "";
+		var $skin_re = "";
 		var $loop_area = "";
 		//스킨 파일을 로드하여 HTML소스코드를 변수에 담음
 		function skin_file_path($obj){
@@ -124,30 +125,41 @@
 				$expl = explode(",",$name);
 				for($i=0;$i<sizeof($expl);$i++){
 					global $$expl[$i];
-					if(!is_array($_GET[$expl[$i]])){
-						$$expl[$i] = addslashes($_GET[$expl[$i]]);
+					if(isset($_GET[$expl[$i]])&&$$expl[$i]!=""){
+						if(!is_array($_GET[$expl[$i]])){
+							$$expl[$i] = addslashes($_GET[$expl[$i]]);
+						}else{
+							$$expl[$i] = $_GET[$expl[$i]];
+						}
 					}else{
-						$$expl[$i] = $_GET[$expl[$i]];
+						$$expl[$i] = NULL;
 					}
-					
 				}
 			}else if($type=="POST"){
 				global $_POST;
 				$expl = explode(",",$name);
 				for($i=0;$i<sizeof($expl);$i++){
 					global $$expl[$i];
-					if(!is_array($_POST[$expl[$i]])){
-						$$expl[$i] = addslashes($_POST[$expl[$i]]);
+					if(isset($_POST[$expl[$i]])){
+						if(!is_array($_POST[$expl[$i]])){
+							$$expl[$i] = addslashes($_POST[$expl[$i]]);
+						}else{
+							$$expl[$i] = $_POST[$expl[$i]];
+						}
 					}else{
-						$$expl[$i] = $_POST[$expl[$i]];
+						$$expl[$i] = NULL;
 					}
 				}
 			}else if($type=="FILE"){
 				global $_FILES;
 				$expl = explode(",",$name);
 				for($i=0;$i<sizeof($expl);$i++){
-					global $$expl[$i];
-					$$expl[$i] = $_FILES[$expl[$i]];
+					if(isset($expl[$i])){
+						global $$expl[$i];
+						$$expl[$i] = $_FILES[$expl[$i]];
+					}else{
+						$$expl[$i] = NULL;
+					}
 				}
 			}
 		}
@@ -167,12 +179,15 @@
 		}
 		function session_destroy(){
 			global $_SESSION;
-			$_SESSION[$name] = "";
 			session_destroy();
 		}
 		function session_selector($name){
 			global $_SESSION;
-			return $_SESSION[$name];
+			if(isset($_SESSION[$name])){
+				return $_SESSION[$name];
+			}else{
+				return NULL;
+			}
 		}
 	}
 ?>

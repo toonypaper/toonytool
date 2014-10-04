@@ -9,7 +9,7 @@
 	$mysql = new mysqlConnection();
 	$session = new sessionController();
 	
-	$method->method_param("GET","mode,read,page,where,keyword");
+	$method->method_param("GET","mode,read,page,where,keyword,category");
 	$method->method_param("POST","s_password");
 	$session->session_selector("__toony_member_idno");
 	
@@ -23,7 +23,7 @@
 		$mode=$s_mode;
 		$page=$s_page;
 	}
-	if($HTTP_POST_VARS['keyword']!=""){
+	if(isset($HTTP_POST_VARS['keyword'])){
 		$method->method_param("POST","where,keyword");
 	}
 	
@@ -55,10 +55,10 @@
 		$mysql->nl2br = 0;
 		$mysql->fetchArray("idno,me_idno,subject,writer,category,me_nick,view,vote,password,email,ment,use_notice,use_secret,use_email,use_html,me_idno,file1,file2,rn,td_1,td_2,td_3,td_4,td_5");
 		$array = $mysql->array;
-		$array[subject] = htmlspecialchars($array['subject']);
-		$array[writer] = htmlspecialchars($array['writer']);
-		$array[me_nick] = htmlspecialchars($array['me_nick']);
-		$array[password] = htmlspecialchars($array['password']);
+		$array['subject'] = htmlspecialchars($array['subject']);
+		$array['writer'] = htmlspecialchars($array['writer']);
+		$array['me_nick'] = htmlspecialchars($array['me_nick']);
+		$array['password'] = htmlspecialchars($array['password']);
 		if(!$array['idno']){
 			$lib->error_alert_back("존재하지 않는 글입니다.","A");
 		}
@@ -71,6 +71,8 @@
 				$array['ment'] = "";
 			}
 		}
+	}else{
+		$array = NULL;
 	}
 	
 	/*
@@ -176,7 +178,7 @@
 	function write_file_ed($num){
 		global $array,$mode;
 		if($mode!="reply"){
-			return $array[file.$num];
+			return $array['file'.$num];
 		}
 	}
 	//공지글 옵션 출력
@@ -329,11 +331,11 @@
 		$skin_write->skin_modeling("[write_file_byte]","(MAX ".($c_array['file_limit']/1024/1024)."M)");
 		$skin_write->skin_modeling("[submit_btn]",write_submit_btn());
 		$skin_write->skin_modeling("[return_btn]",write_return_btn());
-		$skin_write->skin_modeling("[td_1]",$td_1);
-		$skin_write->skin_modeling("[td_2]",$td_2);
-		$skin_write->skin_modeling("[td_3]",$td_3);
-		$skin_write->skin_modeling("[td_4]",$td_4);
-		$skin_write->skin_modeling("[td_5]",$td_5);
+		$skin_write->skin_modeling("[td_1]",$array['td_1']);
+		$skin_write->skin_modeling("[td_2]",$array['td_2']);
+		$skin_write->skin_modeling("[td_3]",$array['td_3']);
+		$skin_write->skin_modeling("[td_4]",$array['td_4']);
+		$skin_write->skin_modeling("[td_5]",$array['td_5']);
 		echo $skin_write->skin_echo();
 	}
 

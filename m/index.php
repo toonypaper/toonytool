@@ -14,7 +14,7 @@
 	$subpage = new skinController();
 	$mysql = new mysqlConnection();
 	
-	$method->method_param("GET","article,m,p");
+	$method->method_param("GET","article,m,p,saveViewType");
 	
 	/*
 	모바일을 사용하지 않는 경우 PC페이지로 이동
@@ -86,10 +86,10 @@
 	주소표시줄에 수동으로 입력한 $m 혹은 $p 값이 있는 경우,
 	현재 메뉴를 Active시킨 채 내용 영역에 수동 페이지를 호출하기 위한 설정
 	*/
-	if($_GET['p']){
+	if(isset($_GET['p'])){
 		$p = $_GET['p'];
 	}
-	if($_GET['m']){
+	if(isset($_GET['m'])){
 		$m = $_GET['m'];
 	}
 	

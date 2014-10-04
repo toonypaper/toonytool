@@ -23,21 +23,21 @@
 	템플릿 함수
 	*/
 	function id_value_func(){
-		if($_COOKIE['__toony_member_saveId']!=""){
+		if(isset($_COOKIE['__toony_member_saveId'])&&$_COOKIE['__toony_member_saveId']!=""){
 			return $_COOKIE['__toony_member_saveId'];
 		}else{
 			return "이메일 아이디";
 		}
 	}
 	function password_value_func(){
-		if($_COOKIE['__toony_member_saveId']!=""){
+		if(isset($_COOKIE['__toony_member_saveId'])&&$_COOKIE['__toony_member_saveId']!=""){
 			return "";
 		}else{
 			return "비밀번호";
 		}
 	}
 	function save_id_checked_func(){
-		if($_COOKIE['__toony_member_saveId']!=""){
+		if(isset($_COOKIE['__toony_member_saveId'])&&$_COOKIE['__toony_member_saveId']!=""){
 			return "checked";
 		}
 	}

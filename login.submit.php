@@ -51,7 +51,7 @@
 	아이디 저장을 체크한 경우 아이디를 쿠키에 저장
 	*/
 	if($save_id=="checked"){
-		setcookie("__toony_member_saveId",$member[me_id],time()+2592000,"/");
+		setcookie("__toony_member_saveId",$member['me_id'],time()+2592000,"/");
 	}else{
 		setcookie("__toony_member_saveId","",0,"/");
 	}

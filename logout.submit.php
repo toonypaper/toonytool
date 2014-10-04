@@ -7,7 +7,7 @@
 	$session = new sessionController();
 	$mysql = new mysqlConnection();
 	
-	//$lib->security_filter("referer");
+	$lib->security_filter("referer");
 	$lib->security_filter("request_post");
 	
 	/*
@@ -35,7 +35,7 @@
 	/*
 	로그인 세션 삭제
 	*/
-	$session->session_destroy("__toony_member_idno");
+	$session->session_deleter("__toony_member_idno");
 	
 	
 	/*

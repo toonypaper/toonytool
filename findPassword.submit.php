@@ -55,7 +55,6 @@
 	$mailSender->func_mail_sender->subject = "{$nick}님의 {$site_config['ad_site_name']} 로그인 임시 비밀번호";
 	$mailSender->func_mail_sender->account_password = $upw;
 	$mailSender->func_mail_sender_get();
-	$sendCount++;
 	
 	/*
 	완료 후 리턴

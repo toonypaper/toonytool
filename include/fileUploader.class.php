@@ -9,7 +9,7 @@
 		//파일명 검사
 		function fileNameCheck(){
 			$this->checkVar = false;
-			$this->s_file1_type=array_pop(explode(".",strtolower($this->saveFile[name])));
+			$this->s_file1_type=array_pop(explode(".",strtolower($this->saveFile['name'])));
 			for($i=0;$i<=sizeof($this->file_type_filter)-1;$i++){
 				if($this->s_file1_type==$this->file_type_filter[$i]){
 					$this->checkVar = true;

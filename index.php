@@ -79,10 +79,10 @@
 	주소표시줄에 수동으로 입력한 $m 혹은 $p 값이 있는 경우,
 	현재 메뉴를 Active시킨 채 내용 영역에 수동 페이지를 호출하기 위한 설정
 	*/
-	if($_GET['p']){
+	if(isset($_GET['p'])){
 		$p = $_GET['p'];
 	}
-	if($_GET['m']){
+	if(isset($_GET['m'])){
 		$m = $_GET['m'];
 	}
 	
@@ -91,6 +91,8 @@
 	*/
 	if($m!=""&&$m!="page"){
 		$incDir = __DIR_PATH__."modules/{$m}/";
+	}else{
+		$incDir = "";
 	}
 	if(!$p){
 		$p = "index";
@@ -150,7 +152,7 @@
 	/*
 	디자인 페이지 호출 이지만, 수동으로 입력한 $p 호출 값이 있는 경우 pageAndModule 로 타입 변경
 	*/
-	if($call_type=="design_page"&&$_GET['p']){
+	if($call_type=="design_page"&&isset($_GET['p'])){
 		$call_type = "pageAndModule";	
 	}
 	

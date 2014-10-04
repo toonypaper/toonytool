@@ -6,9 +6,9 @@
 	/*
 	PC모드인지 Mobile모드인지 확인
 	*/
-	if($viewType=="p"){
+	if(isset($viewType)&&$viewType=="p"){
 		$viewDir = "";
-	}else{
+	}else if(isset($viewType)){
 		$viewDir = "m/";
 	}
 	
@@ -27,6 +27,10 @@
 	}else{
 		$member['me_level'] = 10;
 		$member['me_idno'] = NULL;
+		$member['me_id'] = NULL;
+		$member['me_nick'] = NULL;
+		$member['me_phone'] = NULL;
+		$member['me_admin'] = NULL;
 	}
 	
 	/*

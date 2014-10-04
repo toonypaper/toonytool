@@ -26,17 +26,6 @@
 	$cnum_ex = explode(",",$cnum);
 	
 	/*
-	회원 기본정보 로드
-	*/
-	$mysql->select("
-		SELECT *
-		FROM toony_member_list
-		WHERE me_idno='$me_idno' AND me_drop_regdate IS NULL
-	");
-	$mysql->fetchArray("me_nick,me_sex,me_id,me_level,me_point,me_regdate,me_login_regdate,me_login_ip");
-	$array = $mysql->array;
-	
-	/*
 	검사
 	*/
 	if(sizeof($cnum_ex)<1){
@@ -58,10 +47,11 @@
 			FROM toony_module_board_config
 			ORDER BY name ASC
 		");
+		$option = "";
 		do{
 			$mysql->fetchArray("board_id,name");
 			$array = $mysql->array;
-			$option .= "<option value=\"".$array[board_id]."\">".$array[name]."(".$array['board_id'].")</option>";
+			$option .= "<option value=\"".$array['board_id']."\">".$array['name']."(".$array['board_id'].")</option>";
 		}while($mysql->nextRec());
 		return $option;
 	}

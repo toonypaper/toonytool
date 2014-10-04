@@ -42,7 +42,7 @@
 	/*
 	상단 파일&소스코드 출력
 	*/
-	if(!$read_true){
+	if(!isset($read_true)){
 		if($c_array['top_file']){
 			include $c_array['top_file'];
 		}
@@ -75,6 +75,9 @@
 	}else{
 		$search .= "";
 	}
+	$ss = "";
+	$sm = "";
+	$sw = "";
 	switch($where){
 		case "subject" :
 			$ss = "selected";
@@ -120,13 +123,13 @@
 	}
 	//제목 출력
 	function bbs_subject_title(){
-		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $category, $article, $lib;
-		return array_subject_reply()."<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_length_limit($array['subject'],0,$c_array['length_limit'])."</a>";
+		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $category, $article, $lib, $viewDir;
+		return array_subject_reply()."<a href=\"".__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_length_limit($array['subject'],0,$c_array['length_limit'])."</a>";
 	}
 	//내용 출력
 	function bbs_ment_title(){
-		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $c_array, $article, $lib;
-		return "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\" class=\"webzine_ment\">".$lib->func_length_limit(strip_tags($lib->htmldecode($array['ment'])),0,$c_array['article_length'])."</a>";
+		global $board_id, $page, $where, $keyword, $c_array, $array, $lib, $c_array, $article, $lib, $viewDir, $category;
+		return "<a href=\"".__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\" class=\"webzine_ment\">".$lib->func_length_limit(strip_tags($lib->htmldecode($array['ment'])),0,$c_array['article_length'])."</a>";
 	}
 	//모바일 작성 아이콘 출력
 	function array_subject_mobile(){
@@ -156,6 +159,7 @@
 	//답글 아이콘 출력
 	function array_subject_reply(){
 		global $array;
+		$space = "";
 		if($array['rn']>0){
 			for($s=1;$s<=$array['rn'];$s++){
 				$space .= "&nbsp;&nbsp;";
@@ -216,8 +220,8 @@
 	//카테고리 출력
 	function bbs_category(){
 		global $c_array,$category;
-		if($c_array[use_category]=="Y"){
-			$cat_exp = explode("|",$c_array[category]);
+		if($c_array['use_category']=="Y"){
+			$cat_exp = explode("|",$c_array['category']);
 			$cat_op = "<select name=\"category\">";
 			$cat_op .= "<option value=\"all\">카테고리 전체</option>";
 			for($i=0;$i<sizeOf($cat_exp);$i++){
@@ -243,7 +247,7 @@
 	}
 	//썸네일 출력
 	function thumbnail_func(){
-		global $c_array,$array,$lib,$board_id,$page,$where,$keyword,$article,$category;
+		global $c_array,$array,$lib,$board_id,$page,$where,$keyword,$article,$category,$viewDir;
 		//본문내 첫번째 이미지 태그를 추출
 		preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $lib->htmldecode($array['ment']), $match);
 		//썸네일의 파일 타입을 추출
@@ -254,11 +258,11 @@
 			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file1'],$c_array['thumb_width'],$c_array['thumb_height'],0,0)."</a>";
 		}else if($file2_type=='gif'||$file2_type=='jpg'||$file2_type=='bmp'||$file2_type=='png'){
 			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\">".$lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file2'],$c_array['thumb_width'],$c_array['thumb_height'],0,0)."</a>";
-		}else if($match['0']){
+		}else if(isset($match[0])){
 			$thumb = "<a href=\"{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."\"><img src=\"{$match[1]}\" width=\"".$c_array['thumb_width']."\" height=\"".$c_array['thumb_height']."\" /></a>";
 		}else{
 			$thumb = "
-				<a href='{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."'><img src=\"".__URL_PATH__."images/blank_thumbnail.jpg\" width=\"".$c_array['thumb_width']."\" height=\"".$c_array['thumb_height']."\" /></a>
+				<a href='".__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword."'><img src=\"".__URL_PATH__."images/blank_thumbnail.jpg\" width=\"".$c_array['thumb_width']."\" height=\"".$c_array['thumb_height']."\" /></a>
 			";
 		}
 		return $thumb;
@@ -279,7 +283,7 @@
 	$header->skin_modeling("[category_value]",$category);
 	$header->skin_modeling("[bbs_setting]",bbs_setting_btn());
 	$header->skin_modeling("[bbs_category]",bbs_category());
-	$header->skin_modeling("[board_title]",$c_array[name]);
+	$header->skin_modeling("[board_title]",$c_array['name']);
 	if($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y"){
 		$header->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","show");
 	}else{
@@ -382,6 +386,7 @@
 	$mysql->select($sql);
 	$array_total = $mysql->numRows();
 	if($array_total>0){
+		$i = 0;
 		$j = 1;
 		do{
 			$mysql->htmlspecialchars = 1;
@@ -452,7 +457,7 @@
 	/*
 	하단 파일&소스코드 출력
 	*/
-	if(!$read_true){
+	if(!isset($read_true)){
 		echo $c_array['bottom_source'];
 		if($c_array['bottom_file']){
 			include $c_array['bottom_file'];
