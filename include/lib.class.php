@@ -393,6 +393,20 @@
 		}
 		
 		/*
+		본문 내용중 사용 제한 태그가 있는 경우 특정 문자를 리턴 시켜줌
+		*/
+		function not_tags_check($val,$returnTxt){
+			$this->not_tags = "?,script,iframe,link,meta"; //사용 제한 태그 선언
+			$this->not_tags_ex = explode(",",$this->not_tags);
+			for($i=0;$i<count($this->not_tags_ex);$i++){
+				if(stristr($val,"<".$this->not_tags_ex[$i])||stristr($val,"</".$this->not_tags_ex[$i])){
+					echo "$returnTxt";
+					exit;
+				}
+			}
+		}
+				
+		/*
 		htmlspecialchars_decode+br2nl 리턴 함수
 		(mysql에서 Array된 변수값은 htmlspecialchars+nl2br이 기본 적용됨)
 		*/

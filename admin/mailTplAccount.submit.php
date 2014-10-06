@@ -16,6 +16,8 @@
 	if(trim($sourceCode)==""){
 		echo '<!--error::null_sourceCode-->'; exit;
 	}
+	//본문에 사용금지 태그가 있는지 검사
+	$lib->not_tags_check($sourceCode,"<!--error::have_not_tags-->");
 	
 	/*
 	DB수정

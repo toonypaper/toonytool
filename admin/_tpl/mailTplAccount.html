@@ -16,6 +16,9 @@ $(document).ready(function(){
 									case "<!--error::null_sourceCode-->" :
 										alert("내용을 입력 하세요.");
 										break;
+									case "<!--error::have_not_tags-->" :
+										alert("내용에 허용되지 않는 HTML소스코드가 포함되어 있습니다.");
+										break;
 									case "<!--success::1-->" :
 										alert("성공적으로 수정 되었습니다.");
 										document.location.reload();

@@ -43,6 +43,9 @@ $(document).ready(function(){
 									case "<!--error::null_not_receiver_selected-->" :
 										alert("최하 수신 레벨이 최대 수신 레벨보다 클 수 없습니다.");
 										break;
+									case "<!--error::have_not_tags-->" :
+										alert("내용에 허용되지 않는 HTML소스코드가 포함되어 있습니다.");
+										break;
 									case "<!--error::null_receiver_member-->" :
 										alert("메일을 발송할 회원이 없습니다.");
 										break;

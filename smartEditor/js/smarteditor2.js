@@ -4665,7 +4665,8 @@ nhn.husky.SE_EditingAreaManager = jindo.$Class({
 	// form submit 전에 이 부분을 실행시켜야 됨.
 	$ON_UPDATE_CONTENTS_FIELD : function(){
 		//this.oIRField.value = this.oApp.getIR();
-		this.elContentsField.value = this.oApp.getContents();
+		//this.elContentsField.value = this.oApp.getContents(); //모든 태그 허용을 위해 주석처리. 태그 유효성 검사는 php에서 이루어짐
+		this.elContentsField.value = this.oApp.getIR(); //this.oApp.getContents() 대신 this.oApp.getIR() 내용을 그대로 전해준다.
 		this.oApp.exec("UPDATE_RAW_CONTENTS");
 		//this.sCurrentRawContents = this.elContentsField.value;
 	},

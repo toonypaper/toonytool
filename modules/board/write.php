@@ -47,13 +47,18 @@
 	*/
 	if($mode=="modify"||$mode=="reply"){
 		$mysql->select("
-			SELECT *
-			FROM toony_module_board_data_$board_id
-			WHERE idno='$read'
+			SELECT A.*,CEIL(A.ln) ceil_ln,
+			(
+				SELECT COUNT(*)
+				FROM toony_module_board_data_$board_id
+				WHERE ln<=((ceil_ln/1000)*1000) AND ln>((ceil_ln/1000)*1000)-1000 AND rn>0
+			) reply_count
+			FROM toony_module_board_data_$board_id A
+			WHERE A.idno='$read'
 		");
 		$mysql->htmlspecialchars = 0;
 		$mysql->nl2br = 0;
-		$mysql->fetchArray("idno,me_idno,subject,writer,category,me_nick,view,vote,password,email,ment,use_notice,use_secret,use_email,use_html,me_idno,file1,file2,rn,td_1,td_2,td_3,td_4,td_5");
+		$mysql->fetchArray("idno,reply_count,me_idno,subject,writer,category,me_nick,view,vote,password,email,ment,use_notice,use_secret,use_email,use_html,me_idno,file1,file2,rn,td_1,td_2,td_3,td_4,td_5");
 		$array = $mysql->array;
 		$array['subject'] = htmlspecialchars($array['subject']);
 		$array['writer'] = htmlspecialchars($array['writer']);
@@ -293,7 +298,7 @@
 		}else{
 			$skin_write->skin_modeling_hideArea("[{write_file2_name_start}]","[{write_file2_name_end}]","hide");
 		}
-		if($c_array['use_category']=="Y"&&$mode!="reply"&&$array['rn']==0){
+		if($c_array['use_category']=="Y"&&$mode!="reply"&&$array['rn']==0&&$array['reply_count']<1){
 			$skin_write->skin_modeling_hideArea("[{write_category_start}]","[{write_category_end}]","show");
 		}else{
 			$skin_write->skin_modeling_hideArea("[{write_category_start}]","[{write_category_end}]","hide");

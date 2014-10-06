@@ -68,8 +68,6 @@ $(document).ready(function(){
 			$("#read_form").attr({method:"POST",action:__URL_PATH__+"m/?article="+article+"&category="+category+"&p=delete"}).submit();
 		}
 	});
-	
-	
 	//textarea 가로 폭 지정
 	function textareaResize(obj){
 		var boxWidth = obj.width();
@@ -227,7 +225,7 @@ $(document).ready(function(){
 						$(this).parent().children(".comment_modify").hide();
 						$(this).after("<div class=\"comment_modify_box comment_modify_div_"+index+" comment_form_box\"><textarea name=\"comment_modify\" class=\"comment_modify_textarea_"+index+"\" style=\"height:50px;\">"+$(this).html().replace(/<BR>\n/gi,"\n").replace(/<BR>/gi,"\n")+"</textarea> <input type=\"button\" id=\"comment_modify_button\" class=\"__button_small\" value=\"수정\"></div>")
 						.next().hide().fadeIn({duration:200});
-						textareaResize($(".comment_modify_box"));
+						textareaResize($(".comment_modify"));
 						$("#read_comment_form .comment_modify_textarea_"+index).focus();
 						$("#read_comment_form input[name='mode']").val("2");
 						$("#read_comment_form input[name='cidno']").val($(this).attr("name").substr(15));

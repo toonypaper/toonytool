@@ -46,6 +46,8 @@
 			echo '<!--error::null_not_receiver_selected-->'; exit;
 		}
 	}
+	//본문에 사용금지 태그가 있는지 검사
+	$lib->not_tags_check($memo,"<!--error::have_not_tags-->");
 	
 	/*
 	수신 회원 범위에 따른 DB 조건문 생성
