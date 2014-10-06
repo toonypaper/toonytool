@@ -126,7 +126,7 @@
 				if(sizeof($expl)>0){
 					for($i=0;$i<sizeof($expl);$i++){
 						global $$expl[$i];
-						if(isset($_GET[$expl[$i]])&&$$expl[$i]!=""){
+						if(isset($_GET[$expl[$i]])){
 							if(!is_array($_GET[$expl[$i]])){
 								$$expl[$i] = addslashes($_GET[$expl[$i]]);
 							}else{

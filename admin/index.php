@@ -9,9 +9,7 @@
 	include "../include/engine.inc.php";
 	include __DIR_PATH__."include/global.php";
 	
-	$lib = new libraryClass();
 	$method = new methodController();
-	$mysql = new mysqlConnection();
 	
 	$method->method_param("GET","m,p");
 ?>
