@@ -1,14 +1,17 @@
 <?php
 	//Index.php 거치지 않고 단독으로 Include되어 사용되는 경우를 위한 변수 초기화
-	if(!isset($m)){
+	if(strstr($_SERVER['PHP_SELF'],"index.php")!=true){
 		$m = $_GET['m'];
-	}
-	if(!isset($p)){
 		$p = $_GET['p'];
-	}
-	if(!isset($saveViewType)){
 		$saveViewType = $_GET['saveViewType'];
+		$viewType = $_GET['viewType'];
+		if(isset($viewType)&&$viewType=="p"){
+			$viewDir = "";
+		}else if(isset($viewType)){
+			$viewDir = "m/";
+		}
 	}
+	
 	//Title
 	echo "<title>".$site_config['ad_site_title']."</title>";
 	//Meta
