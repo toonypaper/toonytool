@@ -8,7 +8,7 @@
 	$mysql = new mysqlConnection();
 	
 	
-	$method->method_param("GET","board_id,read,viewDir");
+	$method->method_param("GET","board_id,read,viewDir,viewType");
 	
 	/*
 	게시물 기본 정보 로드
@@ -107,7 +107,7 @@
 	
 	//회원 이름 출력
 	function bbs_me_nick(){
-		global $carray,$article, $viewType;
+		global $carray,$article,$viewType;
 		if($viewType=="p"&&$carray['me_idno']!=0){
 			return "<a href=\"#\" member_profile=\"{$carray['me_idno']}\" article=\"{$article}\">{$carray['writer']}</a>";
 		}else{

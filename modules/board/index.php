@@ -214,7 +214,7 @@
 	}
 	//회원 이름 출력
 	function bbs_me_nick(){
-		global $array,$article;
+		global $array,$article,$viewType;
 		if($viewType=="p"&&$array['me_idno']!=0){
 			return "<a href=\"#\" member_profile=\"{$array['me_idno']}\" article=\"{$article}\">{$array['writer']}</a>";
 		}else{

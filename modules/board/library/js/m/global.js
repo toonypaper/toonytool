@@ -97,7 +97,7 @@ $(document).ready(function(){
 		var board_id = $("#read_form input[name='board_id']").val();
 		var read = $("#read_form input[name='read']").val();
 		var article = $("#read_form input[name='article']").val();
-		$("._CALLING_COMMENT").load(__URL_PATH__+"modules/board/read.comment.inc.php?board_id="+board_id+"&read="+read+"&article="+article+"&viewDir=m/",function(){
+		$("._CALLING_COMMENT").load(__URL_PATH__+"modules/board/read.comment.inc.php?board_id="+board_id+"&read="+read+"&article="+article+"&viewDir=m/&viewType=m",function(){
 			comment_replace_url();
 		});
 	}
