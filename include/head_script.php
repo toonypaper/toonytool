@@ -1,13 +1,13 @@
 <?php
 	//Index.php 거치지 않고 단독으로 Include되어 사용되는 경우를 위한 변수 초기화
 	if(!isset($m)){
-		$m = NULL;
+		$m = $_GET['m'];
 	}
 	if(!isset($p)){
-		$p = NULL;
+		$p = $_GET['p'];
 	}
 	if(!isset($saveViewType)){
-		$saveViewType = NULL;
+		$saveViewType = $_GET['saveViewType'];
 	}
 	//Title
 	echo "<title>".$site_config['ad_site_title']."</title>";
