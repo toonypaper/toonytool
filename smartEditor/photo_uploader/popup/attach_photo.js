@@ -582,6 +582,12 @@
 			opener.nhn.husky.PopUpManager.setCallback(window, 'SET_PHOTO', [oFileInfo]);
 			//본문에 바로 tag를 넣는 방법 (oFileInfo는 String으로 <img src=....> )
 			//opener.nhn.husky.PopUpManager.setCallback(window, 'PASTE_HTML', [oFileInfo]);
+			
+			//이미지 삽입하는 경우 투니툴에서 제어. (이미지 삽입 후 본문에서 다시 삭제하는 경우, 서버에서 이미지 파일을 삭제)
+			var image_cnt = oFileInfo.length;
+			for(var i=0;i<image_cnt;i++){
+				opener.parent.smartEditor_insert_image(oFileInfo[i].sFileName);
+			}
 		}
 	}
  	

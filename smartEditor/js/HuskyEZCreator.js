@@ -50,7 +50,7 @@ nhn.husky.EZCreator = new (function(){
 		 
 
 		try{
-			elIFrame = document.createElement("<IFRAME frameborder=0 scrolling=no>");
+			elIFrame = document.createElement("<IFRAME id=smartEditor_bone name=smartEditor_bone frameborder=0 scrolling=no>");
 		}catch(e){
 			elIFrame = document.createElement("IFRAME");
 			elIFrame.setAttribute("frameborder", "0");
@@ -100,6 +100,10 @@ nhn.husky.EZCreator = new (function(){
 		});
 //		window.STime = new Date();
 		elIFrame.src = sSkinURI;
+		
+		//스마트에디터 이미지 삽입 기록용 textarea 생성
+		smartEditor_create_recTextarea();
+		
 	};
 	
 	this.showBlocker = function(){

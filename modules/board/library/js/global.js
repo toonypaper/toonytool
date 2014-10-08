@@ -398,7 +398,7 @@ $(document).ready(function(){
 		var btn_org_value = $(this).val();
 		$(this).attr("disabled",true).val("등록중...");
 		$("#write_form").attr({method:"POST",action:__URL_PATH__+"modules/board/write.submit.php"});
-		oEditors.getById["ment"].exec("UPDATE_CONTENTS_FIELD", []);
+		smartEditor_submit_val=true;oEditors.getById["ment"].exec("UPDATE_CONTENTS_FIELD", []);
 		$("#write_form").ajaxForm({
 			type		:	"POST",
 			dataType	:	"HTML",

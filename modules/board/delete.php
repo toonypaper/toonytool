@@ -50,7 +50,7 @@
 		FROM toony_module_board_data_$board_id 
 		WHERE idno=$read
 	");
-	$mysql->fetchArray("me_idno,password,ln,rn");
+	$mysql->fetchArray("me_idno,ment,password,ln,rn");
 	$array = $mysql->array;
 	
 	/*
@@ -167,6 +167,8 @@
 			FROM toony_module_board_data_$board_id
 			WHERE $delete_where
 		");
+		//내용에 삽입된 스마트에디터 사진 삭제
+		$fileUploader->sEditor_fileDelete($array['ment']);
 		//삭제 후 페이지 이동
 		$lib->func_location(__URL_PATH__.$viewDir."?article={$article}&category=".urlencode($category)."&page={$page}&where={$where}&keyword={$keyword}");
 	}

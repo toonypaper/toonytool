@@ -3,7 +3,7 @@
 $(document).ready(function(){
 	$("._submitBtn").click(function(){
 		var $form = $("form[name=footerDesignForm]");
-		oEditors.getById["sourceCode"].exec("UPDATE_CONTENTS_FIELD", []);
+		smartEditor_submit_val=true;oEditors.getById["sourceCode"].exec("UPDATE_CONTENTS_FIELD", []);
 		$.ajax({
 			cache		:	false,
 			async		:	false,
@@ -59,7 +59,7 @@ $(document).ready(function(){
 							<tbody>
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea class="sourceCode" id="sourceCode" name="sourceCode" style="width:100%; height:300px; border:none;">[sourceCode]</textarea>
+										<textarea class="sourceCode" id="sourceCode" name="sourceCode" style="width:100%; height:300px; border:none;" smarteditor>[sourceCode]</textarea>
 									</td>
 								</tr>
 							</tbody>
@@ -81,6 +81,9 @@ nhn.husky.EZCreator.createInIFrame({
 	oAppRef: oEditors,
 	elPlaceHolder: "sourceCode",
 	sSkinURI: "../smartEditor/SmartEditor2Skin.html",
-	fCreator: "createSEditor2"
+	fCreator: "createSEditor2",
+	htParams: {
+		fOnBeforeUnload: smartEditor_remove_image
+	}
 });
 </script>

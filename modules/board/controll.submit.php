@@ -50,7 +50,7 @@
 					FROM toony_module_board_data_$board_id
 					WHERE idno=$cnum_ex[$i]
 				");
-				$mysql->fetchArray("ln,rn");
+				$mysql->fetchArray("ln,rn,ment");
 				$barray = $mysql->array;
 				//최소/최대 ln값 구함
 				$ln_min = (int)(ceil($barray['ln']/1000)*1000)-1000;
@@ -108,6 +108,8 @@
 					FROM toony_module_board_data_$board_id
 					WHERE $delete_where
 				");
+				//내용에 삽입된 스마트에디터 사진 삭제
+				$fileUploader->sEditor_fileDelete($array['ment']);
 			}
 		}
 		echo '<!--success::1-->';

@@ -4,7 +4,7 @@ $(document).ready(function(){
 	//정보 수정
 	$("._submitBtn").click(function(){
 		var $form = $("form[name=questionList_viewForm]");
-		oEditors.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []);
+		smartEditor_submit_val=true;oEditors.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []);
 		$.ajax({
 			cache		:	false,
 			async		:	false,
@@ -103,7 +103,7 @@ $(document).ready(function(){
 								[{answer_start}]
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea class="sourceCode" id="memo" name="memo" style="width:100%; border:none; height:250px;"></textarea>
+										<textarea class="sourceCode" id="memo" name="memo" style="width:100%; border:none; height:250px;" smarteditor></textarea>
 									</td>
 								</tr>
 								<script type="text/javascript">
@@ -112,7 +112,10 @@ $(document).ready(function(){
 									oAppRef: oEditors,
 									elPlaceHolder: "memo",
 									sSkinURI: "../smartEditor/SmartEditor2Skin.html",
-									fCreator: "createSEditor2"
+									fCreator: "createSEditor2",
+									htParams: {
+										fOnBeforeUnload: smartEditor_remove_image
+									}
 								});
 								</script>
 								[{answer_end}]

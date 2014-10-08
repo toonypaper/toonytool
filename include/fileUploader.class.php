@@ -52,5 +52,14 @@
 		function fileDelete($file){
 			unlink($this->savePath.$file);
 		}
+		//글 내용에 삽입된 스마트에디터 사진 삭제
+		function sEditor_fileDelete($article){
+			$this->savePath = __DIR_PATH__."upload/smartEditor/";
+			preg_match_all("/smartEditor\/[a-zA-Z0-9-_\.]+.(jpg|gif|png|bmp)/i",$article,$this->sEditor_images_ex);
+			for($i=0;$i<count($this->sEditor_images_ex[0]);$i++){
+				$this->fileName = str_replace("smartEditor/","",$this->sEditor_images_ex[0][$i]);
+				$this->fileDelete($this->fileName);
+			}
+		}
 	}
 ?>

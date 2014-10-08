@@ -98,3 +98,80 @@ $(document).ready(function(){
 	};
 	$.datepicker.setDefaults($.datepicker.regional['ko']);
 });
+/*
+스마트에디터 이미지 컨트롤
+*/
+smartEditor_submit_val = false;
+//에디터가 실행되는 경우 삽입 이미지 기록용 textarea 생성, 본문내 이미지 기록
+function smartEditor_create_recTextarea(){
+	$("body").append('<textarea name="smart_editor2_attach_images" id="smart_editor2_attach_images" style="display:none;"></textarea>'); //기존 삽입된 이미지까지 기록
+	$("body").append('<textarea name="smart_editor2_attach_images_new" id="smart_editor2_attach_images_new" style="display:none;"></textarea>'); //새로 삽입된 이미지만 기록
+	//본문에서 기존 삽입된 이미지 추출
+	var article_html = $("textarea[smarteditor]").val();
+	var article_images = article_html.match(/smartEditor\/[a-zA-Z0-9-_\.]+.(jpg|gif|png|bmp)/gi);
+	if(article_images){
+		for(var i=0;i<article_images.length;i++){
+			var images_rec = $("#smart_editor2_attach_images").val();
+			$("#smart_editor2_attach_images").val(images_rec+","+article_images[i].replace("smartEditor/",""));
+		}
+	}
+}
+//본문에 이미지를 삽입하는 경우 Hidden Input에 기록
+function smartEditor_insert_image(file){
+	//기존 이미지까지 포함하여 기록
+	var images_rec = $("#smart_editor2_attach_images").val();
+	$("#smart_editor2_attach_images").val(images_rec+","+file);
+	//새로 추가한 이미지만 따로 기록
+	var images_new_rec = $("#smart_editor2_attach_images_new").val();
+	$("#smart_editor2_attach_images_new").val(images_new_rec+","+file);
+}
+//페이지를 벗어날 때 본문에 삽입했던 이미지가 삭제되었는지 검사 후 처리
+function smartEditor_remove_image(){
+	var $textarea = $("textarea[smarteditor]");
+	var textarea_id = $("textarea[smarteditor]").attr("id");
+	if($("#smart_editor2_attach_images").length>0){
+		oEditors.getById[textarea_id].exec("UPDATE_CONTENTS_FIELD", []);
+		var article_html = $textarea.val();
+		var images_rec = $("#smart_editor2_attach_images").val();
+		var images_rec_new = $("#smart_editor2_attach_images_new").val();
+		//article_html 변수의 값에서 삽입된 이미지 파일명만 추출
+		var article_images = article_html.match(/smartEditor\/[a-zA-Z0-9-_\.]+.(jpg|gif|png|bmp)/gi);
+		var images = "";
+		if(article_images){
+			for(var i=0;i<article_images.length;i++){
+				images += ","+article_images[i].replace("smartEditor/",""); //배열을 하나의 문자열로 합침
+			}
+		}else{
+			images = "NULL"
+		}
+		//수정 버튼을 클릭시 : images_rec 에는 있지만, article_html 에는 없는 파일명인 경우 서버에서 삭제(AJAX)
+		if(smartEditor_submit_val==true){
+			images_rec = images_rec.split(",");
+			for(var i=1;i<images_rec.length;i++){
+				if(images.indexOf(images_rec[i])==-1){
+					$.ajax({
+						type		:	"POST",
+						url			:	__URL_PATH__+"smartEditor/smartEditor_remove_imgs.php",
+						cache		:	false,
+						data		:	{ "file":images_rec[i] },
+						async		:	false,
+						dataType	:	"HTML"
+					});
+				}
+			}
+		//submit 없이 그냥 페이지를 벗어날 때 : 새로 삽입한 모든 이미지를 삭제
+		}else if(smartEditor_submit_val==false&&images_rec_new!=""){
+			images_rec_new = images_rec_new.split(",");
+			for(var i=1;i<images_rec_new.length;i++){
+				$.ajax({
+					type		:	"POST",
+					url			:	__URL_PATH__+"smartEditor/smartEditor_remove_imgs.php",
+					cache		:	false,
+					data		:	{ "file":images_rec_new[i] },
+					async		:	false,
+					dataType	:	"HTML"
+				});
+			}
+		}
+	}
+}

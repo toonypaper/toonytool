@@ -112,7 +112,7 @@
 		[{write_email_end}]
 		<tr>
 			<td colspan="2">
-				<textarea name="ment" id="ment" style="width:100%; height:300px;">[memo]</textarea>
+				<textarea name="ment" id="ment" style="width:100%; height:300px;" smartEditor>[memo]</textarea>
 			</td>
 		</tr>
 		[{write_file1_start}]
@@ -177,7 +177,10 @@
 		oAppRef: oEditors,
 		elPlaceHolder: "ment",
 		sSkinURI: "smartEditor/SmartEditor2Skin.html",
-		fCreator: "createSEditor2"
+		fCreator: "createSEditor2",
+		htParams: {
+			fOnBeforeUnload: smartEditor_remove_image
+		}
 	});
 	</script>
 	<div class="read_btnArea">
