@@ -109,7 +109,7 @@
 					WHERE $delete_where
 				");
 				//내용에 삽입된 스마트에디터 사진 삭제
-				$fileUploader->sEditor_fileDelete($array['ment']);
+				$fileUploader->sEditor_fileDelete($barray['ment']);
 			}
 		}
 		echo '<!--success::1-->';
