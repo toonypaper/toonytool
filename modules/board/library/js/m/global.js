@@ -470,45 +470,4 @@ $(document).ready(function(){
 		}
 		$(this).attr({method:"GET",action:js_url_path+"array.php"});
 	});
-	//체크박스 전체 선택
-	$("#array_form .cnum_allCheck").click(function(){
-		$("#array_form input[name='cnum[]']").each(function(){
-			if($(this).is(":checked")==false){
-				$(this).attr({checked:true});
-			}else{
-				$(this).attr({checked:false});
-			}
-		});
-	});
-	//관리 버튼을 클릭한 경우
-	$("#array_controll_btn").click(function(){
-		if($("#array_form :checkbox[name='cnum[]']:checked").length==0){
-			alert("하나의 항목도 선택되지 않았습니다.");
-			return false;
-		}
-		var cnum = new Array;
-		var article = $(this).attr("article");
-		var board_id = $(this).attr("board_id");
-		var where = $(this).attr("where");
-		var keyword = $(this).attr("keyword");
-		var page = $(this).attr("page");
-		var category = $(this).attr("category");
-		$("#array_form :checkbox['name=cnum[]']:checked").each(function(i){
-			cnum[i] = $(this).val();
-		});
-		window.open(__URL_PATH__+"modules/board/controll.php?m=board&cnum="+cnum+"&article="+article+"&board_id="+board_id+"&keyword="+keyword+"&where="+where+"&page="+page+"&category="+category+"&viewType=m","list_controll","width=350,height=300,left=100,top=100");
-	});
-});
-
-/*
-공통
-*/
-$(document).ready(function(){
-	//작성자를 클릭한 경우 정보보기 팝업 띄움
-	$(document).on("click","a[member_profile]",function(e){
-		e.preventDefault();
-		var me_idno = $(this).attr("member_profile");
-		var article = $(this).attr("article");
-		window.open(__URL_PATH__+"modules/board/profile.php?m=board&me_idno="+me_idno+"&article="+article+"&viewType=m","members_profile","width=400,height=400,left=100,top=100");
-	});
 });

@@ -109,8 +109,8 @@
 	*/
 	//관리자 버튼 출력
 	function bbs_controll_btn(){
-		global $member,$c_array, $board_id, $article, $where, $keyword, $page, $category;
-		if($member['me_level']<=$c_array['controll_level']){
+		global $member,$c_array, $board_id, $article, $where, $keyword, $page, $category, $viewType;
+		if($viewType=="p"&&$member['me_level']<=$c_array['controll_level']){
 			return "<input type=\"button\" class=\"__button_cancel\" value=\"관리\" id=\"array_controll_btn\" article=\"{$article}\" board_id=\"{$board_id}\" where=\"{$where}\" keyword=\"{$keyword}\" page=\"{$page}\" category=\"{$category}\" />";
 		}else{
 			return "";
@@ -118,8 +118,12 @@
 	}
 	//관리자 체크박스 출력
 	function array_subject_controll_chk(){
-		global $array;
-		return "<input type=\"checkbox\" name=\"cnum[]\" value=\"".$array['idno']."\" style=\"border:0;\">";
+		global $array, $viewType;
+		if($viewType=="p"){	
+			return "<input type=\"checkbox\" name=\"cnum[]\" value=\"".$array['idno']."\" style=\"border:0;\">";
+		}else{
+			return "";
+		}
 	}
 	//제목 출력
 	function bbs_subject_title(){
@@ -211,7 +215,7 @@
 	//회원 이름 출력
 	function bbs_me_nick(){
 		global $array,$article;
-		if($array['me_idno']!=0){
+		if($viewType=="p"&&$array['me_idno']!=0){
 			return "<a href=\"#\" member_profile=\"{$array['me_idno']}\" article=\"{$article}\">{$array['writer']}</a>";
 		}else{
 			return $array['writer'];
@@ -284,7 +288,7 @@
 	$header->skin_modeling("[bbs_setting]",bbs_setting_btn());
 	$header->skin_modeling("[bbs_category]",bbs_category());
 	$header->skin_modeling("[board_title]",$c_array['name']);
-	if($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y"){
+	if(($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y")&&$viewType=="p"){
 		$header->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","show");
 	}else{
 		$header->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","hide");
@@ -337,7 +341,7 @@
 			$notice_loop->skin_modeling("[likes]",$array['likes_count']);
 			$notice_loop->skin_modeling("[unlikes]",$array['unlikes_count']);
 			$notice_loop->skin_modeling("[category_name]",array_category_name());
-			if($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y"){
+			if(($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y")&&$viewType=="p"){
 				$notice_loop->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","show");
 			}else{
 				$notice_loop->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","hide");
@@ -408,7 +412,7 @@
 			$array_loop->skin_modeling("[likes]",$array['likes_count']);
 			$array_loop->skin_modeling("[unlikes]",$array['unlikes_count']);
 			$array_loop->skin_modeling("[category_name]",array_category_name());
-			if($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y"){
+			if(($member['me_level']<=$c_array['controll_level']||$member['me_admin']=="Y")&&$viewType=="p"){
 				$array_loop->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","show");
 			}else{
 				$array_loop->skin_modeling_hideArea("[{controll_chk_start}]","[{controll_chk_end}]","hide");
