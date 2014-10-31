@@ -1,107 +1,25 @@
 <script type="text/javascript">
 $(document).ready(function(){
-	var board_id = $("input[name=board_id]").val();
-	var article = $("input[name=article]").val();
-	var cnum = $("input[name=cnum]").val();
-	var keyword = $("input[name=keyword]").val();
-	var where = $("input[name=where]").val();
-	var page = $("input[name=page]").val();
-	var category = $("input[name=category]").val();
+	$form = $("form[name=controllForm]");
 	//삭제 버튼을 클릭하는 경우
 	$("input[deleteBtn]").click(function(){
 		if(confirm("정말로 삭제 하시겠습니까?")==true){
-			$.ajax({
-				type		:	"POST",
-				url			:	__URL_PATH__+"modules/board/controll.submit.php",
-				cache		:	false,
-				async		:	false,
-				dataType	:	"HTML",
-				data		:	{
-									'board_id':board_id,
-									'article':article,
-									'where':where,
-									'keyword':keyword,
-									'page':page,
-									'category':category,
-									'cnum':cnum,
-									'type':"delete"
-								},
-				success		:	function(msg){
-									if(msg=="<!--success::1-->"){
-										alert("성공적으로 삭제 되었습니다.");
-										window.close();
-										opener.location.href=__URL_PATH__+"?article="+article+"&category="+category+"&page="+page+"&where="+where+"&keyword="+keyword;
-									}else{
-										alert(msg);
-									}
-								}
-			});
+			$("input[name=type]",$form).val("delete");
+			$form.submit();
 		}
 	});
 	//복사 버튼을 클릭하는 경우
 	$("input[copyBtn]").click(function(){
-		var tar_board_id = $("select[name=tar_board_id] option:selected").val();
 		if(confirm("답글은 복사 되지 않습니다.\n\n계속 진행 하시겠습니까?")==true){
-			$.ajax({
-				type		:	"POST",
-				url			:	__URL_PATH__+"modules/board/controll.submit.php",
-				cache		:	false,
-				async		:	false,
-				dataType	:	"HTML",
-				data		:	{
-									'board_id':board_id,
-									'article':article,
-									'where':where,
-									'keyword':keyword,
-									'page':page,
-									'category':category,
-									'cnum':cnum,
-									'type':"copy",
-									'tar_board_id':tar_board_id
-								},
-				success		:	function(msg){
-									if(msg=="<!--success::2-->"){
-										alert("성공적으로 복사 되었습니다.");
-										window.close();
-										opener.location.href=__URL_PATH__+"?article="+article+"&category="+category+"&page="+page+"&where="+where+"&keyword="+keyword;
-									}else{
-										alert(msg);
-									}
-								}
-			});
+			$("input[name=type]",$form).val("copy");
+			$form.submit();
 		}
 	});
 	//이동 버튼을 클릭하는 경우
 	$("input[moveBtn]").click(function(){
-		var tar_board_id = $("select[name=tar_board_id] option:selected").val();
 		if(confirm("답글은 부모글 없이 단독으로 이동되지 않습니다.\n\n계속 진행 하시겠습니까?")==true){
-			$.ajax({
-				type		:	"POST",
-				url			:	__URL_PATH__+"modules/board/controll.submit.php",
-				cache		:	false,
-				async		:	false,
-				dataType	:	"HTML",
-				data		:	{
-									'board_id':board_id,
-									'article':article,
-									'where':where,
-									'keyword':keyword,
-									'page':page,
-									'category':category,
-									'cnum':cnum,
-									'type':"move",
-									'tar_board_id':tar_board_id
-								},
-				success		:	function(msg){
-									if(msg=="<!--success::3-->"){
-										alert("성공적으로 이동 되었습니다.");
-										window.close();
-										opener.location.href=__URL_PATH__+"?article="+article+"&category="+category+"&page="+page+"&where="+where+"&keyword="+keyword;
-									}else{
-										alert(msg);
-									}
-								}
-			});
+			$("input[name=type]",$form).val("move");
+			$form.submit();
 		}
 	});
 	//닫기 버튼을 클릭하는 경우
@@ -114,7 +32,8 @@ $(document).ready(function(){
 	<div class="title">
 		게시물 관리하기
 	</div>
-	<div class="cont">
+	<form name="controllForm" id="controllForm" class="cont" ajaxAction="modules/board/controll.submit.php" ajaxType="html">
+		<input type="hidden" name="type" value="" />
 		<input type="hidden" name="board_id" value="[board_id]" />
 		<input type="hidden" name="article" value="[article]" />
 		<input type="hidden" name="cnum" value="[cnum]" />
@@ -143,5 +62,5 @@ $(document).ready(function(){
 		<div class="btnArea">
 			<input type="button" class="__button_cancel _calcel_btn" value="닫기" />
 		</div>
-	</div>
+	</form>
 </article>

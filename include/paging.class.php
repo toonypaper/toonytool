@@ -3,116 +3,136 @@
 	페이징 클래스
 	*/
 	class pagingClass extends mysqlConnection{
-		var $page=1; 
-		var $total=0; 
-		var $listPerPage=15; 
-		var $totalPage; 
-		var $showPerList=""; 
-		var $addParam;
-		function __construct(){
-			global $viewType;
-			if($viewType=="p"){
-				$this->showPerList = 10;
-			}else{
-				$this->showPerList = 7;
-			}
-		}
-		function page_param($page){
+		
+		public $page = 1; 
+		public $total = 0; 
+		public $listPerPage = 15; 
+		public $totalPage; 
+		public $showPerList = "7"; 
+		public $addParam;
+		private $startPage;
+		private $endPage;
+		private $prePage;
+		private $nextPage;
+		
+		public function page_param($page){
 			if($page){
-				$this->page=$page;
+				$this->page = $page;
 			}
 		} 
-		function Pagging($page=1){ 
+		public function Pagging($page = 1){ 
 			$this->setPage($page); 
 		} 
-		function setPage($page){ 
-			$this->page=($page>0)?$page:1; 
+		public function setPage($page){ 
+			if($page>0){
+				$this->page = $page;
+			}else{
+				$this->page = 1;
+			} 
 		} 
-		function setTotal($total){ 
-			$this->total=$total; 
+		public function setTotal($total){ 
+			$this->total = $total; 
 		} 
-		function getPaggingQuery($sql){ 
-			return $sql . $this->getPagging(); 
+		public function getPaggingQuery($sql){ 
+			return $sql.$this->getPagging(); 
 		} 
-		function getPagging(){ 
-			$limit=($this->page-1)*$this->listPerPage .",".$this->listPerPage; 
+		public function getPagging(){ 
+			$limit = ($this->page-1)*$this->listPerPage.",".$this->listPerPage; 
 			return " limit $limit"; 
 		} 
-		function setListPerPage($listPerPage){ 
-			$this->listPerPage=$listPerPage; 
+		public function setListPerPage($listPerPage){ 
+			$this->listPerPage = $listPerPage; 
 		} 
-		function getNoStart(){ 
+		public function getNoStart(){ 
 			return ($this->total-($this->listPerPage*($this->page-1))); 
 		} 
-		function getNo($i){ 
-			return $this->getNoStart() - $i; 
+		public function getNo($i){ 
+			return $this->getNoStart()-$i; 
 		} 
-		function setParam($addParam){ 
-			$this->addParam=$addParam; 
+		public function setParam($addParam){ 
+			$this->addParam = $addParam; 
 		} 
-		function setShowPerList($showPerList){
-			$this->showPerList=$showPerList;
+		public function setShowPerList($showPerList){
+			$this->showPerList = $showPerList;
+		}
+		//페이지 범위 계산
+		private function SetPageNav(){
+			$this->totalPage = ceil($this->total/$this->listPerPage); 
+			$this->startPage = (floor(($this->page-1)/$this->showPerList)*$this->showPerList)+1; 
+			$this->endPage = $this->startPage+$this->showPerList-1; 
+			if($this->endPage>$this->totalPage){
+				$this->endPage = $this->totalPage;
+			}
+			$this->prePage = $this->startPage-1;
+			$this->nextPage = $this->endPage+1;
 		}
 		//페이징 출력
-		function Show($addParam=null){ 
-			if(is_string($addParam)) $this->setParam($addParam); 
-			if($this->total>0){ 
-				$this->totalPage=ceil($this->total / $this->listPerPage); 
-				$startPage=(floor(($this->page-1)/$this->showPerList)*$this->showPerList)+1; 
-				$endPage=$startPage+$this->showPerList-1; 
-				$endPage =($endPage > $this->totalPage)? $this->totalPage : $endPage; 
-				$prn=array(); 
-				$prePage=$startPage-1;
-				$nextPage=$endPage+1;
-				$prn[]="<ul class=\"__paging_area\">";
-				if($startPage!=1) $prn[]="<li class=\"___paging_before2\"><a href=\"{$this->addParam}&page=1\"><img src=\"".__URL_PATH__."images/paging_before2.jpg\">처음</a></li>";
-				if($startPage!=1) $prn[]="<li class=\"___paging_before\"><a href=\"{$this->addParam}&page={$prePage}\"><img src=\"".__URL_PATH__."images/paging_before.jpg\">이전</a></li>"; 
-				for($i=$startPage;$i<=$endPage;$i++){ 
-					if ($i == $this->page){ 
-						$prn[]="<li class=\"___paging_num_active\">{$i}</li>"; 
-					} else { 
-						$prn[]="<li class=\"___paging_num\"><a href=\"{$this->addParam}&page={$i}\">{$i}</a></li>"; 
+		public function Show($addParam = NULL){ 
+			if(is_string($addParam)){
+				$this->setParam($addParam); 
+			}
+			if($this->total>0){
+				$this->SetPageNav();
+				$prn = array();
+				$prn[] = "<ul class=\"__paging_area\">";
+				if($this->startPage!=1){
+					$prn[] = "<li class=\"___paging_before2\"><a href=\"{$this->addParam}&page=1\"><img src=\"".__URL_PATH__."images/paging_before2.jpg\">처음</a></li>";
+				}
+				if($this->startPage!=1){
+					$prn[] = "<li class=\"___paging_before\"><a href=\"{$this->addParam}&page={$prePage}\"><img src=\"".__URL_PATH__."images/paging_before.jpg\">이전</a></li>"; 
+				}
+				for($i=$this->startPage;$i<=$this->endPage;$i++){ 
+					if($i==$this->page){ 
+						$prn[] = "<li class=\"___paging_num_active\">{$i}</li>"; 
+					}else{ 
+						$prn[] = "<li class=\"___paging_num\"><a href=\"{$this->addParam}&page={$i}\">{$i}</a></li>"; 
 					} 
 				} 
-				if($endPage < $this->totalPage) $prn[]="<li class=\"___paging_after\"><a href=\"{$this->addParam}&page={$nextPage}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
-				if($endPage < $this->totalPage) $prn[]="<li class=\"___paging_after2\"><a href=\"{$this->addParam}&page={$this->totalPage}\">맨끝<img src=\"".__URL_PATH__."images/paging_after2.jpg\"></a></li>";
-				$prn[]="</ul>";
+				if($this->endPage<$this->totalPage){
+					$prn[] = "<li class=\"___paging_after\"><a href=\"{$this->addParam}&page={$nextPage}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
+				}
+				if($this->endPage<$this->totalPage){
+					$prn[] = "<li class=\"___paging_after2\"><a href=\"{$this->addParam}&page={$this->totalPage}\">맨끝<img src=\"".__URL_PATH__."images/paging_after2.jpg\"></a></li>";
+				}
+				$prn[] = "</ul>";
 				return join(" ",$prn); 
 			}else{ 
-				return false; 
+				return FALSE; 
 			} 
 		}
 		//AJAX 페이징 출력
-		function Show_ajax($addParam=null,$addEle){ 
-			if(is_string($addParam)) $this->setParam($addParam); 
-			if($this->total>0){ 
-				$this->totalPage=ceil($this->total / $this->listPerPage); 
-				$startPage=(floor(($this->page-1)/$this->showPerList)*$this->showPerList)+1; 
-				$endPage=$startPage+$this->showPerList-1; 
-				$endPage =($endPage > $this->totalPage)? $this->totalPage : $endPage; 
-				$prn=array();
-				$prePage=$startPage-1;
-				$nextPage=$endPage+1;
-				$prn[]="<ul class=\"__paging_area\">";
-				if($startPage!=1) $prn[]="<li class=\"___paging_before2\"><a href=\"#\" atUrl=\"{$this->addParam}&page=1\" atEle=\"{$addEle}\"><img src=\"".__URL_PATH__."images/paging_before2.jpg\">처음</a></li>";
-				if($startPage!=1) $prn[]="<li class=\"___paging_before\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$prePage}\" atEle=\"{$addEle}\"><img src=\"".__URL_PATH__."images/paging_before.jpg\">이전</a></li>"; 
-				for($i=$startPage;$i<=$endPage;$i++){ 
-					if ($i == $this->page){ 
-						$prn[]="<li class=\"___paging_num_active\">{$i}</li>"; 
-					} else { 
-						$prn[]="<li class=\"___paging_num\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$i}\" atEle=\"{$addEle}\">{$i}</a></li>"; 
+		public function Show_ajax($addParam = null,$addEle){ 
+			if(is_string($addParam)){
+				$this->setParam($addParam); 
+			}
+			if($this->total>0){
+				$this->SetPageNav();
+				$prn = array();
+				$prn[] = "<ul class=\"__paging_area\">";
+				if($this->startPage!=1){
+					$prn[] = "<li class=\"___paging_before2\"><a href=\"#\" atUrl=\"{$this->addParam}&page=1\" atEle=\"{$addEle}\"><img src=\"".__URL_PATH__."images/paging_before2.jpg\">처음</a></li>";
+				}
+				if($this->startPage!=1){
+					$prn[] = "<li class=\"___paging_before\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$prePage}\" atEle=\"{$addEle}\"><img src=\"".__URL_PATH__."images/paging_before.jpg\">이전</a></li>"; 
+				}
+				for($i=$this->startPage;$i<=$this->endPage;$i++){ 
+					if($i==$this->page){ 
+						$prn[] = "<li class=\"___paging_num_active\">{$i}</li>"; 
+					}else{ 
+						$prn[] = "<li class=\"___paging_num\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$i}\" atEle=\"{$addEle}\">{$i}</a></li>"; 
 					} 
 				} 
-				if($endPage < $this->totalPage) $prn[]="<li class=\"___paging_after\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$nextPage}\" atEle=\"{$addEle}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
-				if($endPage < $this->totalPage) $prn[]="<li class=\"___paging_after2\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$this->totalPage}\" atEle=\"{$addEle}\">맨끝<img src=\"".__URL_PATH__."images/paging_after2.jpg\"></a></li>";
-				$prn[]="</ul>";
+				if($this->endPage<$this->totalPage){
+					$prn[] = "<li class=\"___paging_after\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$nextPage}\" atEle=\"{$addEle}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
+				}
+				if($this->endPage<$this->totalPage){
+					$prn[]="<li class=\"___paging_after2\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$this->totalPage}\" atEle=\"{$addEle}\">맨끝<img src=\"".__URL_PATH__."images/paging_after2.jpg\"></a></li>";
+				}
+				$prn[] = "</ul>";
 				return join(" ",$prn); 
 			}else{ 
-				return false; 
+				return FALSE; 
 			} 
-		}
-		function __destruct(){
-			
 		}
 	}
 ?>

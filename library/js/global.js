@@ -4,6 +4,209 @@
 	
 **************************************************/
 /*
+AJAX Form Validator
+*/
+function validt_error($form,msg){
+	msg = msg.replace("<!--","");
+	msg = msg.replace("-->","");
+	msg = msg.split("|");
+	msg[0] = msg[0].replace("error::","");
+	msg[1] = msg[1].replace("msg::","");
+	$input = $("*[name="+msg[0]+"]",$form);
+	var input_title = $input.attr("title");
+	if($.trim(msg[1])=="NULL_ERROR"){
+		alert(input_title+" : 입력해 주세요.");
+	}else if($.trim(msg[1])=="NOT_CAPCHA"){
+		alert("스팸방지 코드가 올바르지 않습니다.");
+		$("#zsfImg").attr("src",__URL_PATH__+"capcha/zmSpamFree.php?re&zsfimg="+new Date().getTime());	
+	}else if($.trim(msg[1])!=""){
+		alert(msg[1]);
+	}else{
+		alert(input_title+" : 올바르게 입력해 주세요.");
+	}
+	$input.focus();
+}
+function validt_success($form,msg){
+	msg = msg.replace("<!--","");
+	msg = msg.replace("-->","");
+	msg = msg.split("|");
+	if(msg[0].indexOf("success::")!=-1){
+		msg[0] = msg[0].replace("success::","");
+		msg[1] = msg[1].replace("location::","");
+		if($.trim(msg[0])!=""){
+			alert(msg[0]);
+		}
+		if(msg[1].indexOf("window.close&&opener.href=")!=-1){
+			msg[1] = msg[1].replace("window.close&&opener.href=","");
+			opener.document.location.href = __URL_PATH__+viewDir+msg[1];
+			window.close();
+		}else{
+			switch(msg[1]){
+				case "window.close" :
+					window.close();
+					break;
+				case "window.close&&opener.reload" :
+					opener.document.location.reload();
+					window.close();
+					break;
+				case "window.document.location.reload" :
+					window.document.location.reload();
+					break;
+				case "" :
+					return;
+					break;
+				default :
+					window.document.location.href = __URL_PATH__+viewDir+msg[1];
+			}
+		}
+	}
+	if(msg[0].indexOf("success_returnStr::")!=-1){
+		msg[0] = msg[0].replace("success_returnStr::","");
+		msg[1] = msg[1].replace("msg::","");
+		$(msg[0]).html(msg[1]);
+	}
+	if(msg[0].indexOf("success_returnFunction::")!=-1){
+		msg[0] = msg[0].replace("success_returnFunction::","");
+		eval(msg[0]);
+	}
+}
+function validt_returnAjax($form,msg){
+		msg = msg.replace("<!--","");
+		msg = msg.replace("-->","");
+		msg = msg.split("|");
+		msg[0] = msg[0].replace("returnAjax::","");
+		msg[1] = msg[1].replace("ajaxDoc::","");
+		alert(msg[0]);
+		$.ajax({
+			type		:	"POST",
+			url			:	__URL_PATH__+msg[1],
+			cache		:	false,
+			data		:	$form.serialize(),
+			async		:	false,
+			dataType	:	"HTML",
+			success		:	function(msg){
+								if(msg.indexOf("error::")!=-1){
+									validt_error($form,msg);
+								}else if(msg.indexOf("success::")!=-1){
+									validt_success($form,msg);
+								}else{
+									alert("일시적인 오류입니다.");
+									alert(msg);
+								}
+							}
+		});
+}
+
+//첨부파일이 포함된 AJAX Submit을 시작함
+function ajaxFormSubmit($form){
+	var ajaxDefault = $form.attr("ajaxFormSubmit");
+	var ajaxAction = $form.attr("ajaxAction");
+	ajaxFormSubmit_val = true;
+	$form.attr("action",__URL_PATH__+ajaxAction);
+	$form.ajaxForm({
+		cache		:	false,
+		async		:	false,
+		type		:	"POST",
+		dataType	:	"HTML",
+		beforeSend	:	function(){
+							$("*[ajaxSubmit],input[type=button]",$form).attr("disabled",true);
+						},
+		success		:	function(msg){
+							if(msg.indexOf("error::")!=-1){
+								validt_error($form,msg);
+							}else if(msg.indexOf("success::")!=-1){
+								validt_success($form,msg);
+							}else if(msg.indexOf("success_returnStr::")!=-1){
+								validt_success($form,msg);
+							}else if(msg.indexOf("success_returnFunction::")!=-1){
+								validt_success($form,msg);
+							}else if(msg.indexOf("returnAjax::")!=-1){
+								validt_returnAjax($form,msg);
+							}else{
+								alert("일시적인 오류입니다.");
+								alert(msg);
+							}
+							$("*[ajaxSubmit],input[type=button]",$form).attr("disabled",false);
+						}
+	});
+	$form.submit();
+}
+//첨부파일이 포함되지 않은 AJAX Submit을 시작함
+function ajaxSubmit($form){
+	var ajaxAction = $form.attr("ajaxAction");
+	var ajaxType = $form.attr("ajaxType");
+	$.ajax({
+		type		:	"POST",
+		url			:	__URL_PATH__+ajaxAction,
+		cache		:	false,
+		data		:	$form.serialize(),
+		async		:	false,
+		dataType	:	"HTML",
+		beforeSend	:	function(){
+							$("*[ajaxSubmit],input[type=button]",$form).attr("disabled",true);
+						},
+		success		:	function(msg){
+							if(msg.indexOf("error::")!=-1){
+								validt_error($form,msg);
+							}else if(msg.indexOf("success::")!=-1){
+								validt_success($form,msg);
+							}else if(msg.indexOf("success_returnStr::")!=-1){
+								validt_success($form,msg);
+							}else if(msg.indexOf("success_returnFunction::")!=-1){
+								validt_success($form,msg);
+							}else if(msg.indexOf("returnAjax::")!=-1){
+								validt_returnAjax($form,msg);
+							}else{
+								alert("일시적인 오류입니다.");
+								alert(msg);
+							}
+							$("*[ajaxSubmit],input[type=button]",$form).attr("disabled",false);
+						}
+	});
+}
+//AJAX, AJAX Form Submit시 처리
+$(document).ready(function(){
+	$(document).on("submit","*[ajaxAction]",function(e){
+		var ajaxType = $(this).attr("ajaxType");
+		if(ajaxType=="multipart"&&ajaxFormSubmit_val!=true){
+			e.preventDefault();
+			ajaxFormSubmit($(this));
+		}
+		if(ajaxType=="html"){
+			e.preventDefault();
+			ajaxSubmit($(this));
+		}
+	});
+	$(document).on("click","*[ajaxSubmit]",function(e){
+		e.preventDefault();
+		var ajaxDefault = $(this).attr("ajaxSubmit");
+		$("form[name="+ajaxDefault+"]").submit();
+	});
+	ajaxFormSubmit_val = false;
+	$(document).on("click","*[ajaxFormSubmit]",function(e){
+		ajaxFormSubmit($("*[name="+$(this).attr("ajaxFormSubmit")+"]"));
+	});
+});
+
+/*
+'allCheck' 속성이 있는 요소를 클릭하는 경우 클릭시 'cnum[]' 이름 가진 체크박스 모두 선택
+*/
+$(document).ready(function(){
+	$("*[allCheck]").click(function(e){
+		e.preventDefault();
+		var $form = $("*[name="+$(this).attr("allCheck")+"]");
+		$("input[name='cnum[]']",$form).each(function(){
+			if($(this).is(":checked")==false){
+				$(this).attr({checked:true});
+			}else{
+				$(this).attr({checked:false});
+			}
+		});
+	});
+});
+
+
+/*
 세션쿠키 컨트롤러
 */
 //쿠키를 굽는다.
@@ -96,6 +299,7 @@ smartEditor_submit_val = false;
 function smartEditor_create_recTextarea(){
 	$("body").append('<textarea name="smart_editor2_attach_images" id="smart_editor2_attach_images" style="display:none;"></textarea>'); //기존 삽입된 이미지까지 기록
 	$("body").append('<textarea name="smart_editor2_attach_images_new" id="smart_editor2_attach_images_new" style="display:none;"></textarea>'); //새로 삽입된 이미지만 기록
+	/*
 	//본문에서 기존 삽입된 이미지 추출
 	var article_html = $("textarea[smarteditor]").val();
 	var article_images = article_html.match(/smartEditor\/[a-zA-Z0-9-_\.]+.(jpg|gif|png|bmp)/gi);
@@ -105,6 +309,7 @@ function smartEditor_create_recTextarea(){
 			$("#smart_editor2_attach_images").val(images_rec+","+article_images[i].replace("smartEditor/",""));
 		}
 	}
+	*/
 }
 //본문에 이미지를 삽입하는 경우 Hidden Input에 기록
 function smartEditor_insert_image(file){

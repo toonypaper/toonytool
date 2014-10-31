@@ -1,27 +1,11 @@
 <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	//적용 버튼을 클릭한 경우
+	var $form = $("form[name=mainVisualForm]");
 	$("._submitBtn").click(function(){
-		var $form = $("form[name=mainVisualForm]");
 		smartEditor_submit_val=true;oEditors.getById["sourceCode"].exec("UPDATE_CONTENTS_FIELD", []);
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/mainVisual.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--success::1-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
+		$form.submit();
 	});
 });
 </script>
@@ -42,7 +26,7 @@ $(document).ready(function(){
 					<li[tab_active_m]><a href="?p=mainVisual&vtype=m">모바일</a></li>
 				</ul>
 				<div class="contArticle">
-					<form name="mainVisualForm">
+					<form name="mainVisualForm" ajaxAction="admin/mainVisual.submit.php" ajaxType="html">
 						<input type="hidden" name="vtype" value="[vtype_value]" />
 						<h5 style="padding-top:0;">Javascript, CSS 소스코드를 입력 하세요.</h5>
 						<table cellpadding="0" cellspacing="0" class="__article_table_read" style="border:none;">
@@ -59,7 +43,7 @@ $(document).ready(function(){
 							<tbody>
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea class="sourceCode" id="sourceCode" name="sourceCode" style="width:100%; height:300px; border:none;" smarteditor>[sourceCode]</textarea>
+										<textarea class="sourceCode" id="sourceCode" name="sourceCode" title="소스코드" style="width:100%; height:300px; border:none;" smarteditor>[sourceCode]</textarea>
 									</td>
 								</tr>
 							</tbody>

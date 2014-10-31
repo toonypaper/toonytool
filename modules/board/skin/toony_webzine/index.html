@@ -8,8 +8,8 @@
 	<div class="settingArea">
 		<table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-				<td style="text-align:left;">[bbs_category]</td>
-				<td style="text-align:right;">[bbs_setting]</td>
+				<td style="text-align:left;">[category_selectbox]</td>
+				<td style="text-align:right;">[setting_btn]</td>
 			</tr>
 		</table>
 	</div>
@@ -30,6 +30,8 @@
 			</tr>
 		</thead>
 		<tbody>
+		
+<!--------------------s:loop영역-------------------->
 			<!--Notice-->
 			[{notice_loop_start}]
 			<tr class="notice">
@@ -37,9 +39,13 @@
 				<td style="text-align:center;">[controll_chk]</td>
 				[{controll_chk_end}]
 				<td style="font-size:11px; color:#666; text-align:center;"><strong>공지</strong></td>
-				<td colspan="2"><strong class="category">[category_name]</strong> [secret_ico]<strong>[subject]</strong>[file_ico][mobile_ico]<span class="comment">[comment_num]</span></td>
+				<td colspan="2">
+					[secret_ico]
+					<strong><a href="[link]" class="subject">[subject]</a></strong>[file_ico][mobile_ico]
+					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
+				</td>
 				<td style="text-align:center;">[writer]</td>
-				<td class="___number"title="[write_datetime]">[write_date]</td>
+				<td class="___number"title="[datetime]">[date]</td>
 				<td class="___number">[hit]</td>
 				[{likes_start}]
 				<td style="font-size:11px; color:#666; text-align:center;">[likes]<span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</td>
@@ -54,14 +60,19 @@
 				[{controll_chk_end}]
 				<td class="___number">[number]</td>
 				<td style="width:120px; border-right:none;">
-					[thumbnail]
+					<a href="[link]" class="thumb">[thumbnail]</a>
 				</td>
 				<td style="border-right:none; word-break:break-all;">
-					<strong class="webzine_sbj"><strong class="category">[category_name]</strong> [secret_ico][subject]</strong> [file_ico][mobile_ico]<span class="comment">[comment_num]</span>
-					[ment]
+					<div class="webzine_sbj">
+						<strong class="category">[category]</strong>[secret_ico]
+						<a href="[link]" class="subject">[subject]</a>
+						[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
+					</div>
+					[file_ico][mobile_ico]
+					<a href="[link]" class="webzine_ment">[ment]</a>
 				</td>
 				<td style="text-align:center; border-right:none;">[writer]</td>
-				<td class="___number" title="[write_datetime]">[write_date]</td>
+				<td class="___number" title="[datetime]">[date]</td>
 				<td class="___number">[hit]</td>
 				[{likes_start}]
 				<td class="___number">[likes]<span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</td>
@@ -74,6 +85,8 @@
 	<span class="not_loop_span">등록된 글이 없습니다.</span>
 	[{array_not_loop_end}]
 	<!-- List End -->
+<!--------------------e:loop영역-------------------->
+
 	[paging_area]
 	<div class="btnArea">
 		[write_btn][controll_btn]

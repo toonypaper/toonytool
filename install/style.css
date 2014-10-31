@@ -4,16 +4,22 @@
 	Common
 	
 **************************************************/
+@font-face{
+	font-family:MalgunGothic;
+	src:url(../library/font/MalgunGothic.eot);
+	src:local('※'), url(../library/font/MalgunGothic.woff) format('woff');
+}
 *{
 	-webkit-text-size-adjust:none;
+	-webkit-border-radius:0;
 }
 body,form,dl,dd{
 	margin:0;
 	padding:0;
 }
 body,td,select,input,div,form,textarea,center,option,pre,p,span,blockquote,td,li,dd{
-	font-family:dotum, gullim, Tahoma, Arial, Helvetica, sans-serif;
-	font-size:12px;
+	font-family:MalgunGothic, dotum, gullim, Tahoma, Arial, Helvetica, sans-serif;
+	font-size:13px;
 	color:#343434;
 	letter-spacing:0;
 }
@@ -100,38 +106,16 @@ A:hover{text-decoration:underline; color:#000000}
 	Style
 	
 **************************************************/
-.__button_submit{ cursor:pointer; margin:0 4px; background:#E71C41 url(../../images/sample/button_bull_submit.jpg) no-repeat right top; display:inline-block; *display:inline; *zoom:1; border:none; padding:7px 12px; padding-top:10px; font-size:11px; color:#fff; }
-.__button_cancel{ cursor:pointer; margin:0 4px; background:#19A996 url(../../images/sample/button_bull_cancel.jpg) no-repeat right top; display:inline-block; *display:inline; *zoom:1; border:none; padding:7px 12px; padding-top:10px; font-size:11px; color:#fff; }
-.__button_small{
-	font-size:11px; letter-spacing:-1px; font-weight:bold; border:1px solid #494344; color:#fff; padding:5px 8px; margin:2px; cursor:pointer; vertical-align:top; display:inline-block; *display:inline; *zoom:1;
-	background: #6C6465; /* Old browsers */
-	background: -moz-linear-gradient(top, #6C6465 0%, #4A4445 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6C6465), color-stop(100%,#4A4445)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #6C6465 0%,#4A4445 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #6C6465 0%,#4A4445 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #6C6465 0%,#4A4445 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #6C6465 0%,#4A4445 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6C6465', endColorstr='#4A4445',GradientType=0 ); /* IE6-9 */
-}
-.__button_small_gray{
-	font-size:13px; letter-spacing:-1px; font-weight:bold; border:1px solid #D4D4D4; padding:5px 8px; margin:2px; cursor:pointer; vertical-align:top;
-	background: #F8F8F8; /* Old browsers */
-	background: -moz-linear-gradient(top, #FAFAFA 0%, #F0F0F0 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F8F8F8), color-stop(100%,#F0F0F0)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #F8F8F8 0%,#F0F0F0 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8F8F8', endColorstr='#F0F0F0',GradientType=0 ); /* IE6-9 */
-}
+.__button_submit{ cursor:pointer; margin:0 4px; background:#35364a; display:inline-block; *display:inline; *zoom:1; border:none; padding:7px 12px; padding-top:10px; font-size:15px; color:#fff; }
+.__button_cancel{ cursor:pointer; margin:0 4px; background:#dedede; display:inline-block; *display:inline; *zoom:1; border:none; padding:7px 12px; padding-top:10px; font-size:15px; color:#000; }
 .__span_sment{ font-size:13px; letter-spacing:-1px; color:#999; padding-left:10px; }
 
 body{ margin:0; padding:0; }
 header{ width:408px; margin:0 auto; margin-top:100px; }
-article{ background-color:#7B7B7B; padding:20px; margin-top:25px; text-align:center; }
+article{ background-color:#dedede; padding:20px; margin-top:25px; text-align:center; }
 article .inner{ width:408px; margin:0 auto; text-align:left; }
-article .t{ height:25px; background:url(images/stitle_bg.jpg); font-size:13px; font-weight:bold; color:#fff; letter-spacing:-1px; padding-top:10px; padding-left:10px; }
-article .t > strong{ color:#FFFF00; padding-right:10px; }
+article .t{ background:#343549; font-size:13px; color:#fff; letter-spacing:-1px; padding:15px; padding-left:10px; }
+article .t strong{ padding-right:10px; }
 article .c{ background-color:#F8F8F8; border:1px solid #fff; padding:15px; }
 article .stitle{ font-size:13px; color:#666; }
 article .tb{ display:block; background-color:#fff; border:1px dotted #ccc; padding:10px; margin-top:10px; font-size:13px; }

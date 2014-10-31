@@ -1,27 +1,11 @@
 <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	$form = $("form[name=footerDesignForm");
+	//적용 버튼을 클릭하는 경우
 	$("._submitBtn").click(function(){
-		var $form = $("form[name=footerDesignForm]");
 		smartEditor_submit_val=true;oEditors.getById["sourceCode"].exec("UPDATE_CONTENTS_FIELD", []);
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/footerDesign.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--success::1-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
+		$form.submit();
 	});
 });
 </script>
@@ -42,7 +26,7 @@ $(document).ready(function(){
 					<li[tab_active_m]><a href="?p=footerDesign&vtype=m">모바일</a></li>
 				</ul>
 				<div class="contArticle">
-					<form name="footerDesignForm">
+					<form name="footerDesignForm" ajaxAction="admin/footerDesign.submit.php" ajaxType="html">
 						<input type="hidden" name="vtype" value="[vtype_value]" />
 						<h5 style="padding-top:0;">Javascript, CSS 소스코드를 입력 하세요.</h5>
 						<table cellpadding="0" cellspacing="0" class="__article_table_read" style="border:none;">

@@ -1,0 +1,83 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$form = $("form[name=layoutSkinForm]");
+	//정보 수정
+	$("li[skinName]").click(function(){
+		var skinType = $(this).attr("skinType");
+		var skinName = $(this).attr("skinName");
+		$("input[name=skinType]",$form).val(skinType);
+		$("input[name=skinName]",$form).val(skinName);
+		$(this).parent().children("li").removeClass("active");
+		$(this).addClass("active");
+		$form.submit();
+	});
+});
+</script>
+
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>레이아웃 스킨 설정</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					홈페이지, 레이아웃 스킨으로 간편하게 레이아웃 디자인을 변경 하세요.
+				</div>
+				<form name="layoutSkinForm" class="contArea layoutSkin" ajaxAction="admin/layoutSkin.submit.php" ajaxType="html">
+					<input type="hidden" name="skinType" />
+					<input type="hidden" name="skinName" />
+					<div class="p_layout">
+						<div class="contTitle">
+							<h4>홈페이지 레이아웃</h4>
+						</div>
+						<ul>
+							[{p_skin_loop_start}]
+							<li skinType="p" skinName="[name]" class="[active_class]">
+								[thumb]
+								<strong class="title">[title]</strong>
+								<span class="description">[description]</span>
+								<span class="author"><strong>제작자</strong> [author]</span>
+								<span class="date"><strong>제작일</strong> [date]</span>
+							</li>
+							[{p_skin_loop_end}]
+							<li onClick="window.open('http://www.toonypaper.com');">
+								<img src="images/layoutSkin_addSkin.jpg" alt="새로운 스킨 다운로드 및 추가" title="새로운 스킨 다운로드 및 추가" />
+								<strong class="title">&nbsp;&nbsp;</strong>
+								<span class="description">투니페이퍼에서 새로운 홈페이지 레이아웃 스킨을 다운로드 가능합니다.</span>
+								<span class="author">&nbsp;&nbsp;</span>
+								<span class="date">레이아웃 다운로드 바로가기</span>
+							</li>
+						</ul>
+					</div>
+					<div class="m_layout">
+						<div class="contTitle">
+							<h4>모바일페이지 레이아웃</h4>
+						</div>
+						<ul>
+							[{m_skin_loop_start}]
+							<li skinType="m" skinName="[name]" class="[active_class]">
+								[thumb]
+								<strong class="title">[title]</strong>
+								<span class="description">[description]</span>
+								<span class="author"><strong>제작자</strong> [author]</span>
+								<span class="date"><strong>제작일</strong> [date]</span>
+							</li>
+							[{m_skin_loop_end}]
+							<li onClick="window.open('http://www.toonypaper.com');">
+								<img src="images/layoutSkin_addSkin.jpg" alt="새로운 스킨 다운로드 및 추가" title="새로운 스킨 다운로드 및 추가" />
+								<strong class="title">&nbsp;&nbsp;</strong>
+								<span class="description">투니페이퍼에서 새로운 홈페이지 레이아웃 스킨을 다운로드 가능합니다.</span>
+								<span class="author">&nbsp;&nbsp;</span>
+								<span class="date">레이아웃 다운로드 바로가기</span>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

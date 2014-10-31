@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","type,cnum,id,memo,ip");
 	$lib->security_filter("referer");
@@ -17,19 +18,15 @@
 		/*
 		검사
 		*/
-		if(trim($ip)==""){
-			echo '<!--error::null_ip-->'; exit;
-		}
-		if(trim($memo)==""){
-			echo '<!--error::null_memo-->'; exit;
-		}
+		$validator->validt_null("ip","");
+		$validator->validt_null("memo","");
 		$mysql->select("
 			SELECT *
 			FROM toony_admin_security_ip
 			WHERE ip='$ip'
 		");
 		if($mysql->numRows()>0){
-			echo "<!--have_ip-->"; exit;
+			$validator->validt_diserror("ip","이미 등록된 ip입니다.");
 		}
 		
 		/*
@@ -44,12 +41,16 @@
 		/*
 		완료 후 리턴
 		*/
-		echo '<!--success::1-->';
+		$validator->validt_success("성공적으로 추가 되었습니다.","admin/?p=blockIP");
 		
 	/**************************************************
 	삭제 모드인 경우
 	**************************************************/
 	}else if($type=="delete"){
+		
+		if(sizeof($cnum)<1){
+			$validator->validt_diserror("","하나의 항목도 선택되지 않았습니다.");
+		}
 		$b = 0;
 		for($i=0;$i<sizeof($cnum);$i++){
 			if($cnum[$i]!=""){
@@ -67,7 +68,7 @@
 		/*
 		완료 후 리턴
 		*/
-		echo "Success_".$b;
+		$validator->validt_success($b."건이 성공적으로 삭제 되었습니다.","admin/?p=blockIP");
 	}
 	
 	

@@ -6,30 +6,21 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
-	$method->method_param("POST","name,email,phone,memo");
+	$method->method_param("POST","name,email,phone,memo,capcha");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	
 	/*
 	검사
 	*/
-	if(trim($name)==""){
-		echo '<!--error::null_name-->'; exit;
-	}
-	if(trim($email)==""){
-		echo '<!--error::null_email-->'; exit;
-	}
-	$lib->func_method_param_check("id",$email,"<!--error::not_email-->");
-	if(trim($phone)==""){
-		echo '<!--error::null_phone-->'; exit;
-	}
-	$lib->func_method_param_check("phone",$phone,"<!--error::not_phone-->");
-	if(trim($memo)==""){
-		echo '<!--error::null_memo-->'; exit;
-	}
+	$validator->validt_name("name",1,"");
+	$validator->validt_email("email",1,"");
+	$validator->validt_phone("phone",1,"");
+	$validator->validt_null("memo","");
 	if(!isset($__toony_member_idno)&&zsfCheck($capcha,"")!=true){
-		echo '<!--error::spam_replace-->'; exit;
+		$validator->validt_diserror("capcha","NOT_CAPCHA");
 	}
 	
 	/*
@@ -45,5 +36,5 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 접수 되었습니다.\n\n신속한 답변 드리도록 하겠습니다.","window.document.location.reload");
 ?>

@@ -1,79 +1,24 @@
-<script type="text/javascript">
-$(document).ready(function(){
-	var $form = $("form[name=contactUsForm]");
-	//문의 발송
-	$("._submitBtn",$form).click(function(){
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"contactUs.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_name-->" :
-										alert("문의자 이름을 입력 하세요.");
-										$("input[name=name]",$form).focus();
-										break;
-									case "<!--error::null_email-->" :
-										alert("문의자 이메일을 입력 하세요.");
-										$("input[name=email]",$form).focus();
-										break;
-									case "<!--error::not_email-->" :
-										alert("문의자 이메일이 올바르지 않습니다.");
-										$("input[name=email]",$form).focus();
-										break;
-									case "<!--error::null_phone-->" :
-										alert("문의자 연락처를 입력 하세요.");
-										$("input[name=phone]",$form).focus();
-										break;
-									case "<!--error::not_phone-->" :
-										alert("문의자 연락처가 올바르지 않습니다.");
-										$("input[name=phone]",$form).focus();
-										break;
-									case "<!--error::null_memo-->" :
-										alert("문의 내용을 입력 하세요.");
-										$("textarea[name=memo]",$form).focus();
-										break;
-									case "<!--error::spam_replace-->" :
-										alert("스팸방지코드가 올바르지 않습니다.");
-										$("#zsfImg").attr("src",__URL_PATH__+"capcha/zmSpamFree.php?re&zsfimg="+new Date().getTime());	
-										$("input[name=capcha]").val("").focus();
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 접수 되었습니다.\n\n빠른 시일 내에 답변 드리도록 하겠습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-	});
-});
-</script>
-<form name="contactUsForm" id="contactUsForm">
+<form name="contactUsForm" id="contactUsForm" ajaxAction="contactUs.submit.php" ajaxType="html">
 	<table cellpadding="0" cellspacing="0" class="__article_table">
 		<tbody>
 			[{nick_guest_start}]
 			<tr>
 				<td>
-					<input type="text" name="name" style="width:150px;" placeholder="문의자 이름" />
+					<input type="text" name="name" title="문의자 이름" style="width:150px;" placeholder="문의자 이름" />
 				</td>
 			</tr>
 			[{nick_guest_end}]
 			[{nick_member_start}]
 			<tr>
 				<td>
-					<input type="hidden" name="name" value="[nick]" placeholder="문의자 이름" />
+					<input type="hidden" name="name" title="문의자 이름" value="[nick]" placeholder="문의자 이름" />
 					<strong>[nick]</strong>
 				</td>
 			</tr>
 			[{nick_member_end}]
 			<tr>
 				<td>
-					<input type="text" name="email" value="[id_value]" placeholder="이메일" />
+					<input type="text" name="email" title="이메일" value="[id_value]" placeholder="이메일" />
 					<span class="__article_sment">
 						- 문의에 대한 답변은 이메일로 발송 됩니다.<br />
 						- 정확하게 입력해 주시기 바랍니다.
@@ -82,7 +27,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<input type="text" name="phone" value="[phone_value]" placeholder="연락처" />
+					<input type="text" name="phone" title="연락처" value="[phone_value]" placeholder="연락처" />
 					<span class="__article_sment">
 						- 하이픈(-) 없이 입력 하세요.
 					</span>
@@ -90,14 +35,14 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<textarea name="memo" style="height:200px;" placeholder="문의 내용"></textarea>
+					<textarea name="memo" style="height:200px;" title="문의 내용" placeholder="문의 내용"></textarea>
 				</td>
 			</tr>
 			[{capcha_start}]
 			<tr>
 				<td>
 					[capcha_img]
-					<input name="capcha" id="capcha" type="text" style="width:100px; padding:5px; padding-top:6px;" />
+					<input name="capcha" id="capcha" type="text" title="스팸방지 코드" style="width:100px; padding:5px; padding-top:6px;" />
 					<span class="__article_sment">
 						- 위에 보이는 스팸방지 코드를 입력란에 입력해 주세요.
 					</span>
@@ -107,7 +52,7 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	<div class="__article_btnArea">
-		<input type="button" class="__button_submit _submitBtn" value="문의하기" />
+		<input type="button" class="__button_submit _submitBtn" value="문의하기" ajaxSubmit="contactUsForm" />
 		<input type="button" class="__button_cancel" onClick="location.href='./';" value="취소" />
 	</div>
 </form>

@@ -18,7 +18,7 @@
 	Urldecode 처리
 	*/
 	$keyword = htmlspecialchars(urldecode($keyword));
-	$tab_value = urlencode($tab_value);
+	$tab_value = htmlspecialchars_decode(urldecode($tab_value));
 	
 	/*
 	keyword AND 처리
@@ -72,7 +72,8 @@
 	템플릿 치환
 	*/
 	//header
-	$header->skin_modeling("[tab_value_txt]",urldecode($tab_value));
+	$header->skin_modeling("[tab_value]",urlencode($tab_value));
+	$header->skin_modeling("[tab_value_txt]",$tab_value);
 	$header->skin_modeling("[keyword]",urlencode($keyword));
 	$header->skin_modeling("[keyword_txt]",$keyword);
 	$header->skin_modeling("[chk_where_value]",$chk_where);
@@ -82,7 +83,7 @@
 	$boardSql->select("
 		SELECT *
 		FROM toony_admin_menuInfo
-		WHERE href='pm' AND link like '?m=board%' AND vtype='p'
+		WHERE href='pm' AND link like '?m=board%' AND vtype='$viewType' AND drop_regdate IS NULL
 		ORDER BY name DESC
 	");
 	if($boardSql->numRows()>0){
@@ -103,20 +104,20 @@
 	if($tab_value==""||!$tab_value){
 		$data_where = "";
 	}else{
-		$data_where = "AND name='".urldecode($tab_value)."'";
+		$data_where = "AND name='".$tab_value."'";
 	}
 	$resultSql = new mysqlConnection();
 	$resultSql->select("
 		SELECT *
 		FROM toony_admin_menuInfo
-		WHERE href='pm' AND link like '?m=board%' AND vtype='p' $data_where
+		WHERE href='pm' AND link like '?m=board%' AND vtype='$viewType' AND drop_regdate IS NULL $data_where
 		ORDER BY name DESC
 	");
 	if($resultSql->numRows()>0){
 		do{
 			$resultSql->fetchArray("count,name,link,callName");
 			$resultArray = $resultSql->array;
-			$loop->skin_modeling("[keyword]",$keyword);
+			$loop->skin_modeling("[keyword]",urlencode($keyword));
 			$loop->skin_modeling("[article_name]",urlencode($resultArray['name']));
 			$loop->skin_modeling("[article_name_txt]",$resultArray['name']);
 			$loop->skin_modeling("[article_link]",__URL_PATH__."{$viewDir}?article=".$resultArray['callName']);

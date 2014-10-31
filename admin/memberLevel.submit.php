@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","level_1,level_2,level_3,level_4,level_5,level_6,level_7,level_8,level_9");
 	$lib->security_filter("referer");
@@ -28,8 +29,7 @@
 	*/
 	for($i=1;$i<=9;$i++){
 		if(trim($level[$i])==""){
-			echo '<!--error::null_levelName-->';
-			exit;
+			$validator->validt_diserror("level_".$i,"");
 		}
 	}
 	
@@ -46,7 +46,7 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=memberLevel");
 	
 	
 ?>

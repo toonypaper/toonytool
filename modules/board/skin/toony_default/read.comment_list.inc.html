@@ -5,11 +5,9 @@
 	<span class="memo">[comment]<div class="btnArea">[modify_btn][del_btn]</div></span>
 	<div class="replyWriteArea" style="display:none;">
 		[{guest_input_start}]
-		<div class="comment_writer">
-			작성자 <input type="text" name="reply_writer" maxlength="8" style="width:120px;" />
-		</div>
+		작성자 <input type="text" name="reply_writer" title="작성자" maxlength="8" style="width:120px;" />
 		[{guest_input_end}]
-		<textarea name="reply_comment" class="reply_comment"></textarea>
+		<textarea name="reply_comment" title="댓글" class="reply_comment"></textarea>
 		<input type="button" id="comment_reply_button" value="작성" class="__button_small" />
 	</div>
 </div>

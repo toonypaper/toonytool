@@ -1,0 +1,61 @@
+<div id="layout">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>회원 포인트 내역</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					현재까지의 회원 포인트 등락 내역을 확인 하세요.
+				</div>
+				<div class="contArticle">
+					<form name="pointResultForm">
+						<input type="hidden" name="p" value="pointResult" />
+						<div class="__article_table_search">
+							<select name="where">
+								<option value="me_nick" [where_value_me_nick]>이름</option>
+							</select>
+							<input type="text" name="keyword" value="[keyword_value]" style="width:150px;" />
+							<input type="submit" class="submit" value="" />
+						</div>
+						<table cellpadding="0" cellspacing="0" class="__article_table">
+							<thead>
+								<tr>
+									<th class="___f" style="width:35px;">번호</th>
+									<th style="width:100px;">발생시간</th>
+									<th style="text-align:left;">회원</th>
+									<th style="text-align:left;">내용</th>
+									<th style="width:50px;">누적</th>
+									<th style="width:50px;">차감</th>
+									<th class="___l" style="width:50px;">누계</th>
+								</tr>
+							</thead>
+							<tbody>
+								[{loop_start}]
+								<tr>
+									<td class="___number">[number]</td>
+									<td class="___number">[regdate]</td>
+									<td>[nick]<span style="font-size:11px; padding-left:10px; color:#999;">([id])</span></td>
+									<td>[memo]</td>
+									<td class="___number">[point_in]</td>
+									<td class="___number">[point_out]</td>
+									<td class="___number">[point_total]</td>
+								</tr>
+								[{loop_end}]
+								[{not_content_start}]
+								<tr>
+									<td colspan="7">회원 포인트 등락 내역이 존재하지 않습니다.</td>
+								</tr>
+								[{not_content_end}]
+							</tbody>
+						</table>
+						[paging_area]
+					</form>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

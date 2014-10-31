@@ -7,7 +7,7 @@
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
-	$method->method_param("POST","category,writer,comment,comment_modify,cidno,type,mode,board_id,read,page,where,keyword,value,veiwDir,article,s_password");
+	$method->method_param("POST","category,writer,comment,comment_modify,cidno,type,mode,board_id,read,page,where,keyword,value,article,s_password");
 	
 	/*
 	게시물 설정 정보 로드
@@ -75,7 +75,6 @@
 		if($s_password==$array['password']){
 			$delete_true=1;
 		}else{
-			echo '<!--error:notPassword-->';
 			$lib->error_alert_location("비밀번호가 일치하지 않습니다.",__URL_PATH__.$viewDir."?article={$article}","A");
 		}
 	}

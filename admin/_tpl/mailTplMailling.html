@@ -3,31 +3,9 @@
 $(document).ready(function(){
 	$("._submitBtn").click(function(){
 		var $form = $("form[name=mailTplMaillingForm]");
+		//적용 버튼을 클릭하는 경우
 		smartEditor_submit_val=true;oEditors.getById["sourceCode"].exec("UPDATE_CONTENTS_FIELD", []);
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/mailTplMailling.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_sourceCode-->" :
-										alert("내용을 입력 하세요.");
-										break;
-									case "<!--error::have_not_tags-->" :
-										alert("내용에 허용되지 않는 HTML소스코드가 포함되어 있습니다.");
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
+		$form.submit();
 	});
 });
 </script>
@@ -49,12 +27,12 @@ $(document).ready(function(){
 					<li><a href="?p=mailTplPassword">임시 비밀번호 발송 템플릿</a></li>
 				</ul>
 				<div class="contArticle">
-					<form name="mailTplMaillingForm">
+					<form name="mailTplMaillingForm" ajaxAction="admin/mailTplMailling.submit.php" ajaxType="html">
 						<table cellpadding="0" cellspacing="0" class="__article_table" style="border:none;">
 							<tbody>
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea class="sourceCode" id="sourceCode" name="sourceCode" style="width:100%; height:500px; border:none;" smarteditor>[sourceCode]</textarea>
+										<textarea class="sourceCode" id="sourceCode" name="sourceCode" title="소스코드" style="width:100%; height:500px; border:none;" smarteditor>[sourceCode]</textarea>
 										<span class="__article_sment">{{치환자}}는 회원 정보에 맞게 자동 치환되어 메일로 발송 됩니다.</span>
 									</td>
 								</tr>

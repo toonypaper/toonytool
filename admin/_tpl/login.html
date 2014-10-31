@@ -1,35 +1,5 @@
 <script type="text/javascript">
 $(document).ready(function(){
-	//로그인
-	$("form[name=loginForm]").submit(function(e){
-		e.preventDefault();
-		$.ajax({
-			type		:	"POST",
-			url			:	__URL_PATH__+"login.submit.php",
-			cache		:	false,
-			data		:	$("form[name=loginForm]").serialize(),
-			async		:	false,
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::logged-->" :
-										alert("이미 로그인 되어 있습니다.");
-										break;
-									case "<!--error::null_id-->" :
-										alert("아이디를 입력 하세요.");
-										break;
-									case "<!--error::null_password-->" :
-										alert("비밀번호를 입력 하세요.");
-										break;
-									case "<!--error::not_member-->" :
-										alert("아이디 또는 비밀번호를 확인 하세요.");
-										break;
-									default :
-										document.location.href = msg;
-								}
-							}
-		});
-	});
 	//인풋 레이블 컨트롤
 	var $form = $("form[name=loginForm]");
 	var id_value = $("input[name=id]",$form).val();
@@ -53,16 +23,16 @@ $(document).ready(function(){
 	<header>
 		<h1><img src="images/login_logo.jpg" alt="투니툴 관리모드" title="투니툴 관리모드" /></h1>
 	</header>
-	<form class="article" name="loginForm">
+	<form class="article" name="loginForm" ajaxAction="login.submit.php" ajaxType="html">
 		<input type="hidden" name="redirect" value="[redirectUri]" />
 		<div class="fields">
-			<input type="text" name="id" value="이메일 아이디" style="margin-bottom:10px;" />
-			<input type="password" name="password" value="비밀번호" />
+			<input type="text" name="id" title="회원 아이디" value="이메일 아이디" style="margin-bottom:10px;" />
+			<input type="password" name="password" value="비밀번호" title="비밀번호" />
 		</div>
-		<input type="submit" class="submit" value="로그인" />
+		<input type="submit" class="submit" value="로그인" ajaxSubmit="loginForm" />
 	</form>
 	<div class="forgotPass">
 		만약, 운영자 비밀번호가 기억나지 않는 경우<br />
-		<a href="/?article=findPassword" class="_findPassword" target="_blank">이 곳을 클릭</a> 하여 이메일로 임시 비밀번호를 받을 수 있습니다.
+		<a href="../?article=findPassword" class="_findPassword" target="_blank">이 곳을 클릭</a> 하여 이메일로 임시 비밀번호를 받을 수 있습니다.
 	</div>
 </div>

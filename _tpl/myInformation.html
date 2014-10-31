@@ -1,82 +1,19 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	var $form = $("form[name=myInformationForm]");
-	//정보 수정
-	$form.submit(function(e){
-		e.preventDefault();
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"myInformation.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::not_samePassword-->" :
-										alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-										$("input[name=password02]",$form).focus();
-										break;
-									case "<!--error::null_nick-->" :
-										alert("이름을 입력 하세요.");
-										$("input[name=nick]",$form).focus();
-										break;
-									case "<!--error::not_nick-->" :
-										alert("이름이 올바르지 않습니다.");
-										$("input[name=nick]",$form).focus();
-										break;
-									case "<!--error::not_phone-->" :
-										alert("휴대전화가 올바르지 않습니다.");
-										$("input[name=phone]",$form).focus();
-										break;
-									case "<!--error::not_telephone-->" :
-										alert("집전화가 올바르지 않습니다.");
-										$("input[name=telephone]",$form).focus();
-										break;
-									case "<!--error::not_password-->" :
-										alert("비밀번호가 올바르지 않습니다.");
-										$("input[name=password]",$form).focus();
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-	});
 	//회원 탈퇴
 	$("._leaveBtn",$form).click(function(){
 		if(confirm("정말로 탈퇴 처리 하시겠습니까?")==true){
 			$("input[name=type]",$form).val("leave");
-			$.ajax({
-				cache		:	false,
-				async		:	false,
-				type		:	"POST",
-				url			:	__URL_PATH__+"myInformation.submit.php",
-				data		:	$form.serialize(),
-				dataType	:	"HTML",
-				success		:	function(msg){
-									switch(msg){
-										case "<!--error::admin_member-->" :
-											alert("최고 운영자는 탈퇴할 수 없습니다.");
-											break;
-										case "<!--success::2-->" :
-											alert("성공적으로 탈퇴 되었습니다.");
-											document.location.href = __URL_PATH__;
-											break;
-										default :
-											alert(msg);
-									}
-								}
-			});
+			$form.submit();
+			$("input[name=type]",$form).val("modify");
+		}else{
+			$("input[name=type]",$form).val("modify");
 		}
 	});
 });
 </script>
-<form name="myInformationForm" id="myInformationForm">
+<form name="myInformationForm" id="myInformationForm" ajaxAction="myInformation.submit.php" ajaxType="html">
 	<input type="hidden" name="type" value="modify" />
 	<table cellpadding="0" cellspacing="0" class="__article_table_read">
 		<thead>
@@ -94,7 +31,7 @@ $(document).ready(function(){
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" name="password" />
+					<input type="password" name="password" title="비밀번호" />
 					<span class="__article_sment">
 						- 비밀번호 변경시에만 입력<br />
 						- 최소 5자 ~ 최대 30자로 입력
@@ -104,7 +41,7 @@ $(document).ready(function(){
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" name="password02" />
+					<input type="password" name="password02" title="비밀번호 확인" />
 					<span class="__article_sment">
 						- 비밀번호 확인을 위해 재입력
 					</span>
@@ -113,14 +50,14 @@ $(document).ready(function(){
 			<tr>
 				<th>이름</th>
 				<td>
-					<input type="text" name="nick" value="[nick_value]" style="width:150px;" />
+					<input type="text" name="nick" value="[nick_value]" title="이름" style="width:150px;" />
 				</td>
 			</tr>
 			<tr>
 				<th>성별</th>
 				<td>
-					<label><input type="radio" name="sex" value="M" [sex_checked_value_M] />남</label>
-					<label><input type="radio" name="sex" value="F" [sex_checked_value_F] />여</label>
+					<label><input type="radio" name="sex" value="M" title="남자" [sex_checked_value_M] />남자</label>
+					<label><input type="radio" name="sex" value="F" title="여자" [sex_checked_value_F] />여자</label>
 				</td>
 			</tr>
 			<tr>
@@ -132,7 +69,7 @@ $(document).ready(function(){
 			<tr>
 				<th>휴대전화</th>
 				<td>
-					<input type="text" name="phone" value="[phone_value]" />
+					<input type="text" name="phone" title="휴대전화" value="[phone_value]" />
 					<span class="__article_sment">
 						- 하이픈(-) 없이 입력
 					</span>
@@ -141,7 +78,7 @@ $(document).ready(function(){
 			<tr>
 				<th>집전화</th>
 				<td>
-					<input type="text" name="telephone" value="[telephone_value]" />
+					<input type="text" name="telephone" title="집전화" value="[telephone_value]" />
 					<span class="__article_sment">
 						- 하이픈(-) 없이 입력
 					</span>
@@ -171,7 +108,7 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	<div class="__article_btnArea">
-		<input type="submit" class="__button_submit _submitBtn" value="개인정보 변경" />
+		<input type="submit" class="__button_submit _submitBtn" value="개인정보 변경" ajaxSubmit="myInformationForm" />
 		<input type="button" class="__button_cancel _leaveBtn" value="탈퇴" />
 		<input type="button" class="__button_cancel" onClick="location.href='./';" value="취소" />
 	</div>

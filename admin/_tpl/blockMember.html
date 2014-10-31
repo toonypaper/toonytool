@@ -1,89 +1,43 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$form = $("form[name=blockMemberForm]");
-	//컨트롤 체크박스 클릭시 리스트의 모든 체크박스 선택
-	$("._cnum_allCheck",$form).click(function(e){
-		e.preventDefault();
-		$("input[name='cnum[]']",$form).each(function(){
-			if($(this).is(":checked")==false){
-				$(this).attr({checked:true});
-			}else{
-				$(this).attr({checked:false});
-			}
-		});
-	});
 	//차단 추가 버튼 클릭시 입력 박스를 보임
 	$("._add_btn").toggle(
 		function(){ $("._blacklist_add",$form).show(); },
 		function(){ $("._blacklist_add",$form).hide(); }
 	);
 	//차단 입력폼에서 완료 버튼 클릭시 추가를 요청함
-	$("#SM_add_btn",$form).click(function(){
+	$("#SM_add_btn",$form).click(function(e){
 		if(confirm("추가 하시겠습니까?")){
 			$("input[name='type']",$form).val("new");
-			$.ajax({
-				type		:	"POST",
-				url			:	__URL_PATH__+"admin/blockMember.submit.php",
-				data		:	$form.serialize(),
-				cache		:	false,
-				async		:	false,
-				dataType	:	"HTML",
-				success		:	function(msg){
-									switch(msg){
-										case "<!--error::null_id-->" :
-											alert("차단할 회원 ID를 입력하세요.");
-											break;
-										case "<!--error::null_memo-->" :
-											alert("차단 사유를 입력하세요.");
-											break;
-										case "<!--error::not_member-->" :
-											alert("존재 하지 않는 회원입니다.");
-											break;
-										case "<!--error::have_member-->" :
-											alert("이미 추가된 회원입니다.");
-											break;
-										case "<!--error::admin_member-->" :
-											alert("최고 운영자는 추가할 수 없습니다.");
-											break;
-										case "<!--success::1-->" :
-											alert("성공적으로 추가 되었습니다.");
-											window.document.location.reload();
-											break;
-										default :
-											alert(msg);
-									}
-								}
-			}); 
+			$form.submit();
 		}
 	});
 	//선택 삭제 버튼 클릭시 해당 리스트를 삭제 요청함
 	$("._delete_btn").click(function(e){
 		e.preventDefault();
-		if($(":checkbox[name=cnum[]]:checked",$form).length==0){
-			alert("하나의 항목도 선택되지 않았습니다.");
-			return false;
-		}
 		if(confirm("정말로 삭제하시겠습니까?")==true){
 			$("input[name='type']",$form).val("delete");
-			$.ajax({
-				type		:	"POST",
-				url			:	__URL_PATH__+"admin/blockMember.submit.php",
-				cache		:	false,
-				data		:	$form.serialize(),
-				async		:	false,
-				dataType	:	"HTML",
-				success		:	function(msg){
-									if(msg.substr(0,8)=="Success_"){
-										var b_count = msg.substr(8);
-										alert("총 "+b_count+"개의 차단을 삭제하였습니다.");
-										document.location.reload();
-									}else{
-										alert(msg);
-									}
-								}
-			});
+			$form.submit();
 		}
 	});
+	//검색폼 검색인 경우
+	$form.keypress(function(e){
+		if(e.keyCode==13){
+			e.preventDefault();
+		}
+	});
+	function get_search(){
+		var keyword = $("input[name=keyword]",$form).val();
+		var where = $("select[name=where] option:selected",$form).val();
+		window.document.location.href = __URL_PATH__+"admin/?p=blockMember&where="+where+"&keyword="+keyword;
+	}
+	$("input[name=keyword]",$form).keypress(function(e){
+		if(e.keyCode==13){
+			get_search()
+		}
+	});
+	$("input.submit",$form).click(get_search);
 });
 </script>
 <div id="layout">
@@ -99,7 +53,7 @@ $(document).ready(function(){
 					접속 차단된 회원을 관리 하세요.
 				</div>
 				<div class="contArticle">
-					<form name="blockMemberForm">
+					<form name="blockMemberForm" ajaxAction="admin/blockMember.submit.php" ajaxType="html">
 						<table cellpadding="0" cellspacing="0" class="__article_table_read _blacklist_add" style="margin-bottom:10px; display:none;">
 							<thead>
 								<tr>
@@ -109,15 +63,15 @@ $(document).ready(function(){
 							<tbody>
 								<tr>
 									<th style="width:100px;">차단할 회원 ID</th>
-									<td><input type="text" name="id" /></td>
+									<td><input type="text" name="id" title="회원 아이디" /></td>
 									<td rowspan="2" style="width:100px; text-align:center;">
-										<input type="button" id="SM_add_btn" class="__btn_submit _add_btn" />
+										<input type="button" id="SM_add_btn" class="__btn_submit" />
 									</td>
 								</tr>
 								<tr>
 									<th style="width:100px;">차단 사유</th>
 									<td>
-										<input type="text" name="memo" style="width:400px;" />
+										<input type="text" name="memo" title="차단 사유" style="width:400px;" />
 									</td>
 								</tr>
 							</tbody>
@@ -127,7 +81,7 @@ $(document).ready(function(){
 						<input type="hidden" name="type" value="" />
 						<div class="__article_table_search">
 							<div class="__btn_ch_area">
-								<a href="#" class="__btn_ch_selectAll _cnum_allCheck" title="전체선택"></a>
+								<a href="#" class="__btn_ch_selectAll _cnum_allCheck" title="전체선택" allCheck="blockMemberForm"></a>
 								<a href="#" class="__btn_ch_delete _delete_btn" title="선택 삭제"></a>
 							</div>
 							<select name="where">
@@ -135,13 +89,13 @@ $(document).ready(function(){
 								<option value="memo" [where_value_memo]>차단사유</option>
 							</select>
 							<input type="text" name="keyword" value="[keyword_value]" style="width:150px;" />
-							<input type="submit" class="submit" value="" />
+							<input type="button" class="submit" value="" />
 						</div>
 						
 						<table cellpadding="0" cellspacing="0" class="__article_table">
 							<thead>
 								<tr>
-									<th class="___f" style="width:35px;"><input type="checkbox" class="_cnum_allCheck" /></th>
+									<th class="___f" style="width:35px;"><input type="checkbox" class="_cnum_allCheck" allCheck="blockMemberForm" /></th>
 									<th style="width:200px; text-align:left;">회원ID</th>
 									<th style="text-align:left;">차단사유</th>
 									<th class="___l" style="width:150px;">등록일</th>

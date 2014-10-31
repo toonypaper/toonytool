@@ -3,6 +3,7 @@
 	모바일 버전으로 출력함
 	*/
 	$viewType = "m";
+	$viewDir = "m/";
 	
 	include "../include/engine.inc.php";
 	include __DIR_PATH__."include/global.php";
@@ -46,7 +47,7 @@
 	$mysql->select("
 		SELECT href,forward
 		FROM toony_admin_menuInfo
-		WHERE callName='$article' AND vtype='m'
+		WHERE callName='$article' AND drop_regdate IS NULL AND vtype='m'
 	");
 	if($mysql->fetch("href")=="fm"){
 		$article = $mysql->fetch("forward");
@@ -164,6 +165,11 @@
 	}
 	
 	/*
+	레이아웃 스킨 정보를 가져옴
+	*/
+	$layoutDir = "m/".$site_config['ad_msite_layout']."/";
+	
+	/*
 	사이드바, 헤더, 컨텐츠 영역에서 사용할 수 있도록 변수 글로벌화
 	*/
 	define("CALLED_ARTICLE",$article);
@@ -174,6 +180,7 @@
 	define("CALLED_PARENT",$menuInfo['parent']);
 	define("CALLED_VIEWTYPE",$viewType);
 	define("CALLED_VIEWDIR",$viewDir);
+	define("CALLED_LAYOUTDIR",$layoutDir);
 ?>
 <!DOCTYPE HTML>
 <html>

@@ -4,7 +4,7 @@
 
 [{read_password_start}]
 <!--s:비회원인 경우에만 비밀번호 입력폼 노출-->
-<form name="read_password_form" id="read_password_form" method="post">
+<form name="read_password_form" id="read_password_form" method="post" action="">
 	<input type="hidden" name="article" value="[article_value]" />
 	<input type="hidden" name="category" value="[category_value]" />
 	<input type="hidden" name="p" value="read" />
@@ -23,8 +23,8 @@
 		<tbody>
 			<tr>
 				<td style="padding:20px; text-align:center;">
-					<input type="password" name="s_password" style="width:120px; padding:2px;" />
-					<input type="submit" class="__button_small" id="read_password_btn" value="확인" />
+					<input type="password" name="s_password" style="width:120px;" />
+					<input type="submit" class="__button_small" value="확인" />
 				</td>
 			</tr>
 		</tbody>
@@ -57,8 +57,9 @@
 	<thead>
 		<tr>
 			<th class="informations">
-				[secret_ico] [mobile_ico] <strong class="category">[category_name]</strong> <strong>[subject]</strong><br />
-				<span class="inforArea"><strong>작성자</strong> [writer], <strong>작성일</strong> [write_datetime], <strong>조회</strong> [hit]</span>
+				[secret_ico] [mobile_ico] <strong class="category">[category]</strong>
+				<strong>[subject]</strong><br />
+				<span class="inforArea"><strong>작성자</strong> [writer], <strong>작성일</strong> [datetime], <strong>조회</strong> [hit]</span>
 			</th>
 		</tr>
 	</thead>
@@ -72,14 +73,19 @@
 				</div>
 					
 				[{read_likes_start}]
-				<ul class="_read_likesArea">
-					<li>
-						<a href="#" class="_likes_btn" title="추천"><img src="../modules/board/images/array_read_likes.gif" /><span class="__count">[likes_count]</span></a>
-					</li>
-					<li>
-						<a href="#" class="_unlikes_btn" title="비추천"><img src="../modules/board/images/array_read_unlikes.gif" /><span class="__count">[unlikes_count]</span></a>
-					</li>
-				</ul>
+				<form name="read_likeAreaForm" class="_read_likesArea" ajaxAction="modules/board/read.likes.submit.php" ajaxType="html">
+					<input type="hidden" name="board_id" value="[board_id_value]" />
+					<input type="hidden" name="read_idno" value="[read_value]" />
+					<input type="hidden" name="mode" value="" />
+					<ul class="_read_likesArea">
+						<li>
+							<a href="#" class="_likes_btn" title="추천"><img src="../modules/board/images/array_read_likes.gif" /><span class="__count">[likes]</span></a>
+						</li>
+						<li>
+							<a href="#" class="_unlikes_btn" title="비추천"><img src="../modules/board/images/array_read_unlikes.gif" /><span class="__count">[unlikes]</span></a>
+						</li>
+					</ul>
+				</form>
 				[{read_likes_end}]
 				
 				[{read_file1_start}]
@@ -92,6 +98,7 @@
 					<strong>첨부파일2</strong>[file2]
 				</div>
 				[{read_file2_end}]
+				</ul>
 				
 				[{read_comment_start}]
 				<ul class="commentBox">

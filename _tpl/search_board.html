@@ -20,8 +20,9 @@ $(document).ready(function(){
 	$searchBoardForm.submit(function(e){
 		e.preventDefault();
 		var searchBoardFormKeyword = encodeURIComponent($("input[name=keyword]",$searchBoardForm).val());
+		var searchBoardFormTab = $("input[name=tab_value]",$searchBoardForm).val();
 		var searchBoardFormWhere = $("input[name=chk_where]:checked",$searchBoardForm).val();
-		document.location.href = __URL_PATH__+"?article=search_board&chk_where="+searchBoardFormWhere+"&keyword="+searchBoardFormKeyword;
+		document.location.href = __URL_PATH__+"?article=search_board&chk_where="+searchBoardFormWhere+"&keyword="+searchBoardFormKeyword+"&tab_value="+searchBoardFormTab;
 	});
 });
 </script>
@@ -31,6 +32,7 @@ $(document).ready(function(){
 		<label><input type="radio" name="chk_where" value="subject" />제목검색</label>
 		<label><input type="radio" name="chk_where" value="ment" />내용검색</label>
 		<input type="text" name="keyword" class="keyword" value="[keyword_txt]" />
+		<input type="hidden" name="tab_value" class="tab_value" value="[tab_value]" />
 		<input type="submit" class="submit" value="검색" />
 	</form>
 	<h5>"[keyword_txt]" 에 대한 게시판 검색 결과</h5>

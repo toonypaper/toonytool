@@ -1,102 +1,13 @@
 <script type="text/javascript">
 $(document).ready(function(){
-	//정보 수정
-	$("._submitBtn").click(function(){
-		var $form = $("form[name=boardList_modifyForm]");
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"modules/board/admin/boardList_modify.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_board_id-->" :
-										alert("게시판 이름을 입력 하세요.");
-										break;
-									case "<!--error::not_board_id-->" :
-										alert("게시판 이름이 올바르지 않습니다.");
-										break;
-									case "<!--error::have_board_id-->" :
-										alert("이미 생성된 게시판 이름 입니다.");
-										break;
-									case "<!--error::null_name-->" :
-										alert("게시판 제목을 입력 하세요.");
-										break;
-									case "<!--error::null_list_limit-->" :
-										alert("리스트 갯수를 입력 하세요.");
-										break;
-									case "<!--error::not_list_limit-->" :
-										alert("리스트 갯수는 숫자만 입력 가능합니다.");
-										break;
-									case "<!--error::null_file_limit-->" :
-										alert("첨부 파일 용량을 입력 하세요.");
-										break;
-									case "<!--error::not_file_limit-->" :
-										alert("첨부 파일 용량은 숫자만 입력 가능합니다.");
-										break;
-									case "<!--error::null_length_limit-->" :
-										alert("제목 글자수를 입력 하세요.");
-										break;
-									case "<!--error::null_thumb_width-->" :
-										alert("썸네일 Width 값을 입력 하세요.");
-										break;
-									case "<!--error::not_thumb_width-->" :
-										alert("썸네일 Width 값은 숫자만 입력 가능합니다.");
-										break;
-									case "<!--error::null_thumb_height-->" :
-										alert("썸네일 Height 값을 입력 하세요.");
-										break;
-									case "<!--error::not_thumb_height-->" :
-										alert("썸네일 Height 값은 숫자만 입력 가능합니다.");
-										break;
-									case "<!--error::null_article_length-->" :
-										alert("내용 미리보기 글자수를 입력 하세요.");
-										break;
-									case "<!--error::not_article_length-->" :
-										alert("내용 미리보기 글자수는 숫자만 입력 가능합니다.");
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 생성 되었습니다.");
-										document.location.href = __URL_PATH__+"admin?m=board&p=boardList";
-										break;
-									case "<!--success::2-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-	});
-	//게시판 삭제
+var $form = $("form[name=boardList_modifyForm]");
+	//삭제 버튼 클릭시
+	var type = $("input[name=type]",$form).val();
 	$("._deleteBtn").click(function(){
 		if(confirm("정말로 삭제 하시겠습니까?")==true){
-			var $form = $("form[name=boardList_modifyForm]");
 			$("input[name=type]",$form).val("delete");
-			$.ajax({
-				cache		:	false,
-				async		:	false,
-				type		:	"POST",
-				url			:	__URL_PATH__+"modules/board/admin/boardList_modify.submit.php",
-				data		:	$form.serialize(),
-				dataType	:	"HTML",
-				success		:	function(msg){
-									switch(msg){
-										case "<!--error::not_board-->" :
-											alert("게시판이 존재하지 않습니다.");
-											break;
-										case "<!--success::3-->" :
-											alert("성공적으로 삭제 되었습니다.");
-											document.location.href = __URL_PATH__+"admin/?m=board&p=boardList";
-											break;
-										default :
-											alert(msg);
-									}
-								}
-			});
+			$form.submit();
+			$("input[name=type]",$form).val(type);
 		}
 	});
 });
@@ -114,7 +25,7 @@ $(document).ready(function(){
 					게시판 설정을 관리 하세요.
 				</div>
 				<div class="contArticle">
-					<form name="boardList_modifyForm">
+					<form name="boardList_modifyForm" ajaxAction="modules/board/admin/boardList_modify.submit.php" ajaxType="html">
 						<input type="hidden" name="type" value="[type_value]" />
 						<table cellpadding="0" cellspacing="0" class="__article_table_read">
 							<thead>
@@ -125,18 +36,18 @@ $(document).ready(function(){
 							<tbody>
 								[{name_modify_start}]
 								<tr>
-									<th style="width:120px;">게시판 이름</th>
+									<th style="width:120px;">게시판 코드</th>
 									<td>
-										<input type="hidden" name="board_id" value="[board_id]" style="width:150px;" />
+										<input type="hidden" name="board_id" title="게시판 코드" value="[board_id]" style="width:150px;" />
 										<strong>[board_id]</strong>
 									</td>
 								</tr>
 								[{name_modify_end}]
 								[{name_new_start}]
 								<tr>
-									<th style="width:100px;">게시판 이름</th>
+									<th style="width:100px;">게시판 코드</th>
 									<td>
-										<input type="text" name="board_id" style="width:150px;" />
+										<input type="text" name="board_id" title="게시판 코드" style="width:150px;" />
 										<span class="__article_sment">
 											- 한번 지정하면 수정이 불가능 합니다.<br />
 											- 영어 대소문자, 숫자 조합만 가능합니다.
@@ -155,7 +66,7 @@ $(document).ready(function(){
 								<tr>
 									<th>게시판 제목</th>
 									<td>
-										<input type="text" name="name" value="[name]" />
+										<input type="text" name="name" title="게시판 제목" value="[name]" />
 									</td>
 								</tr>
 								<tr>
@@ -169,25 +80,25 @@ $(document).ready(function(){
 								<tr>
 									<th>상단 파일 경로</th>
 									<td>
-										<input type="text" name="top_file" value="[top_file]" style="width:450px;" />
+										<input type="text" name="top_file" title="상단 파일 경로" value="[top_file]" style="width:450px;" />
 									</td>
 								</tr>
 								<tr>
 									<th>상단 소스코드</th>
 									<td>
-										<textarea name="top_source" style="width:450px; height:100px;">[top_source]</textarea>
+										<textarea name="top_source" title="상단 소스코드" style="width:450px; height:100px;">[top_source]</textarea>
 									</td>
 								</tr>
 								<tr>
 									<th>하단 파일 경로</th>
 									<td>
-										<input type="text" name="bottom_file" value="[bottom_file]" style="width:450px;" />
+										<input type="text" name="bottom_file" title="하단 파일 경로" value="[bottom_file]" style="width:450px;" />
 									</td>
 								</tr>
 								<tr>
 									<th>하단 소스코드</th>
 									<td>
-										<textarea name="bottom_source" style="width:450px; height:100px;">[bottom_source]</textarea>
+										<textarea name="bottom_source" title="하단 소스코드" style="width:450px; height:100px;">[bottom_source]</textarea>
 									</td>
 								</tr>
 								<tr>
@@ -228,7 +139,7 @@ $(document).ready(function(){
 								<tr>
 									<th>첨부 파일 용량</th>
 									<td>
-										<input type="text" name="file_limit" value="[file_limit_value]" style="width:100px;" /> byte
+										<input type="text" name="file_limit" title="첨부 파일 용량" value="[file_limit_value]" style="width:100px;" /> byte
 										<span class="__article_sment">최대 첨부가능 용량 : <strong>[max_file_limit]</strong></span>
 									</td>
 								</tr>
@@ -242,7 +153,7 @@ $(document).ready(function(){
 								<tr>
 									<th>카테고리 설정</th>
 									<td>
-										<input type="text" name="category" value="[category_value]" style="width:450px;" />
+										<input type="text" name="category" title="카테고리 설정" value="[category_value]" style="width:450px;" />
 										<span class="__article_sment">
 											- 생성할 카테고리명을 입력. 여러개 생성할 경우 카테고리명은 구분선 '|' 로 구분. (ex: 자유로운 글|건의사항|공지사항)
 										</span>
@@ -251,7 +162,7 @@ $(document).ready(function(){
 								<tr>
 									<th>리스트 갯수</th>
 									<td>
-										<input type="text" name="list_limit" value="[list_limit_value]" style="width:100px;" /> 라인
+										<input type="text" name="list_limit" title="리스트 갯수" value="[list_limit_value]" style="width:100px;" /> 라인
 										<span class="__article_sment">
 											- 게시판 리스트에 출력될 리스트 갯수
 										</span>
@@ -260,13 +171,13 @@ $(document).ready(function(){
 								<tr>
 									<th>제목 글자수</th>
 									<td>
-										<input type="text" name="length_limit" value="[length_limit_value]" style="width:100px;" /> 자
+										<input type="text" name="length_limit" title="제목 글자수" value="[length_limit_value]" style="width:100px;" /> 자
 									</td>
 								</tr>
 								<tr>
 									<th>본문 미리보기 글자수</th>
 									<td>
-										<input type="text" name="article_length" value="[article_length_value]" style="width:100px;" /> 자
+										<input type="text" name="article_length" title="본문 미리보기 글자수" value="[article_length_value]" style="width:100px;" /> 자
 										<span class="__article_sment">
 											- 웹진 게시판 스킨에 적용 됩니다.
 										</span>
@@ -275,8 +186,8 @@ $(document).ready(function(){
 								<tr>
 									<th>썸네일 크기</th>
 									<td>
-										Width <input type="text" name="thumb_width" value="[thumb_width_value]" style="width:50px;" /> ,
-										Height <input type="text" name="thumb_height" value="[thumb_height_value]" style="width:50px;" />
+										Width <input type="text" name="thumb_width" title="썸네일 가로 크기" value="[thumb_width_value]" style="width:50px;" /> ,
+										Height <input type="text" name="thumb_height" title="썸네일 세로 크기" value="[thumb_height_value]" style="width:50px;" />
 										<span class="__article_sment">
 											- 크기의 단위는 픽셀(Pixel)입니다.<br />
 											- 썸네일 혹은 갤러리 기능이 있는 게시판 스킨에 적용 됩니다.
@@ -295,7 +206,7 @@ $(document).ready(function(){
 								<tr>
 									<th>글 작성 포인트</th>
 									<td>
-										<input type="text" name="write_point" value="[write_point_value]" style="width:100px;" /> Point
+										<input type="text" name="write_point" title="글 작성 포인트" value="[write_point_value]" style="width:100px;" /> Point
 										<span class="__article_sment">
 											- ex) '10'은 글 작성시 10 Point 추가, '-10'은 글 작성시 10 Point 차감
 										</span>
@@ -304,7 +215,7 @@ $(document).ready(function(){
 								<tr>
 									<th>글 읽기 포인트</th>
 									<td>
-										<input type="text" name="read_point" value="[read_point_value]" style="width:100px;" /> Point
+										<input type="text" name="read_point" title="글 읽기 포인트" value="[read_point_value]" style="width:100px;" /> Point
 										<span class="__article_sment">
 											- ex) '10'은 글 조회시 10 Point 추가, '-10'은 글 조회시 10 Point 차감
 										</span>
@@ -381,7 +292,7 @@ $(document).ready(function(){
 						</table>
 					</form>
 					<div class="__article_btnArea">
-						<input type="button" class="__btn_submit _submitBtn" />
+						<input type="button" class="__btn_submit _submitBtn" ajaxSubmit="boardList_modifyForm" />
 						[{deleteBtn_start}]<input type="button" class="__btn_delete _deleteBtn" />[{deleteBtn_end}]
 						<a href="./?m=board&p=boardList" class="__btn_cancel"></a>
 					</div>

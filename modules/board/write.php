@@ -64,6 +64,7 @@
 		$array['writer'] = htmlspecialchars($array['writer']);
 		$array['me_nick'] = htmlspecialchars($array['me_nick']);
 		$array['password'] = htmlspecialchars($array['password']);
+		$array['ment'] = htmlspecialchars($array['ment']);
 		if(!$array['idno']){
 			$lib->error_alert_back("존재하지 않는 글입니다.","A");
 		}
@@ -126,7 +127,6 @@
 		if($array['password']==$s_password){
 			$write_password_true = 1;
 		}else{
-			echo '<!--error:notPassword-->';
 			$lib->error_alert_back("비밀번호가 일치하지 않습니다.","A");
 		}
 	}
@@ -165,11 +165,11 @@
 	}
 	//카테고리 출력
 	function bbs_category(){
-		global $c_array,$array;
+		global $c_array,$array,$category;
 		$cat_exp = explode("|",$c_array['category']);
 		$cat_op = "<select name=\"category\" class=\"_category_select\">";
 		for($i=0;$i<sizeOf($cat_exp);$i++){
-			if($cat_exp[$i]==$array['category']){
+			if(urldecode($cat_exp[$i])==$array['category']||urldecode($cat_exp[$i])==$category){
 				$selected = "selected";	
 			}else{
 				$selected = "";	
@@ -246,6 +246,7 @@
 	*/
 	//패스워드 입력 폼
 	if($mode=="modify"&&$member['me_level']==10&&$write_password_true!=1){
+		$write_password->skin_modeling("[/boardskinDir/]",__URL_PATH__."modules/board/skin/".$c_array['skin']."/".$viewDir);
 		$write_password->skin_loop_array("[{write_password_form_start}]","[{write_password_form_end}]");
 		$write_password->skin_modeling("[board_id_value]",$board_id);
 		$write_password->skin_modeling("[mode_value]",$mode);
@@ -255,10 +256,12 @@
 		$write_password->skin_modeling("[keyword_value]",$keyword);
 		$write_password->skin_modeling("[article_value]",$article);
 		$write_password->skin_modeling("[category_value]",$category);
-		$write_password->skin_modeling("[viewDir_value]",$viewDir);
 		echo $write_password->skin_echo();		
 	//글쓰기 폼
 	}else{
+		
+		include_once __DIR_PATH__."modules/board/skin/".$c_array['skin']."/plugins/write.inc.php";
+		$skin_write->skin_modeling("[/boardskinDir/]",__URL_PATH__."modules/board/skin/".$c_array['skin']."/".$viewDir);
 		$skin_write->skin_modeling_hideArea("[{write_password_form_start}]","[{write_password_form_end}]","hide");
 		if(!isset($__toony_member_idno)||($mode=="modify"&&$array['me_idno']=="0")){
 			$skin_write->skin_modeling_hideArea("[{write_writer_start}]","[{write_writer_end}]","show");
@@ -318,7 +321,7 @@
 		$skin_write->skin_modeling("[option_notice]",write_option_notice());
 		$skin_write->skin_modeling("[option_secret]",write_option_secret());
 		$skin_write->skin_modeling("[option_email]",write_option_email());
-		$skin_write->skin_modeling("[bbs_category]",bbs_category());
+		$skin_write->skin_modeling("[category_selectbox]",bbs_category());
 		$skin_write->skin_modeling("[subject]",$array['subject']);
 		if(!isset($__toony_member_idno)&&$mode=="modify"){
 			$skin_write->skin_modeling("[password]",$array['password']);
@@ -341,6 +344,7 @@
 		$skin_write->skin_modeling("[td_3]",$array['td_3']);
 		$skin_write->skin_modeling("[td_4]",$array['td_4']);
 		$skin_write->skin_modeling("[td_5]",$array['td_5']);
+		
 		echo $skin_write->skin_echo();
 	}
 

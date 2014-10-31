@@ -5,10 +5,11 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
-	$method->method_param("POST","writer,comment,comment_modify,cidno,type,mode,board_id,read,page,where,keyword,tr_1,tr_2,tr_3,tr_4,tr_5");
+	$method->method_param("POST","writer,comment,reply_writer_o,reply_comment_o,comment_modify,cidno,type,mode,board_id,read,page,where,keyword,tr_1,tr_2,tr_3,tr_4,tr_5");
 	
 	/*
 	게시물 설정 정보 로드
@@ -25,11 +26,11 @@
 	검사
 	*/
 	mb_internal_encoding('UTF-8');
-	if($c_array['use_comment']=="N"){ echo '댓글 기능이 비활성 중입니다.'; exit; }
-	if($member['me_level']>$c_array['comment_level']){ echo '권한이 없습니다.'; exit; }
-	if($mode==1||$mode==11||$mode==2){
-		if(trim($comment)==""&&trim($comment_modify)==""){ echo '댓글을 입력하세요.'; exit; }
-		if(mb_strlen($comment)<5&&mb_strlen($comment_modify)<5){ echo '댓글은 5자 이상 입력해야 합니다.'; exit; }	
+	if($c_array['use_comment']=="N"){
+		$validator->validt_diserror("","댓글 기능이 비활성 중입니다.");
+	}
+	if($member['me_level']>$c_array['comment_level']){
+		$validator->validt_diserror("","권한이 없습니다.");
 	}
 	
 	/*
@@ -39,13 +40,14 @@
 		//검사
 		if($type==1){
 			$me_idno = "";
-			if(trim($writer)==""){ echo "작성자 이름을 입력하세요."; exit; }
+			$validator->validt_nick("writer",1,"");
 		}else if($type==2){
 			$me_idno = $member['me_idno'];
 			$writer = $member['me_nick'];
 		}else{
-			echo '오류. 댓글 등록 불가'; exit;
+			$validator->validt_diserror("","오류. 댓글 등록 불가");
 		}
+		$validator->validt_strLen("comment",5,"",1,"댓글은 5자 이상 입력해야 합니다.");
 		//ln값 처리
 		$mysql->select("
 			SELECT MAX(ln)+1000 AS ln_max
@@ -62,8 +64,9 @@
 			VALUES
 			('{$ln_array['ln_max']}','$read','$me_idno','$writer','$comment','{$_SERVER['REMOTE_ADDR']}',now(),'$tr_1','$tr_2','$tr_3','$tr_4','$tr_5')
 		");
-		echo '<!--success::1-->';
+		$validator->validt_success_function("read_comment_include()");
 	}
+	
 	/*
 	대댓글 등록
 	*/
@@ -71,13 +74,17 @@
 		//검사
 		if($type==1){
 			$me_idno = "";
-			if(trim($writer)==""){ echo '작성자 이름을 입력하세요.'; exit; }
+			if(trim($reply_writer_o)==""){
+				$validator->validt_nick("reply_writer_o",1,"작성자를 제대로 입력 하세요.");
+			}
+			$writer = $reply_writer_o;
 		}else if($type==2){
 			$me_idno = $member['me_idno'];
 			$writer = $member['me_nick'];
 		}else{
-			echo '오류. 댓글 등록 불가'; exit;
+			$validator->validt_diserror("","오류. 댓글 등록 불가");
 		}
+		$validator->validt_strLen("reply_comment_o",5,"",1,"댓글은 5자 이상 입력해야 합니다.");
 		//원본 글에서 ln,rn,bo_idno값을 가져옴 가져옴
 		$mysql->select("
 			SELECT ln,rn,bo_idno
@@ -117,9 +124,9 @@
 			INSERT INTO toony_module_board_comment_$board_id
 			(ln,rn,bo_idno,me_idno,writer,comment,ip,regdate,tr_1,tr_2,tr_3,tr_4,tr_5) 
 			VALUES
-			('$ln_insert','$rn_next','$read','$me_idno','$writer','$comment','$_SERVER[REMOTE_ADDR]',now(),'$tr_1','$tr_2','$tr_3','$tr_4','$tr_5')
+			('$ln_insert','$rn_next','$read','$me_idno','$writer','$reply_comment_o','$_SERVER[REMOTE_ADDR]',now(),'$tr_1','$tr_2','$tr_3','$tr_4','$tr_5')
 		");
-		echo '<!--success::1-->';
+		$validator->validt_success_function("read_comment_include()");
 	}
 	
 	/*
@@ -134,11 +141,12 @@
 		");
 		$carray['me_idno'] = $mysql->fetch("me_idno");
 		if($mysql->numRows()<1){
-			echo '존재하지 않는 댓글입니다.'; exit;
+			$validator->validt_diserror("","존재하지 않는 댓글입니다.");
 		}
 		if($carray['me_idno']!=$member['me_idno']&&$member['me_level']>$c_array['controll_level']&&$member['me_admin']!="Y"){
-			echo '자신의 댓글이 아닙니다.'; exit;
+			$validator->validt_diserror("","자신의 댓글이 아닙니다.");
 		}
+		$validator->validt_strLen("comment_modify",5,"",1,"댓글은 5자 이상 입력해야 합니다.");
 		//DB 수정
 		$mysql->select("
 			SELECT *
@@ -161,7 +169,7 @@
 			SET writer='$writer',comment='$comment_modify',ip='$_SERVER[REMOTE_ADDR]',tr_1='$tr_1',tr_2='$tr_2',tr_3='$tr_3',tr_4='$tr_4',tr_5='$tr_5'
 			WHERE idno=$cidno
 		");
-		echo '<!--success::1-->';
+		$validator->validt_success_function("read_comment_include()");
 	}
 	
 	/*
@@ -178,10 +186,10 @@
 		$array['ln'] = $mysql->fetch("ln");
 		$array['rn'] = $mysql->fetch("rn");
 		if($mysql->numRows()<1){
-			echo '존재하지 않는 댓글입니다.'; exit;
+			$validator->validt_diserror("","존재하지 않는 댓글입니다.");
 		}
 		if($array['me_idno']!=$member['me_idno']&&$member['me_level']>$c_array['controll_level']&&$member['me_admin']!="Y"){
-			echo '자신의 댓글이 아닙니다.'; exit;
+			$validator->validt_diserror("","자신의 댓글이 아닙니다.");
 		}
 		//하위 자식 댓글이 있는경우 삭제 금지
 		$ln_min = (int)(ceil($array['ln']/1000)*1000);
@@ -213,7 +221,7 @@
 				WHERE $search_where
 			");
 			if($mysql->numRows()>1){
-				echo '자식 글이 있는 경우 삭제가 불가능 합니다.'; exit;
+				$validator->validt_diserror("","자식 글이 있는 경우 삭제가 불가능 합니다.");
 			}
 			
 		//DB 삭제
@@ -222,7 +230,6 @@
 			FROM toony_module_board_comment_$board_id
 			WHERE idno=$cidno
 		");
-		echo '<!--success::1-->';
+		$validator->validt_success_function("read_comment_include()");
 	}
-	
 ?>

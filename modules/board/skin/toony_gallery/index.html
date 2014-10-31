@@ -8,8 +8,8 @@
 	<div class="settingArea">
 		<table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-				<td style="text-align:left;">[bbs_category]</td>
-				<td style="text-align:right;">[bbs_setting]</td>
+				<td style="text-align:left;">[category_selectbox]</td>
+				<td style="text-align:right;">[setting_btn]</td>
 			</tr>
 		</table>
 	</div>
@@ -31,15 +31,20 @@
 	</table>
 	<table cellpadding="0" cellspacing="0" style="width:100%; border:none;" class="board_table">
 		<tbody>
+		
+<!--------------------s:loop영역-------------------->
 			<!--Notice-->
 			[{notice_loop_start}]
 			<tr class="notice">
 				<td style="border-right:none;" colspan="2">
 					[{controll_chk_start}][controll_chk][{controll_chk_end}]
-					<strong class="category">[category_name]</strong> [secret_ico]<strong>[subject]</strong>[file_ico][mobile_ico]<span class="comment">[comment_num]</span>
+					<strong class="category">[category]</strong>
+					[secret_ico]<strong><a href="[link]" class="subject">[subject]</a></strong>
+					[file_ico][mobile_ico]
+					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
 					<span style="font-size:11px; font-weight:normal; padding-left:20px; color:#666;">
 						
-						<strong>작성자</strong> [writer], <strong>등록일</strong> [write_date]
+						<strong>작성자</strong> [writer], <strong>등록일</strong> [date]
 						
 						[{likes_start}]
 						, <strong>추천</strong> [likes]<span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</span>
@@ -56,14 +61,16 @@
 					<td colspan="2" style="border-right:none;">
 						<ul class="read_gallery_list">
 				[{array_first_item_end}]<li>
-								[thumbnail]
+								<a href="[link]">[thumbnail]</a>
 								<span class="img_title">
-									[{controll_chk_start}][controll_chk][{controll_chk_end}] <strong class="category">[category_name]</strong> [secret_ico]<strong>[subject]</strong>[file_ico][secret_ico][mobile_ico]<span class="comment">[comment_num]</span>
+									[{controll_chk_start}][controll_chk][{controll_chk_end}] <strong class="category">[category]</strong> [secret_ico]
+									<strong><a href="[link]" class="subject">[subject]</a></strong>[file_ico][secret_ico][mobile_ico]
+									[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
 								</span>
 								<span class="img_info">
 									<span style="color:#666; font-size:11px; letter-spacing:0; display:block; padding-top:5px;">
 										
-										<strong>작성</strong> [write_date]<br />
+										<strong>작성</strong> [date]<br />
 										<strong>조회</strong> [hit],
 										
 										[{likes_start}]
@@ -85,6 +92,8 @@
 	<span class="not_loop_span">등록된 글이 없습니다.</span>
 	[{array_not_loop_end}]
 	<!-- List End -->
+<!--------------------e:loop영역-------------------->
+
 	[paging_area]
 	<div class="btnArea">
 		[write_btn][controll_btn]

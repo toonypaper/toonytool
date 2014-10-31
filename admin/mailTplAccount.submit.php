@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","sourceCode");
 	$lib->security_filter("referer");
@@ -13,11 +14,7 @@
 	/*
 	검사
 	*/
-	if(trim($sourceCode)==""){
-		echo '<!--error::null_sourceCode-->'; exit;
-	}
-	//본문에 사용금지 태그가 있는지 검사
-	$lib->not_tags_check($sourceCode,"<!--error::have_not_tags-->");
+	$validator->validt_tags("sourceCode",1,"");
 	
 	/*
 	DB수정
@@ -31,5 +28,5 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=mailTplAccount");
 ?>

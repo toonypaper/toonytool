@@ -2,6 +2,11 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	var $form = $("form[name=maillingForm]");
+	//발송 버튼을 클릭하는 경우
+	$("._submitBtn").click(function(){
+		smartEditor_submit_val=true;oEditors.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []);
+		$form.submit();
+	});
 	//특정 회원 아이디가 있는(입력하는) 경우 발송 범위 지정 TR을 숨김
 	if($.trim($("input[name='receiver_id']",$form).val())!=""){
 		$("._mailling_min_max_area",$form).hide();
@@ -12,50 +17,6 @@ $(document).ready(function(){
 		}else{
 			$("._mailling_min_max_area",$form).show();
 		}
-	});
-	//발송 버튼 클릭시
-	$("._submitBtn").click(function(){
-		smartEditor_submit_val=true;oEditors.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []);
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/mailling.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_subject-->" :
-										alert("제목을 입력 하세요.");
-										break;
-									case "<!--error::null_memo-->" :
-										alert("내용을 입력 하세요.");
-										break;
-									case "<!--error::not_member-->" :
-										alert("존재하지 않는 회원의 이메일 입니다.");
-										break;
-									case "<!--error::null_min_receiver-->" :
-										alert("최하 수신 레벨을 선택하세요.");
-										break;
-									case "<!--error::null_max_receiver-->" :
-										alert("최대 수신 레벨을 선택하세요.");
-										break;
-									case "<!--error::null_not_receiver_selected-->" :
-										alert("최하 수신 레벨이 최대 수신 레벨보다 클 수 없습니다.");
-										break;
-									case "<!--error::have_not_tags-->" :
-										alert("내용에 허용되지 않는 HTML소스코드가 포함되어 있습니다.");
-										break;
-									case "<!--error::null_receiver_member-->" :
-										alert("메일을 발송할 회원이 없습니다.");
-										break;
-									default :
-										alert(msg+"명에게 성공적으로 메일이 발송 되었습니다.");
-										document.location.href = __URL_PATH__+"admin/?p=maillingList_view";
-										break;
-								}
-							}
-		});
 	});
 	//수신 회원 범위 셀렉트박스 값 변경시 발송자 수를 출력함.
 	function view_sendCount(){
@@ -98,18 +59,18 @@ $(document).ready(function(){
 					전체 회원 혹은 특정 회원에게 메일을 발송 하세요.
 				</div>
 				<div class="contArticle">
-					<form name="maillingForm">
+					<form name="maillingForm" ajaxAction="admin/mailling.submit.php" ajaxType="html">
 						<table cellpadding="0" cellspacing="0" class="__article_table_read">
 							<tbody>
 								<tr class="_mailling_min_max_area">
 									<th style="width:100px;">수신 회원 범위</th>
 									<td>
-										<select name="min_level">
+										<select name="min_level" title="최하 수신 레벨">
 											<option value="none">최하 수신 레벨</option>
 											[memeber_level_option_value]
 										</select>
 										부터
-										<select name="max_level">
+										<select name="max_level" title="최대 수신 레벨">
 											<option value="none">최대 수신 레벨</option>
 											[memeber_level_option_value]
 										</select>
@@ -117,9 +78,9 @@ $(document).ready(function(){
 									</td>
 								</tr>
 								<tr>
-									<th style="width:100px;">특정 회원 ID</th>
+									<th style="width:100px;">특정 회원 아이디</th>
 									<td>
-										<input type="text" name="receiver_id" value="[receiver_id]" />
+										<input type="text" name="receiver_id" title="회원 아이디" value="[receiver_id]" />
 										<span class="__article_sment">
 											한명에게만 보낼 경우 위 "수신 회원 범위"는 무시됨
 										</span>
@@ -128,7 +89,7 @@ $(document).ready(function(){
 								<tr>
 									<th>제목</th>
 									<td>
-										<input type="text" name="subject" style="width:500px;" />
+										<input type="text" name="subject" title="제목" style="width:500px;" />
 									</td>
 								</tr>
 							</tbody>
@@ -137,7 +98,7 @@ $(document).ready(function(){
 							<tbody>
 								<tr>
 									<td colspan="2" style="padding:0; border:none;">
-										<textarea name="memo" id="memo" style="width:100%; height:450px;" smarteditor>{{name}}님, 안녕하세요?</textarea>
+										<textarea name="memo" id="memo" title="본문" style="width:100%; height:450px;" smarteditor>{{name}}님, 안녕하세요?</textarea>
 										<span class="__article_sment">
 											본문 내용에 {{name}}치환자를 작성하면, 회원 이름이 메일에 출력 됩니다.
 										</span>
@@ -147,7 +108,7 @@ $(document).ready(function(){
 						</table>
 					</form>
 					<div class="__article_btnArea">
-						<input type="button" class="__btn_submit _submitBtn"/>
+						<input type="button" class="__btn_submit _submitBtn" />
 						<a href="./" class="__btn_cancel"></a>
 					</div>
 				</div>

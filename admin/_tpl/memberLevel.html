@@ -1,31 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function(){
-	$("._submitBtn").click(function(){
-		var $form = $("form[name=memberLevelForm]");
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/memberLevel.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_levelName-->" :
-										alert("모든 값을 입력해야 합니다.");
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-	});
-});
-</script>
 <div id="layout">
 	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
 	<article class="wrap">
@@ -39,7 +11,7 @@ $(document).ready(function(){
 					회원 레벨별 명칭을 지정하여 회원을 식별하기 쉽도록 할 수 있습니다.
 				</div>
 				<div class="contArticle">
-					<form name="memberLevelForm" enctype="multipart/form-data">
+					<form name="memberLevelForm" ajaxAction="admin/memberLevel.submit.php" ajaxType="html">
 						<table cellpadding="0" cellspacing="0" class="__article_table_read">
 							<thead>
 								<tr>
@@ -51,7 +23,7 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">레벨1</th>
 									<td>
-										<input type="text" name="level_1" value="[level_1_value]" />
+										<input type="text" name="level_1" title="레벨1" value="[level_1_value]" />
 										<span class="__article_sment">
 											- 최고 등급(관리모드 접속 권한 부여됨)
 										</span>
@@ -60,49 +32,49 @@ $(document).ready(function(){
 								<tr>
 									<th>레벨2</th>
 									<td>
-										<input type="text" name="level_2" value="[level_2_value]" />
+										<input type="text" name="level_2" title="레벨2" value="[level_2_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨3</th>
 									<td>
-										<input type="text" name="level_3" value="[level_3_value]" />
+										<input type="text" name="level_3" title="레벨3" value="[level_3_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨4</th>
 									<td>
-										<input type="text" name="level_4" value="[level_4_value]" />
+										<input type="text" name="level_4" title="레벨4" value="[level_4_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨5</th>
 									<td>
-										<input type="text" name="level_5" value="[level_5_value]" />
+										<input type="text" name="level_5" title="레벨5" value="[level_5_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨6</th>
 									<td>
-										<input type="text" name="level_6" value="[level_6_value]" />
+										<input type="text" name="level_6" title="레벨6" value="[level_6_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨7</th>
 									<td>
-										<input type="text" name="level_7" value="[level_7_value]" />
+										<input type="text" name="level_7" title="레벨7" value="[level_7_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨8</th>
 									<td>
-										<input type="text" name="level_8" value="[level_8_value]" />
+										<input type="text" name="level_8" title="레벨8" value="[level_8_value]" />
 									</td>
 								</tr>
 								<tr>
 									<th>레벨9</th>
 									<td>
-										<input type="text" name="level_9" value="[level_9_value]" />
+										<input type="text" name="level_9" title="레벨9" value="[level_9_value]" />
 										<span class="__article_sment">
 											- 회원가입시 부여되는 최초 레벨
 										</span>
@@ -112,7 +84,7 @@ $(document).ready(function(){
 						</table>
 					</form>
 					<div class="__article_btnArea">
-						<input type="button" class="__btn_submit _submitBtn"/>
+						<input type="button" class="__btn_submit" ajaxSubmit="memberLevelForm" />
 						<a href="./" class="__btn_cancel"></a>
 					</div>
 				</div>

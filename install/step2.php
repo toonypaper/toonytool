@@ -1,27 +1,20 @@
 <?php
-	//index가 진행되어 있지 않으면 첫화면으로 이동
-	function permission_check($file){
-		$open = @is_writable($file);
-		if(!$open){
-			return "N";
-		}else{
-			return "Y";
-		}
+	include_once "functions.inc.php";
+	$functions = new functions();
+	
+	if($functions->file_permission("../include/")==FALSE || $functions->file_permission("../upload/sessionCookies/")==FALSE || $functions->file_permission("../upload/siteInformations/")==FALSE || $functions->file_permission("../upload/smartEditor/")==FALSE){
+		$functions->error_alert_location("1단계가 진행되지 않았습니다.","index.php");
 	}
-	if(permission_check("../include/")=="N"||permission_check("../upload/")=="N"){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
+	if($functions->file_check("../include/path.info.php")==TRUE && $functions->file_check("../include/mysql.info.php")==TRUE){
+		$functions->error_alert_location("이미 1~2단계가 진행 되었습니다.","step3.php");
 	}
-	//Step2가 진행되어 있으면 Step3으로 이동
-	if(is_file("../include/path.info.php")&&is_file("../include/mysql.info.php")){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "step3.php";</script>'; exit;
-	}
-	//path.info.php 파일 생성
+	
 	$file = @fopen("../include/path.info.php","w");
 	@fwrite($file,"<?php\n    define(\"__DIR_PATH__\",\"".str_replace('install/'.basename(__FILE__),'',str_replace("\\","/",realpath(__FILE__)))."\");\n    define(\"__URL_PATH__\",\"".str_replace('install/'.basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'])."\");\n?>");
 	@fclose($file);
-	//engine.inc.php 파일 생성
+	
 	$file = @fopen("../include/engine.inc.php","w");
-	@fwrite($file,"<?php\n    header(\"Content-Type: text/html; charset=UTF-8\");\n    ini_set(\"display_errors\", 1);\n    ini_set(\"error_reporting\",E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);\n    include_once \"".str_replace('install/'.basename(__FILE__),"",str_replace("\\","/",realpath(__FILE__)))."include/path.info.php\";\n    include_once __DIR_PATH__.\"/include/session.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.class.php\";\n    include_once __DIR_PATH__.\"/include/lib.class.php\";\n    include_once __DIR_PATH__.\"/include/paging.class.php\";\n    include_once __DIR_PATH__.\"/include/modeling.class.php\";\n    include_once __DIR_PATH__.\"/include/mailSender.class.php\";\n    include_once __DIR_PATH__.\"/include/fileUploader.class.php\";\n?>");
+	@fwrite($file,"<?php\n    header(\"Content-Type: text/html; charset=UTF-8\");\n    ini_set(\"display_errors\", 1);\n    ini_set(\"error_reporting\",\"E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE\");\n    include_once \"".str_replace('install/'.basename(__FILE__),"",str_replace("\\","/",realpath(__FILE__)))."include/path.info.php\";\n    include_once __DIR_PATH__.\"/include/session.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.class.php\";\n    include_once __DIR_PATH__.\"/include/lib.class.php\";\n    include_once __DIR_PATH__.\"/include/paging.class.php\";\n    include_once __DIR_PATH__.\"/include/modeling.class.php\";\n    include_once __DIR_PATH__.\"/include/mailSender.class.php\";\n    include_once __DIR_PATH__.\"/include/fileUploader.class.php\";\n    include_once __DIR_PATH__.\"/include/validator.class.php\";\n?>");
 	@fclose($file);
 	
 ?>
@@ -39,7 +32,7 @@
 </head>
 <body>
 <header>
-	<img src="images/title.jpg" alt="투니툴 엔진 설치" />
+	<img src="images/title.jpg" alt="투니툴 코어 설치" />
 </header>
 <form name="step2Form" action="step3.php" method="post">
 <article>

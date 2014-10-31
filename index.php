@@ -10,6 +10,7 @@
 	PC버전으로 출력함
 	*/
 	$viewType = "p";
+	$viewDir = "";
 	
 	include "include/engine.inc.php";
 	include __DIR_PATH__."include/global.php";
@@ -22,6 +23,18 @@
 	$mysql = new mysqlConnection();
 	
 	$method->method_param("GET","article,m,p,saveViewType");
+	
+	/*
+	관리자 정보가 생성 되었되어 있는지 검사 (없다면 설치 3단계로 이동)
+	*/
+	$mysql->select("
+		SELECT *
+		FROM toony_member_list
+		WHERE me_admin='Y' AND me_drop_regdate IS NULL
+	");
+	if($mysql->numRows()<1){
+		$lib->error_location(__URL_PATH__."install/step3.php","A");
+	}
 	
 	/*
 	검사
@@ -39,7 +52,7 @@
 	$mysql->select("
 		SELECT href,forward
 		FROM toony_admin_menuInfo
-		WHERE callName='$article' AND vtype='p'
+		WHERE callName='$article' AND vtype='p' AND drop_regdate IS NULL
 	");
 	if($mysql->fetch("href")=="fm"){
 		$article = $mysql->fetch("forward");
@@ -157,6 +170,11 @@
 	}
 	
 	/*
+	레이아웃 스킨 정보를 가져옴
+	*/
+	$layoutDir = "p/".$site_config['ad_site_layout']."/";
+	
+	/*
 	사이드바, 헤더, 컨텐츠 영역에서 사용할 수 있도록 변수 글로벌화
 	*/
 	define("CALLED_ARTICLE",$article);
@@ -167,6 +185,7 @@
 	define("CALLED_PARENT",$menuInfo['parent']);
 	define("CALLED_VIEWTYPE",$viewType);
 	define("CALLED_VIEWDIR",$viewDir);
+	define("CALLED_LAYOUTDIR",$layoutDir);
 ?>
 <!DOCTYPE HTML>
 <html>

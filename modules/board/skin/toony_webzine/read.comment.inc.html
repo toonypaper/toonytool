@@ -1,19 +1,44 @@
-<span class="count"><strong>[comment_num]</strong>개의 댓글</span>
-[{comment_start}]
-<div class="comment_writer">
-	[{guest_input_start}]
-		작성자 <input type="text" name="writer" maxlength="8" style="width:120px;" />
-	[{guest_input_end}]
-</div>
-<div class="comment_form">
-	<textarea name="comment" style="height:50px;"></textarea>
-	<input type="submit" value="작성" class="__button_small" />
-</div>
-[{comment_end}]
-
-[{not_comment_start}]
-<span style="font-size:11px; color:#666;">
-	등록된 댓글이 없습니다.
-	<!--이 영역에 댓글 리스트가 출력됨-->
-</span>
-[{not_comment_end}]
+<script type="text/javascript">
+//textarea 가로 폭 지정
+function textareaResize(obj){
+	var boxWidth = obj.width();
+	$("textarea",obj).css({
+		"width":boxWidth-70+"px"
+	});
+}
+</script>
+<form name="read_comment_form" id="read_comment_form" ajaxAction="modules/board/read.comment.submit.php" ajaxType="html">
+	<input type="hidden" name="mode" value="1" />
+	<input type="hidden" name="board_id" value="[board_id_value]" />
+	<input type="hidden" name="read" value="[read_value]" />
+	<input type="hidden" name="cidno" value="" />
+	<input type="hidden" name="type" value="[type_value]" />
+	<!--s:댓글 입력시 필요 인풋-->
+	<input type="hidden" name="reply_writer_o" value="" />
+	<textarea name="reply_comment_o" style="display:none;"></textarea>
+	<!--e:댓글 입력시 필요 인풋-->
+	
+	<span class="count"><strong>[comment_num]</strong>개의 댓글</span>
+	[{comment_start}]
+	<div class="comment_writer">
+		[{guest_input_start}]
+			작성자 <input type="text" name="writer" title="작성자" maxlength="8" style="width:120px;" />
+		[{guest_input_end}]
+	</div>
+	<div class="comment_form">
+		<textarea name="comment" title="댓글" style="height:50px;"></textarea>
+		<input type="button" value="작성" class="__button_small _submitBtn" />
+	</div>
+	[{comment_end}]
+	
+	[{not_comment_start}]
+	<span style="font-size:11px; color:#666;">
+		등록된 댓글이 없습니다.
+	</span>
+	[{not_comment_end}]
+	
+	<!--s:댓글 리스트 출력-->
+	[comment_area]
+	<!--e:댓글 리스트 출력-->
+	
+</form>

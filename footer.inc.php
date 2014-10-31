@@ -3,9 +3,9 @@
 	$mysql = new mysqlConnection();
 	
 	/*
-	템플릿 로드
+	레이아웃 스킨 템플릿 로드
 	*/
-	$tpl->skin_file_path("_tpl/{$viewDir}footer.inc.html");
+	$tpl->skin_file_path("layoutskin/".CALLED_LAYOUTDIR."footer.inc.html");
 
 	/*
 	템플릿 함수
@@ -34,6 +34,6 @@
 	템플릿 치환
 	*/
 	$tpl->skin_modeling("[status]",footer_status_func());
-	
+	$tpl->skin_modeling("[/layoutskinDir/]",__URL_PATH__."layoutskin/".CALLED_LAYOUTDIR);
 	echo $tpl->skin_echo();
 ?>

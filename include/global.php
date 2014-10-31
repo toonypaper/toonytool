@@ -4,15 +4,6 @@
 	$lib = new libraryClass();
 	
 	/*
-	PC모드인지 Mobile모드인지 확인
-	*/
-	if(isset($viewType)&&$viewType=="p"){
-		$viewDir = "";
-	}else if(isset($viewType)){
-		$viewDir = "m/";
-	}
-	
-	/*
 	회원의 기본 정보를 가져옴
 	*/
 	$__toony_member_idno = $session->session_selector("__toony_member_idno");
@@ -56,7 +47,7 @@
 		SELECT *
 		FROM toony_admin_siteconfig
 	");
-	$globalMysql->fetchArray("ad_site_name,ad_site_url,ad_msite_url,ad_use_msite,ad_site_title,ad_email,ad_phone,ad_pavicon,ad_logo");
+	$globalMysql->fetchArray("ad_site_layout,ad_msite_layout,ad_site_name,ad_site_url,ad_msite_url,ad_use_msite,ad_site_title,ad_email,ad_phone,ad_pavicon,ad_logo");
 	$site_config = $globalMysql->array;
 	
 	/*

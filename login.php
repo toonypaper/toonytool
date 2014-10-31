@@ -45,7 +45,6 @@
 	/*
 	템플릿 치환
 	*/
-	$tpl->skin_modeling("[viewDir_value]",$viewDir);
 	$tpl->skin_modeling("[id_value]",id_value_func());
 	$tpl->skin_modeling("[password_value]",password_value_func());
 	$tpl->skin_modeling("[save_id_checked]",save_id_checked_func());

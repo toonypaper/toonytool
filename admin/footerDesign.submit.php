@@ -5,10 +5,12 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","vtype,scriptCode,sourceCode");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
+	
 	/*
 	DB수정
 	*/
@@ -21,5 +23,5 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=footerDesign");
 ?>

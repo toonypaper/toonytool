@@ -6,6 +6,7 @@
 	$mysql = new mysqlConnection();
 	$method = new methodController();
 	$mailSender = new mailSender();
+	$validator = new validator();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
@@ -14,9 +15,7 @@
 	/*
 	검사
 	*/
-	if(trim($memo)==""){
-		echo '<!--error::null_memo-->'; exit;
-	}
+	$validator->validt_tags("memo",1,"");
 	
 	/*
 	DB저장
@@ -31,16 +30,15 @@
 	/*
 	고객의 메일로 답변 발송
 	*/
-	$mailSender->func_mail_sender();
-	$mailSender->func_mail_sender->temp = "mailling";
-	$mailSender->func_mail_sender->t_email = $email;
-	$mailSender->func_mail_sender->t_name = $name;
-	$mailSender->func_mail_sender->subject = $site_config['ad_site_name']."에서 문의에 대한 답변을 발송 합니다.";
-	$mailSender->func_mail_sender->memo = str_replace('\"','"',stripslashes($memo));
-	$mailSender->func_mail_sender_get();
+	$mailSender->template = "mailling";
+	$mailSender->t_email = $email;
+	$mailSender->t_name = $name;
+	$mailSender->subject = $site_config['ad_site_name']."에서 문의에 대한 답변을 발송 합니다.";
+	$mailSender->memo = str_replace('\"','"',stripslashes($memo));
+	$mailSender->mail_send();
 	
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 답변이 발송 되었습니다.","admin/?p=questionList_view&act={$idno}");
 ?>

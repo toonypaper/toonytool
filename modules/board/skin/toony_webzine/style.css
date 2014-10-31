@@ -1,5 +1,6 @@
 @charset "utf-8";
 
+/*테이블 전체 style*/
 .board_table{ border-top:1px solid #666; width:100%; }
 .board_table thead th{ padding:7px 5px; background:#F5F5F5; font-size:12px; letter-spacing:-1px; }
 .board_table thead th.informations{ padding:15px; height:28px; font-size:12px !important; }
@@ -16,8 +17,20 @@
 #array_form .scArea{ background-color:#f8f8f8; width:350px; border:1px solid #eee; margin:0 auto; padding:5px; text-align:center; }
 #array_form .scArea input.keyword{ padding:5px; }
 #array_form .scArea select.where{ padding:5px; }
+#array_form .scArea input.submit,
+#array_form .scArea input.cancel{
+	font-size:11px; border:1px solid #D4D4D4; padding:5px 8px; margin:2px; cursor:pointer; vertical-align:top;
+	background: #F8F8F8; /* Old browsers */
+	background: -moz-linear-gradient(top, #FAFAFA 0%, #F0F0F0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F8F8F8), color-stop(100%,#F0F0F0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #F8F8F8 0%,#F0F0F0 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8F8F8', endColorstr='#F0F0F0',GradientType=0 ); /* IE6-9 */
+}
 #array_form .not_loop_span{ display:block; border-bottom:1px solid #eee; text-align:center; padding:10px; color:#666; }
-#array_form .webzine_sbj > a{ color:#333; }
+#array_form .webzine_sbj > a{ color:#333; font-weight:bold; }
 #array_form .webzine_ment{ display:block; padding-top:3px; font-size:11px; line-height:15px; }
 #array_form .category{ color:#900; }
 #array_form .comment{ font:11px tahoma; font-weight:bold; color:#ea3a5a; padding-left:10px; }
@@ -43,9 +56,7 @@
 ._read_likesArea > li > a .__count{ font-size:12px; font-weight:bold; display:inline-block; *display:block; *zoom:1; padding-left:3px; font-family:tahoma; }
 
 .comment_writer{ font-weight:bold; padding-bottom:5px; }
-
 .comment_form{ margin-bottom:10px; }
-
 .comment_list{ background:#fff; margin:0; list-style-type:none; padding:10px 15px; border-top:1px dotted #dedede; }
 .comment_list .writer{ font-weight:bold; color:#333 !important; padding-left:0 !important; margin:0; }
 .comment_list .writer > a{ color:#000; }

@@ -1,68 +1,19 @@
 <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	var $form = $("form[name=pageList_modifyForm]");
 	//수정 버튼 클릭시
 	$("._submitBtn").click(function(){
-		var $form = $("form[name=pageList_modifyForm]");
 		smartEditor_submit_val=true;oEditors.getById["sourceCode"].exec("UPDATE_CONTENTS_FIELD", []);
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/pageList_modify.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_name-->" :
-										alert("페이지 이름을 입력 하세요.");
-										break;
-									case "<!--error::not_name-->" :
-										alert("페이지 이름이 올바르지 않습니다.");
-										break;
-									case "<!--error::null_memo-->" :
-										alert("페이지 설명을 입력 하세요.");
-										break;
-									case "<!--error::have_name-->" :
-										alert("이미 존재하는 페이지 이름 입니다.");
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 생성 되었습니다.");
-										document.location.href = __URL_PATH__+"admin/?p=pageList&vtype=[vtype_value]";
-										break;
-									case "<!--success::2-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
+		$form.submit();
 	});
 	//삭제 버튼 클릭시
+	var type = $("input[name=type]",$form).val();
 	$("._deleteBtn").click(function(){
 		if(confirm("정말로 삭제 하시겠습니까?")==true){
-			var $form = $("form[name=pageList_modifyForm]");
 			$("input[name=type]",$form).val("delete");
-			$.ajax({
-				cache		:	false,
-				async		:	false,
-				type		:	"POST",
-				url			:	__URL_PATH__+"admin/pageList_modify.submit.php",
-				data		:	$form.serialize(),
-				dataType	:	"HTML",
-				success		:	function(msg){
-									switch(msg){
-										case "<!--success::3-->" :
-											alert("성공적으로 삭제 되었습니다.");
-											document.location.href = __URL_PATH__+"admin/?p=pageList&vtype=[vtype_value]";
-											break;
-										default :
-											alert(msg);
-									}
-								}
-			});
+			$form.submit();
+			$("input[name=type]",$form).val(type);
 		}
 	});
 });
@@ -80,7 +31,7 @@ $(document).ready(function(){
 					생성된 페이지의 디자인을 관리 하세요.
 				</div>
 				<div class="contArticle">
-					<form name="pageList_modifyForm">
+					<form name="pageList_modifyForm" ajaxAction="admin/pageList_modify.submit.php" ajaxType="html">
 						<input type="hidden" name="idno" value="[idno_value]" />
 						<input type="hidden" name="type" value="[type_value]" />
 						<input type="hidden" name="vtype" value="[vtype_value]" />
@@ -101,9 +52,9 @@ $(document).ready(function(){
 								[{name_modify_end}]
 								[{name_new_start}]
 								<tr>
-									<th style="width:100px;">페이지 이름</th>
+									<th style="width:100px;">페이지 코드</th>
 									<td>
-										<input type="text" name="name" style="width:150px;" />
+										<input type="text" name="name" title="고유 코드" style="width:150px;" />
 										<span class="__article_sment">
 											- 한번 지정하면 수정이 불가능 합니다.<br />
 											- 영어 대소문자, 숫자 조합만 가능합니다.
@@ -114,13 +65,13 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">페이지 설명</th>
 									<td>
-										<input type="text" name="memo" value="[memo_value]" style="width:500px;" />
+										<input type="text" name="memo" title="페이지 설명"value="[memo_value]" style="width:500px;" />
 									</td>
 								</tr>
 								<tr>
 									<th style="width:100px;">접근 가능 레벨</th>
 									<td>
-										<select name="level">
+										<select name="level" title="접근 가능 레벨">
 											[level_selectbox_options]
 										</select>
 										부터 접근 가능하도록 설정 합니다.
@@ -133,7 +84,7 @@ $(document).ready(function(){
 							<tbody>
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea name="scriptCode" style="width:770px; height:80px;">[scriptCode]</textarea>
+										<textarea name="scriptCode" title="상단 본문" style="width:770px; height:80px;">[scriptCode]</textarea>
 									</td>
 								</tr>
 							</tbody>
@@ -143,7 +94,7 @@ $(document).ready(function(){
 							<tbody>
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea class="sourceCode" id="sourceCode" name="sourceCode" style="width:100%; height:400px; border:none;" smarteditor>[sourceCode]</textarea>
+										<textarea class="sourceCode" title="본문" id="sourceCode" name="sourceCode" style="width:100%; height:400px; border:none;" smarteditor>[sourceCode]</textarea>
 									</td>
 								</tr>
 							</tbody>

@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","type,vtype,idno,name,scriptCode,memo,sourceCode,level");
 	$lib->security_filter("referer");
@@ -17,21 +18,15 @@
 		/*
 		검사
 		*/
-		if(trim($name)==""){
-			echo '<!--error::null_name-->'; exit;
-		}
-		$lib->func_method_param_check("idx",$name,"<!--error::not_name-->");
-		if(trim($memo)==""){
-			echo '<!--error::null_memo-->'; exit;
-		}
-		//이름 중복 검사
+		$validator->validt_idx("name",1,"");
+		$validator->validt_null("memo","");
 		$mysql->select("
 			SELECT *
 			FROM toony_page_list
 			WHERE name='$name' AND vtype='$vtype'
 		");
 		if($mysql->numRows()>0){
-			echo '<!--error::have_name-->'; exit;
+			$validator->validt_diserror("name","이미 등록된 코드명입니다.");
 		}
 		
 		/*
@@ -47,7 +42,7 @@
 		/*
 		완료 후 리턴
 		*/
-		echo '<!--success::1-->';
+		$validator->validt_success("성공적으로 추가 되었습니다.","admin/?p=pageList&vtype={$vtype}");
 	
 	/**************************************************
 	수정 모드인 경우
@@ -56,9 +51,7 @@
 		/*
 		검사
 		*/
-		if(trim($memo)==""){
-			echo '<!--error::null_memo-->'; exit;
-		}
+		$validator->validt_null("memo","");
 		
 		/*
 		DB수정
@@ -72,7 +65,7 @@
 		/*
 		완료 후 리턴
 		*/
-		echo '<!--success::2-->';
+		$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=pageList_modify&type={$type}&vtype={$vtype}&act={$idno}");
 	
 	/**************************************************
 	삭제 모드인 경우
@@ -89,6 +82,6 @@
 		/*
 		완료 후 리턴
 		*/
-		echo '<!--success::3-->';
+		$validator->validt_success("성공적으로 삭제 되었습니다.","admin/?p=pageList&vtype={$vtype}");
 	}
 ?>

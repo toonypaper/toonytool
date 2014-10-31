@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","id,password,password02,nick,sex,phone,telephone,point");
 	$lib->security_filter("referer");
@@ -13,16 +14,11 @@
 	/*
 	검사
 	*/
-	if(trim($id)==""){
-		echo '<!--error::null_id-->'; exit;
-	}
-	$lib->func_method_param_check("id",$id,"<!--error::not_id-->");
-	if(trim($nick)==""){
-		echo '<!--error::null_nick-->'; exit;
-	}
-	$lib->func_method_param_check("nick",$nick,"<!--error::not_nick-->");
-	$lib->func_method_param_check("phone",$phone,"<!--error::not_phone-->");
-	$lib->func_method_param_check("telephone",$telephone,"<!--error::not_telephone-->");
+	$validator->validt_email("id",1,"");
+	$validator->validt_nick("nick",1,"");
+	$validator->validt_phone("phone",0,"");
+	$validator->validt_phone("telephone",0,"");
+	$validator->validt_number("point",1,10,0,"");
 	
 	/*
 	최고 운영자 기본 정보 로드
@@ -40,9 +36,9 @@
 	*/
 	if(trim($password)!=""){
 		if($password!=$password02){
-			echo '<!--error::not_samePassword-->'; exit;
+			$validator->validt_diserror("password02","비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 		}
-		$lib->func_method_param_check("password",$password,"<!--error::not_password-->");
+		$validator->validt_password("password",1,"");
 		$password_val = "password('$password')";
 	}else{
 		$password_val = "'$array[me_password]'";
@@ -72,7 +68,7 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("수정이 완료 되었습니다.","admin/?p=adminInfo");
 	
 	
 ?>

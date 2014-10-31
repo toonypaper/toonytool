@@ -2,33 +2,6 @@
 <script type="text/javascript" src="library/js/spectrum.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("._submitBtn").click(function(){
-		var $form = $("form[name=bodyStyleForm]");
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/bodyStyle.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_body_txtSize-->" :
-										alert("본문 글자 크기를 입력 하세요.");
-										break;
-									case "<!--error::null_link_txtSize-->" :
-										alert("링크 글자 크기를 입력 하세요.");
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 수정 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-	});
 	//컬러피커 적용
 	$("input[name=body_bgColor]").spectrum({ preferredFormat: "hex", showInput: true });
 	$("input[name=body_txtColor]").spectrum({ preferredFormat: "hex", showInput: true });
@@ -56,7 +29,7 @@ $(document).ready(function(){
 					<li[tab_active_m]><a href="?p=bodyStyle&vtype=m">모바일</a></li>
 				</ul>
 				<div class="contArticle">
-					<form name="bodyStyleForm">
+					<form name="bodyStyleForm" ajaxAction="admin/bodyStyle.submit.php" ajaxType="html">
 						<input type="hidden" name="vtype" value="[vtype_value]" />
 						<h5 style="padding-top:0;">기본 스타일</h5>
 						<table cellpadding="0" cellspacing="0" class="__article_table_read">
@@ -74,7 +47,7 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">본문 글자 크기</th>
 									<td colspan="3">
-										<input type="text" name="body_txtSize" value="[body_txtSize_value]" style="width:50px;" /> Pixel
+										<input type="text" name="body_txtSize" title="본문 글자 크기" value="[body_txtSize_value]" style="width:50px;" /> Pixel
 									</td>
 								</tr>
 							</tbody>
@@ -105,7 +78,7 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">링크 글자 크기</th>
 									<td colspan="3">
-										<input type="text" name="link_txtSize" value="[link_txtSize_value]" style="width:50px;" /> Pixel
+										<input type="text" name="link_txtSize" title="링크 글자 크기" value="[link_txtSize_value]" style="width:50px;" /> Pixel
 									</td>
 								</tr>
 							</tbody>
@@ -122,7 +95,7 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">인풋 글자 크기</th>
 									<td>
-										<input type="text" name="input_txtSize" value="[input_txtSize_value]" style="width:50px;" /> Pixel
+										<input type="text" name="input_txtSize" title="인풋 글자 크기" value="[input_txtSize_value]" style="width:50px;" /> Pixel
 									</td>
 								</tr>
 							</tbody>
@@ -132,7 +105,7 @@ $(document).ready(function(){
 						</div>
 					</form>
 					<div class="__article_btnArea">
-						<input type="button" class="__btn_submit _submitBtn" />
+						<input type="button" class="__btn_submit _submitBtn" ajaxSubmit="bodyStyleForm" />
 						<a href="./?p=pageList" class="__btn_cancel"></a>
 					</div>
 				</div>

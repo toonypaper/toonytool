@@ -6,6 +6,7 @@
 	$method = new methodController();
 	$mysql = new mysqlConnection();
 	$mailSender = new mailSender();
+	$validator = new validator();
 	
 	$method->method_param("POST","id,nick");
 	$lib->security_filter("referer");
@@ -25,16 +26,14 @@
 	/*
 	인증 메일 발송
 	*/
-	$mailSender->func_mail_sender();
-	$mailSender->func_mail_sender->temp = "account";
-	$mailSender->func_mail_sender->t_email = $id;
-	$mailSender->func_mail_sender->t_name = $member['me_nick'];
-	$mailSender->func_mail_sender->subject = "{$member['me_nick']}님, {$site_config['ad_site_name']} 이메일 인증을 해주세요.";
 	$idCheckCode = md5(date("YmdHis").$id);
 	$idCheckUrl = __URL_PATH__."?article=account&p=account.idCheck&code=".$idCheckCode;
-	$mailSender->func_mail_sender->account_check_url = "<a href=\"{$idCheckUrl}\" target=\"_blank\">".$idCheckUrl."</a>";
-	$mailSender->func_mail_sender_get();
-	$sendCount++;
+	$mailSender->account_check_url = "<a href=\"{$idCheckUrl}\" target=\"_blank\">".$idCheckUrl."</a>";
+	$mailSender->template = "account";
+	$mailSender->t_email = $id;
+	$mailSender->t_name = $member['me_nick'];
+	$mailSender->subject = "{$member['me_nick']}님, {$site_config['ad_site_name']} 이메일 인증을 해주세요.";
+	$mailSender->mail_send();
 	
 	/*
 	인증 메일 발송 이력 DB 기록
@@ -49,5 +48,5 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("인증 메일이 재발송 되었습니다.\n\n메일을 확인하여 인증을 완료해 주세요.","?article=login");
 ?>

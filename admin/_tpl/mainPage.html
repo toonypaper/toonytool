@@ -1,0 +1,572 @@
+<link rel="stylesheet" type="text/css" href="library/css/jquery.gridster.css">
+<script src="library/js/jquery.gridster.js"></script>
+<script type="text/javascript">
+/*
+캔버스 위치 조정
+*/
+function pos_canvas(){
+	var $canvas = $(".canvas_bone .canvas");
+	var windowWidth = $(window).width();
+	$canvas.css({
+		"left":(windowWidth/2)-($canvas.width()/2)
+	});
+}
+$(document).ready(function(){
+	$canvas_bg = $(".canvas_bone .canvas_bg");
+	$canvas = $(".canvas_bone .canvas");
+	$dragZone = $("#dragZone");
+	//페이지 로드시 기본 설정
+	$canvas_bg.css({ "opacity":"0.7" });
+	pos_canvas();
+	$configBox = $(".configItemBox");
+	controller_top = $configBox.css("top");
+	controller_offset = $configBox.offset().top;
+	$(".__btn_cancel").click(function(){
+		$canvas_bg.hide();
+		$canvas.hide();
+	});
+});
+$(window).resize(pos_canvas);
+/*
+컨트롤러 위치 고정
+*/
+function controller_fixed(){
+	var scrollTop = parseInt($(window).scrollTop());
+	if(scrollTop>controller_offset-15){
+		$configBox.css({
+			"top":scrollTop-80
+		});
+	}else{
+		$configBox.css({
+			"top":controller_top
+		});
+	}
+}
+$(window).scroll(controller_fixed);
+/*
+캔버스 내부 작동 위한 함수
+*/
+$(document).ready(function(){
+	controller_fixed();
+	//아이템 드래그&그리드
+	gridster = $(".gridster ul").gridster({
+		widget_base_dimensions: [82, 20],
+		widget_margins: [10, 10],
+		helper: 'clone',
+		resize: {
+			enabled: true,
+			max_size: [500, 500],
+			min_size: [2, 4],
+			resize:function(e,ui,$item){
+				itemBoxSize($item);
+			},
+			stop:function(e,ui,$item){
+				itemBoxSize($item);
+			}
+			
+		}
+	}).data('gridster');
+	
+	//아이템 추가
+	$(document).on("click","#settingZone ._add",function(e){
+		e.preventDefault();
+		$boxs.hide();
+		$noneBox.show();
+		var date = new Date();
+		var uniqClass = "c"+date.getFullYear()+""+date.getMonth()+""+date.getDate()+""+date.getHours()+""+date.getMinutes()+""+date.getSeconds()+""+Math.floor(Math.random()*11);
+		var itemTar = $(this).attr("itemTar");
+		switch(itemTar){
+			case "latest" :
+				gridster.add_widget('<li class="latest" itemType="latest" itemClass="'+uniqClass+'"><div class="_tb">&lt;div class=&quot;<span>'+uniqClass+'</span>&quot;&gt;</div><a href="#" class="_d"></a><span class="_title">게시판 모듈 최근게시물</span><span class="_article"></span><span class="_itemBoxSize">0x0</span><div class="_itemData" style="display:none;">|'+uniqClass+'|null|list|5|20|25|180|180|0|1</div></li>',3,4);
+				break;
+			case "banner" :
+				gridster.add_widget('<li class="banner" itemType="banner" itemClass="'+uniqClass+'"><div class="_tb">&lt;div class=&quot;<span>'+uniqClass+'</span>&quot;&gt;</div><a href="#" class="_d"></a><span class="_title">배너 공간</span><span class="_itemBoxSize">0x0</span><div class="_itemData" style="display:none;">'+uniqClass+'||http://|blank|클릭 하세요.</div></li>',3,4);
+				break;
+			case "href" :
+				gridster.add_widget('<li class="href" itemType="href" itemClass="'+uniqClass+'"><div class="_tb">&lt;div class=&quot;<span>'+uniqClass+'</span>&quot;&gt;</div><a href="#" class="_d"></a><span class="_title">외부 문서 공간(include)</span><span class="_itemBoxSize">0x0</span><div class="_itemData" style="display:none;">'+uniqClass+'|</div></li>',3,4);
+				break;
+		}
+		itemBoxSize($(".gridster ul li[itemClass="+uniqClass+"]"));
+	});
+	
+	//아이템 박스의 사이즈를 표시함
+	function itemBoxSize($item){
+		var width = $item.width();
+		var height = $item.height();
+		$("._itemBoxSize",$item).text(width+" x "+height);
+	}
+	
+	//아이템을 클릭하는 경우 설정 판넬을 보임
+	var $boxs = $(".configItemBox > div");
+	var $latestBox = $(".configItemBox .latest");
+	var $bannerBox = $(".configItemBox .banner");
+	var $hrefBox = $(".configItemBox .href");
+	var $noneBox = $(".configItemBox .none");
+	$(document).on("click",".gridster ul li",function(){
+		//아이템에 저장된 설정 값들을 불러옴
+		var itemType = $(this).attr("itemType");
+		var itemData = $("._itemData",$(this)).text().split("|");
+		//설정 판넬을 염
+		$boxs.hide();
+		switch(itemType){
+			case "latest" :
+				$latestBox.fadeIn();
+				$("input[name=board_id]",$latestBox).val(itemData[0]);
+				$("input[name=itemClass]",$latestBox).val(itemData[1]);
+				$("select[name=article] option[value="+itemData[2]+"]",$latestBox).attr("selected",true);
+				$("select[name=type] option[value="+itemData[3]+"]",$latestBox).attr("selected",true);
+				$("input[name=list]",$latestBox).val(itemData[4]);
+				$("input[name=subject]",$latestBox).val(itemData[5]);
+				$("input[name=ment]",$latestBox).val(itemData[6]);
+				$("input[name=width]",$latestBox).val(itemData[7]);
+				$("input[name=height]",$latestBox).val(itemData[8]);
+				$("input[name=margin]",$latestBox).val(itemData[9]);
+				$("select[name=qurd] option[value="+itemData[10]+"]",$latestBox).attr("selected",true);
+				break;
+			case "banner" :
+				$bannerBox.fadeIn();
+				$("input[name=itemClass]",$bannerBox).val(itemData[0]);
+				$("._file_ed img",$bannerBox).attr("src",itemData[1]);
+				$("input[name=file_ed]",$bannerBox).val(itemData[1]);
+				$("input[name=link]",$bannerBox).val(itemData[2]);
+				$("select[name=target] option[value="+itemData[3]+"]",$bannerBox).attr("selected",true);
+				$("input[name=title]",$bannerBox).val(itemData[4]);
+				if($.browser.msie){
+					$("input[name=file]",$bannerBox).replaceWith($("input[name=file]",$bannerBox).clone());
+				}else{
+					$("input[name=file]",$bannerBox).val("");
+				}
+				if(itemData[1]==""){
+					$("._file_ed",$bannerBox).hide();
+				}else{
+					$("._file_ed",$bannerBox).show();
+				}
+				$("._file_ed img",$bannerBox).attr("src",__URL_PATH__+"upload/siteInformations/"+itemData[1]);
+				break;
+			case "href" :
+				$hrefBox.fadeIn();
+				$("input[name=itemClass]",$hrefBox).val(itemData[0]);
+				$("input[name=outhref]",$hrefBox).val(itemData[1]);
+				break;
+			default :
+				$noneBox.fadeIn();
+		}
+	});
+	
+	//아이템의 닫기 클릭하여 닫음
+	$(document).on("click",".gridster ul li ._d",function(e){
+		e.preventDefault();
+		if(confirm("아이템을 삭제 하시겠습니까?")){
+			gridster.remove_widget($(this).parent("li"),function(){
+				$boxs.hide();
+				$noneBox.show();
+			});
+			//배너공간인 경우 서버에서 배너 파일 삭제
+			var $form = $("form[name=mainPage_bannerForm]");
+			$("input[name=mode]",$form).val("banner_deletefile");
+			$.ajax({
+				cache		:	false,
+				async		:	false,
+				type		:	"POST",
+				data		:	$form.serialize(),
+				url			:	__URL_PATH__+"admin/mainPage.submit.php",
+				dataType	:	"HTML",
+				success		:	function(){
+									$("input[name=mode]",$form).val("banner_addfile");
+								}
+			});
+		}
+	});
+	
+	//설정 판넬에서 반영을 클릭하는 경우 아이템에 반영함
+	//최근게시물 반영
+	$(".submit",$latestBox).click(function(e){
+		e.preventDefault();
+		if($("select[name=article] option:selected",$latestBox).val()=="null"){
+			alert("게시판 메뉴를 선택 하세요.");
+			return;
+		}else if($.trim($("input[name=list]",$latestBox).val())==""||$.trim($("input[name=subject]",$latestBox).val())==""||$.trim($("input[name=ment]",$latestBox).val())==""||$.trim($("input[name=width]",$latestBox).val())==""||$.trim($("input[name=height]",$latestBox).val())==""||$.trim($("input[name=margin]",$latestBox).val())==""){
+			alert("빈 값이 있습니다.");
+			return;
+		}else if(!$("input[name=list]",$latestBox).val().match(/^[0-9]+$/)||!$("input[name=subject]",$latestBox).val().match(/^[0-9]+$/)||!$("input[name=ment]",$latestBox).val().match(/^[0-9]+$/)||!$("input[name=width]",$latestBox).val().match(/^[0-9]+$/)||!$("input[name=height]",$latestBox).val().match(/^[0-9]+$/)||!$("input[name=margin]",$latestBox).val().match(/^[0-9]+$/)){
+			alert("px(픽셀), 갯수는 숫자만 입력 가능합니다.");
+			return;
+		}
+		//설정 값들을 아이템박스로 넘겨 주기 위해 문자열로 변환
+		var latestBoxToData = $("select[name=article] option:selected",$latestBox).attr("board_id");
+		latestBoxToData += "|"+$("input[name=itemClass]",$latestBox).val();
+		latestBoxToData += "|"+$("select[name=article] option:selected",$latestBox).val();
+		latestBoxToData += "|"+$("select[name=type] option:selected",$latestBox).val();
+		latestBoxToData += "|"+$("input[name=list]",$latestBox).val();
+		latestBoxToData += "|"+$("input[name=subject]",$latestBox).val();
+		latestBoxToData += "|"+$("input[name=ment]",$latestBox).val();
+		latestBoxToData += "|"+$("input[name=width]",$latestBox).val();
+		latestBoxToData += "|"+$("input[name=height]",$latestBox).val();
+		latestBoxToData += "|"+$("input[name=margin]",$latestBox).val();
+		latestBoxToData += "|"+$("select[name=qurd] option:selected",$latestBox).val();
+		//아이템박스로 넘겨줌
+		$(".gridster ul li[itemClass="+$("input[name=itemClass]",$latestBox).val()+"] ._itemData").text(latestBoxToData);
+		$(".gridster ul li[itemClass="+$("input[name=itemClass]",$latestBox).val()+"] ._article").text(""+$("select[name=article] option:selected",$latestBox).text()+"");
+		$(".gridster ul li[itemClass="+$("input[name=itemClass]",$latestBox).val()+"]").click();
+	});
+	//배너공간 반영
+	$(".submit",$bannerBox).click(function(e){
+		e.preventDefault();
+		if($("input[name=file_ed]",$bannerBox).val()==""&&$("input[name=file]",$bannerBox).val()==""){
+			alert("이미지를 첨부 하세요.");
+			return;
+		}else if($.trim($("input[name=link]",$bannerBox).val())==""||$.trim($("input[name=title]",$bannerBox).val())==""){
+			alert("빈 값이 있습니다.");
+			return;
+		}else{
+			//배너공간에서 이미지 파일 첨부(AJAX)
+			var $mainPage_bannerForm = $("form[name=mainPage_bannerForm]");
+			var banner_fileName = "";
+			$mainPage_bannerForm.attr("action",__URL_PATH__+"admin/mainPage.submit.php");
+			$mainPage_bannerForm.ajaxForm({
+				cache		:	false,
+				async		:	false,
+				type		:	"POST",
+				dataType	:	"HTML",
+				success		:	function(msg){
+									banner_fileName = msg;
+									//유효성검사
+									switch(msg){
+										case "error::not_imgType" :
+											alert("첨부할 수 없는 파일입니다.");
+											break;
+										case "error::fail_imgSave" :
+											alert("이미지 첨부 실패");
+											break;
+										default :
+											//설정 값들을 아이템박스로 넘겨 주기 위해 문자열로 변환
+											var bannerBoxToData = $("input[name=itemClass]",$bannerBox).val();
+											bannerBoxToData += "|"+banner_fileName;
+											bannerBoxToData += "|"+$("input[name=link]",$bannerBox).val();
+											bannerBoxToData += "|"+$("select[name=target] option:selected",$bannerBox).val();
+											bannerBoxToData += "|"+$("input[name=title]",$bannerBox).val();
+											//아이템박스로 넘겨줌
+											$(".gridster ul li[itemClass="+$("input[name=itemClass]",$bannerBox).val()+"] ._itemData").text(bannerBoxToData).click();
+									}
+								}
+			});
+			$mainPage_bannerForm.submit();
+		}
+	});
+	//외부문서 반영
+	$(".submit",$hrefBox).click(function(e){
+		e.preventDefault();
+		if($("input[name=outhref]",$hrefBox).val()==""){
+			alert("외부 문서 파일명을 입력하세요.");
+			return;
+		}
+		//설정 값들을 아이템박스로 넘겨 주기 위해 문자열로 변환
+		var hrefBoxToData = $("input[name=itemClass]",$hrefBox).val();
+		hrefBoxToData += "|"+$("input[name=outhref]",$hrefBox).val();
+		//아이템박스로 넘겨줌
+		$(".gridster ul li[itemClass="+$("input[name=itemClass]",$hrefBox).val()+"] ._itemData").text(hrefBoxToData);
+		$(".gridster ul li[itemClass="+$("input[name=itemClass]",$hrefBox).val()+"]").click();
+	});
+	
+	//캔버스 적용 버튼 클릭시 메인화면 디자인을 DB에 저장
+	$("#dragZone .__article_btnArea ._submitBtn").click(function(){
+		if(confirm("최종 저장 하시겠습니까?")==false){
+			return false;
+		}
+		var $items = $(".gridster > ul");
+		//캔버스의 아이템 옵션 값들을 Json 문자열로 저장(PHP 출력 위해)
+		var json = "";
+		if($("li",$items).length<1){
+			alert("아이템이 존재하지 않습니다.\n아이템을 추가해 주세요.");
+			return false;
+		}
+		$("li",$items).each(function(i){
+			trueVar = true;
+			if($(this).attr("class").indexOf("latest")!=-1){
+				//최근게시물인 경우 문자열 합침
+				var json_latest = "";
+				json_latest += "#latest";
+				json_latest += "|"+$("._itemData",$(this)).text()+"|"+$(this).attr("data-col")+"|"+$(this).attr("data-row")+"|"+$(this).attr("data-sizex")+"|"+$(this).attr("data-sizey");
+				//유효성 검사
+				json_re = json_latest.split("|");
+				if(json_re[3]==""||json_re[3]=="null"){
+					alert("게시판 메뉴를 선택 하세요.");
+					$(this).click();
+					trueVar = false;
+				}else if($.trim(json_re[5])==""||$.trim(json_re[6])==""||$.trim(json_re[7])==""||$.trim(json_re[8])==""||$.trim(json_re[9])==""||$.trim(json_re[10])==""){
+					alert("빈 값이 있습니다.");
+					$(this).click();
+					trueVar = false;
+				}else if(!$.trim(json_re[5]).match(/^[0-9]+$/)||!$.trim(json_re[6]).match(/^[0-9]+$/)||!$.trim(json_re[7]).match(/^[0-9]+$/)||!$.trim(json_re[8]).match(/^[0-9]+$/)||!$.trim(json_re[9]).match(/^[0-9]+$/)||!$.trim(json_re[10]).match(/^[0-9]+$/)){
+					alert("px(픽셀), 갯수는 숫자만 입력 가능합니다.");
+					$(this).click();
+					trueVar = false;
+				}
+				json += json_latest;
+			}else if($(this).attr("class").indexOf("banner")!=-1){
+				//배너공간인 경우 문자열 합침
+				var json_banner = "";
+				json_banner += "#banner";
+				json_banner += "|"+$("._itemData",$(this)).text()+"|"+$(this).attr("data-col")+"|"+$(this).attr("data-row")+"|"+$(this).attr("data-sizex")+"|"+$(this).attr("data-sizey");
+				//유효성 검사
+				json_re = json_banner.split("|");
+				if($.trim(json_re[2])==""){
+					alert("배너 이미지파일을 첨부 하세요.");
+					$(this).click();
+					trueVar = false;
+				}else if($.trim(json_re[3])==""||$.trim(json_re[5])==""){
+					alert("빈 값이 있습니다.");
+					$(this).click();
+					trueVar = false;
+				}
+				json += json_banner;
+			}else if($(this).attr("class").indexOf("href")!=-1){
+				//외부문서 삽입인 경우 문자열 합침
+				var json_href = "";
+				json_href += "#href";
+				json_href += "|"+$("._itemData",$(this)).text()+"|"+$(this).attr("data-col")+"|"+$(this).attr("data-row")+"|"+$(this).attr("data-sizex")+"|"+$(this).attr("data-sizey");
+				//유효성 검사
+				json_re = json_href.split("|");
+				if($.trim(json_re[2])==""){
+					alert("외부 문서 파일명을 입력하세요.");
+					$(this).click();
+					trueVar = false;
+				}
+				json += json_href;
+			}
+			if(trueVar==false){ return false; }
+		});
+		if(trueVar==false){ return false; }
+		//불필요 Attribute 제거
+		$("li",$items).removeAttr("style").removeClass("gs-w");
+		$(".gs-resize-handle",$items).remove();
+		$(".gs-resize-handle-both",$items).remove();
+		//캔버스의 아이템을 그대로 html코드로 저장(캔버스 로드 위해)
+		html = $items.html();
+		$items.hide();
+		//만들어진 html코드와 json문자열을 DB에 저장
+		$.ajax({
+			cache		:	false,
+			async		:	false,
+			type		:	"POST",
+			dataType	:	"HTML",
+			data		:	{
+								"mode":"p_add_data",
+								"html":html,
+								"json":json
+							},
+			url			:	__URL_PATH__+"admin/mainPage.submit.php",
+			success		:	function(data){
+								alert("성공적으로 저장 되었습니다.");
+								window.document.location.reload();
+							}
+		});
+	});
+});
+</script>
+<div id="layout" class="canvas_bone">
+	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
+	<!--s:디자이너 캔버스-->
+	<div class="canvas">
+		<div id="dragZone">
+			<div class="title">
+				<ul class="tab">
+					<li class="active"><a href="./?p=mainPage">홈페이지 메인화면</a></li>
+					<li><a href="./?p=mainPage&vtype=m">모바일페이지 메인화면</a></li>
+				</ul>
+			</div>
+			<div class="gridster">
+				<ul>
+					[site_html]
+				</ul>
+			</div>
+			<div class="__article_btnArea">
+				<input type="hidden" name="viewType" value="p" />
+				<input type="button" class="__btn_submit _submitBtn"/>
+				<a href="#" class="__btn_cancel"></a>
+			</div>
+		</div>
+		<div id="settingZone">
+			<div class="addItemBox">
+				<h5>새로운 아이템 추가</h5>
+				<ul class="addItems">
+					<li>
+						<a href="#" class="_add l" itemTar="latest"><div class="ico_l"></div>게시판 모듈 최근게시물</a>
+					</li>
+					<li>
+						<a href="#" class="_add b" itemTar="banner"><div class="ico_b"></div>배너 공간</a>
+					</li>
+					<li>
+						<a href="#" class="_add h" itemTar="href"><div class="ico_h"></div>외부 문서 삽입(include)</a>
+					</li>
+				</ul>
+			</div>
+			<div class="configItemBox">
+				<h5>아이템 컨트롤러 창</h5>
+				<div class="latest" style="display:none;">
+					<input type="hidden" name="viewType" value="p" />
+					<input type="hidden" name="board_id" value="" />
+					<input type="hidden" name="itemClass" value="" />
+					<ul>
+						<li>
+							<span class="ot">
+								메뉴 선택
+							</span>
+							<select name="article" style="margin-bottom:4px;">
+								[latest_selecbox_options]
+							</select>
+							<br />메뉴관리에서 메뉴로 생성한 게시판만 선택 가능합니다.
+						</li>
+						<li>
+							<span class="ot">
+								최근게시물 스킨
+							</span>
+							<select name="type" style="margin-bottom:4px;">
+								[type_selecbox_options]
+							</select>
+						</li>
+						<li>
+							<span class="ot">
+								제목 리스트수
+							</span>
+							<input type="text" name="list" value="" style="width:100px;" /> 라인
+						</li>
+						<li>
+							<span class="ot">
+								제목 글자수
+							</span>
+							<input type="text" name="subject" value="" style="width:100px;" /> 자
+						</li>
+						<li>
+							<span class="ot">
+								본문 글자수(웹진)
+							</span>
+							<input type="text" name="ment" value="" style="width:100px;" /> 자
+						</li>
+						<li>
+							<span class="ot">
+								이미지 가로크기(갤러리)
+							</span>
+							<input type="text" name="width" value="" style="width:100px;" /> px
+						</li>
+						<li>
+							<span class="ot">
+								이미지 세로크기(갤러리)
+							</span>
+							<input type="text" name="height" value="" style="width:100px;" /> px
+						</li>
+						<li>
+							<span class="ot">
+								이미지 외부 여백(갤러리)
+							</span>
+							<input type="text" name="margin" value="" style="width:100px;" /> px
+						</li>
+						<li>
+							<span class="ot">
+								이미지 비율 유지
+							</span>
+							<select name="qurd">
+								<option value="1">사용</option>
+								<option value="2">사용안함</option>
+							</select>
+						</li>
+					</ul>
+					<div class="btns">
+						<input type="button" class="submit" value="반영" />
+					</div>
+				</div>
+				<div class="banner" style="display:none;">
+					<form name="mainPage_bannerForm" enctype="multipart/form-data" method="post">
+						<input type="hidden" name="mode" value="banner_addfile" />
+						<input type="hidden" name="viewType" value="p" />
+						<input type="hidden" name="itemClass" value="" />
+						<ul>
+							<li>
+								<span class="ot">
+									이미지 첨부
+								</span>
+								<input type="file" name="file" style="width:95%;" />
+							</li>
+							<li class="_file_ed">
+								<span class="ot">
+									첨부된 이미지
+								</span>
+								<img src="" style="max-width:180px;" />
+								<input type="hidden" name="file_ed" />
+							</li>
+							<li>
+								<span class="ot">
+									클릭시 링크
+								</span>
+								<input type="text" name="link" value="" style="width:95%;" />
+							</li>
+							<li>
+								<span class="ot">
+									클릭시 링크 창
+								</span>
+								<select name="target">
+									<option value="self">현재창</option>
+									<option value="blank">새창</option>
+								</select>
+							</li>
+							<li>
+								<span class="ot">
+									이미지 타이틀
+								</span>
+								<input type="text" name="title" value="" style="width:95%;" />
+							</li>
+						</ul>
+						<div class="btns">
+							<input type="button" class="submit" value="반영" />
+						</div>
+					</form>
+				</div>
+				<div class="href" style="display:none;">
+					<input type="hidden" name="viewType" value="p" />
+					<input type="hidden" name="itemClass" value="" />
+					<ul>
+						<li>
+							<span class="ot">
+								외부파일 경로
+							</span>
+							투니툴설치경로/<br /><input type="text" name="outhref" style="width:120px;" /> .php
+						</li>
+					<div class="btns">
+						<input type="button" class="submit" value="반영" />
+					</div>
+				</div>
+				<div class="none">
+					<ul>
+						<li>
+							<br />
+							- 좌측 캔버스에서 설정할 아이템을 선택 하세요.<br />
+							<br />
+							- <strong>[새로운 아이템 추가]</strong> 버튼을 클릭하여 캔버스에 새로운 아이템을 추가 할 수 있습니다.<br />
+							<br />
+							- 캔버스에 추가된 아이템의 위치를 이동할 수 있으며, 아이템 박스 우측하단을 드래그 하여 크기 조절이 가능합니다.
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="canvas_bg"></div>
+	<!--e:디자이너 캔버스-->
+	<article class="wrap">
+		<?php include_once __DIR_PATH__."admin/sidebar.inc.php"; ?>
+		<div class="content">
+			<div class="titleBar">	
+				<h2>메인화면 디자인</h2>
+			</div>
+			<div class="cont">
+				<div class="__article_notice">
+					메인화면을 디자인 캔버스로 간편하게 디자인 하세요.
+				</div>
+				<div class="contArea mainPage">
+					<strong style="display:block;text-align:center;">메인화면 디자인 캔버스가 종료 되었습니다.</strong>
+				</div>
+			</div>
+		</div>
+	</article>
+	<?php include __DIR_PATH__."admin/footer.inc.php"; ?>
+</div>

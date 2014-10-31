@@ -3,9 +3,9 @@
 	$mysql = new mysqlConnection();
 	
 	/*
-	템플릿 로드
+	레이아웃 스킨 템플릿 로드
 	*/
-	$tpl->skin_file_path("_tpl/".CALLED_VIEWDIR."sub.html");
+	$tpl->skin_file_path("layoutskin/".CALLED_LAYOUTDIR."sub.html");
 
 	/*
 	서브페이지 네비게이션 선언
@@ -38,6 +38,7 @@
 	/*
 	템플릿 치환
 	*/
+	$tpl->skin_modeling("[/layoutskinDir/]",__URL_PATH__."layoutskin/".CALLED_LAYOUTDIR);
 	$tpl->skin_modeling("[subpage_title]",$mysql->fetch("name"));
 	$tpl->skin_modeling("[navigator]",$naviTxt);
 	echo $tpl->skin_echo();

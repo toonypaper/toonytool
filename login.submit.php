@@ -6,29 +6,30 @@
 	$mysql = new mysqlConnection();
 	$session = new sessionController();
 	$method = new methodController();
+	$validator = new validator();
 	
-	$method->method_param("POST","save_id,redirect,id,password,viewDir");
+	$method->method_param("POST","save_id,redirect,id,password");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	
 	/*
 	검사
 	*/
-	if($member['me_level']<10){ echo '<!--error::logged-->'; exit; }
-	if(trim($id)==""){ echo '<!--error::null_id-->'; exit; }
-	if(trim($password)==""){ echo '<!--error::null_password-->'; exit; }
+	if($member['me_level']<10){
+		$validator->validt_diserror("","이미 로그인 되어 있습니다.");
+	}
+	$validator->validt_email("id",1,"");
+	$validator->validt_password("password",1,"");
 	$mysql->select("
 		SELECT *
 		FROM toony_member_list
 		WHERE me_id='$id' AND me_password=password('$password') AND me_drop_regdate IS NULL
 	");
-	if($mysql->numRows()<1){ echo '<!--error::not_member-->'; exit; }
-	
-	/*
-	이메일 인증이 되지 않은 아이디인 경우
-	*/
+	if($mysql->numRows()<1){
+		$validator->validt_diserror("id","아이디 혹은 비밀번호가 잘못 되었습니다.");
+	}
 	if($mysql->fetch("me_idCheck")=="N"){
-		echo '<!--error::not_idCheck-->'; exit;
+		$validator->validt_returnAjax("이메일 인증이 필요한 아이디입니다.","account.idCheck.send.php");
 	}
 	
 	/*
@@ -60,7 +61,5 @@
 	완료 후 리턴
 	*/
 	//로그인 후 이동할 페이지 URI를 리턴
-	echo __URL_PATH__.$viewDir.urldecode($redirect);
-	
-	
+	$validator->validt_success("",urldecode($redirect));
 ?>

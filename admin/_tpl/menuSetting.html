@@ -1,26 +1,5 @@
 <script type="text/javascript">
 $(document).ready(function(){
-	$("._submitBtn").click(function(){
-		var $form = $("form[name=menuSettingForm]");
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/menuSetting.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--success::1-->" :
-										alert("성공적으로 적용 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-	});
 	//Up&Down 클릭 함수
 	function upAndDown_func(obj,type){
 		var depth = $(obj).attr("depth");
@@ -120,7 +99,7 @@ $(document).ready(function(){
 					<div class="topBtnArea">
 						<a href="?p=menuSetting_modify&type=new&vtype=[vtype_value]" class="__btn_menuSetting_add" style="margin:0;"></a>
 					</div>
-					<form name="menuSettingForm">
+					<form name="menuSettingForm" ajaxAction="admin/menuSetting.submit.php" ajaxType="html">
 						<table cellpadding="0" cellspacing="0" class="menuTable" style="border:none;" moveDisabled="true">
 							<tr>
 								<td style="background:#5D5E67; border:none; border-bottom:1px solid #D5D5D7; text-align:left; font-weight:bold; padding:10px 20px; font-size:0;">
@@ -164,7 +143,7 @@ $(document).ready(function(){
 						</table>
 					</form>
 					<div class="__article_btnArea">
-						<input type="button" class="__btn_submit _submitBtn"/>
+						<input type="button" class="__btn_submit" ajaxSubmit="menuSettingForm" />
 						<a href="?p=menuSetting_modify&type=new&vtype=[vtype]" class="__btn_menuSetting_add"></a>
 						<a href="./" class="__btn_cancel"></a>
 					</div>

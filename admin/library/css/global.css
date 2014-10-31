@@ -129,7 +129,7 @@
 /**************************************************
 	layout
 **************************************************/
-#layout > header{ position:relative; height:40px; background:url(../../images/header_bg.jpg); }
+#layout > header{ position:relative; height:40px; background:url(../../images/header_bg.jpg); z-index:11; }
 #layout > header .logo{ width:142px; height:40px; display:block; background:url(../../images/header_logo.jpg); margin-left:15px; }
 #layout > header .logo > h1{ display:none; }
 #layout > header .tnb{ position:absolute; top:0; right:0; height:40px; list-style-type:none; padding:0; margin:0; font-size:0; }
@@ -251,3 +251,123 @@
 #layout .countResult #RV_month_pannel .RV_list_table td .nick{ font-size:11px; padding-left:10px; color:#999; }
 #layout .countResult #RV_month_pannel .RV_list_table tbody tr:first-child td{ padding-top:10px; }
 #layout .countResult #RV_month_pannel .RV_list_table .list_paging_area{ padding-bottom:15px; }
+
+/**************************************************
+	layoutSkin
+**************************************************/
+#layout .layoutSkin{ zoom:1; }
+#layout .layoutSkin:after{ content:""; display:blokc; clear:both; }
+#layout .layoutSkin > div{ width:390px; float:left; }
+#layout .layoutSkin > div > ul{ margin:0; margin-top:20px; padding:0; list-style-type:none; font-size:0; }
+#layout .layoutSkin > div > ul > li{ padding:8px; padding-bottom:10px; margin-bottom:10px; margin-left:10px; display:inline-block; *display:inline; *zoom:1; width:160px; vertical-align:top; border:1px solid #fff; border-bottom-width:2px; }
+#layout .layoutSkin > div > ul > li:hover,
+#layout .layoutSkin > div > ul > li.active{ border-color:#666; cursor:pointer; }
+#layout .layoutSkin > div > ul > li > span,
+#layout .layoutSkin > div > ul > li > strong{ display:block; }
+#layout .layoutSkin > div > ul > li .title{ padding-top:10px; letter-spacing:-1px; }
+#layout .layoutSkin > div > ul > li .description{ font-size:11px; letter-spacing:-1px; color:#666; line-height:13px; padding-top:5px; height:26px; overflow:hidden; }
+#layout .layoutSkin > div > ul > li .author,
+#layout .layoutSkin > div > ul > li .date{ font-size:11px; color:#999; line-height:13px; }
+#layout .layoutSkin > div > ul > li .author > strong,
+#layout .layoutSkin > div > ul > li .date > strong{ letter-spacing:-1px; }
+#layout .layoutSkin > div > ul > li .author{ padding-top:10px; }
+
+/**************************************************
+	mainPage
+**************************************************/
+/*p*/
+.canvas_bone .canvas_bg{ position:fixed; background:#fff; width:100%; height:100%; z-index:10; top:0; left:0; }
+.canvas_bone .canvas{ position:absolute; top:120px; width:1256px; min-height:200px; z-index:11; }
+.canvas_bone .canvas > div{ float:left; padding:10px; }
+.canvas_bone #dragZone{ background:#fff; border:1px solid #36374b; width:1020px; min-height:400px; }
+.canvas_bone #dragZone .title{ background:#36374b; padding-bottom:0; color:#fff; font-family:MalgunGothic; font-weight:bold; font-size:14px; margin:-41px 0 10px -11px; width:1042px; }
+.canvas_bone #dragZone .title .tab{ display:inline-block; *display:inline; *zoom:1; margin:0; padding:0; list-style-type:none; font-size:0; }
+.canvas_bone #dragZone .title .tab > li{ display:inline-block; *display:inline; *zoom:1; border-left:1px solid #5c5d70; line-height:13px; }
+.canvas_bone #dragZone .title .tab > li:first-child{ border-left:none; }
+.canvas_bone #dragZone .title .tab > li > a{ display:block; padding:12px; height:13px; font-size:12px; font-family:MalgunGothic; color:#bebfcc; font-weight:normal; letter-spacing:-1px; }
+.canvas_bone #dragZone .title .tab > li > a:hover{ text-decoration:none; }
+.canvas_bone #dragZone .title .tab > li.active > a,
+.canvas_bone #dragZone .title .tab > li:hover > a{ color:#fff; background:#58596b; }
+.canvas_bone #dragZone .gridster{ position:relative; padding:0; width:1020px; background:#FFF; min-height:400px; }
+.canvas_bone #dragZone .gridster ul{ margin:0; padding:0; list-style-type:none; }
+.canvas_bone #dragZone .gridster ul > li{ background:#dedede; cursor:pointer; }
+.canvas_bone #dragZone .gridster ul > li.latest{ background:#F9E6EE;  }
+.canvas_bone #dragZone .gridster ul > li.banner{ background:#F9D8B5; }
+.canvas_bone #dragZone .gridster ul > li ._tb{ padding:10px; padding-bottom:0; font-size:11px; color:#666; }
+.canvas_bone #dragZone .gridster ul > li ._tb > *{ font-size:11px; color:#666; }
+.canvas_bone #dragZone .gridster ul > li ._d{ display:block; position:absolute; top:12px; right:12px; width:13px; height:13px; background:url(../../images/mainPage_delete.png); }
+.canvas_bone #dragZone .gridster ul > li ._title{ font-size:12px; font-weight:bold; display:block; padding:15px 10px 0 10px; }
+.canvas_bone #dragZone .gridster ul > li ._article{ font-size:11px; display:block; padding:0 0 0 10px; }
+.canvas_bone #dragZone .gridster ul > li ._itemBoxSize{ font-size:11px; font-family:tahoma; display:block; position:absolute; right:10px; bottom:10px; color:#666; }
+.canvas_bone #settingZone{ position:relative; width:200px; padding:0; padding-left:14px; margin-top:-30px; }
+.canvas_bone #settingZone > div{ background:#5c5d70; padding:15px 10px; margin-bottom:15px; }
+.canvas_bone #settingZone > div h5{ width:180px; background:#393a51; display:block; color:#fff; font-family:MalgunGothic; font-weight:normal; display:block; font-size:12px; margin:-15px 0 13px -10px; padding:10px; letter-spacing:-1px;  }
+.canvas_bone #settingZone > div .addItems{ background:#242435; margin:0; padding:0; list-style-type:none; }
+.canvas_bone #settingZone > div .addItems > li{ border-top:1px solid #5c5d70; }
+.canvas_bone #settingZone > div .addItems > li:first-child{ border-top:none; }
+.canvas_bone #settingZone > div .addItems > li:hover{ background:#000; }
+.canvas_bone #settingZone > div .addItems > li:hover ._add{ text-decoration:none; }
+.canvas_bone #settingZone > div .addItems ._add{ display:block; padding:10px; padding:10px; letter-spacing:-1px; color:#fff; font-family:MalgunGothic;  }
+.canvas_bone #settingZone > div .addItems ._add > div{ display:inline-block; *display:inline; *zoom:1; width:13px; height:13px; margin-right:7px; vertical-align:middle; }
+.canvas_bone #settingZone > div .addItems .ico_l{ background:#f9e6ee; }
+.canvas_bone #settingZone > div .addItems .ico_b{ background:#f9d8b5; }
+.canvas_bone #settingZone > div .addItems .ico_h{ background:#dedede; }
+.canvas_bone #settingZone .configItemBox{ position:absolute; top:195px; right:0; width:180px; }
+.canvas_bone #settingZone .configItemBox > div ul{ margin:0; padding:0; list-style-type:none; }
+.canvas_bone #settingZone .configItemBox > div ul > li{ border-top:1px solid #4e4f5f; padding:8px 0; color:#fff; font-size:11px; line-height:13px; letter-spacing:-1px; }
+.canvas_bone #settingZone .configItemBox > div ul > li:first-child{ border-top:none; padding-top:0; }
+.canvas_bone #settingZone .configItemBox > div ul > li > .ot{ font-weight:bold; margin-bottom:4px; color:#DFDFDF; font-size:11px; letter-spacing:-1px; display:block; }
+.canvas_bone #settingZone .configItemBox > div ul > li > input,
+.canvas_bone #settingZone .configItemBox > div ul > li > select{ border:none; background:#fff; }
+.canvas_bone #settingZone .configItemBox .submit{ background:#36374b; padding:10px 7px; text-align:center; color:#fff; border:1px solid #000;; width:100%;  cursor:pointer; }
+/*m*/
+.canvas_bone_m .canvas_bg{ position:fixed; background:#fff; width:100%; height:100%; z-index:10; top:0; left:0; }
+.canvas_bone_m .canvas{ position:absolute; top:120px; width:856px; min-height:200px; z-index:11; }
+.canvas_bone_m .canvas > div{ float:left; padding:10px; }
+.canvas_bone_m #dragZone{ background:#fff; border:1px solid #36374b; width:620px; min-height:400px; }
+.canvas_bone_m #dragZone .title{ background:#36374b; padding-bottom:0; color:#fff; font-family:MalgunGothic; font-weight:bold; font-size:14px; margin:-41px 0 10px -11px; width:642px; }
+.canvas_bone_m #dragZone .title .tab{ display:inline-block; *display:inline; *zoom:1; margin:0; padding:0; list-style-type:none; font-size:0; }
+.canvas_bone_m #dragZone .title .tab > li{ display:inline-block; *display:inline; *zoom:1; border-left:1px solid #5c5d70; line-height:13px; }
+.canvas_bone_m #dragZone .title .tab > li:first-child{ border-left:none; }
+.canvas_bone_m #dragZone .title .tab > li > a{ display:block; padding:12px; height:13px; font-size:12px; font-family:MalgunGothic; color:#bebfcc; font-weight:normal; letter-spacing:-1px; }
+.canvas_bone_m #dragZone .title .tab > li > a:hover{ text-decoration:none; }
+.canvas_bone_m #dragZone .title .tab > li.active > a,
+.canvas_bone_m #dragZone .title .tab > li:hover > a{ color:#fff; background:#58596b; }
+.canvas_bone_m #dragZone .gridster{ position:relative; padding:0; width:620px; background:#FFF; min-height:400px; }
+.canvas_bone_m #dragZone .gridster ul{ margin:0; padding:0; list-style-type:none; }
+.canvas_bone_m #dragZone .gridster ul > li{ background:#dedede; cursor:pointer; }
+.canvas_bone_m #dragZone .gridster ul > li.latest{ background:#F9E6EE;  }
+.canvas_bone_m #dragZone .gridster ul > li.banner{ background:#F9D8B5; }
+.canvas_bone_m #dragZone .gridster ul > li ._tb{ padding:10px; padding-bottom:0; font-size:11px; color:#666; }
+.canvas_bone_m #dragZone .gridster ul > li ._tb > *{ font-size:11px; color:#666; }
+.canvas_bone_m #dragZone .gridster ul > li ._d{ display:block; position:absolute; top:12px; right:12px; width:13px; height:13px; background:url(../../images/mainPage_delete.png); }
+.canvas_bone_m #dragZone .gridster ul > li ._title{ font-size:12px; font-weight:bold; display:block; padding:15px 10px 0 10px; }
+.canvas_bone_m #dragZone .gridster ul > li ._article{ font-size:11px; display:block; padding:0 0 0 10px; }
+.canvas_bone_m #dragZone .gridster ul > li ._itemBoxSize{ font-size:11px; font-family:tahoma; display:block; position:absolute; right:10px; bottom:10px; color:#666; }
+.canvas_bone_m #settingZone{ position:relative; width:200px; padding:0; padding-left:14px; margin-top:-30px; }
+.canvas_bone_m #settingZone > div{ background:#5c5d70; padding:15px 10px; margin-bottom:15px; }
+.canvas_bone_m #settingZone > div h5{ width:180px; background:#393a51; display:block; color:#fff; font-family:MalgunGothic; font-weight:normal; display:block; font-size:12px; margin:-15px 0 13px -10px; padding:10px; letter-spacing:-1px;  }
+.canvas_bone_m #settingZone > div .addItems{ background:#242435; margin:0; padding:0; list-style-type:none; }
+.canvas_bone_m #settingZone > div .addItems > li{ border-top:1px solid #5c5d70; }
+.canvas_bone_m #settingZone > div .addItems > li:first-child{ border-top:none; }
+.canvas_bone_m #settingZone > div .addItems > li:hover{ background:#000; }
+.canvas_bone_m #settingZone > div .addItems > li:hover ._add{ text-decoration:none; }
+.canvas_bone_m #settingZone > div .addItems ._add{ display:block; padding:10px; padding:10px; letter-spacing:-1px; color:#fff; font-family:MalgunGothic;  }
+.canvas_bone_m #settingZone > div .addItems ._add > div{ display:inline-block; *display:inline; *zoom:1; width:13px; height:13px; margin-right:7px; vertical-align:middle; }
+.canvas_bone_m #settingZone > div .addItems .ico_l{ background:#f9e6ee; }
+.canvas_bone_m #settingZone > div .addItems .ico_b{ background:#f9d8b5; }
+.canvas_bone_m #settingZone > div .addItems .ico_h{ background:#dedede; }
+.canvas_bone_m #settingZone .configItemBox{ position:absolute; top:195px; right:0; width:180px; }
+.canvas_bone_m #settingZone .configItemBox > div ul{ margin:0; padding:0; list-style-type:none; }
+.canvas_bone_m #settingZone .configItemBox > div ul > li{ border-top:1px solid #4e4f5f; padding:8px 0; color:#fff; font-size:11px; line-height:13px; letter-spacing:-1px; }
+.canvas_bone_m #settingZone .configItemBox > div ul > li:first-child{ border-top:none; padding-top:0; }
+.canvas_bone_m #settingZone .configItemBox > div ul > li > .ot{ font-weight:bold; margin-bottom:4px; color:#DFDFDF; font-size:11px; letter-spacing:-1px; display:block; }
+.canvas_bone_m #settingZone .configItemBox > div ul > li > input,
+.canvas_bone_m #settingZone .configItemBox > div ul > li > select{ border:none; background:#fff; }
+.canvas_bone_m #settingZone .configItemBox .submit{ background:#36374b; padding:10px 7px; text-align:center; color:#fff; border:1px solid #000;; width:100%;  cursor:pointer; }
+
+
+
+
+
+

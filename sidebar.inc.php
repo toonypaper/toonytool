@@ -27,9 +27,9 @@
 	");
 	
 	/*
-	템플릿 로드
+	레이아웃 스킨 템플릿 로드
 	*/
-	$tpl->skin_file_path("_tpl/".CALLED_VIEWDIR."sidebar.inc.html");
+	$tpl->skin_file_path("layoutskin/".CALLED_LAYOUTDIR."sidebar.inc.html");
 	$header->skin_html_load($tpl->skin);
 	$header->skin_loop_header("[{menu_start}]");
 	$loop->skin_html_load($tpl->skin);
@@ -95,6 +95,7 @@
 	*/
 	//header
 	$header->skin_modeling("[title_img]",title_img_func($d1Array));
+	$header->skin_modeling("[/layoutskinDir/]",__URL_PATH__."layoutskin/".CALLED_LAYOUTDIR);
 	echo $header->skin_echo();
 	//loop
 	if($mysql->numRows()>0){
@@ -113,5 +114,7 @@
 		}while($mysql->nextRec());
 	}
 	//footer
+	$footer->skin_modeling("[title_img]",title_img_func($d1Array));
+	$footer->skin_modeling("[/layoutskinDir/]",__URL_PATH__."layoutskin/".CALLED_LAYOUTDIR);
 	echo $footer->skin_echo();
 ?>

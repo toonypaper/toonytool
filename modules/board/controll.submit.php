@@ -10,6 +10,7 @@
 	$fileUploader = new fileUploader();
 	$skin_delete_form = new skinController();
 	$fileUploader = new fileUploader();
+	$validator = new validator();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
@@ -25,7 +26,7 @@
 	");
 	$c_array['controll_level'] = $mysql->fetch("controll_level");
 	if($member['me_level']>$c_array['controll_level']){
-		echo "글을 관리할 권한이 없습니다."; exit;
+		$validator->validt_diserror("","글을 관리할 권한이 없습니다.");
 	}
 	
 	/*
@@ -112,7 +113,7 @@
 				$fileUploader->sEditor_fileDelete($barray['ment']);
 			}
 		}
-		echo '<!--success::1-->';
+		$validator->validt_success("성공적으로 삭제 되었습니다.","window.close&&opener.href=?article={$article}&category=".urlencode($category)."&page={$page}&where={$where}&keyword={$keyword}");
 	}
 	
 	/*
@@ -176,14 +177,13 @@
 				
 			}
 		}
-		echo '<!--success::2-->';
+		$validator->validt_success("성공적으로 복사 되었습니다.","window.close&&opener.replace");
 	}
 	
 	/*
 	이동인 경우
 	*/
 	if($type=="move"){
-		
 		/*
 		글 이동
 		*/
@@ -329,7 +329,7 @@
 				
 			}
 		}
-		echo '<!--success::3-->';
+		$validator->validt_success("성공적으로 이동 되었습니다.","window.close&&opener.replace");
 	}
 	
 ?>

@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","vtype,body_bgColor,body_txtColor,body_txtSize,link_txtColor,link_hoverColor,link_activeColor,link_visitedColor,link_txtSize,input_txtColor,input_txtSize,useDefault");
 	$lib->security_filter("referer");
@@ -22,12 +23,9 @@
 	/*
 	검사
 	*/
-	if(trim($body_txtSize)==""){
-		echo '<!--error::null_body_txtSize-->'; exit;
-	}
-	if(trim($body_txtSize)==""){
-		echo '<!--error::null_link_txtSize-->'; exit;
-	}
+	$validator->validt_number("body_txtSize",1,10,1,"");
+	$validator->validt_number("link_txtSize",1,10,1,"");
+	$validator->validt_number("input_txtSize",1,10,1,"");
 	
 	/*
 	DB수정
@@ -43,7 +41,7 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=bodyStyle");
 	
 	
 ?>

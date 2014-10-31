@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$method->method_param("POST","scriptCode,sourceCode,vtype");
 	$lib->security_filter("referer");
@@ -22,5 +23,5 @@
 	/*
 	완료 후 리턴
 	*/
-	echo '<!--success::1-->';
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=mainVisual");
 ?>

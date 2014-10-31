@@ -8,6 +8,7 @@
 <!--s:비회원인 경우에만 비밀번호 입력폼 노출-->
 <form name="modify_password_form" id="modify_password_form" method="post">
 	<input type="hidden" name="article" value="[article_value]" />
+	<input type="hidden" name="category_ed" value="[category_value]" />
 	<input type="hidden" name="p" value="write" />
 	<input type="hidden" name="s_board_id" value="[board_id_value]" />
 	<input type="hidden" name="s_mode" value="[mode_value]" />
@@ -15,7 +16,7 @@
 	<input type="hidden" name="s_page" value="[page_value]" />
 	<input type="hidden" name="where" value="[where_value]" />
 	<input type="hidden" name="keyword" value="[keyword_value]" />
-	<input type="hidden" name="type" value="[viewDir_value]" />
+	<input type="hidden" name="viewDir" value="[viewDir_value]" />
 	<table cellpadding="0" cellspacing="0" id="guest_password" class="board_table" align="center">
 		<thead>
 			<tr>
@@ -25,7 +26,7 @@
 		<tbody>
 			<tr>
 				<td style="padding:20px; text-align:center;">
-					<input type="password" name="s_password" style="width:120px; padding:2px;" />
+					<input type="password" name="s_password" style="width:120px;" />
 					<input type="submit" class="__button_small" id="read_password_btn" value="확인" />
 				</td>
 			</tr>
@@ -47,7 +48,7 @@
 
 
 
-<form name="write_form" id="write_form" enctype="multipart/form-data">
+<form name="write_form" id="write_form" enctype="multipart/form-data" ajaxAction="modules/board/write.submit.php" ajaxType="multipart" method="post">
 	<input type="hidden" name="board_id" value="[board_id_value]" />
 	<input type="hidden" name="mode" value="[mode_value]" />
 	<input type="hidden" name="read" value="[read_value]" />
@@ -66,13 +67,13 @@
 	<tbody>
 		<tr>
 			<td colspan="2">
-				<input type="text" name="subject" class="subject" value="[subject]" maxlength="100"  placeholder="제목" />
+				<input type="text" name="subject" title="제목" class="subject" value="[subject]" maxlength="100"  placeholder="제목" />
 			</td>
 		</tr>
 		[{write_category_start}]
 		<tr>
 			<td>
-				카테고리 [bbs_category]
+				카테고리 [category_selectbox]
 			</td>
 		</tr>
 		[{write_category_end}]
@@ -84,34 +85,34 @@
 		[{write_writer_start}]
 		<tr>
 			<td>
-				<input type="text" name="writer" value="[writer]" maxlength="8" style="width:200px;" placeholder="작성자" />
+				<input type="text" name="writer" title="작성자" value="[writer]" maxlength="8" style="width:200px;" placeholder="작성자" />
 			</td>
 		</tr>
 		[{write_writer_end}]
 		[{write_password_start}]
 		<tr>
 			<td>
-				<input type="password" name="password" value="[password]" maxlength="20" style="width:200px;" placeholder="비밀번호" />
+				<input type="password" name="password" title="비밀번호" value="[password]" maxlength="20" style="width:200px;" placeholder="비밀번호" />
 			</td>
 		</tr>
 		[{write_password_end}]
 		[{write_email_start}]
 		<tr>
 			<td>
-				<input type="text" name="email" value="[email]" style="width:200px;" placeholder="이메일주소" />
+				<input type="text" name="email" title="이메일주소" value="[email]" style="width:200px;" placeholder="이메일주소" />
 			</td>
 		</tr>
 		[{write_email_end}]
 		<tr>
 			<td>
-				<textarea name="ment" id="ment" style="width:95%; height:200px;" placeholder="내용을 입력 하세요.">[memo]</textarea>
+				<textarea name="ment" id="ment" title="내용" style="width:95%; height:200px;" placeholder="내용을 입력 하세요.">[memo]</textarea>
 			</td>
 		</tr>
 		[{write_capcha_start}]
 		<tr>
 			<td>
 				[capcha_img]
-				<input name="capcha" id="capcha" type="text" style="width:100px; padding:5px; padding-top:6px;" />
+				<input name="capcha" id="capcha" type="text" title="스팸방지코드" style="width:100px; padding:5px; padding-top:6px;" />
 				<span class="__article_sment">위에 보이는 스팸방지 코드를 입력란에 입력해 주세요.</span>
 			</td>
 		</tr>

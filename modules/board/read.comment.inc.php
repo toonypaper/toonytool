@@ -3,6 +3,8 @@
 	include __DIR_PATH__."include/global.php";
 	
 	$tpl = new skinController();
+	$header = new skinController();
+	$footer = new skinController();
 	$tpl_list = new skinController();
 	$method = new methodController();
 	$mysql = new mysqlConnection();
@@ -31,6 +33,10 @@
 	*/
 	//Read Comment
 	$tpl->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}read.comment.inc.html");
+	$header->skin_html_load($tpl->skin);
+	$header->skin_loop_header("[comment_area]");
+	$footer->skin_html_load($tpl->skin);
+	$footer->skin_loop_footer("[comment_area]");
 	$tpl_list->skin_file_path("modules/board/skin/{$c_array['skin']}/{$viewDir}read.comment_list.inc.html");
 	$tpl_list->skin_loop_array("[{read_comment_loop_start}]","[{read_comment_loop_end}]");
 	
@@ -43,21 +49,6 @@
 		WHERE bo_idno=$read
 		ORDER BY ln ASC, rn ASC, regdate ASC
 	");
-	
-	/*
-	상단 Form 출력
-	*/
-	echo "
-		<form name=\"read_comment_form\" id=\"read_comment_form\">
-		<input type=\"hidden\" name=\"mode\" value=\"1\" />
-		<input type=\"hidden\" name=\"board_id\" value=\"".$board_id."\" />
-		<input type=\"hidden\" name=\"read\" value=\"".$read."\" />
-		<input type=\"hidden\" name=\"cidno\" value=\"\" />";
-	if(isset($__toony_member_idno)){
-		echo "<input type=\"hidden\" name=\"type\" value=\"2\" />";
-	}else{
-		echo "<input type=\"hidden\" name=\"type\" value=\"1\" />";
-	}
 	
 	/*
 	템플릿 함수
@@ -119,35 +110,38 @@
 	템플릿 치환
 	*/
 	if($c_array['use_comment']=="Y"){
-		
-		if($member['me_level']<=$c_array['comment_level']){
-			$tpl->skin_modeling_hideArea("[{comment_start}]","[{comment_end}]","show");
-			if(!isset($__toony_member_idno)){
-				$tpl->skin_modeling_hideArea("[{guest_input_start}]","[{guest_input_end}]","show");
-			}else{
-				$tpl->skin_modeling_hideArea("[{guest_input_start}]","[{guest_input_end}]","hide");
-			}
-			$tpl->skin_modeling("[nick]",$member['me_nick']);
+		$header->skin_modeling("[board_id_value]",$board_id);
+		$header->skin_modeling("[read_value]",$read);
+		if(isset($__toony_member_idno)){
+			$header->skin_modeling("[type_value]","2");
 		}else{
-			$tpl->skin_modeling_hideArea("[{comment_start}]","[{comment_end}]","hide");
+			$header->skin_modeling("[type_value]","1");
+		}
+		if($member['me_level']<=$c_array['comment_level']){
+			$header->skin_modeling_hideArea("[{comment_start}]","[{comment_end}]","show");
+			if(!isset($__toony_member_idno)){
+				$header->skin_modeling_hideArea("[{guest_input_start}]","[{guest_input_end}]","show");
+			}else{
+				$header->skin_modeling_hideArea("[{guest_input_start}]","[{guest_input_end}]","hide");
+			}
+			$header->skin_modeling("[nick]",$member['me_nick']);
+		}else{
+			$header->skin_modeling_hideArea("[{comment_start}]","[{comment_end}]","hide");
 		}
 		if($mysql->numRows()<1){
-			$tpl->skin_modeling_hideArea("[{not_comment_start}]","[{not_comment_end}]","show");
+			$header->skin_modeling_hideArea("[{not_comment_start}]","[{not_comment_end}]","show");
 		}else{
-			$tpl->skin_modeling_hideArea("[{not_comment_start}]","[{not_comment_end}]","hide");
+			$header->skin_modeling_hideArea("[{not_comment_start}]","[{not_comment_end}]","hide");
 		}
-		$tpl->skin_modeling("[comment_num]",$c_array['cmtnum']);
-		echo $tpl->skin_echo();
+		$header->skin_modeling("[comment_num]",$c_array['cmtnum']);
+		echo $header->skin_echo();
 		
 		if($mysql->numRows()>0){
 			do{
 				$mysql->htmlspecialchars = 1;
 				$mysql->nl2br = 1;
-				$mysql->fetchArray("ln,rn,idno,bo_idno,me_idno,writer,regdate,tr_1,tr_2,tr_3,tr_4,tr_5");
+				$mysql->fetchArray("comment,ln,rn,idno,bo_idno,me_idno,writer,regdate,tr_1,tr_2,tr_3,tr_4,tr_5");
 				$carray = $mysql->array;
-				$mysql->htmlspecialchars = 0;
-				$mysql->nl2br = 1;
-				$carray['comment'] = $mysql->fetch("comment");
 				$tpl_list->skin_modeling("[reply_comment_depthClass]",reply_comment_depthClass());
 				$tpl_list->skin_modeling("[writer]",bbs_me_nick());
 				$tpl_list->skin_modeling("[comment]",comment_comment_div());
@@ -164,13 +158,7 @@
 				echo $tpl_list->skin_echo();
 			}while($mysql->nextRec());
 		}
+		
+		echo $footer->skin_echo();
 	}
-
-	/*
-	하단 Form 출력
-	*/
-	echo "
-	</form>
-	";
-	
 ?>

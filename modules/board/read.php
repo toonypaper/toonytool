@@ -110,7 +110,6 @@
 			$read_true = 1;
 		}else{
 			$read_true = 3;
-			echo '<!--error:notPassword-->';
 			$lib->error_alert_back("비밀번호가 일치하지 않습니다.","A");
 		}
 	}
@@ -255,7 +254,7 @@
 		if($member['me_level']<=$c_array['controll_level']){
 			$returnVar = 1;	
 		}else{
-			if($array['me_idno']=="0"&&!isset($__toony_member_idno)){
+			if($array['me_idno']=="0"&&!isset($__toony_member_idno)&&$c_array['write_level']==10){
 				$returnVar = 3;
 			}else if($array['me_idno']==$member['me_idno']&&$member['me_level']<=$c_array['write_level']){
 				$returnVar = 1;
@@ -320,7 +319,7 @@
 	function read_category_name(){
 		global $c_array,$array;
 		if($c_array['use_category']=="Y"&&$array['category']!=""&&$array['use_notice']!="Y"){
-			return "[".$array['category']."]";	
+			return $array['category'];	
 		}else{
 			return "";
 		}
@@ -340,6 +339,7 @@
 	*/
 	//패스워드 입력 폼 출력
 	if($read_true==3){
+		$read_true_3->skin_modeling("[/boardskinDir/]",__URL_PATH__."modules/board/skin/".$c_array['skin']."/".$viewDir);
 		$read_true_3->skin_modeling("[board_id_value]",$board_id);
 		$read_true_3->skin_modeling("[read_value]",$read);
 		$read_true_3->skin_modeling("[page_value]",$page);
@@ -347,10 +347,12 @@
 		$read_true_3->skin_modeling("[keyword_value]",$keyword);
 		$read_true_3->skin_modeling("[article_value]",$article);
 		$read_true_3->skin_modeling("[category_value]",$category);
-		$read_true_3->skin_modeling("[viewDir_value]",$viewDir);
 		echo $read_true_3->skin_echo();
 	//일반 글 보기 출력
 	}else if($read_true==1){
+		
+		include_once __DIR_PATH__."modules/board/skin/".$c_array['skin']."/plugins/read.inc.php";
+		$skin_read->skin_modeling("[/boardskinDir/]",__URL_PATH__."modules/board/skin/".$c_array['skin']."/".$viewDir);
 		$skin_read->skin_modeling_hideArea("[{read_password_start}]","[{read_password_end}]","hide");
 		if($array['file1']){
 			$skin_read->skin_modeling_hideArea("[{read_file1_start}]","[{read_file1_end}]","show");
@@ -374,7 +376,6 @@
 		}
 		$skin_read->skin_modeling("[article_value]",$article);
 		$skin_read->skin_modeling("[category_value]",$category);
-		$skin_read->skin_modeling("[viewDir_value]",$viewDir);
 		$skin_read->skin_modeling("[board_id_value]",$board_id);
 		$skin_read->skin_modeling("[read_value]",$read);
 		$skin_read->skin_modeling("[page_value]",$page);
@@ -384,17 +385,17 @@
 		$skin_read->skin_modeling("[mobile_ico]",read_mobile_ico());
 		$skin_read->skin_modeling("[subject]",$array['subject']);
 		$skin_read->skin_modeling("[hit]",number_format((int)$array['view']));
-		$skin_read->skin_modeling("[write_date]",date("Y-m-d",strtotime($array['regdate'])));
-		$skin_read->skin_modeling("[write_datetime]",$array['regdate']);
+		$skin_read->skin_modeling("[date]",date("Y-m-d",strtotime($array['regdate'])));
+		$skin_read->skin_modeling("[datetime]",$array['regdate']);
 		$skin_read->skin_modeling("[writer]",read_bbs_me_nick());
 		$skin_read->skin_modeling("[memo]","<div class=\"smartOutput\">".memo_output_func()."</div>");
 		$skin_read->skin_modeling("[img1]",img_func($array['file1']));
 		$skin_read->skin_modeling("[img2]",img_func($array['file2']));
 		$skin_read->skin_modeling("[file1]",read_file_text($array['file1_cnt'],$array['file1']));
 		$skin_read->skin_modeling("[file2]",read_file_text($array['file2_cnt'],$array['file2']));
-		$skin_read->skin_modeling("[likes_count]",$array['likes_count']);
-		$skin_read->skin_modeling("[unlikes_count]",$array['unlikes_count']);
-		$skin_read->skin_modeling("[category_name]",read_category_name());
+		$skin_read->skin_modeling("[likes]",$array['likes_count']);
+		$skin_read->skin_modeling("[unlikes]",$array['unlikes_count']);
+		$skin_read->skin_modeling("[category]",read_category_name());
 		$skin_read->skin_modeling("[delete_btn]",read_delete_btn());
 		$skin_read->skin_modeling("[modify_btn]",read_modify_btn());
 		$skin_read->skin_modeling("[reply_btn]",read_reply_btn());
@@ -405,6 +406,7 @@
 		$skin_read->skin_modeling("[td_3]",$array['td_3']);
 		$skin_read->skin_modeling("[td_4]",$array['td_4']);
 		$skin_read->skin_modeling("[td_5]",$array['td_5']);
+		
 		echo $skin_read->skin_echo();
 	}else if($read_true==0){
 		switch($array['use_secret']){
@@ -412,7 +414,6 @@
 				$lib->func_page_level(__URL_PATH__.$viewDir."?article=login&redirect=".urlencode("?article={$article}&p=read&read={$read}&board_id={$board_id}&where={$where}&keyword={$keyword}"),$c_array[read_level]);
 				break;
 			case "Y" :
-				echo '<!--error:notSecret-->';
 				$lib->error_alert_back("접근 권한이 없습니다.","A");
 				break;
 		}

@@ -1,0 +1,40 @@
+<style type="text/css">
+div#latest_toony_webzine{ background:#fff; }
+div#latest_toony_webzine .title{ border-bottom:1px solid #D9D9D9; position:relative; padding:7px; }
+div#latest_toony_webzine .title > h4 > a{ font-size:16px; font-weight:normal; font-family:MalgunGothic; color:#333; }
+div#latest_toony_webzine .title > a.more{ position:absolute; bottom:10px; right:5px; font-size:11px; color:#999; letter-spacing:-1px; }
+div#latest_toony_webzine .list{ font-size:0; margin:0; margin-top:15px; padding:0; list-style-type:none; text-align:center; }
+div#latest_toony_webzine .list > li{ display:inline-block; *display:inline; *zoom:1; margin:5px; text-align:left; vertical-align:top; }
+div#latest_toony_webzine .list > li > .thumb{ vertical-align:top; margin-right:10px; padding-bottom:5px; display:block; text-align:left; }
+div#latest_toony_webzine .list > li > .zine_cont{ padding:0; display:block; }
+div#latest_toony_webzine .list > li a{ color:#333; display:block;word-wrap: }
+div#latest_toony_webzine .list > li .subject{ padding-top:5px; font-weight:bold; font-size:13px; letter-spacing:-1px; display:inline-block; *display:inline; *zoom:1; }
+div#latest_toony_webzine .list > li .name{ font-size:11px; padding-right:10px; }
+div#latest_toony_webzine .list > li .comment{ font:11px arial; font-weight:bold; color:#ea3a5a; padding-left:5px; }
+div#latest_toony_webzine .list > li .ment{ font-size:12px; padding:5px 0; color:#666; width:180px; }
+div#latest_toony_webzine .list > li .regdate{ font-size:11px; color:#999; font-family:arial; }
+</style>
+<div id="latest_toony_webzine" class="latest_wrap">
+	<div class="title">
+		<h4><a href="[board_link]" class="more">[title]</a></h4>
+		<a href="[board_link]" class="more">더보기</a>
+	</div>
+	<ul class="list">
+		[{loop_start}]
+		<li>
+			<a class="thumb" href="[link]">[thumbnail]</a>
+			<div class="zine_cont">
+				<a class="subject" href="[link]">[subject]</a>
+				<span class="comment">[comment]</span>
+				<a class="ment" href="[link]">[ment]</a>
+				<span class="name">[nick]</span><span class="regdate">[date]</span>
+			</div>
+		</li>
+		[{loop_end}]
+		[{not_loop_start}]
+		<li>
+			등록된 글이 없습니다.
+		</li>
+		[{not_loop_end}]
+	</ul>
+</div>

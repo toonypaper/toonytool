@@ -9,10 +9,11 @@
 	$session = new sessionController();
 	$mailSender = new mailSender();
 	$fileUploader = new fileUploader();
+	$validator = new validator();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
-	$method->method_param("POST","viewDir,article,category,category_ed,board_id,writer,subject,use_secret,use_notice,use_html,use_email,ment,password,email,file1_ed,file2_ed,file1_del,file2_del,read,mode,type,page,where,keyword,capcha,td_1,td_2,td_3,td_4,td_5");
+	$method->method_param("POST","article,category,category_ed,board_id,writer,subject,use_secret,use_notice,use_html,use_email,ment,password,email,file1_ed,file2_ed,file1_del,file2_del,read,mode,type,page,where,keyword,capcha,td_1,td_2,td_3,td_4,td_5");
 	$method->method_param("FILE","file1,file2");
 	
 	/*
@@ -25,6 +26,9 @@
 	");
 	$mysql->fetchArray("write_point,read_point,viewType,name,use_comment,use_list,use_reply,use_file1,use_file2,use_vote,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
+	$mysql->htmlspecialchars = 0;
+	$mysql->nl2br = 0;
+	$c_array['point_board_name'] = $mysql->fetch("name");
 	
 	/*
 	수정/답글 모드인 경우 원본 글 가져옴
@@ -42,57 +46,87 @@
 	/*
 	옵션값 처리
 	*/
-	if($use_notice==true){ $use_notice = "Y"; }else{ $use_notice = "N";	}
-	if($use_secret==true){ $use_secret = "Y"; }else{ $use_secret = "N"; }
-	if($use_email==true){ $use_email = "Y"; }else{ $use_email = "N"; }
-	if($use_notice=="Y"){ $use_email = "N";	}
+	if($use_notice==true){
+		$use_notice = "Y";
+	}else{
+		$use_notice = "N";
+	}
+	if($use_secret==true){
+		$use_secret = "Y";
+	}else{
+		$use_secret = "N";
+	}
+	if($use_email==true){
+		$use_email = "Y";
+	}else{
+		$use_email = "N";
+	}
+	if($use_notice=="Y"){
+		$use_email = "N";
+	}
 	
 	/*
 	수정모드인 경우 여분필드 처리
 	(입력폼에서 전해 받은 값이 없으면 DB 값을 가져와 변수 값을 채움)
 	*/
 	if($mode=="modify"){
-		if(!$td_1){ $td_1 = $wquery['td_1']; }
-		if(!$td_2){ $td_2 = $wquery['td_2']; }
-		if(!$td_3){ $td_3 = $wquery['td_3']; }
-		if(!$td_4){ $td_4 = $wquery['td_4']; }
-		if(!$td_5){ $td_5 = $wquery['td_5']; }
+		if(!$td_1){
+			$td_1 = $wquery['td_1'];
+		}
+		if(!$td_2){
+			$td_2 = $wquery['td_2'];
+		}
+		if(!$td_3){
+			$td_3 = $wquery['td_3'];
+		}
+		if(!$td_4){
+			$td_4 = $wquery['td_4'];
+		}
+		if(!$td_5){
+			$td_5 = $wquery['td_5'];
+		}
 	}
 	
 	/*
 	검사
 	*/
-	mb_internal_encoding("UTF-8");
-	if(!$type||$type>2||$type<1){ echo '변수 값이 지정되지 않았습니다.'; exit; }
-	if(trim($subject)==""){ echo '제목을 입력하세요.'; exit; }
-	if(trim($ment)==""){ echo '내용을 입력하세요.'; exit; }
-	if(mb_strlen($ment)<30){ echo '내용은 30자 이상 가능합니다.'; exit; };
-	if($type==1){
-		if(trim($writer)==""){ echo '작성자명을 입력하세요.'; exit; }
-		if(trim($password)==""){ echo '비밀번호를 입력하세요.'; exit; }
-		if($use_email=="Y"||$email!=""){
-			$lib->func_method_param_check("id",$email,"이메일 주소가 올바르지 않습니다.");
-		}
-		if(zsfCheck($capcha,"")!=true){ echo 'error::spam_replace'; exit; }
+	if(!$type||$type>2||$type<1){
+		$validator->validt_diserror("","변수 값이 지정 되지 않았습니다.");
 	}
-	if($file1['size']>0&&$file2['size']>0&&$file1['name']==$file2['name']){ echo '동일한 파일을 2개 이상 업로드 할 수 없습니다.'; exit; }
+	$validator->validt_null("subject","");
+	$validator->validt_strLen("ment",30,"",1,"내용은 30자 이상 입력해야 합니다.");
+	if($type==1){
+		$validator->validt_nick("writer",1,"");
+		$validator->validt_password("password",1,"");
+		if($use_email=="Y"||$email!=""){
+			$validator->validt_email("email",1,"");
+		}
+		if(zsfCheck($capcha,"")!=true){
+			$validator->validt_diserror("capcha","NOT_CAPCHA");
+		}
+	}
+	if($file1['size']>0&&$file2['size']>0&&$file1['name']==$file2['name']){
+		$validator->validt_diserror("","동일한 파일을 2개 이상 업로드 할 수 없습니다.");
+	}
+	$validator->validt_tags("ment",1,"");
+	
 	//수정모드인 경우 검사
 	if($mode=="modify"&&$type==2&&isset($__toony_member_idno)&&$wquery['me_idno']==0){
-		if(trim($writer)==""){ echo "작성자명을 입력하세요."; exit; }
-		if(trim($password)==""){ echo "비밀번호를 입력하세요."; exit; }
+		$validator->validt_nick("writer",1,"");
+		$validator->validt_password("password",1,"");
+		if($use_email=="Y"||$email!=""){
+			$validator->validt_email("email",1,"");
+		}
 	}
-	//본문에 사용금지 태그가 있는지 검사
-	$lib->not_tags_check($ment,"본문에 사용할 수 없는 태그가 포함되어 있습니다.");
-	
-	/*
-	글 작성인 경우, 이미 같은 내용의 글이 존재하는지 검사
-	*/
+	//글 작성인 경우, 이미 같은 내용의 글이 존재하는지 검사
 	if($mode==""||$mode=="reply"){
 		$mysql->select("
 			SELECT ment FROM toony_module_board_data_$board_id
 			WHERE ment='$ment'
 		");
-		if($mysql->numRows()>0){ echo '이미 같은 내용의 글이 존재합니다.'; exit; }
+		if($mysql->numRows()>0){
+			$validator->validt_diserror("ment","이미 같은 내용의 글이 존재합니다.");
+		}
 	}
 	
 	/*
@@ -104,9 +138,9 @@
 				$lib->error_alert_back("포인트가 부족하여 글을 작성할 수 없습니다.","A");
 			}
 			$point = 0-$c_array['write_point'];
-			$lib->func_member_point_add($member['me_idno'],"out",$point,"게시판 글 작성 ({$c_array['name']})");
+			$lib->func_member_point_add($member['me_idno'],"out",$point,"게시판 글 작성 ({$c_array['point_board_name']})");
 		}else if($c_array['write_point']!=0){
-			$lib->func_member_point_add($member['me_idno'],"in",$c_array['write_point'],"게시판 글 작성 ({$c_array['name']})");
+			$lib->func_member_point_add($member['me_idno'],"in",$c_array['write_point'],"게시판 글 작성 ({$c_array['point_board_name']})");
 		}
 	}
 	
@@ -120,12 +154,18 @@
 		$fileUploader->saveFile = $file1;
 		//경로 및 파일 검사
 		$fileUploader->filePathCheck();
-		if($fileUploader->fileNameCheck()==true){ echo '첨부 불가능한 확장자입니다.'; exit; }
-		if($fileUploader->fileByteCheck($c_array['file_limit'])==false){ echo '허용 파일 용량 초과.'; exit; }
+		if($fileUploader->fileNameCheck()==true){
+			$validator->validt_diserror("file1","첨부 불가능한 확장자입니다.");
+		}
+		if($fileUploader->fileByteCheck($c_array['file_limit'])==false){
+			$validator->validt_diserror("file1","허용 파일 용량 초과");
+		}
 		//파일저장
 		$file1_name = date("ymdhis",mktime())."_".$file1['name'];
 		$file1_name = str_replace(" ","_",$file1_name);
-		if($fileUploader->fileUpload($file1_name)==false){ echo '첨부파일1 업로드 실패.'; exit; }
+		if($fileUploader->fileUpload($file1_name)==false){
+			$validator->validt_diserror("file1","첨부파일1 업로드 실패");
+		}
 	}
 	//파일2 저장
 	$file2_name = "";
@@ -133,21 +173,39 @@
 		$fileUploader->saveFile = $file2;
 		//경로 및 파일 검사
 		$fileUploader->filePathCheck();
-		if($fileUploader->fileNameCheck()==true){ echo '첨부 불가능한 확장자입니다.'; exit; }
-		if($fileUploader->fileByteCheck($c_array['file_limit'])==false){ echo '허용 파일 용량 초과.'; exit; }
+		if($fileUploader->fileNameCheck()==true){
+			$validator->validt_diserror("file2","첨부 불가능한 확장자입니다.");
+		}
+		if($fileUploader->fileByteCheck($c_array['file_limit'])==false){
+			$validator->validt_diserror("file2","허용 파일 용량 초과");
+		}
 		//파일저장
 		$file2_name = date("ymdhis",mktime())."_".$file2['name'];
 		$file2_name = str_replace(" ","_",$file2_name);
-		if($fileUploader->fileUpload($file2_name)==false){ echo '첨부파일2 업로드 실패.'; exit; }
+		if($fileUploader->fileUpload($file2_name)==false){
+			$validator->validt_diserror("file2","첨부파일2 업로드 실패.");
+		}
 	}
 	//수정모드인 경우 파일 삭제
 	if($mode=="modify"){
-		if($file1_del==true) $fileUploader->fileDelete($file1_ed);
-		if($file2_del==true) $fileUploader->fileDelete($file2_ed);
-		if($file1_ed!=""&&!$file1['tmp_name']&&$file1_del==false) $file1_name=$file1_ed;
-		if($file2_ed!=""&&!$file2['tmp_name']&&$file2_del==false) $file2_name=$file2_ed;
-		if($file1['size']>0&&$file1_ed&&$file1_del!=true) $fileUploader->fileDelete($file1_ed);
-		if($file2['size']>0&&$file2_ed&&$file2_del!=true) $fileUploader->fileDelete($file2_ed);
+		if($file1_del==true){
+			$fileUploader->fileDelete($file1_ed);
+		}
+		if($file2_del==true){
+			$fileUploader->fileDelete($file2_ed);
+		}
+		if($file1_ed!=""&&!$file1['tmp_name']&&$file1_del==false){
+			$file1_name=$file1_ed;
+		}
+		if($file2_ed!=""&&!$file2['tmp_name']&&$file2_del==false){
+			$file2_name=$file2_ed;
+		}
+		if($file1['size']>0&&$file1_ed&&$file1_del!=true){
+			$fileUploader->fileDelete($file1_ed);
+		}
+		if($file2['size']>0&&$file2_ed&&$file2_del!=true){
+			$fileUploader->fileDelete($file2_ed);
+		}
 	}
 	
 	/**************************************************
@@ -186,8 +244,7 @@
 		//조회수 세션 등록
 		$session->session_register('__toony_board_view_'.$mysql->fetch("idno"),$mysql->fetch("idno"));
 		//완료 후 리턴
-		echo 'Success';
-		echo __URL_PATH__.$viewDir."?article={$article}&category=".urlencode($category_ed)."&p=read&read={$mysql->fetch("idno")}";
+		$validator->validt_success("","?article={$article}&category=".urlencode($category_ed)."&p=read&read={$mysql->fetch("idno")}");
 	}
 	
 	/**************************************************
@@ -219,8 +276,7 @@
 		//조회수 세션 등록
 		$session->session_register('__toony_board_view_'.$mysql->fetch("idno"),$mysql->fetch("idno"));
 		//완료 후 리턴
-		echo 'Success';
-		echo __URL_PATH__.$viewDir."?article={$article}&category=".urlencode($category_ed)."&p=read&read={$mysql->fetch("idno")}&page={$page}&where={$where}&keyword={$keyword}";
+		$validator->validt_success("","?article={$article}&category=".urlencode($category_ed)."&p=read&read={$mysql->fetch("idno")}&page={$page}&where={$where}&keyword={$keyword}");
 	}
 	
 	/**************************************************
@@ -260,7 +316,7 @@
 			INSERT INTO toony_module_board_data_$board_id
 			(category,me_idno,writer,password,email,ment,subject,file1,file2,use_secret,use_notice,use_html,use_email,ip,regdate,ln,rn,td_1,td_2,td_3,td_4,td_5)
 			VALUES
-			('$category','{$member['me_idno']}','$writer','$password','$email','$ment','$subject','$file1_name','$file2_name','$use_secret','$use_notice','$use_html','$use_email','{$_SERVER['REMOTE_ADDR']}',now(),'$ln_me','{$rn_array['rn_max']}','$td_1','$td_2','$td_3','$td_4','$td_5')
+			('{$wquery['category']}','{$member['me_idno']}','$writer','$password','$email','$ment','$subject','$file1_name','$file2_name','$use_secret','$use_notice','$use_html','$use_email','{$_SERVER['REMOTE_ADDR']}',now(),'$ln_me','{$rn_array['rn_max']}','$td_1','$td_2','$td_3','$td_4','$td_5')
 		");
 		
 		//작성된 글을 다시 로드해옴
@@ -277,7 +333,6 @@
 			$viewType_uri = "m/";
 			$saveViewType = "m";
 		}
-		
 		if($wquery['use_email']=="Y"){
 			$memo = "
 				회원님의 게시판 글에 답글이 달렸습니다.<br />
@@ -285,18 +340,16 @@
 				
 				<a href=\"".__URL_PATH__.$viewType_uri."?article={$article}&p=read&read={$mysql->fetch("idno")}&saveViewType={$saveViewType}\">".__URL_PATH__.$viewType_uri."?article={$article}&read={$mysql->fetch("idno")}&saveViewType={$saveViewType}</a>
 			";
-			$mailSender->func_mail_sender();
-			$mailSender->func_mail_sender->temp = "mailling";
-			$mailSender->func_mail_sender->t_email = $wquery['email'];
-			$mailSender->func_mail_sender->t_name = $site_config['ad_site_name'];
-			$mailSender->func_mail_sender->subject = "회원님의 게시글에 답글이 달렸습니다.";
-			$mailSender->func_mail_sender->memo = str_replace('\"','"',stripslashes($memo));
-			$mailSender->func_mail_sender_get();	
+			$mailSender->template = "mailling";
+			$mailSender->t_email = $wquery['email'];
+			$mailSender->t_name = $site_config['ad_site_name'];
+			$mailSender->subject = "회원님의 게시글에 답글이 달렸습니다.";
+			$mailSender->memo = str_replace('\"','"',stripslashes($memo));
+			$mailSender->mail_send();	
 		}
 		//조회수 세션 등록
 		$session->session_register('__toony_board_view_'.$mysql->fetch("idno"),$mysql->fetch("idno"));
 		//완료 후 리턴
-		echo 'Success';
-		echo __URL_PATH__.$viewDir."?article={$article}&category=".urlencode($category_ed)."&p=read&read={$mysql->fetch("idno")}&page={$page}&where={$where}&keyword={$keyword}";
+		$validator->validt_success("","?article={$article}&category=".urlencode($category_ed)."&p=read&read={$mysql->fetch("idno")}&page={$page}&where={$where}&keyword={$keyword}");
 	}
 ?>

@@ -1,31 +1,11 @@
 <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	var $form = $("form[name=questionList_viewForm]");
 	//정보 수정
 	$("._submitBtn").click(function(){
-		var $form = $("form[name=questionList_viewForm]");
 		smartEditor_submit_val=true;oEditors.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []);
-		$.ajax({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			url			:	__URL_PATH__+"admin/questionList_view.submit.php",
-			data		:	$form.serialize(),
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_memo-->" :
-										alert("답변 내용을 입력 하세요.");
-										break;
-									case "<!--success::1-->" :
-										alert("성공적으로 답변이 발송 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
+		$form.submit();
 	});
 });
 </script>
@@ -42,7 +22,7 @@ $(document).ready(function(){
 					고객 문의를 자세히 볼 수 있으며, 고객의 이메일로 답변이 가능합니다.
 				</div>
 				<div class="contArticle">
-					<form name="questionList_viewForm">
+					<form name="questionList_viewForm" ajaxAction="admin/questionList_view.submit.php" ajaxType="html">
 						<input type="hidden" name="idno" value="[idno_value]" />
 						<input type="hidden" name="email" value="[email]" />
 						<input type="hidden" name="name" value="[name_value]" />
@@ -103,7 +83,7 @@ $(document).ready(function(){
 								[{answer_start}]
 								<tr>
 									<td style="padding:0; border:none;">
-										<textarea class="sourceCode" id="memo" name="memo" style="width:100%; border:none; height:250px;" smarteditor></textarea>
+										<textarea class="sourceCode" id="memo" name="memo" title="답변" style="width:100%; border:none; height:250px;" smarteditor></textarea>
 									</td>
 								</tr>
 								<script type="text/javascript">
@@ -123,7 +103,7 @@ $(document).ready(function(){
 						</table>
 					</form>
 					<div class="__article_btnArea">
-						[{answerBtn_start}]<input type="button" class="__btn_submit _submitBtn"/>[{answerBtn_end}]
+						[{answerBtn_start}]<input type="button" class="__btn_submit _submitBtn" />[{answerBtn_end}]
 						<a href="./?p=questionList" class="__btn_cancel"></a>
 					</div>
 				</div>

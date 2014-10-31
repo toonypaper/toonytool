@@ -13,13 +13,25 @@
 #array_form .scArea{ background-color:#f8f8f8; border:1px solid #eee; margin:0 auto; margin-top:20px; padding:5px; text-align:center; }
 #array_form .scArea input.keyword{ padding:5px; }
 #array_form .scArea select.where{ padding:5px; }
+#array_form .scArea input.submit,
+#array_form .scArea input.cancel{
+	font-size:11px; border:1px solid #D4D4D4; padding:5px 8px; margin:2px; cursor:pointer; vertical-align:top;
+	background: #F8F8F8; /* Old browsers */
+	background: -moz-linear-gradient(top, #FAFAFA 0%, #F0F0F0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F8F8F8), color-stop(100%,#F0F0F0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #F8F8F8 0%,#F0F0F0 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #F8F8F8 0%,#F0F0F0 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8F8F8', endColorstr='#F0F0F0',GradientType=0 ); /* IE6-9 */
+}
 #array_form .not_loop_span{ display:block; border-bottom:1px solid #eee; text-align:center; padding:10px; color:#666; }
 #array_form .read_gallery_list{ text-align:center; margin:0; margin-top:20px; padding:0; list-style-type:none; }
-#array_form .read_gallery_list > li{ width:100px; vertical-align:top; display:inline-block; *display:inline; *zoom:1; text-align:center; margin:8px 17px; }
+#array_form .read_gallery_list > li{ display:block; vertical-align:top; text-align:center; margin:8px 17px; }
 #array_form .read_gallery_list > li .img_title{ display:block; font-size:13px; line-height:13px; letter-spacing:-1px; padding-top:8px; }
 #array_form .read_gallery_list > li .img_title a{ color:#333; }
 #array_form .read_gallery_list > li .img_info{ line-height:15px; }
-#array_form .read_gallery_list > li > a > img{ width:100px !important; height:100px !important; }
+#array_form .read_gallery_list > li a.thumb > img{ width:100%; height:auto; }
 #array_form .category{ color:#900; }
 #array_form .comment{ font:11px tahoma; font-weight:bold; color:#ea3a5a; padding-left:10px; }
 

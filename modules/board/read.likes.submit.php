@@ -5,6 +5,7 @@
 	$lib = new libraryClass();
 	$mysql = new mysqlConnection();
 	$method = new methodController();
+	$validator = new validator();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
@@ -24,8 +25,12 @@
 	/*
 	검사
 	*/
-	if($c_array['use_likes']=="N"){ echo '추천 기능 비활성 중입니다.'; exit; }
-	if($member['me_level']>9){ echo '<!--error::not_permissions-->'; exit; }
+	if($c_array['use_likes']=="N"){
+		$validator->validt_diserror("","추천 기능 비활성 중입니다.");
+	}
+	if($member['me_level']>9){
+		$validator->validt_diserror("","추천 권한이 없습니다.\n\n추천/비추천은 회원만 가능합니다.");
+	}
 	
 	/*
 	이미 추천.비추천 했는지 검사
@@ -36,7 +41,7 @@
 		WHERE board_id='$board_id' AND read_idno='$read_idno' AND me_idno='{$member['me_idno']}'
 	");
 	if($mysql->numRows()>0){
-		echo '<!--error::have_likes-->'; exit;
+		$validator->validt_diserror("","이미 참여 하였습니다.");
 	}
 	
 	/*
@@ -65,6 +70,7 @@
 		FROM toony_module_board_like
 		WHERE board_id='$board_id' AND read_idno='$read_idno' $return_where
 	");
-	echo $mysql->fetch("totalCount");
+	
+	$validator->validt_success_return("._read_likesArea ._".$mode."_btn .__count",$mysql->fetch("totalCount"));
 	
 ?>

@@ -1,63 +1,60 @@
 ﻿<?php
-	//Step3이 진행되어 있는 경우 engine을 호출
-	if(is_file("../include/mysql.info.php")){
+	include_once "functions.inc.php";
+	$functions = new functions();
+	
+	if($functions->file_check("../include/mysql.info.php")==TRUE){
 		include "../include/engine.inc.php";
 		$connect = @mysql_connect(__HOST__,__DB_USER__,__DB_PASS__);
 		mysql_select_db(__DB_NAME__,$connect);
 	}
-	//index가 진행되어 있지 않으면 첫화면으로 이동
-	function permission_check($file){
-		$open = @is_writable($file);
-		if(!$open){
-			return "N";
-		}else{
-			return "Y";
-		}
+
+	if($functions->file_permission("../include/")==FALSE || $functions->file_permission("../upload/sessionCookies/")==FALSE || $functions->file_permission("../upload/siteInformations/")==FALSE || $functions->file_permission("../upload/smartEditor/")==FALSE){
+		$functions->error_alert_location("1단계가 진행되지 않았습니다.","index.php");
 	}
-	if(permission_check("../include/")=="N"||permission_check("../upload/")=="N"){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
-	//Step1이 진행되어 있지 않으면 첫 화면으로 이동
-	}else if(!is_file("../include/path.info.php")){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
-	//Step2가 진행되어 있지 않으면 첫화면으로 이동
-	}else if(!is_file("../include/mysql.info.php")&&!$_POST['host']){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "index.php";</script>'; exit;
-	//Step2 테이블 생성이 진행되어 있지 않으면 Step2로 이동
-	}else if(!mysql_query("select * from toony_admin_siteconfig")){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "step2.php";</script>'; exit;
-	//Step3이 진행되어 있지 않으면 Step2로 이동
-	}else if(mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1&&!$_POST['id']){
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">document.location.href = "step3.php";</script>'; exit;
+	if($functions->file_check("../include/path.info.php")==FALSE){
+		$functions->error_alert_location("1단계가 진행되지 않았습니다.","index.php");
 	}
-	//변수 처리
+	if($functions->file_check("../include/mysql.info.php")==FALSE){
+		$functions->error_alert_location("2단계가 진행되지 않았습니다.","index.php");
+	}
+
+	if(!mysql_query("select * from toony_admin_siteconfig")){
+		$functions->error_alert_location("DB가 정상적으로 설치되지 않았습니다.","step2.php");
+	}else if(mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1 && !$_POST['id']){
+		$functions->error_alert_location("3단계가 진행되지 않았습니다.","step3.php");
+	}
+	
 	$method = new methodController();
 	$method->method_param("POST","id,password,password02,name");
-	$lib = new libraryClass();
 	
 	if($id){
 		mb_internal_encoding('UTF-8');
-		//검사
 		if(trim($id)==""){
-			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("아이디를 입력해 주세요.");history.back();</script>'; exit;
+			$functions->error_alert_back("아이디를 입력해 주세요");
 		}
 		$filter = "/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/";
-		if(!preg_match($filter,$id)){ echo '<script type="text/javascript">alert("아이디가 올바르지 않습니다.");history.back();</script>'; exit; }
+		if(!preg_match($filter,$id)){
+			$functions->error_alert_back("아이디가 올바르지 않습니다.");
+		}
 		if(trim($password)==""){
-			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("비밀번호를 입력해 주세요.");history.back();</script>'; exit;
+			$functions->error_alert_back("비밀번호를 입력해 주세요.");
 		}
 		if(trim($password02)==""){
-			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("비밀번호 확인을 입력해 주세요.");history.back();</script>'; exit;
+			$functions->error_alert_back("비밀번호 확인을 입력해 주세요.");
 		}
 		if($password!=$password02){
-			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");history.back();</script>'; exit;
+			$functions->error_alert_back("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 		}
-		if(mb_strlen($password)<5||mb_strlen($password)>30){ echo '<script type="text/javascript">alert("비밀번호가 올바르지 않습니다.");history.back();</script>'; exit; }
+		if(mb_strlen($password)<5 || mb_strlen($password)>30){
+			$functions->error_alert_back("비밀번호가 올바르지 않습니다.");
+		}
 		if(trim($name)==""){
-			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("이름을 입력해 주세요.");history.back();</script>'; exit;
+			$functions->error_alert_back("이름을 입력해 주세요.");
 		}
 		$filter = "/^[a-zA-Z0-9가-힣]+$/";
-		if(!preg_match($filter,$name)){ echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">alert("이름이 올바르지 않습니다.");history.back();</script>'; exit; }
-		//운영자 정보 기록
+		if(!preg_match($filter,$name)){
+			$functions->error_alert_back("이름이 올바르지 않습니다.");
+		}
 		if(mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1){
 			mysql_query("set names UTF8",$connect);
 			mysql_query("
@@ -83,7 +80,7 @@
 </head>
 <body>
 <header>
-	<img src="images/title.jpg" alt="투니툴 엔진 설치" />
+	<img src="images/title.jpg" alt="투니툴 코어 설치" />
 </header>
 <form name="step2Form" action="step3.php" method="post">
 <article>

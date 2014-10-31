@@ -6,20 +6,17 @@
 	$mysql = new mysqlConnection();
 	$method = new methodController();
 	$mailSender = new mailSender();
+	$validator = new validator();
 	
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	$method->method_param("POST","min_level,max_level,receiver_id,subject,memo");
-	
+	$validator->validt_tags("memo",1,"");
 	/*
 	검사
 	*/
-	if(trim($subject)==""){
-		echo '<!--error::null_subject-->'; exit;
-	}
-	if(trim($memo)==""){
-		echo '<!--error::null_memo-->'; exit;
-	}
+	$validator->validt_null("subject","");
+	$validator->validt_null("memo","");
 	//특정 회원의 이메일 주소가 입력된 경우, 회원 유무 검사
 	if(trim($receiver_id)!=""){
 		$mysql->select("
@@ -28,26 +25,26 @@
 			WHERE me_id='$receiver_id' AND me_drop_regdate IS NULL
 		");
 		if($mysql->numRows()<1){
-			echo '<!--error::not_member-->'; exit;
+			$validator->validt_diserror("receiver_id","존재하지 않는 회원 아이디 입니다.");
 		}
 		$receiver_idno = $mysql->fetch("me_idno");
 	}else{
 		$receiver_idno = "";
 	}
-	//수신 회원 범위 유무성 검사
+	//수신 회원 범위 유효성 검사
 	if(trim($receiver_id)==""){
 		if($min_level=="none"){
-			echo '<!--error::null_min_receiver-->'; exit;
+			$validator->validt_diserror("min_receiver","최하 수신 범위를 선택 하세요.");
 		}
 		if($max_level=="none"){
-			echo '<!--error::null_max_receiver-->'; exit;
+			$validator->validt_diserror("max_receiver","최대 수신 범위를 선택 하세요.");
 		}
 		if($min_level<$max_level){
-			echo '<!--error::null_not_receiver_selected-->'; exit;
+			$validator->validt_diserror("max_receiver","최대 수신 범위가 최소 수신 범위보다 낮을 수 없습니다.");
 		}
 	}
 	//본문에 사용금지 태그가 있는지 검사
-	$lib->not_tags_check($memo,"<!--error::have_not_tags-->");
+	
 	
 	/*
 	수신 회원 범위에 따른 DB 조건문 생성
@@ -84,22 +81,21 @@
 	if($mysql->numRows()>0){
 		$sendCount = 0;
 		do{
-			$mailSender->func_mail_sender();
-			$mailSender->func_mail_sender->temp = "mailling";
-			$mailSender->func_mail_sender->t_email = $mysql->fetch("me_id");
-			$mailSender->func_mail_sender->t_name = $mysql->fetch("me_nick");
-			$mailSender->func_mail_sender->subject = $subject;
-			$mailSender->func_mail_sender->memo = str_replace('\"','"',stripslashes($memo));
-			$mailSender->func_mail_sender_get();
+			$mailSender->template = "mailling";
+			$mailSender->t_email = $mysql->fetch("me_id");
+			$mailSender->t_name = $mysql->fetch("me_nick");
+			$mailSender->subject = $subject;
+			$mailSender->memo = str_replace('\"','"',stripslashes($memo));
+			$mailSender->mail_send();
 			$sendCount++;
 		}while($mysql->nextRec());
 	}else{
-		echo '<!--error::null_receiver_member-->';
+		$validator->validt_diserror("","수신할 회원이 한명도 없습니다.");
 		exit;
 	}
 	
 	/*
 	완료 후 리턴
 	*/
-	echo $sendCount;
+	$validator->validt_success($sendCount."명에게 성공적으로 발송 되었습니다.","admin/?p=mailling");
 ?>

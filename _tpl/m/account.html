@@ -1,76 +1,4 @@
-<script type="text/javascript">
-$(document).ready(function(){
-	var $form = $("form[name=accountForm]");
-	$form.submit(function(e){
-		e.preventDefault();
-		$.ajax({
-			type		:	"POST",
-			url			:	__URL_PATH__+"account.submit.php",
-			cache		:	false,
-			data		:	$form.serialize(),
-			async		:	false,
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "<!--error::null_agreement-->" :
-										alert("이용약관에 동의 하셔야 합니다.");
-										break;
-									case "<!--error::null_private-->" :
-										alert("개인정보취급방침에 동의 하셔야 합니다.");
-										break;
-									case "<!--error::logged-->" :
-										alert("이미 로그인 되어 있습니다.");
-										break;
-									case "<!--error::null_id-->" :
-										alert("아이디를 입력 하세요.");
-										$("input[name=id]",$form).focus();
-										break;
-									case "<!--error::not_id-->" :
-										alert("아이디가 올바르지 않습니다.");
-										$("input[name=id]",$form).focus();
-										break;
-									case "<!--error::null_nick-->" :
-										alert("이름을 입력 하세요.");
-										$("input[name=nick]",$form).focus();
-										break;
-									case "<!--error::not_nick-->" :
-										alert("이름이 올바르지 않습니다.");
-										$("input[name=nick]",$form).focus();
-										break;
-									case "<!--error::null_password-->" :
-										alert("비밀번호를 입력 하세요.");
-										$("input[name=password]",$form).focus();
-										break;
-									case "<!--error::not_password-->" :
-										alert("비밀번호가 올바르지 않습니다.");
-										$("input[name=password]",$form).focus();
-										break;
-									case "<!--error::not_samePassword-->" :
-										alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-										$("input[name=password02]",$form).focus();
-										break;
-									case "<!--error::not_phone-->" :
-										alert("휴대전화가 올바르지 않습니다.");
-										$("input[name=phone]",$form).focus();
-										break;
-									case "<!--error::not_telephone-->" :
-										alert("집전화가 올바르지 않습니다.");
-										$("input[name=telephone]",$form).focus();
-										break;
-									case "<!--error::have_id-->" :
-										alert("이미 존재하는 아이디 입니다.");
-										$("input[name=id]",$form).focus();
-										break;
-									default :
-										alert("회원가입이 완료 되었습니다.\n\n이메일로 발송된 인증 메일을 확인 후 로그인 가능합니다.");
-										document.location.href = __URL_PATH__+"m/?article=login";
-								}
-							}
-		});
-	});
-});
-</script>
-<form name="accountForm" id="accountForm">
+<form name="accountForm" id="accountForm" ajaxAction="account.submit.php" ajaxType="html">
 	<table cellpadding="0" cellspacing="0" class="__article_table">
 		<tbody>
 			<tr>
@@ -83,7 +11,7 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	<div class="chkArea">
-		<label><input type="checkbox" name="chk_agreement" value="checked" /> 이용약관에 동의 합니다.</label>
+		<label><input type="checkbox" name="chk_agreement" title="이용약관" value="checked" /> 이용약관에 동의 합니다.</label>
 	</div>
 	<table cellpadding="0" cellspacing="0" class="__article_table">
 		<tbody>
@@ -97,14 +25,14 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	<div class="chkArea">
-		<label><input type="checkbox"name="chk_private" value="checked"  /> 개인정보취급방침에 동의 합니다.</label>
+		<label><input type="checkbox"name="chk_private" title="개인정보취급방침" value="checked"  /> 개인정보취급방침에 동의 합니다.</label>
 	</div>
 	
 	<table cellpadding="0" cellspacing="0" class="__article_table" style="margin-top:20px;">
 		<tbody>
 			<tr>
 				<td>
-					<input type="text" name="id" placeholder="* 이메일 아이디" />
+					<input type="text" name="id" title="회원 아이디" placeholder="* 이메일 아이디" />
 					<span class="__article_sment">
 						- 이메일 형태로 입력 하세요.<br />
 						- 입력한 이메일로 아이디 인증 메일이 발송 됩니다.
@@ -113,7 +41,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<input type="password" name="password" style="width:200px;" placeholder="* 비밀번호" />
+					<input type="password" name="password" title="비밀번호" style="width:200px;" placeholder="* 비밀번호" />
 					<span class="__article_sment">
 						- 최소 5자 ~ 최대 30자로 입력
 					</span>
@@ -121,7 +49,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<input type="password" name="password02" style="width:200px;" placeholder="* 비밀번호 확인" />
+					<input type="password" name="password02" title="비밀번호 확인" style="width:200px;" placeholder="* 비밀번호 확인" />
 					<span class="__article_sment">
 						- 비밀번호 확인을 위해 재입력
 					</span>
@@ -129,19 +57,19 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<input type="text" name="nick" style="width:150px;" placeholder="* 이름" />
+					<input type="text" name="nick" title="이름" style="width:150px;" placeholder="* 이름" />
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<strong>* 성별</strong>
-					<label><input type="radio" name="sex" value="M" checked />남</label>
-					<label><input type="radio" name="sex" value="F" />여</label>
+					<label><input type="radio" name="sex" title="남자" value="M" checked />남자</label>
+					<label><input type="radio" name="sex" title="여자" value="F" />여자</label>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<input type="text" name="phone" placeholder="휴대전화" />
+					<input type="text" name="phone" title="휴대전화" placeholder="휴대전화" />
 					<span class="__article_sment">
 						- 하이픈(-) 없이 입력
 					</span>
@@ -149,7 +77,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<input type="text" name="telephone" placeholder="집전화" />
+					<input type="text" name="telephone" title="집전화" placeholder="집전화" />
 					<span class="__article_sment">
 						- 하이픈(-) 없이 입력
 					</span>
@@ -158,7 +86,7 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 	<div class="__article_btnArea">
-		<input type="submit" class="__button_submit _submitBtn" value="회원가입" />
+		<input type="submit" class="__button_submit _submitBtn" ajaxSubmit="accountForm" value="회원가입" />
 		<input type="button" class="__button_cancel" onClick="location.href='./';" value="취소" />
 	</div>
 </form>

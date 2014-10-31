@@ -3,6 +3,7 @@
 
 
 
+
 [{write_password_form_start}]
 <!--s:비회원인 경우에만 비밀번호 입력폼 노출-->
 <form name="modify_password_form" id="modify_password_form" method="post">
@@ -42,7 +43,7 @@
 
 
 <script type="text/javascript" src="smartEditor/js/HuskyEZCreator.js"></script>
-<form name="write_form" id="write_form" enctype="multipart/form-data">
+<form name="write_form" id="write_form" enctype="multipart/form-data" ajaxAction="modules/board/write.submit.php" ajaxType="multipart" method="post">
 	<input type="hidden" name="board_id" value="[board_id_value]" />
 	<input type="hidden" name="mode" value="[mode_value]" />
 	<input type="hidden" name="read" value="[read_value]" />
@@ -53,6 +54,7 @@
 	<input type="hidden" name="category_ed" value="[category_value]" />
 	<input type="hidden" name="use_html" value="Y" />
 	<input type="hidden" name="type" value="[type_value]" />
+	<input type="hidden" name="viewDir" value="[viewDir_value]" />
 	<table cellpadding="0" cellspacing="0" id="read_table" class="board_table">
 	<thead>
 		<th colspan="2">[write_title]</th>
@@ -61,14 +63,14 @@
 		<tr>
 			<th style="width:100px;">제목</th>
 			<td>
-				<input type="text" name="subject" class="subject" value="[subject]" maxlength="100" style="width:450px;" />
+				<input type="text" name="subject" title="제목" class="subject" value="[subject]" maxlength="100" style="width:450px;" />
 			</td>
 		</tr>
 		[{write_category_start}]
 		<tr>
 			<th>카테고리</th>
 			<td>
-				[bbs_category]
+				[category_selectbox]
 			</td>
 		</tr>
 		[{write_category_end}]
@@ -86,7 +88,7 @@
 				작성자
 			</th>
 			<td>
-				<input type="text" name="writer" value="[writer]" maxlength="8" style="width:200px;" />
+				<input type="text" name="writer" title="작성자" value="[writer]" maxlength="8" style="width:200px;" />
 			</td>
 		</tr>
 		[{write_writer_end}]
@@ -96,7 +98,7 @@
 				비밀번호
 			</th>
 			<td>
-				<input type="password" name="password" value="[password]" maxlength="20" style="width:200px;" />
+				<input type="password" name="password" title="비밀번호" value="[password]" maxlength="20" style="width:200px;" />
 			</td>
 		</tr>
 		[{write_password_end}]
@@ -106,13 +108,13 @@
 				이메일주소
 			</th>
 			<td>
-				<input type="text" name="email" value="[email]" style="width:300px;" />
+				<input type="text" name="email" title="이메일주소" value="[email]" style="width:300px;" />
 			</td>
 		</tr>
 		[{write_email_end}]
 		<tr>
 			<td colspan="2">
-				<textarea name="ment" id="ment" style="width:100%; height:300px;" smarteditor>[memo]</textarea>
+				<textarea name="ment" id="ment" title="내용" style="width:100%; height:300px;" smarteditor>[memo]</textarea>
 			</td>
 		</tr>
 		[{write_file1_start}]
@@ -121,7 +123,7 @@
 				첨부파일
 			</th>
 			<td>
-				<input type="file" name="file1" id="file1"><span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px; font-size:11px;">[write_file_byte]</span>
+				<input type="file" name="file1" id="file1" title="첨부파일1"><span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px; font-size:11px;">[write_file_byte]</span>
 			</td>
 		</tr>
 		[{write_file1_end}]
@@ -142,7 +144,7 @@
 				첨부파일2
 			</th>
 			<td>
-				<input type="file" name="file2" id="file2"><span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px; font-size:11px;">[write_file_byte]</span>
+				<input type="file" name="file2" id="file2" title="첨부파일2"><span class="___table_sment" style="display:inline-block; *display:inline; *zoom:1; padding-left:10px; font-size:11px;">[write_file_byte]</span>
 			</td>
 		</tr>
 		[{write_file2_end}]
@@ -164,7 +166,7 @@
 			</th>
 			<td>
 				[capcha_img]
-				<input name="capcha" id="capcha" type="text" style="width:100px; padding:5px; padding-top:6px; vertical-align:top;" />
+				<input name="capcha" id="capcha" type="text" title="스팸방지코드" style="width:100px; padding:5px; padding-top:6px; vertical-align:top;" />
 				<span class="__article_sment">위에 보이는 스팸방지 코드를 입력란에 입력해 주세요.</span>
 			</td>
 		</tr>

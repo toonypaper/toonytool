@@ -6,6 +6,7 @@
 	$mysql = new mysqlConnection();
 	$method = new methodController();
 	$fileUploader = new fileUploader();
+	$validator = new validator();
 	
 	$method->method_param("POST","href,depth,parent,forward,callName,type,org,module,page,name,class,title_img_ed,img_ed,img2_ed,del_title_img,del_img,del_img2,link,linkDoc,vtype,useMenu,useMenu_header_val,useMenu_side,useMenu_side_val");
 	$method->method_param("FILE","title_img,img,img2");
@@ -42,17 +43,16 @@
 		$lockMenu = $mysql->fetch("lockMenu");
 		$thisDepth = $mysql->fetch("depth");
 		$thisClass = $mysql->fetch("class");
-		if(trim($name)==""){
-			echo 'error::null_name'; exit;
-		}
+		
+		$validator->validt_null("name","");
 		if($href=="pm"&&trim($link)==""&&$lockMenu!="Y"){
-			echo 'error::null_page'; exit;
+			$validator->validt_diserror("link","연결할 페이지 또는 모듈을 선택해 주세요.");
 		}
 		if($href=="mp"&&trim($linkDoc)==""&&$lockMenu!="Y"){
-			echo 'error::null_linkDoc'; exit;
+			$validator->validt_diserror("linkDoc","");
 		}
 		if($href=="fm"&&trim($forward)==""&&$lockMenu!="Y"){
-			echo 'error::null_forward'; exit;
+			$validator->validt_diserror("forward","포워딩 메뉴를 선택해 주세요.");
 		}
 		//1차 메뉴의 header 노출 옵션이 꺼져 있으면, 2차 메뉴는 옵션 활성화 불가
 		if($thisDepth==2&&$useMenu=="Y"){
@@ -62,36 +62,30 @@
 				WHERE idno='$thisClass' AND depth=1
 			");
 			if($mysql->fetch("useMenu")=="N"){
-				echo 'error::not_change_useMenu'; exit;
+				$validator->validt_diserror("useMenu","1차메뉴가 비활성화 되어 있어 해당 메뉴를 활성화 할 수 없습니다.");
 			}
 		}
 	}
 	//등록 모드인 경우 검사
 	if($type=="new"){
-		if(trim($name)==""){
-			echo 'error::null_name'; exit;
-		}
+		$validator->validt_idx("callName",1,"");
 		$mysql->select("
 			SELECT *
 			FROM toony_admin_menuInfo
 			WHERE callName='$callName' AND drop_regdate IS NULL AND vtype='$vtype'
 		");
 		if($mysql->numRows()>0){
-			echo 'error::have_callName'; exit;
+			$validator->validt_diserror("callName","이미 존재하는 코드명입니다.");
 		}
-		if(trim($callName)==""){
-			echo 'error::null_callName';
-			exit;
-		}
-		$lib->func_method_param_check("idx",$callName,"error::not_callName");
+		$validator->validt_null("name","");
 		if($href=="pm"&&trim($link)==""){
-			echo 'error::null_page'; exit;
+			$validator->validt_diserror("link","연결할 페이지 또는 모듈을 선택해 주세요.");
 		}
 		if($href=="mp"&&trim($linkDoc)==""){
-			echo 'error::null_linkDoc'; exit;
+			$validator->validt_diserror("linkDoc","");
 		}
 		if($href=="fm"&&trim($forward)==""){
-			echo 'error::null_forward'; exit;
+			$validator->validt_diserror("forward","포워딩 메뉴를 선택해 주세요.");
 		}
 		//1차 메뉴의 header 노출 옵션이 꺼져 있으면, 2차 메뉴는 옵션 활성화 불가
 		if($depth==2&&$useMenu=="Y"){
@@ -101,7 +95,7 @@
 				WHERE idno='$parent' AND depth=1
 			");
 			if($mysql->fetch("useMenu")=="N"){
-				echo 'error::not_change_useMenu'; exit;
+				$validator->validt_diserror("useMenu","1차메뉴가 비활성화 되어 있어 해당 메뉴를 활성화 할 수 없습니다.");
 			}
 		}
 	}
@@ -120,11 +114,11 @@
 		$array = $mysql->array;
 		//메뉴가 락이 걸려있는 경우 삭제 불가
 		if($array['lockMenu']=="Y"){
-			echo 'error::is_lock'; exit;
+			$validator->validt_diserror("lockMenu","삭제가 불가능한 메뉴입니다.");
 		}
 		//자식이 있는 경우 삭제 불가
 		if($array['totalNum']>1){
-			echo 'error::have_children'; exit;
+			$validator->validt_diserror("","자식이 있는 메뉴는 삭제가 불가능합니다.");
 		}
 	}
 	
@@ -133,7 +127,7 @@
 	*/
 	//이미지 저장 옵션
 	$fileUploader->savePath = __DIR_PATH__."upload/siteInformations/";
-	$fileUploader->file_type_filter = array("jpg","bmp","gif","png");
+	$fileUploader->filedotType = "jpg,bmp,gif,png";
 	if($type=="modify"||$type=="new"){
 		//메뉴 타이틀 이미지 업로드
 		$title_img_name = "";
@@ -141,18 +135,26 @@
 			$fileUploader->saveFile = $title_img;
 			//경로 및 파일 검사
 			$fileUploader->filePathCheck();
-			if($fileUploader->fileNameCheck()==false){ echo 'error::not_title_imgType'; exit; }
+			if($fileUploader->fileNameCheck()==false){
+				$validator->validt_diserror("","지원되지 않는 타이틀 이미지입니다.");
+			}
 			//파일저장
 			$title_img_name = date("ymdtis",mktime())."_".substr(md5($title_img['name']),4,10).".".$fileUploader->fileNameType();
 			$title_img_name = str_replace(" ","_",$title_img_name);
-			if($fileUploader->fileUpload($title_img_name)==false){ echo "error::fail_title_imgSave"; exit; }
+			if($fileUploader->fileUpload($title_img_name)==false){
+				$validator->validt_diserror("lockMenu","타이틀 이미지 저장에 실패 하였습니다.");
+			}
 			//이전에 첨부한 파일이 있다면 삭제
 			if($title_img_ed&&$del_title_img!="checked"){
 				$fileUploader->fileDelete($title_img_ed);
 			}
 		}
-		if($del_title_img=="checked"){ $fileUploader->fileDelete($title_img_ed); }
-		if($title_img_ed!=""&&!$title_img['name']&&$del_title_img!="checked"){ $title_img_name=$title_img_ed; }
+		if($del_title_img=="checked"){ 
+			$fileUploader->fileDelete($title_img_ed);
+		}
+		if($title_img_ed!=""&&!$title_img['name']&&$del_title_img!="checked"){
+			$title_img_name=$title_img_ed;
+		}
 		
 		//메뉴 이미지 업로드
 		$img_name = "";
@@ -160,18 +162,26 @@
 			$fileUploader->saveFile = $img;
 			//경로 및 파일 검사
 			$fileUploader->filePathCheck();
-			if($fileUploader->fileNameCheck()==false){ echo 'error::not_imgType'; exit; }
+			if($fileUploader->fileNameCheck()==false){
+				$validator->validt_diserror("","지원되지 않는 메뉴 이미지입니다.");
+			}
 			//파일저장
 			$img_name = date("ymdtis",mktime())."_".substr(md5($img['name']),4,10).".".$fileUploader->fileNameType();
 			$img_name = str_replace(" ","_",$img_name);
-			if($fileUploader->fileUpload($img_name)==false){ echo 'error::fail_imgSave'; exit; }
+			if($fileUploader->fileUpload($img_name)==false){
+				$validator->validt_diserror("","메뉴 이미지 저장에 실패 하였습니다.");
+			}
 			//이전에 첨부한 파일이 있다면 삭제
 			if($img_ed&&$del_img!="checked"){
 				$fileUploader->fileDelete($img_ed);
 			}
 		}
-		if($del_img=="checked"){ $fileUploader->fileDelete($img_ed);  }
-		if($img_ed!=""&&!$img['name']&&$del_img!="checked"){ $img_name=$img_ed; }
+		if($del_img=="checked"){ 
+			$fileUploader->fileDelete($img_ed);
+		}
+		if($img_ed!=""&&!$img['name']&&$del_img!="checked"){ 
+			$img_name=$img_ed;
+		}
 		
 		//마우스 오버 메뉴 이미지 업로드
 		$img2_name = "";
@@ -179,18 +189,26 @@
 			$fileUploader->saveFile = $img2;
 			//경로 및 파일 검사
 			$fileUploader->filePathCheck();
-			if($fileUploader->fileNameCheck()==false){ echo 'error::not_img2Type'; exit; }
+			if($fileUploader->fileNameCheck()==false){ 
+				$validator->validt_diserror("","지원되지 않는 마우스 오버 이미지입니다.");
+			}
 			//파일저장
 			$img2_name = date("ymdtis",mktime())."_".substr(md5($img2['name']),4,10)."2.".$fileUploader->fileNameType();
 			$img2_name = str_replace(" ","_",$img2_name);
-			if($fileUploader->fileUpload($img2_name)==false){ echo 'error::fail_img2Save'; exit; }
+			if($fileUploader->fileUpload($img2_name)==false){
+				$validator->validt_diserror("","마우스 오버 이미지 저장에 실패 하였습니다.");
+			}
 			//이전에 첨부한 파일이 있다면 삭제
 			if($img2_ed&&$del_img2!="checked"){
 				$fileUploader->fileDelete($img2_ed);
 			}
 		}
-		if($del_img2=="checked"){ $fileUploader->fileDelete($img2_ed);  }
-		if($img2_ed!=""&&!$img2['name']&&$del_img2!="checked"){ $img2_name=$img2_ed; }
+		if($del_img2=="checked"){
+			$fileUploader->fileDelete($img2_ed);
+		}
+		if($img2_ed!=""&&!$img2['name']&&$del_img2!="checked"){
+			$img2_name=$img2_ed;
+		}
 	}
 	
 	/**************************************************
@@ -214,10 +232,10 @@
 		}
 		
 		//완료 후 리턴
-		echo 'success::2';
+		$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=menuSetting_modify&type=modify&vtype={$vtype}&org={$org}");
 		
 	/**************************************************
-	등록 모드인 경우
+	추가 모드인 경우
 	**************************************************/
 	}else if($type=="new"){
 		//각종 변수 최대 값 구함
@@ -278,7 +296,7 @@
 			('$href','$forward','$callName','$name','$title_img_name','$img_name','$img2_name','$link','$linkDoc',now(),'$class_val','$zindex_val','$depth_val','$parent','$vtype','$useMenu','$useMenu_side')
 		");
 		//완료 후 리턴
-		echo 'success::1';
+		$validator->validt_success("성공적으로 추가 되었습니다.","admin/?p=menuSetting&vtype={$vtype}");
 		
 	/**************************************************
 	삭제 모드인 경우	
@@ -307,6 +325,6 @@
 			$fileUploader->fileDelete($array['img2']);
 		}
 		//완료 후 리턴
-		echo 'success::3';
+		$validator->validt_success("성공적으로 삭제 되었습니다.","admin/?p=menuSetting&vtype={$vtype}");
 	}
 ?>

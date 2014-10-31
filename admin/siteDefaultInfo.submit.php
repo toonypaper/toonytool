@@ -6,8 +6,9 @@
 	$mysql = new mysqlConnection();
 	$method = new methodController();
 	$fileUploader = new fileUploader();
+	$validator = new validator();
 	
-	$method->method_param("POST","site_name,site_title,use_msite,use_www,ad_email,ad_phone,del_pavicon,pavicon_ed");
+	$method->method_param("POST","site_name,site_title,use_msite,ad_email,ad_phone,del_pavicon,pavicon_ed");
 	$method->method_param("FILE","pavicon");
 	$method->method_param("FILE","logo");
 	$lib->security_filter("referer");
@@ -21,47 +22,34 @@
 	}else{
 		$use_msite = "N";
 	}
-	if($use_www=="checked"){
-		$use_www = "Y";
-	}else{
-		$use_www = "N";
-	}
 	
 	/*
 	검사
 	*/
-	if(trim($site_name)==""){
-		echo 'error::null_site_name';
-		exit;
-	}
-	if(trim($site_title)==""){
-		echo 'error::null_site_title';
-		exit;
-	}
-	if(trim($ad_email)==""){
-		echo 'error::null_ad_email';
-		exit;
-	}
-	if(trim($ad_phone)==""){
-		echo 'error::null_ad_phone';
-		exit;
-	}
+	$validator->validt_null("site_name","");
+	$validator->validt_null("site_title","");
+	$validator->validt_email("ad_email",1,"");
+	$validator->validt_null("ad_phone","");
 	
 	/*
 	파비콘 업로드
 	*/
 	$fileUploader->savePath = __DIR_PATH__."upload/siteInformations/";
-	$fileUploader->file_type_filter = array("ico");
+	$fileUploader->filedotType = "ico";
 	$pavicon_name = "";
 	if($pavicon['size']>0){
 		$fileUploader->saveFile = $pavicon;
 		//경로 및 파일 검사
 		$fileUploader->filePathCheck();
-		if($fileUploader->fileNameCheck()==false){ echo 'error::not_paviconType'; exit; }
+		if($fileUploader->fileNameCheck()==false){
+			$validator->validt_diserror("pavicon","지원되지 않는 파비콘 파일입니다.");
+		}
 		//파일저장
 		$pavicon_name = date("ymdtis",mktime())."_".substr(md5($pavicon['name']),4,10).".".$fileUploader->fileNameType();
 		$pavicon_name = str_replace(" ","_",$pavicon_name);
-		if($fileUploader->fileUpload($pavicon_name)==false){ echo 'error::fail_paviconSave'; exit; }
+		if($fileUploader->fileUpload($pavicon_name)==false){
+			$validator->validt_diserror("pavicon","파비콘 파일 저장에 실패 하였습니다.");
+		}
 		//이전에 첨부한 파일이 있다면 삭제
 		if($pavicon_ed&&$del_pavicon!="checked"){
 			$fileUploader->fileDelete($pavicon_ed);
@@ -71,23 +59,31 @@
 	/*
 	이전 파비콘 삭제
 	*/
-	if($del_pavicon=="checked"){ $fileUploader->fileDelete($pavicon_ed); }
-	if($pavicon_ed!=""&&!$pavicon['name']&&$del_pavicon!="checked"){ $pavicon_name=$pavicon_ed; }
+	if($del_pavicon=="checked"){
+		$fileUploader->fileDelete($pavicon_ed);
+	}
+	if($pavicon_ed!=""&&!$pavicon['name']&&$del_pavicon!="checked"){
+		$pavicon_name=$pavicon_ed;
+	}
 	
 	/*
 	로고 업로드
 	*/
 	if($logo['size']>0){
 		$fileUploader->savePath = __DIR_PATH__."upload/siteInformations/";
-		$fileUploader->file_type_filter = array("png","gif","jpg","bmp");
+		$fileUploader->filedotType = "png,gif,jpg,bmp";
 		$fileUploader->saveFile = $logo;
 		//경로 및 파일 검사
 		$fileUploader->filePathCheck();
-		if($fileUploader->fileNameCheck()==false){ echo 'error::not_logoType'; exit; }
+		if($fileUploader->fileNameCheck()==false){
+			$validator->validt_diserror("pavicon","지원되지 않는 로고 이미지입니다.");
+		}
 		//파일저장
 		$logo_name = date("ymdtis",mktime())."_".substr(md5($logo['name']),4,10).".".$fileUploader->fileNameType();
 		$logo_name = str_replace(" ","_",$logo_name);
-		if($fileUploader->fileUpload($logo_name)==false){ echo 'error::fail_logoSave'; exit; }
+		if($fileUploader->fileUpload($logo_name)==false){
+			$validator->validt_diserror("pavicon","로고 이미지 저장에 실패 하였습니다.");
+		}
 		//이전에 첨부한 파일이 있다면 삭제
 		if($logo_ed&&$del_logo!="checked"){
 			$fileUploader->fileDelete($logo_ed);
@@ -107,7 +103,5 @@
 	/*
 	완료 후 리턴
 	*/
-	echo 'success::1';
-	
-	
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=siteDefaultInfo");
 ?>

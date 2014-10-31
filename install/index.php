@@ -1,22 +1,16 @@
 <?php
-	//Step1이 진행되어 있으면 Step2로 이동
-	if(is_file("../include/path.info.php")&&!is_file("../include/mysql.info.php")){
-		echo '<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script type="text/javascript">document.location.href = "step2.php";</script>'; exit;
-	//Step2가 진행되어 있으면 Step3으로 이동
-	}else if(is_file("../include/path.info.php")&&is_file("../include/mysql.info.php")){
-		echo '<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><script type="text/javascript">document.location.href = "step3.php";</script>'; exit;
+	include_once "functions.inc.php";
+	$functions = new functions();
+	
+	if($functions->file_check("../include/path.info.php")==TRUE){
+		$functions->error_alert_location("이미 1단계가 진행 되었습니다.","step2.php");
 	}
-	//퍼미션 검사
-	function permission_check($file){
-		$open = @is_writable($file);
-		if(!$open){
-			return "N";
-		}else{
-			return "Y";
-		}
+	if($functions->file_check("../include/mysql.info.php")==TRUE){
+		$functions->error_alert_location("이미 1~2단계가 진행 되었습니다.","step3.php");
 	}
-	function permission_txt($val){
-		if($val=="Y"){
+	function permission_txt($file){
+		global $functions;
+		if($functions->file_permission($file)){
 			return "<span style='color:blue;font-size:11px;letter-spacing:-1px;padding-left:10px;'>변경 완료됨</span>";
 		}else{
 			return "<span style='color:red;font-size:11px;letter-spacing:-1px;padding-left:10px;'>퍼미션 변경되지 않음</span>";
@@ -37,7 +31,7 @@
 </head>
 <body>
 <header>
-	<img src="images/title.jpg" alt="투니툴 엔진 설치" />
+	<img src="images/title.jpg" alt="투니툴 코어 설치" />
 </header>
 <article>
 	<div class="inner">
@@ -50,16 +44,18 @@
 				권한을 설정 후 다음 단계로 진행 하십시오.
 			</span>
 			<span class="tb">
-				1. <strong>include/</strong> 디렉토리<span class="__span_sment"><?=permission_txt(permission_check("../include/"))?></span><br />
-				2. <strong>upload/</strong> 내 모든 디렉토리<span class="__span_sment"><?=permission_txt(permission_check("../upload/"))?></span><br />
-				3. <strong>capcha/</strong> 디렉토리<span class="__span_sment"><?=permission_txt(permission_check("../capcha/"))?></span>
+				1. <strong>include/</strong> 디렉토리<span class="__span_sment"><?=permission_txt("../include/")?></span><br />
+				2. <strong>capcha/</strong> 디렉토리<span class="__span_sment"><?=permission_txt("../capcha/")?></span><br />
+				3. <strong>upload/sessionCookies/</strong> 디렉토리<span class="__span_sment"><?=permission_txt("../upload/sessionCookies/")?></span><br />
+				4. <strong>upload/siteInformations/</strong> 디렉토리<span class="__span_sment"><?=permission_txt("../upload/siteInformations/")?></span><br />
+				5. <strong>upload/smartEditor/</strong> 디렉토리<span class="__span_sment"><?=permission_txt("../upload/smartEditor/")?></span>
 			</span>
 		</div>
 	</div>
 </article>
 <footer>
 	<?php
-		if(permission_check("../include/")=="Y"&&permission_check("../upload/")=="Y"){
+		if($functions->file_permission("../include/")==TRUE && $functions->file_permission("../capcha/")==TRUE && $functions->file_permission("../upload/sessionCookies/")==TRUE && $functions->file_permission("../upload/siteInformations/")==TRUE && $functions->file_permission("../upload/smartEditor/")==TRUE){
 	?>
 	<input type="button" class="__button_submit" value="다음 단계로" onClick="document.location.href='step2.php';" />
 	<?php }else{ ?>

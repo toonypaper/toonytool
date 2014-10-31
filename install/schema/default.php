@@ -14,14 +14,23 @@
 			ad_phone varchar(255),
 			ad_pavicon text,
 			ad_logo text,
-			ad_member_type text
+			ad_member_type text,
+			ad_site_layout varchar(255) default 'defaultSkin',
+			ad_msite_layout varchar(255) default 'defaultSkin',
+			ad_site_main text,
+			ad_msite_main text,
+			ad_site_jsmain text,
+			ad_msite_jsmain text
 		)engine=innodb default charset=utf8
 	";
-	$db_insert_toony_admin_siteconfig = "
+	$db_insert_toony_admin_siteconfig_ad_site_main = "<LI class=latest itemtype=\"latest\" itemclass=\"c2014912213762\" data-col=\"1\" data-row=\"1\" data-sizex=\"5\" data-sizey=\"7\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014912213762</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>공지사항 (notice)</SPAN><SPAN class=_itemBoxSize>490 x 260</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>notice|c2014912213762|notice|toony_list|7|30|25|180|100|0|1</DIV></LI><LI class=latest itemtype=\"latest\" itemclass=\"c20149122137144\" data-col=\"6\" data-row=\"1\" data-sizex=\"5\" data-sizey=\"7\"><DIV class=_tb>&lt;div class=\"<SPAN>c20149122137144</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>웹진 게시판 (webzine)</SPAN><SPAN class=_itemBoxSize>490 x 260</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>webzine|c20149122137144|webzine|toony_webzine|2|10|25|180|110|0|2</DIV></LI><LI class=latest itemtype=\"latest\" itemclass=\"c2014912213835\" data-col=\"1\" data-row=\"8\" data-sizex=\"10\" data-sizey=\"7\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014912213835</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>포토갤러리 (gallery)</SPAN><SPAN class=_itemBoxSize>1000 x 260</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>gallery|c2014912213835|gallery|toony_gallery|6|10|25|150|150|0|1</DIV></LI>";
+	$db_insert_toony_admin_siteconfig_ad_msite_main = "<LI class=\"latest player-revert\" itemtype=\"latest\" itemclass=\"c2014913022299\" data-col=\"1\" data-row=\"1\" data-sizex=\"1\" data-sizey=\"2\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014913022299</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>공지사항 (notice)</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>notice|c2014913022299|notice|toony_list|5|20|25|180|180|0|1</DIV></LI><LI class=latest itemtype=\"latest\" itemclass=\"c2014913934508\" data-col=\"1\" data-row=\"3\" data-sizex=\"1\" data-sizey=\"2\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014913934508</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>웹진 게시판 (webzine)</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>webzine|c2014913934508|webzine|toony_webzine|1|20|50|280|120|0|2</DIV></LI><LI class=latest itemtype=\"latest\" itemclass=\"c2014913108298\" data-col=\"1\" data-row=\"5\" data-sizex=\"1\" data-sizey=\"2\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014913108298</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>포토갤러리 (gallery)</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>gallery|c2014913108298|gallery|toony_gallery|4|10|25|120|120|0|1</DIV></LI>";
+	$db_insert_toony_admin_siteconfig_ad_site_jsmain = "#latest|notice|c2014912213762|notice|toony_list|7|30|25|180|100|0|1|1|1|5|7#latest|webzine|c20149122137144|webzine|toony_webzine|2|10|25|180|110|0|2|6|1|5|7#latest|gallery|c2014912213835|gallery|toony_gallery|6|10|25|150|150|0|1|1|8|10|7";
+	$db_insert_toony_admin_siteconfig_ad_msite_jsmain = "#latest|notice|c2014913022299|notice|toony_list|5|20|25|180|180|0|1|1|1|1|2#latest|webzine|c2014913934508|webzine|toony_webzine|1|20|50|280|120|0|2|1|3|1|2#latest|gallery|c2014913108298|gallery|toony_gallery|4|10|25|120|120|0|1|1|5|1|2";	$db_insert_toony_admin_siteconfig = "
 		insert into toony_admin_siteconfig
-		(ad_site_name,ad_site_url,ad_msite_url,ad_site_title,ad_email,ad_phone,ad_member_type)
+		(ad_site_name,ad_site_url,ad_msite_url,ad_site_title,ad_email,ad_phone,ad_member_type,ad_site_layout,ad_msite_layout,ad_site_main,ad_msite_main,ad_site_jsmain,ad_msite_jsmain)
 		values
-		('투니툴 홈페이지','".__URL_PATH__."','".__URL_PATH__."m/','투니툴 홈페이지','admin@admin.com','02-0202-0202','최고관리자,관리자,관리자,정회원,정회원,정회원,정회원,정회원,일반회원')
+		('투니툴 홈페이지','".__URL_PATH__."','".__URL_PATH__."m/','투니툴 홈페이지','admin@admin.com','02-0202-0202','최고관리자,관리자,관리자,정회원,정회원,정회원,정회원,정회원,일반회원','defaultSkin','defaultSkin','$db_insert_toony_admin_siteconfig_ad_site_main','$db_insert_toony_admin_siteconfig_ad_msite_main','$db_insert_toony_admin_siteconfig_ad_site_jsmain','$db_insert_toony_admin_siteconfig_ad_msite_jsmain')
 	";
 	
 	/*
@@ -130,18 +139,117 @@
 		)engine=innodb default charset=utf8
 	";
 	$source_page_list = '
-		설치후 자동으로 생성된 페이지입니다.<br />페이지를 디자인 해주세요.
+		<BR style="DISPLAY: none">
+		<STYLE>
+		.services{ margin:0; padding:0; list-style-type:none; width:100%; }
+		.services > li{ padding:10px 0; }
+		.services > li > strong{ display:block; padding-bottom:10px; font-size:16px; font-family:MalgunGothic; }
+		</STYLE>
+		<UL class=services>
+		<LI>
+		<STRONG>
+			클릭 한 번으로 홈페이지+모바일페이지 완성 
+		</STRONG>
+		<SPAN>
+			클릭 한 번으로 강력한 기능의 홈페이지와 모바일페이지를 완성할 수 있습니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			Drag &amp; Drop 으로 디자인하는 메인, 서브 페이지 
+		</STRONG>
+		<SPAN>
+			마우스 Drag &amp; Drop 만으로 디자인을 쉽게 완성할 수 있는 GUI기반의 디자인 기능이 탑재되어 있습니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			클릭 한 번으로 변경되는 레이아웃 디자인 
+		</STRONG>
+		<SPAN>
+			투니툴에서 제공하는 다양한 사용자 스킨을 클릭 한번으로 쉽게 적용 가능합니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			메뉴(사이트맵) 관리 기능 
+		</STRONG>
+		<SPAN>
+			관리페이지를 통해 원하는대로 사이트 메뉴 구성을 변경 가능합니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			기간별 접속자 통계 기능 
+		</STRONG>
+		<SPAN>
+			기간별로 방문한 방문자의 정보를 확인하고, 그래프를 통한 분석이 가능합니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			강력한 회원 관리 기능 
+		</STRONG>
+		<SPAN>
+			강력한 투니툴의 회원관리 기능을 통해 가입 회원을 세부 관리 가능합니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			고객 문의, 메일 발송 시스템 
+		</STRONG>
+		<SPAN>
+			1:1 고객 문의 접수 및 답변 기능이 탑재되어 있으며, 모든 회원에게 뉴스레터 전체 메일 발송이 가능합니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			팝업 관리 기능 
+		</STRONG>
+		<SPAN>
+			메인화면 또는 모든 페이지에 팝업창을 노출 하거나, 회원 등급별로 차등을 두어 팝업을 노출할 수 있습니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			서브페이지 디자인 및 메뉴 연결 기능 
+		</STRONG>
+		<SPAN>
+			새로운 서브 페이지를 직접 디자인 하고 특정 메뉴에 연결하여 사이트를 구성할 수 있습니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			다중 게시판 무제한 생성 
+		</STRONG>
+		<SPAN>
+			투니툴에 기본 탑재된 게시판 모듈을 통해 강력한 기능의 게시판을 무한 생성할 수 있습니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			다양한 사용자 스킨 
+		</STRONG>
+		<SPAN>
+			투니페이퍼에서 제공하는 다양한 사용자 스킨으로 레이아웃 및 게시판등의 모듈 디자인을 클릭 한 번으로 쉽게 변경 가능합니다. 
+		</SPAN>
+		</LI>
+		<LI>
+		<STRONG>
+			손 쉬운 추가 모듈 설치로 사이트 기능 확장 
+		</STRONG>
+		<SPAN>
+			투니페이퍼에서 제공하는 사용자 모듈을 추가하여 보다 쉽게 홈페이지/모바일페이지에 다양한 기능을 확장할 수 있습니다. 
+		</SPAN>
+		</LI>
+		</UL>
 	';
 	$db_insert_toony_page_list = "
 		insert into toony_page_list
 		(vtype,name,memo,source,regdate)
 		values
-		('p','greetings','대표자 인사말','$source_page_list',now())
-		,('p','service','서비스 안내','$source_page_list',now())
-		,('p','map','찾아오시는 길','$source_page_list',now())
-		,('m','greetings','대표자 인사말(모바일)','$source_page_list',now())
-		,('m','service','서비스 안내(모바일)','$source_page_list',now())
-		,('m','map','찾아오시는 길(모바일)','$source_page_list',now());
+		('p','greetings','투니툴 주요기능 안내','$source_page_list',now())
+		,('m','greetings','투니툴 주요기능 안내(모바일)','$source_page_list',now())
 	";
 	
 	/*
@@ -257,44 +365,40 @@
 		(vtype,callName,name,class,depth,zindex,link,linkDoc,forward,href,regdate,useMenu,lockMenu)
 		values
 		('p','main','메인화면','1','1','1','?p=main','','','pm',now(),'Y','Y')
-		,('p','introduce','회사소개','2','1','2','','','greetings','fm',now(),'Y','N')
-		,('p','greetings','대표자 인사말','2','2','3','?m=page&p=greetings','','','pm',now(),'Y','N')
-		,('p','service','서비스 소개','2','2','4','?m=page&p=service','','','pm',now(),'Y','N')
-		,('p','map','찾아오시는 길','2','2','5','?m=page&p=map','','','pm',now(),'Y','N')
-		,('p','customer','고객지원','6','1','6','','','contactUs','fm',now(),'Y','N')
-		,('p','contactUs','1:1문의하기','6','2','7','','contactUs','','mp',now(),'Y','N')
-		,('p','notice','공지사항','6','2','8','?m=board&board_id=notice','','','pm',now(),'Y','N')
-		,('p','webzine','웹진 게시판','6','2','9','?m=board&board_id=webzine','','','pm',now(),'Y','N')
-		,('p','gallery','포토갤러리','6','2','10','?m=board&board_id=gallery','','','pm',now(),'Y','N')
-		,('p','members','회원','11','1','11','','','login','fm',now(),'N','Y')
-		,('p','login','회원 로그인','11','2','12','','login','','mp',now(),'N','Y')
-		,('p','findPassword','비밀번호 찾기','11','2','13','','findPassword','','mp',now(),'N','Y')
-		,('p','account','신규 회원가입','11','2','14','','account','','mp',now(),'N','Y')
-		,('p','mypage','마이페이지','15','1','15','','','myInformation','fm',now(),'N','Y')
-		,('p','myInformation','개인정보 변경','15','2','16','','myInformation','','mp',now(),'N','Y')
-		,('p','myPoint','나의 포인트 내역','15','2','17','','myPoint','','mp',now(),'N','Y')
-		,('p','search','통합검색','18','1','18','','','search_board','fm',now(),'N','Y')
-		,('p','search_board','전체 게시판 검색','18','2','19','','search_board','','mp',now(),'N','Y')
+		,('p','introduce','투니툴 소개','2','1','2','','','greetings','fm',now(),'Y','N')
+		,('p','greetings','투니툴 주요기능 안내','2','2','3','?m=page&p=greetings','','','pm',now(),'Y','N')
+		,('p','customer','고객지원','4','1','4','','','contactUs','fm',now(),'Y','Y')
+		,('p','contactUs','1:1문의하기','4','2','5','','contactUs','','mp',now(),'Y','Y')
+		,('p','notice','공지사항','4','2','6','?m=board&board_id=notice','','','pm',now(),'Y','N')
+		,('p','webzine','웹진 게시판','4','2','7','?m=board&board_id=webzine','','','pm',now(),'Y','N')
+		,('p','gallery','포토갤러리','4','2','8','?m=board&board_id=gallery','','','pm',now(),'Y','N')
+		,('p','members','회원','9','1','9','','','login','fm',now(),'N','Y')
+		,('p','login','회원 로그인','9','2','10','','login','','mp',now(),'N','Y')
+		,('p','findPassword','비밀번호 찾기','9','2','11','','findPassword','','mp',now(),'N','Y')
+		,('p','account','신규 회원가입','9','2','12','','account','','mp',now(),'N','Y')
+		,('p','mypage','마이페이지','13','1','13','','','myInformation','fm',now(),'N','Y')
+		,('p','myInformation','개인정보 변경','13','2','14','','myInformation','','mp',now(),'N','Y')
+		,('p','myPoint','나의 포인트 내역','13','2','15','','myPoint','','mp',now(),'N','Y')
+		,('p','search','통합검색','16','1','16','','','search_board','fm',now(),'N','Y')
+		,('p','search_board','전체 게시판 검색','16','2','17','','search_board','','mp',now(),'N','Y')
 		
-		,('m','main','메인화면','18','1','1','?p=main','','','pm',now(),'Y','Y')
-		,('m','introduce','회사소개','19','1','2','','','greetings','fm',now(),'Y','N')
-		,('m','greetings','대표자 인사말','19','2','3','?m=page&p=greetings','','','pm',now(),'Y','N')
-		,('m','service','서비스 소개','19','2','4','?m=page&p=service','','','pm',now(),'Y','N')
-		,('m','map','찾아오시는 길','19','2','5','?m=page&p=map','','','pm',now(),'Y','N')
-		,('m','customer','고객지원','23','1','6','','','contactUs','fm',now(),'Y','N')
-		,('m','contactUs','1:1문의하기','23','2','7','','contactUs','','mp',now(),'Y','N')
-		,('m','notice','공지사항','23','2','8','?m=board&board_id=notice','','','pm',now(),'Y','N')
-		,('m','webzine','웹진 게시판','23','2','9','?m=board&board_id=webzine','','','pm',now(),'Y','N')
-		,('m','gallery','포토갤러리','23','2','10','?m=board&board_id=gallery','','','pm',now(),'Y','N')
-		,('m','members','회원','28','1','11','','','login','fm',now(),'N','Y')
-		,('m','login','회원 로그인','28','2','12','','login','','mp',now(),'N','Y')
-		,('m','findPassword','비밀번호 찾기','28','2','13','','findPassword','','mp',now(),'N','Y')
-		,('m','account','신규 회원가입','28','2','14','','account','','mp',now(),'N','Y')
-		,('m','mypage','마이페이지','32','1','15','','','myInformation','fm',now(),'N','N')
-		,('m','myInformation','개인정보 변경','32','2','16','','myInformation','','mp',now(),'N','Y')
-		,('m','myPoint','나의 포인트 내역','32','2','17','','myPoint','','mp',now(),'N','Y')
-		,('m','search','통합검색','35','1','18','','','search_board','fm',now(),'N','Y')
-		,('m','search_board','전체 게시판 검색','35','2','19','','search_board','','mp',now(),'N','Y');
+		,('m','main','메인화면','17','1','1','?p=main','','','pm',now(),'Y','Y')
+		,('m','introduce','투니툴 소개','17','1','2','','','greetings','fm',now(),'Y','N')
+		,('m','greetings','투니툴 주요기능 안내','17','2','3','?m=page&p=greetings','','','pm',now(),'Y','N')
+		,('m','customer','고객지원','21','1','4','','','contactUs','fm',now(),'Y','Y')
+		,('m','contactUs','1:1문의하기','21','2','5','','contactUs','','mp',now(),'Y','Y')
+		,('m','notice','공지사항','21','2','6','?m=board&board_id=notice','','','pm',now(),'Y','N')
+		,('m','webzine','웹진 게시판','21','2','7','?m=board&board_id=webzine','','','pm',now(),'Y','N')
+		,('m','gallery','포토갤러리','21','2','8','?m=board&board_id=gallery','','','pm',now(),'Y','N')
+		,('m','members','회원','26','1','9','','','login','fm',now(),'N','Y')
+		,('m','login','회원 로그인','26','2','10','','login','','mp',now(),'N','Y')
+		,('m','findPassword','비밀번호 찾기','26','2','11','','findPassword','','mp',now(),'N','Y')
+		,('m','account','신규 회원가입','26','2','12','','account','','mp',now(),'N','Y')
+		,('m','mypage','마이페이지','30','1','13','','','myInformation','fm',now(),'N','N')
+		,('m','myInformation','개인정보 변경','30','2','14','','myInformation','','mp',now(),'N','Y')
+		,('m','myPoint','나의 포인트 내역','30','2','15','','myPoint','','mp',now(),'N','Y')
+		,('m','search','통합검색','33','1','16','','','search_board','fm',now(),'N','Y')
+		,('m','search_board','전체 게시판 검색','33','2','17','','search_board','','mp',now(),'N','Y');
 	";
 	
 	/*

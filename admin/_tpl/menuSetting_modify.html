@@ -19,97 +19,15 @@ $(document).ready(function(){
 		href_change_func(thisClass);
 	});
 	$("input[name=href][value="+choiceHref+"]",$form).click();
-	//수정 버튼을 클릭하는 경우
-	$("._submitBtn").click(function(){
-		$form.attr("action",__URL_PATH__+"admin/menuSetting_modify.submit.php");
-		$form.ajaxForm({
-			cache		:	false,
-			async		:	false,
-			type		:	"POST",
-			dataType	:	"HTML",
-			success		:	function(msg){
-								switch(msg){
-									case "error::not_change_useMenu" :
-										alert("1차 메뉴의  헤더 노출 옵션이 꺼져 있기 때문에\n\n헤더 노출 옵션을 켤 수 없습니다.");
-										break;
-									case "error::null_callName" :
-										alert("메뉴 호출명을 입력 하세요.");
-										break;
-									case "error::not_callName" :
-										alert("메뉴 호출명이 올바르지 않습니다.");
-										break;
-									case "error::have_callName" :
-										alert("이미 존재하는 메뉴 호출명 입니다.");
-										break;
-									case "error::null_name" :
-										alert("메뉴명을 입력 하세요.");
-										break;
-									case "error::null_name" :
-										alert("메뉴명을 입력 하세요.");
-										break;
-									case "error::null_page" :
-										alert("연결할 페이지를 선택 하세요.");
-										break;
-									case "error::null_linkDoc" :
-										alert("연결할 문서를 입력 하세요.");
-										break;
-									case "error::null_forward" :
-										alert("포워딩할 메뉴를 선택 하세요.");
-										break;
-									case "error::not_title_imgType" :
-										alert("첨부할 수 없는 타이틀 이미지 형식입니다.");
-										break;
-									case "error::not_imgType" :
-										alert("첨부할 수 없는 이미지 형태입니다.");
-										break;
-									case "error::not_img2Type" :
-										alert("첨부할 수 없는 마우스 오버 이미지 형식입니다.");
-										break;
-									case "success::1" :
-										alert("성공적으로 완료 되었습니다.");
-										document.location.href=__URL_PATH__+'admin/?p=menuSetting&vtype=[vtype_value]';
-										break;
-									case "success::2" :
-										alert("성공적으로 적용 되었습니다.");
-										document.location.reload();
-										break;
-									default :
-										alert(msg);
-								}
-							}
-		});
-		$form.submit();
-	});
 	//삭제 버튼을 클릭하는 경우
+	var type = $("input[name=type]",$form).val();
 	$("._deleteBtn").click(function(){
 		if(confirm("정말로 삭제 하시겠습니까?")==true){
 			$("input[name=type]",$form).val("delete");
-			$form.attr("action",__URL_PATH__+"admin/menuSetting_modify.submit.php");
-			$form.ajaxForm({
-				cache		:	false,
-				async		:	false,
-				type		:	"POST",
-				dataType	:	"HTML",
-				success		:	function(msg){
-									switch(msg){
-										case "error::have_children" :
-											alert("하위 메뉴가 있는 경우 삭제가 불가능 합니다.");
-											$("input[name=type]",$form).val("modify");
-											break;
-										case "error::is_lock" :
-											alert("삭제가 불가능한 메뉴입니다.");
-											$("input[name=type]",$form).val("modify");
-											break;
-										case "success::3" :
-											alert("성공적으로 삭제 되었습니다.");
-											document.location.href=__URL_PATH__+'admin/?p=menuSetting&vtype=[vtype_value]';
-											break;
-										default :
-											alert(msg);
-									}
-								}
-			});
+			$form.attr("ajaxType","html");
 			$form.submit();
+			$("input[name=type]",$form).val(type);
+			$form.attr("ajaxType","multipart");
 		}
 	});
 });
@@ -127,7 +45,7 @@ $(document).ready(function(){
 					홈페이지의 메뉴를 구성 하세요. 홈페이지는 3차, 모바일은 2차 하위 메뉴까지 생성 가능합니다.
 				</div>
 				<div class="contArticle menuSetting_modify">
-					<form name="menuSetting_modifyForm" enctype="multipart/form-data" method="post">
+					<form name="menuSetting_modifyForm" enctype="multipart/form-data" ajaxAction="admin/menuSetting_modify.submit.php" ajaxType="multipart" method="post">
 						<input type="hidden" name="vtype" value="[vtype_value]" />
 						<input type="hidden" name="type" value="[type_value]" />
 						<input type="hidden" name="org" value="[org_value]" />
@@ -145,9 +63,9 @@ $(document).ready(function(){
 							<tbody>
 								[{callName_modify_start}]
 								<tr>
-									<th style="width:100px;">메뉴 호출명</th>
+									<th style="width:100px;">메뉴 코드</th>
 									<td>
-										<input type="text" name="callName" style="width:150px;" />
+										<input type="text" name="callName" title="메뉴 코드" style="width:150px;" />
 										<span class="__article_sment">
 											- 한번 지정하면 수정이 불가능 합니다.<br />
 											- 영어 대소문자, 숫자 조합만 가능합니다.
@@ -159,7 +77,7 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">메뉴 호출명</th>
 									<td>
-										<input type="hidden" name="callName" value="[callName_value]" />
+										<input type="hidden" name="callName" title="메뉴 코드" value="[callName_value]" />
 										<strong>[callName_value]</strong>
 										<span class="__article_sment">
 											[callName_url]
@@ -170,7 +88,7 @@ $(document).ready(function(){
 								<tr>
 									<th style="width:100px;">메뉴명</th>
 									<td>
-										<input type="text" name="name" value="[id_value]" />
+										<input type="text" name="name" title="메뉴명" value="[id_value]" />
 									</td>
 								</tr>
 								[{1depth_titleImg_start}]
@@ -179,7 +97,7 @@ $(document).ready(function(){
 									<td>
 										<ul style="margin:0; padding:0; list-style-type:none;">
 											<li>
-												<input type="file" name="title_img" />
+												<input type="file" name="title_img" title="1차메뉴 타이틀 이미지" />
 												<span class="__article_sment">
 													- jpg,gif,bmp,png 파일 업로드<br />
 													- 메뉴 이미지가 없는 경우 텍스트로 출력 됩니다.
@@ -202,7 +120,7 @@ $(document).ready(function(){
 									<td>
 										<ul style="margin:0; padding:0; list-style-type:none;">
 											<li>
-												<input type="file" name="img" />
+												<input type="file" name="img" title="메뉴 이미지" />
 												<span class="__article_sment">
 													- jpg,gif,bmp,png 파일 업로드<br />
 													- 메뉴 이미지가 없는 경우 텍스트로 출력 됩니다.
@@ -225,7 +143,7 @@ $(document).ready(function(){
 									<td>
 										<ul style="margin:0; padding:0; list-style-type:none;">
 											<li>
-												<input type="file" name="img2" />
+												<input type="file" name="img2" title="마우스 오버시 메뉴 이미지" />
 												<span class="__article_sment">
 													- jpg,gif,bmp,png 파일 업로드<br />
 													- 메뉴 이미지가 없는 경우 텍스트로 출력 됩니다.
@@ -262,17 +180,17 @@ $(document).ready(function(){
 								</tr>
 								<tr class="_linkHideEle _pm">
 									<td>
-										<select name="link" style="width:400px;">
+										<select name="link" title="메뉴 링크" style="width:400px;">
 											[page_selectbox_options]
 										</select>
 										<span class="__article_sment">
-											- 연결 페이지 추가는 '디자인관리 > <a href="?p=pageList">페이지 관리</a>' 혹은 각 모듈에서 가능합니다.
+											- 연결 페이지 추가는 '디자인관리 > <a href="?p=pageList">서브페이지 디자인및 관리</a>' 혹은 각 모듈에서 가능합니다.
 										</span>
 									</td>
 								</tr>
 								<tr class="_linkHideEle _mp">
 									<td>
-										투니툴 설치 경로/ <input type="text" name="linkDoc" value="[linkDoc_value]" style="width:150px;" /> .php
+										투니툴 설치 경로/ <input type="text" name="linkDoc" title="문서 경로" value="[linkDoc_value]" style="width:150px;" /> .php
 										<span class="__article_sment">
 											- 직접 제작한 문서를 연결 하려면, 'Toonytool' 디렉터리에 저장된 문서의 파일명을 입력 하세요.
 										</span>
@@ -280,7 +198,7 @@ $(document).ready(function(){
 								</tr>
 								<tr class="_linkHideEle _fm">
 									<td>
-										<select name="forward" style="width:300px;">
+										<select name="forward" title="메뉴 포워딩" style="width:300px;">
 											[forward_selectbox_options]
 										</select>
 										<span class="__article_sment">
@@ -318,7 +236,7 @@ $(document).ready(function(){
 						</table>
 					</form>
 					<div class="__article_btnArea">
-						<input type="button" class="__btn_submit _submitBtn"/>
+						<input type="button" class="__btn_submit _submitBtn" ajaxFormSubmit="menuSetting_modifyForm" />
 						[{deleteBtn_start}]<input type="button" class="__btn_delete _deleteBtn" />[{deleteBtn_end}]
 						<a href="?p=menuSetting&vtype=[vtype_value]" class="__btn_cancel"></a>
 					</div>

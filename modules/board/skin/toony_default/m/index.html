@@ -8,8 +8,8 @@
 	<div class="settingArea">
 		<table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-				<td style="text-align:left;">[bbs_category]</td>
-				<td style="text-align:right;">[bbs_setting]</td>
+				<td style="text-align:left;">[category_selectbox]</td>
+				<td style="text-align:right;">[setting_btn]</td>
 			</tr>
 		</table>
 	</div>
@@ -29,8 +29,10 @@
 			<tr class="notice">
 				<td style="font-size:11px; color:#666; text-align:center;"><strong>공지</strong></td>
 				<td>
-					<strong class="category">[category_name]</strong> [secret_ico]<strong>[subject]</strong>[file_ico][mobile_ico]<span class="comment">[comment_num]</span><br />
-					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [write_date] / <strong>조회</strong> [hit]</span>
+					<strong class="category">[category]</strong>
+					[secret_ico]<strong><a href="[link]">[subject]</a></strong>[file_ico][mobile_ico]
+					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]<br />
+					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [date] / <strong>조회</strong> [hit]</span>
 				</td>
 				[{likes_start}]
 				<td style="font-size:11px; color:#666; text-align:center;"><strong>[likes]</strong><span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</td>
@@ -42,8 +44,10 @@
 			<tr>
 				<td style="font-size:11px; color:#666; text-align:center;">[number]</td>
 				<td>
-					<strong class="category">[category_name]</strong> [secret_ico][subject][file_ico][secret_ico][mobile_ico]<span class="comment">[comment_num]</span><br />
-					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [write_date] / <strong>조회</strong> [hit]</span>
+					<strong class="category">[category]</strong>
+					[secret_ico]<strong><a href="[link]">[subject]</a></strong>[file_ico][mobile_ico]
+					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]<br />
+					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [date] / <strong>조회</strong> [hit]</span>
 				</td>
 				[{likes_start}]
 				<td style="font-size:11px; color:#666; text-align:center;"><strong>[likes]</strong><span style="font-size:5px; padding:0 2px; color:#666; vertical-align:middle;">-</span>[unlikes]</td>
