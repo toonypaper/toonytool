@@ -117,6 +117,7 @@
 	}
 	//아이템을 출력
 	function call_admin_mainPage($vtype){
+		global $viewType,$site_config,$member,$viewDir;
 		//type 변수 내용에 따른 DB 필드명 선언
 		if($vtype=="p"){
 			$field = "ad_site_jsmain";

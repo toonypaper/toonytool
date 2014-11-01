@@ -52,7 +52,7 @@
 	if($mode=="p_add_data"){
 		$mysql->query("
 			UPDATE toony_admin_siteconfig SET
-			ad_site_main='".addslashes($html)."',ad_site_jsmain='".addslashes($json)."'
+			ad_site_main='".$html."',ad_site_jsmain='".$json."'
 		");
 		echo '<!--success::1-->';
 	}
@@ -63,7 +63,7 @@
 	if($mode=="m_add_data"){
 		$mysql->query("
 			UPDATE toony_admin_siteconfig SET
-			ad_msite_main='".addslashes($html)."',ad_msite_jsmain='".addslashes($json)."'
+			ad_msite_main='".$html."',ad_msite_jsmain='".$json."'
 		");
 		echo '<!--success::2-->';
 	}

@@ -8,6 +8,13 @@
 	$method->method_param("GET","redirect");
 	
 	/*
+	변수처리
+	*/
+	if(!isset($redirect)){
+		$redirect = "?article=main";
+	}
+	
+	/*
 	검사
 	*/
 	if($member['me_level']<10){
