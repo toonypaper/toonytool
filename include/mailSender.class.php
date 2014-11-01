@@ -27,7 +27,6 @@
 			global $site_config;
 			$this->f_name = '=?UTF-8?B?'.base64_encode($site_config['ad_site_name']).'?=';
 			$this->f_email = $site_config['ad_email'];
-			$this->subject = $site_config['ad_site_name'];
 			$this->site_title = $site_config['ad_site_title'];
 			$this->site_name = $site_config['ad_site_name'];
 			$this->memo = str_replace("{{name}}",$this->t_name,$this->memo);

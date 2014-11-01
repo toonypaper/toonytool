@@ -89,7 +89,7 @@
 					} 
 				} 
 				if($this->endPage<$this->totalPage){
-					$prn[] = "<li class=\"___paging_after\"><a href=\"{$this->addParam}&page={$nextPage}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
+					$prn[] = "<li class=\"___paging_after\"><a href=\"{$this->addParam}&page={$this->nextPage}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
 				}
 				if($this->endPage<$this->totalPage){
 					$prn[] = "<li class=\"___paging_after2\"><a href=\"{$this->addParam}&page={$this->totalPage}\">맨끝<img src=\"".__URL_PATH__."images/paging_after2.jpg\"></a></li>";
@@ -123,7 +123,7 @@
 					} 
 				} 
 				if($this->endPage<$this->totalPage){
-					$prn[] = "<li class=\"___paging_after\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$nextPage}\" atEle=\"{$addEle}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
+					$prn[] = "<li class=\"___paging_after\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$this->nextPage}\" atEle=\"{$addEle}\">다음<img src=\"".__URL_PATH__."images/paging_after.jpg\"></a></li>";
 				}
 				if($this->endPage<$this->totalPage){
 					$prn[]="<li class=\"___paging_after2\"><a href=\"#\" atUrl=\"{$this->addParam}&page={$this->totalPage}\" atEle=\"{$addEle}\">맨끝<img src=\"".__URL_PATH__."images/paging_after2.jpg\"></a></li>";
