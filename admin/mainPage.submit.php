@@ -25,7 +25,7 @@
 	if($mode=="banner_addfile"){
 		//이미지 저장 옵션
 		$fileUploader->savePath = __DIR_PATH__."upload/siteInformations/";
-		$fileUploader->file_type_filter = array("jpg","bmp","gif","png");
+		$fileUploader->filedotType = "jpg,bmp,gif,png";
 		//이미지 저장
 		$file_name = "";
 		if($file['size']>0){
