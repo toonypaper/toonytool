@@ -25,7 +25,7 @@
 	if($mode=="banner_addfile"){
 		//이미지 저장 옵션
 		$fileUploader->savePath = __DIR_PATH__."upload/siteInformations/";
-		$fileUploader->filedotType = "jpg,bmp,gif,png";
+		$fileUploader->file_type_filter = array("jpg","bmp","gif","png");
 		//이미지 저장
 		$file_name = "";
 		if($file['size']>0){
@@ -52,7 +52,7 @@
 	if($mode=="p_add_data"){
 		$mysql->query("
 			UPDATE toony_admin_siteconfig SET
-			ad_site_main='".addslashes($html)."',ad_site_jsmain='".addslashes($json)."'
+			ad_site_main='".$html."',ad_site_jsmain='".$json."'
 		");
 		echo '<!--success::1-->';
 	}
@@ -63,7 +63,7 @@
 	if($mode=="m_add_data"){
 		$mysql->query("
 			UPDATE toony_admin_siteconfig SET
-			ad_msite_main='".addslashes($html)."',ad_msite_jsmain='".addslashes($json)."'
+			ad_msite_main='".$html."',ad_msite_jsmain='".$json."'
 		");
 		echo '<!--success::2-->';
 	}
