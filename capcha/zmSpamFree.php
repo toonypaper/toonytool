@@ -108,7 +108,7 @@ if ( isset($_GET['zsfimg']) ) {
 	unset ( $zsfFontIncOk );
 	#	환경설정 변수 검증
 	if ( isset($zsfCfg['view']) && zsfVarChk( $zsfCfg['view'], 0 , 4 ) ) { $thisZsfCfg['view'] = $zsfCfg['view']; }
-	if ( isset($zsfCfg['border-color']) && eregi('#[0-9abcdef]{6}',$zsfCfg['border-color']) ) { $thisZsfCfg['border-color'] = $zsfCfg['border-color']; }
+	if ( isset($zsfCfg['border-color']) && preg_match('/#[0-9abcdef]{6}/i',$zsfCfg['border-color']) ) { $thisZsfCfg['border-color'] = $zsfCfg['border-color']; }
 	if ( isset($zsfCfg['font-size']) && zsfVarChk( $zsfCfg['font-size'], 0 , 101 ) ) { $thisZsfCfg['font-size'] = $zsfCfg['font-size']; }
 	if ( isset($zsfCfg['width']) && zsfVarChk( $zsfCfg['width'], 0 , 801 ) ) { $thisZsfCfg['width'] = $zsfCfg['width']; }
 	if ( isset($zsfCfg['height']) && zsfVarChk( $zsfCfg['height'], 0 , 601 ) ) { $thisZsfCfg['height'] = $zsfCfg['height']; }

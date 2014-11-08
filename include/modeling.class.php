@@ -209,8 +209,7 @@
 		}
 		function session_deleter($name){
 			global $_SESSION;
-			$_SESSION[$name] = "";
-			@session_unregister($name);
+			unset($_SESSION[$name]);
 		}
 		function session_destroy(){
 			global $_SESSION;

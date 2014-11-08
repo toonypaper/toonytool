@@ -259,9 +259,9 @@
 		$file2_type = strtolower(array_pop(explode(".",$array['file2'])));
 		//조건에 따라 썸네일 HTML코드 리턴
 		if($file1_type=="gif"||$file1_type=="jpg"||$file1_type=="bmp"||$file1_type=="png"){
-			$thumb = $lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file1'],$c_array['thumb_width'],$c_array['thumb_height'],0,0)."</a>";
+			$thumb = $lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file1'],$c_array['thumb_width'],$c_array['thumb_height'],0,0);
 		}else if($file2_type=='gif'||$file2_type=='jpg'||$file2_type=='bmp'||$file2_type=='png'){
-			$thumb = $lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file2'],$c_array['thumb_width'],$c_array['thumb_height'],0,0)."</a>";
+			$thumb = $lib->func_img_resize("modules/board/upload/".$board_id."/",$array['file2'],$c_array['thumb_width'],$c_array['thumb_height'],0,0);
 		}else if(isset($match[0])){
 			$thumb = "<img src=\"{$match[1]}\" width=\"".$c_array['thumb_width']."\" height=\"".$c_array['thumb_height']."\" />";
 		}else{

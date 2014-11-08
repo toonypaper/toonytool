@@ -1,19 +1,15 @@
 <?php
 	class functions{
-		private function page_charset(){
-			echo '<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />';
-		}
 		//경고창 발생 후 페이지 이동
 		public function error_alert_location($msg,$page){
-			$this->page_charset();
-			echo '<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />';
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 			echo '<script type="text/javascript">alert("'.$msg.'");</script>';
 			echo '<script type="text/javascript">document.location.href = "'.$page.'";</script>';
 			exit;
 		}
 		//경고창 발생 후 이전 페이지 이동
 		public function error_alert_back($msg){
-			$this->page_charset();
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 			echo '<script type="text/javascript">alert("'.$msg.'");</script>';
 			echo '<script type="text/javascript">history.back();</script>';
 			exit;
