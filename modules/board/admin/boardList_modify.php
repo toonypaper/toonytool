@@ -23,7 +23,7 @@
 			FROM toony_module_board_config
 			WHERE board_id='$act'
 		");
-		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file,thumb_width,thumb_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
+		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file,thumb_width,thumb_height,article_length");
 		$array = $mysql->array;
 		$mysql->htmlspecialchars = 0;
 		$mysql->nl2br = 0;
@@ -163,12 +163,6 @@
 		$tpl->skin_modeling("[thumb_width_value]",$array['thumb_width']);
 		$tpl->skin_modeling("[thumb_height_value]",$array['thumb_height']);
 		$tpl->skin_modeling("[article_length_value]",$array['article_length']);
-		$tpl->skin_modeling("[tc_1]",$array['tc_1']);
-		$tpl->skin_modeling("[tc_2]",$array['tc_2']);
-		$tpl->skin_modeling("[tc_3]",$array['tc_3']);
-		$tpl->skin_modeling("[tc_4]",$array['tc_4']);
-		$tpl->skin_modeling("[tc_5]",$array['tc_5']);
-		
 	}else{
 		$tpl->skin_modeling("[use_comment_checked_Y]","checked");
 		$tpl->skin_modeling("[use_comment_checked_N]","");
@@ -208,11 +202,6 @@
 		$tpl->skin_modeling("[thumb_width_value]","120");
 		$tpl->skin_modeling("[thumb_height_value]","80");
 		$tpl->skin_modeling("[article_length_value]","90");
-		$tpl->skin_modeling("[tc_1]","");
-		$tpl->skin_modeling("[tc_2]","");
-		$tpl->skin_modeling("[tc_3]","");
-		$tpl->skin_modeling("[tc_4]","");
-		$tpl->skin_modeling("[tc_5]","");
 	}
 	$tpl->skin_modeling("[board_id]",$array['board_id']);
 	$tpl->skin_modeling("[type_value]",$type);

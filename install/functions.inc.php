@@ -31,22 +31,5 @@
 				return TRUE;
 			}
 		}
-		//확장모듈 설치 되었는지 검사
-		public function module_check($module){
-			if(in_array($module,get_loaded_extensions())==TRUE){
-				return TRUE;
-			}else{
-				return FALSE;
-			}
-		}
-		//PHP버전 확인
-		public function php_versionCheck(){
-			$ver = phpversion();
-			if(version_compare($ver,'5.2.0','>')){  
-				return TRUE;  
-			}else{  
-				return FALSE;
-			}  
-		}
 	}
 ?>

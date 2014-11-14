@@ -16,22 +16,6 @@
 			return "<span style='color:red;font-size:11px;letter-spacing:-1px;padding-left:10px;'>퍼미션 변경되지 않음</span>";
 		}
 	}
-	function module_check_txt($module){
-		global $functions;
-		if($functions->module_check($module)==TRUE){
-			return "<span style='color:blue;font-size:11px;letter-spacing:-1px;padding-left:10px;'>설치됨</span>";
-		}else{
-			return "<span style='color:red;font-size:11px;letter-spacing:-1px;padding-left:10px;'>설치되지 않음</span>";
-		}
-	}
-	function php_versionCheck_txt(){
-		global $functions;
-		if($functions->php_versionCheck()==TRUE){
-			return "<span style='color:blue;font-size:11px;letter-spacing:-1px;padding-left:10px;'>5.2.0 이상의 버전 설치 완료</span>";
-		}else{
-			return "<span style='color:red;font-size:11px;letter-spacing:-1px;padding-left:10px;'>5.2.0 이상의 버전 설치 필요</span>";
-		}
-	}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -56,15 +40,8 @@
 		</div>
 		<div class="c">
 			<span class="stitle">
-				투니툴 설치를 위해선 서버 환경이 아래의 조건을 충족해야 합니다.
-			</span>
-			<span class="tb" style="margin-bottom:10px;">
-				<strong>PHP</strong> 버전<span class="__span_sment"><?=php_versionCheck_txt()?></span><br />
-				<strong>gd</strong> 추가모듈<span class="__span_sment"><?=module_check_txt("gd")?></span><br />
-				<strong>mbstring</strong> 추가모듈<span class="__span_sment"><?=module_check_txt("mbstring")?></span>
-			</span>
-			<span class="stitle">
-				투니툴 설치를 위해선 아래 디렉토리 혹은 파일의 권한(Permission)이 <strong>707</strong> 이상으로 설정되어 있어야 합니다.
+				투니툴 설치를 위해선 아래 디렉토리 혹은 파일의 권한(Permission)이 <strong>707</strong> 이상으로 설정되어 있어야 합니다.<br />
+				권한을 설정 후 다음 단계로 진행 하십시오.
 			</span>
 			<span class="tb">
 				1. <strong>include/</strong> 디렉토리<span class="__span_sment"><?=permission_txt("../include/")?></span><br />
@@ -78,11 +55,11 @@
 </article>
 <footer>
 	<?php
-		if($functions->file_permission("../include/")==TRUE && $functions->file_permission("../capcha/")==TRUE && $functions->file_permission("../upload/sessionCookies/")==TRUE && $functions->file_permission("../upload/siteInformations/")==TRUE && $functions->file_permission("../upload/smartEditor/")==TRUE && $functions->php_versionCheck()==TRUE && $functions->module_check("gd") && $functions->module_check("mbstring")){
+		if($functions->file_permission("../include/")==TRUE && $functions->file_permission("../capcha/")==TRUE && $functions->file_permission("../upload/sessionCookies/")==TRUE && $functions->file_permission("../upload/siteInformations/")==TRUE && $functions->file_permission("../upload/smartEditor/")==TRUE){
 	?>
 	<input type="button" class="__button_submit" value="다음 단계로" onClick="document.location.href='step2.php';" />
 	<?php }else{ ?>
-	<input type="button" class="__button_cancel" value="다시 검사하기" onClick="document.location.reload();" />
+	<input type="button" class="__button_cancel" value="권한 설정 다시 검사하기" onClick="document.location.reload();" />
 	<?php } ?>
 </footer>
 </body>
