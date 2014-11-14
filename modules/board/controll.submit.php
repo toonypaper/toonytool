@@ -177,7 +177,7 @@
 				
 			}
 		}
-		$validator->validt_success("성공적으로 복사 되었습니다.","window.close&&opener.reload");
+		$validator->validt_success("성공적으로 복사 되었습니다.","window.close&&opener.replace");
 	}
 	
 	/*
@@ -329,7 +329,7 @@
 				
 			}
 		}
-		$validator->validt_success("성공적으로 이동 되었습니다.","window.close&&opener.reload");
+		$validator->validt_success("성공적으로 이동 되었습니다.","window.close&&opener.replace");
 	}
 	
 ?>

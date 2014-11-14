@@ -7,7 +7,7 @@
 	$method = new methodController();
 	$validator = new validator();
 	
-	$method->method_param("POST","type,board_id,skin,name,use_list,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$method->method_param("POST","type,board_id,skin,name,use_list,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_height,article_length");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	
@@ -72,7 +72,7 @@
 		*/
 		$mysql->query("
 			UPDATE toony_module_board_config
-			SET skin='$skin',name='$name',use_list='$use_list',use_category='$use_category',category='$category',use_comment='$use_comment',use_likes='$use_likes',use_reply='$use_reply',use_file1='$use_file1',use_file2='$use_file2',file_limit='$file_limit',list_limit='$list_limit',length_limit='$length_limit',array_level='$array_level',write_level='$write_level',secret_level='$secret_level',comment_level='$comment_level',delete_level='$delete_level',read_level='$read_level',controll_level='$controll_level',reply_level='$reply_level',write_point='$write_point',read_point='$read_point',top_file='$top_file',top_source='$top_source',bottom_file='$bottom_file',bottom_source='$bottom_source',thumb_width='$thumb_width',thumb_height='$thumb_height',article_length='$article_length',tc_1='$tc_1',tc_2='$tc_2',tc_3='$tc_3',tc_4='$tc_4',tc_5='$tc_5'
+			SET skin='$skin',name='$name',use_list='$use_list',use_category='$use_category',category='$category',use_comment='$use_comment',use_likes='$use_likes',use_reply='$use_reply',use_file1='$use_file1',use_file2='$use_file2',file_limit='$file_limit',list_limit='$list_limit',length_limit='$length_limit',array_level='$array_level',write_level='$write_level',secret_level='$secret_level',comment_level='$comment_level',delete_level='$delete_level',read_level='$read_level',controll_level='$controll_level',reply_level='$reply_level',write_point='$write_point',read_point='$read_point',top_file='$top_file',top_source='$top_source',bottom_file='$bottom_file',bottom_source='$bottom_source',thumb_width='$thumb_width',thumb_height='$thumb_height',article_length='$article_length'
 			WHERE board_id='$board_id'
 		");
 		
