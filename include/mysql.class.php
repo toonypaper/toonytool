@@ -82,6 +82,10 @@
 				if($this->nl2br==1){
 					$this->ROW_RE = nl2br($this->ROW_RE);
 				}
+				//내용중 치환자가 있는 경우 무효화 처리
+				$this->ROW_RE = str_replace("[","&#91;",$this->ROW_RE);
+				$this->ROW_RE = str_replace("]","&#93;",$this->ROW_RE);
+				
 				return $this->ROW_RE;
 			}else{
 				return "";

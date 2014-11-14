@@ -19,7 +19,7 @@
 		FROM toony_module_board_config
 		WHERE board_id='$board_id'
 	");
-	$mysql->fetchArray("viewType,title,use_comment,use_list,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$mysql->fetchArray("viewType,name,use_comment,use_list,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
 	
 	/*
