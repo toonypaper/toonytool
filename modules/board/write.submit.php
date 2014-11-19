@@ -51,10 +51,14 @@
 	}else{
 		$use_notice = "N";
 	}
-	if($use_secret==true){
-		$use_secret = "Y";
+	if($c_array['use_secret']=="Y"){
+		if($use_secret==true){
+			$use_secret = "Y";
+		}else{
+			$use_secret = "N";
+		}
 	}else{
-		$use_secret = "N";
+		$use_secret = $wquery['use_secret'];
 	}
 	if($use_email==true){
 		$use_email = "Y";

@@ -27,11 +27,10 @@
 }
 #array_form .not_loop_span{ display:block; border-bottom:1px solid #eee; text-align:center; padding:10px; color:#666; }
 #array_form .read_gallery_list{ text-align:center; margin:0; margin-top:20px; padding:0; list-style-type:none; }
-#array_form .read_gallery_list > li{ display:block; vertical-align:top; text-align:center; margin:8px 17px; }
+#array_form .read_gallery_list > li{ display:inline-block; *display:inline; *zoom:1; vertical-align:top; text-align:center; margin:8px 17px; }
 #array_form .read_gallery_list > li .img_title{ display:block; font-size:13px; line-height:13px; letter-spacing:-1px; padding-top:8px; }
 #array_form .read_gallery_list > li .img_title a{ color:#333; }
 #array_form .read_gallery_list > li .img_info{ line-height:15px; }
-#array_form .read_gallery_list > li a.thumb > img{ width:100%; height:auto; }
 #array_form .category{ color:#900; }
 #array_form .comment{ font:11px tahoma; font-weight:bold; color:#ea3a5a; padding-left:10px; }
 

@@ -35,7 +35,7 @@
 		FROM toony_module_board_config
 		WHERE board_id='$board_id'
 	");
-	$mysql->fetchArray("skin,title,use_comment,use_list,use_category,category,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,top_file,bottom_file,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$mysql->fetchArray("skin,title,use_comment,use_list,use_secret,use_category,category,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,top_file,bottom_file,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
@@ -139,10 +139,19 @@
 	/*
 	상단 파일&소스코드 출력
 	*/
-	if($c_array['top_file']){
-		include $c_array['top_file'];
+	if(!isset($read_true)){
+		$top_file_ex = explode("{||||||||||}",$c_array['top_file']);
+		$top_source_ex = explode("{||||||||||}",$c_array['top_source']);
+		if($viewType=="p"){
+			$ex_slt = 0;
+		}else{
+			$ex_slt = 1;
+		}
+		if($top_file_ex[$ex_slt]){
+			include $top_file_ex[$ex_slt];
+		}
+		echo $top_source_ex[$ex_slt];
 	}
-	echo $c_array['top_source'];
 	
 	/*
 	스킨 템플릿 로드
@@ -209,11 +218,13 @@
 	}
 	//비밀글 옵션 출력
 	function write_option_secret(){
-		global $array;
-		if($array['use_secret']=="Y"){
+		global $c_array,$array;
+		if($c_array['use_secret']=="Y"&&$array['use_secret']=="Y"){
 			return "<label><input type=\"checkbox\" name=\"use_secret\" id=\"use_secret\" checked />비밀글</label>";
-		}else{
+		}else if($c_array['use_secret']=="Y"){
 			return "<label><input type=\"checkbox\" name=\"use_secret\" id=\"use_secret\" />비밀글</label>";
+		}else{
+			return "";
 		}
 	}
 	//답변메일 옵션 출력
@@ -351,9 +362,18 @@
 	/*
 	하단 파일&소스코드 출력
 	*/
-	echo $c_array['bottom_source'];
-	if($c_array['bottom_file']){
-		include $c_array['bottom_file'];
+	if(!isset($read_true)){
+		$bottom_file_ex = explode("{||||||||||}",$c_array['bottom_file']);
+		$bottom_source_ex = explode("{||||||||||}",$c_array['bottom_source']);
+		if($viewType=="p"){
+			$ex_slt = 0;
+		}else{
+			$ex_slt = 1;
+		}
+		echo $bottom_source_ex[$ex_slt];
+		if($bottom_file_ex[$ex_slt]){
+			include $bottom_file_ex[$ex_slt];
+		}
 	}
 	
 ?>

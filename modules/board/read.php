@@ -36,12 +36,27 @@
 		FROM toony_module_board_config
 		WHERE board_id='$board_id'
 	");
-	$mysql->fetchArray("write_point,read_point,skin,name,use_category,use_comment,use_list,use_likes,use_reply,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,top_file,bottom_file,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$mysql->fetchArray("write_point,read_point,skin,name,use_category,use_comment,use_list,use_likes,use_reply,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,top_file,bottom_file,articleIMG_width,articleIMG_height,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
 	$mysql->fetchArray("top_source,bottom_source");
 	$c_array = $mysql->array;
+	
+	/*
+	설정 필드가 홈페이지+모바일페이지의 설정 값을 같이 사용하는 경우 분리
+	*/
+	if($viewType=="p"){
+		$ex_slt = 0;
+	}else{
+		$ex_slt = 1;
+	}
+	$use_list_ex = explode("|",$c_array['use_list']);
+	$c_array['use_list'] = $use_list_ex[$ex_slt];
+	$articleIMG_width_ex = explode("|",$c_array['articleIMG_width']);
+	$c_array['articleIMG_width'] = $articleIMG_width_ex[$ex_slt];
+	$articleIMG_height_ex = explode("|",$c_array['articleIMG_height']);
+	$c_array['articleIMG_height'] = $articleIMG_height_ex[$ex_slt];
 	
 	/*
 	게시물 정보 로드
@@ -97,10 +112,27 @@
 	/*
 	상단 파일&소스코드 출력
 	*/
-	if($c_array['top_file']){
-		include $c_array['top_file'];
+	$top_file_ex = explode("{||||||||||}",$c_array['top_file']);
+	$top_source_ex = explode("{||||||||||}",$c_array['top_source']);
+	if($viewType=="p"){
+		$ex_slt = 0;
+	}else{
+		$ex_slt = 1;
 	}
-	echo $c_array['top_source'];
+	if($top_file_ex[$ex_slt]){
+		include $top_file_ex[$ex_slt];
+	}
+	echo $top_source_ex[$ex_slt];
+	
+	/*
+	본문 이미지 리사이징을 위한 Javascript 변수 선언
+	*/
+	echo '
+		<script type="text/javascript">
+			articleIMG_width = "'.$c_array['articleIMG_width'].'";
+			articleIMG_height = "'.$c_array['articleIMG_height'].'";
+		</script>
+	';
 	
 	/*
 	패스워드가 submit된 경우(비밀글) 패스워드가 일치 하는지 검사
@@ -429,9 +461,16 @@
 	/*
 	하단 파일&소스코드 출력
 	*/
-	echo $c_array['bottom_source'];
-	if($c_array['bottom_file']){
-		include $c_array['bottom_file'];
+	$bottom_file_ex = explode("{||||||||||}",$c_array['bottom_file']);
+	$bottom_source_ex = explode("{||||||||||}",$c_array['bottom_source']);
+	if($viewType=="p"){
+		$ex_slt = 0;
+	}else{
+		$ex_slt = 1;
+	}
+	echo $bottom_source_ex[$ex_slt];
+	if($bottom_file_ex[$ex_slt]){
+		include $bottom_file_ex[$ex_slt];
 	}
 	
 ?>

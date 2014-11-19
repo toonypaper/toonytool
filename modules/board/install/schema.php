@@ -23,7 +23,8 @@
 			board_id varchar(255),
 			skin varchar(255) default 'toony_default',
 			name varchar(255),
-			use_list char(1) default 'Y',
+			use_list char(3) default 'Y|N',
+			use_secret char(1) default 'Y',
 			use_comment char(1) default 'Y',
 			use_likes char(1) default 'Y',
 			use_reply char(1) default 'Y',
@@ -32,8 +33,8 @@
 			use_category char(1) default 'N',
 			category text default NULL,
 			file_limit int(50) default 5242880,
-			list_limit int(50) default 15,
-			length_limit int(50) default 50,
+			list_limit varchar(50) default '15|5',
+			length_limit varchar(50) default '50|30',
 			array_level int(11) default 10,
 			write_level int(11) default 9,
 			secret_level int(11) default 1,
@@ -48,9 +49,11 @@
 			top_source text default NULL,
 			bottom_file text default NULL,
 			bottom_source text default NULL,
-			thumb_width int(4) default 120,
-			thumb_height int(4) default 80,
-			article_length int(11) default 90,
+			thumb_width varchar(50) default '120|100',
+			thumb_height varchar(50) default '80|100',
+			articleIMG_width varchar(50) default '600|250',
+			articleIMG_height varchar(50) default '600|250',
+			article_length varchar(50) default '90|50',
 			regdate datetime,
 			tc_1 text default NULL,
 			tc_2 text default NULL,
@@ -63,9 +66,9 @@
 		insert into toony_module_board_config
 		(skin,board_id,name,thumb_width,thumb_height,regdate)
 		values
-		('toony_default','notice','공지사항',120,80,now())
-		,('toony_webzine','webzine','웹진 게시판',120,80,now())
-		,('toony_gallery','gallery','포토갤러리',200,120,now());
+		('toony_default','notice','공지사항','120|100','80|100',now())
+		,('toony_webzine','webzine','웹진 게시판','120|100','80|100',now())
+		,('toony_gallery','gallery','포토갤러리','200|250','120|150',now());
 	";
 	
 	/*

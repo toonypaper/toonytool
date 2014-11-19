@@ -29,6 +29,25 @@
 	$c_array = $mysql->array;
 	
 	/*
+	설정 필드가 홈페이지+모바일페이지의 설정 값을 같이 사용하는 경우 분리
+	*/
+	if($viewType=="p"){
+		$ex_slt = 0;
+	}else{
+		$ex_slt = 1;
+	}
+	$length_limit_ex = explode("|",$c_array['length_limit']);
+	$c_array['length_limit'] = $length_limit_ex[$ex_slt];
+	$list_limit_ex = explode("|",$c_array['list_limit']);
+	$c_array['list_limit'] = $list_limit_ex[$ex_slt];
+	$article_length_ex = explode("|",$c_array['article_length']);
+	$c_array['article_length'] = $article_length_ex[$ex_slt];
+	$thumb_width_ex = explode("|",$c_array['thumb_width']);
+	$c_array['thumb_width'] = $thumb_width_ex[$ex_slt];
+	$thumb_height_ex = explode("|",$c_array['thumb_height']);
+	$c_array['thumb_height'] = $thumb_height_ex[$ex_slt];
+	
+	/*
 	검사
 	*/
 	if(!$board_id){
@@ -43,10 +62,17 @@
 	상단 파일&소스코드 출력
 	*/
 	if(!isset($read_true)){
-		if($c_array['top_file']){
-			include $c_array['top_file'];
+		$top_file_ex = explode("{||||||||||}",$c_array['top_file']);
+		$top_source_ex = explode("{||||||||||}",$c_array['top_source']);
+		if($viewType=="p"){
+			$ex_slt = 0;
+		}else{
+			$ex_slt = 1;
 		}
-		echo $c_array['top_source'];
+		if($top_file_ex[$ex_slt]){
+			include $top_file_ex[$ex_slt];
+		}
+		echo $top_source_ex[$ex_slt];
 	}
 	
 	/*
@@ -486,9 +512,16 @@
 	하단 파일&소스코드 출력
 	*/
 	if(!isset($read_true)){
-		echo $c_array['bottom_source'];
-		if($c_array['bottom_file']){
-			include $c_array['bottom_file'];
+		$bottom_file_ex = explode("{||||||||||}",$c_array['bottom_file']);
+		$bottom_source_ex = explode("{||||||||||}",$c_array['bottom_source']);
+		if($viewType=="p"){
+			$ex_slt = 0;
+		}else{
+			$ex_slt = 1;
+		}
+		echo $bottom_source_ex[$ex_slt];
+		if($bottom_file_ex[$ex_slt]){
+			include $bottom_file_ex[$ex_slt];
 		}
 	}
 	

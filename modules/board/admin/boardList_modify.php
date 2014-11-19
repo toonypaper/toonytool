@@ -23,13 +23,53 @@
 			FROM toony_module_board_config
 			WHERE board_id='$act'
 		");
-		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file,thumb_width,thumb_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
+		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_secret,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
 		$array = $mysql->array;
 		$mysql->htmlspecialchars = 0;
 		$mysql->nl2br = 0;
 		$array['top_source'] = $mysql->fetch("top_source");
 		$array['bottom_source'] = $mysql->fetch("bottom_source");
 	}
+	
+	/*
+	홈페이지&모바일페이지 설정 값이 함께 기록되는 필드인 경우 분리
+	*/
+	$use_list_exp = explode("|",$array['use_list']);
+	$array['use_list'] = $use_list_exp[0];
+	$array['use_m_list'] = $use_list_exp[1];
+	$list_limit_exp = explode("|",$array['list_limit']);
+	$array['list_limit'] = $list_limit_exp[0];
+	$array['list_m_limit'] = $list_limit_exp[1];
+	$length_limit_exp = explode("|",$array['length_limit']);
+	$array['length_limit'] = $length_limit_exp[0];
+	$array['length_m_limit'] = $length_limit_exp[1];
+	$article_length_exp = explode("|",$array['article_length']);
+	$array['article_length'] = $article_length_exp[0];
+	$array['article_m_length'] = $article_length_exp[1];
+	$thumb_width_exp = explode("|",$array['thumb_width']);
+	$array['thumb_width'] = $thumb_width_exp[0];
+	$array['thumb_m_width'] = $thumb_width_exp[1];
+	$thumb_height_exp = explode("|",$array['thumb_height']);
+	$array['thumb_height'] = $thumb_height_exp[0];
+	$array['thumb_m_height'] = $thumb_height_exp[1];
+	$articleIMG_width_exp = explode("|",$array['articleIMG_width']);
+	$array['articleIMG_width'] = $articleIMG_width_exp[0];
+	$array['articleIMG_m_width'] = $articleIMG_width_exp[1];
+	$articleIMG_height_exp = explode("|",$array['articleIMG_height']);
+	$array['articleIMG_height'] = $articleIMG_height_exp[0];
+	$array['articleIMG_m_height'] = $articleIMG_height_exp[1];
+	$top_file_exp = explode("{||||||||||}",$array['top_file']);
+	$array['top_file'] = $top_file_exp[0];
+	$array['top_m_file'] = $top_file_exp[1];
+	$bottom_file_exp = explode("{||||||||||}",$array['bottom_file']);
+	$array['bottom_file'] = $bottom_file_exp[0];
+	$array['bottom_m_file'] = $bottom_file_exp[1];
+	$top_source_exp = explode("{||||||||||}",$array['top_source']);
+	$array['top_source'] = $top_source_exp[0];
+	$array['top_m_source'] = $top_source_exp[1];
+	$bottom_source_exp = explode("{||||||||||}",$array['bottom_source']);
+	$array['bottom_source'] = $bottom_source_exp[0];
+	$array['bottom_m_source'] = $bottom_source_exp[1];
 	
 	/*
 	검사
@@ -127,6 +167,8 @@
 	if($type=="modify"){
 		$tpl->skin_modeling("[use_comment_checked_Y]",use_checked("Y","comment"));
 		$tpl->skin_modeling("[use_comment_checked_N]",use_checked("N","comment"));
+		$tpl->skin_modeling("[use_secret_checked_Y]",use_checked("Y","secret"));
+		$tpl->skin_modeling("[use_secret_checked_N]",use_checked("N","secret"));
 		$tpl->skin_modeling("[use_likes_checked_Y]",use_checked("Y","likes"));
 		$tpl->skin_modeling("[use_likes_checked_N]",use_checked("N","likes"));
 		$tpl->skin_modeling("[use_reply_checked_Y]",use_checked("Y","reply"));
@@ -139,11 +181,15 @@
 		$tpl->skin_modeling("[use_file2_checked_N]",use_checked("N","file2"));
 		$tpl->skin_modeling("[use_list_checked_Y]",use_checked("Y","list"));
 		$tpl->skin_modeling("[use_list_checked_N]",use_checked("N","list"));
+		$tpl->skin_modeling("[use_m_list_checked_Y]",use_checked("Y","m_list"));
+		$tpl->skin_modeling("[use_m_list_checked_N]",use_checked("N","m_list"));
 		$tpl->skin_modeling("[use_category_checked_Y]",use_checked("Y","category"));
 		$tpl->skin_modeling("[use_category_checked_N]",use_checked("N","category"));
 		$tpl->skin_modeling("[category_value]",$array['category']);
 		$tpl->skin_modeling("[list_limit_value]",$array['list_limit']);
+		$tpl->skin_modeling("[list_m_limit_value]",$array['list_m_limit']);
 		$tpl->skin_modeling("[length_limit_value]",$array['length_limit']);
+		$tpl->skin_modeling("[length_m_limit_value]",$array['length_m_limit']);
 		$tpl->skin_modeling("[file_limit_value]",$array['file_limit']);
 		$tpl->skin_modeling("[skin_option_value]",skin_option_value("skin"));
 		$tpl->skin_modeling("[controll_level_option_value]",level_option_value("controll",""));
@@ -157,12 +203,23 @@
 		$tpl->skin_modeling("[write_point_value]",$array['write_point']);
 		$tpl->skin_modeling("[read_point_value]",$array['read_point']);
 		$tpl->skin_modeling("[top_file]",$array['top_file']);
+		$tpl->skin_modeling("[top_m_file]",$array['top_m_file']);
 		$tpl->skin_modeling("[top_source]",$array['top_source']);
+		$tpl->skin_modeling("[top_m_source]",$array['top_m_source']);
 		$tpl->skin_modeling("[bottom_file]",$array['bottom_file']);
+		$tpl->skin_modeling("[bottom_m_file]",$array['bottom_m_file']);
 		$tpl->skin_modeling("[bottom_source]",$array['bottom_source']);
+		$tpl->skin_modeling("[bottom_m_source]",$array['bottom_m_source']);
 		$tpl->skin_modeling("[thumb_width_value]",$array['thumb_width']);
+		$tpl->skin_modeling("[thumb_m_width_value]",$array['thumb_m_width']);
 		$tpl->skin_modeling("[thumb_height_value]",$array['thumb_height']);
+		$tpl->skin_modeling("[thumb_m_height_value]",$array['thumb_m_height']);
+		$tpl->skin_modeling("[articleIMG_width_value]",$array['articleIMG_width']);
+		$tpl->skin_modeling("[articleIMG_m_width_value]",$array['articleIMG_m_width']);
+		$tpl->skin_modeling("[articleIMG_height_value]",$array['articleIMG_height']);
+		$tpl->skin_modeling("[articleIMG_m_height_value]",$array['articleIMG_m_height']);
 		$tpl->skin_modeling("[article_length_value]",$array['article_length']);
+		$tpl->skin_modeling("[article_m_length_value]",$array['article_m_length']);
 		$tpl->skin_modeling("[tc_1]",$array['tc_1']);
 		$tpl->skin_modeling("[tc_2]",$array['tc_2']);
 		$tpl->skin_modeling("[tc_3]",$array['tc_3']);
@@ -184,6 +241,10 @@
 		$tpl->skin_modeling("[use_file2_checked_N]","checked");
 		$tpl->skin_modeling("[use_list_checked_Y]","checked");
 		$tpl->skin_modeling("[use_list_checked_N]","");
+		$tpl->skin_modeling("[length_m_limit_value]","20");
+		$tpl->skin_modeling("[list_m_limit_value]","5");
+		$tpl->skin_modeling("[use_m_list_checked_Y]","");
+		$tpl->skin_modeling("[use_m_list_checked_N]","checked");
 		$tpl->skin_modeling("[use_category_checked_Y]","");
 		$tpl->skin_modeling("[use_category_checked_N]","checked");
 		$tpl->skin_modeling("[category_value]","");
@@ -202,12 +263,23 @@
 		$tpl->skin_modeling("[write_point_value]","10");
 		$tpl->skin_modeling("[read_point_value]","0");
 		$tpl->skin_modeling("[top_file]","");
+		$tpl->skin_modeling("[top_m_file]","");
 		$tpl->skin_modeling("[top_source]","");
+		$tpl->skin_modeling("[top_m_source]","");
 		$tpl->skin_modeling("[bottom_file]","");
+		$tpl->skin_modeling("[bottom_m_file]","");
 		$tpl->skin_modeling("[bottom_source]","");
+		$tpl->skin_modeling("[bottom_m_source]","");
 		$tpl->skin_modeling("[thumb_width_value]","120");
-		$tpl->skin_modeling("[thumb_height_value]","80");
+		$tpl->skin_modeling("[thumb_m_width_value]","200");
+		$tpl->skin_modeling("[thumb_height_value]","100");
+		$tpl->skin_modeling("[thumb_m_height_value]","80");
 		$tpl->skin_modeling("[article_length_value]","90");
+		$tpl->skin_modeling("[article_m_length_value]","50");
+		$tpl->skin_modeling("[articleIMG_width_value]","400");
+		$tpl->skin_modeling("[articleIMG_m_width_value]","250");
+		$tpl->skin_modeling("[articleIMG_height_value]","400");
+		$tpl->skin_modeling("[articleIMG_m_height_value]","250");
 		$tpl->skin_modeling("[tc_1]","");
 		$tpl->skin_modeling("[tc_2]","");
 		$tpl->skin_modeling("[tc_3]","");

@@ -79,7 +79,7 @@
 					$prn[] = "<li class=\"___paging_before2\"><a href=\"{$this->addParam}&page=1\"><img src=\"".__URL_PATH__."images/paging_before2.jpg\">처음</a></li>";
 				}
 				if($this->startPage!=1){
-					$prn[] = "<li class=\"___paging_before\"><a href=\"{$this->addParam}&page={$prePage}\"><img src=\"".__URL_PATH__."images/paging_before.jpg\">이전</a></li>"; 
+					$prn[] = "<li class=\"___paging_before\"><a href=\"{$this->addParam}&page={$this->prePage}\"><img src=\"".__URL_PATH__."images/paging_before.jpg\">이전</a></li>"; 
 				}
 				for($i=$this->startPage;$i<=$this->endPage;$i++){ 
 					if($i==$this->page){ 

@@ -7,17 +7,14 @@
 	$method = new methodController();
 	$validator = new validator();
 	
-	$method->method_param("POST","type,board_id,skin,name,use_list,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$method->method_param("POST","type,board_id,skin,name,use_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	
-	/**************************************************
-	추가 모드인 경우
-	**************************************************/
+	/*
+	검사
+	*/
 	if($type=="new"){
-		/*
-		검사
-		*/
 		$mysql->select("
 			SELECT *
 			FROM toony_module_board_config
@@ -27,16 +24,46 @@
 			$validator->validt_diserror("board_id","이미 존재하는 코드입니다.");
 		}
 		$validator->validt_idx("board_id",1,"");
-		$validator->validt_null("name","");
-		$validator->validt_number("list_limit",1,10,1,"");
-		$validator->validt_number("length_limit",1,10,1,"");
-		$validator->validt_number("file_limit",1,10,1,"");
-		$validator->validt_number("article_length",1,10,1,"");
-		$validator->validt_number("write_point",1,10,1,"");
-		$validator->validt_number("read_point",1,10,1,"");
-		$validator->validt_number("thumb_width",1,10,1,"");
-		$validator->validt_number("thumb_height",1,10,1,"");
-		
+	}
+	$validator->validt_null("name","");
+	$validator->validt_number("list_limit",1,10,1,"");
+	$validator->validt_number("list_m_limit",1,10,1,"");
+	$validator->validt_number("length_limit",1,10,1,"");
+	$validator->validt_number("length_m_limit",1,10,1,"");
+	$validator->validt_number("file_limit",1,10,1,"");
+	$validator->validt_number("article_length",1,10,1,"");
+	$validator->validt_number("article_m_length",1,10,1,"");
+	$validator->validt_number("write_point",1,10,1,"");
+	$validator->validt_number("read_point",1,10,1,"");
+	$validator->validt_number("thumb_width",1,10,1,"");
+	$validator->validt_number("thumb_m_width",1,10,1,"");
+	$validator->validt_number("thumb_height",1,10,1,"");
+	$validator->validt_number("thumb_m_height",1,10,1,"");
+	$validator->validt_number("articleIMG_width",1,10,1,"");
+	$validator->validt_number("articleIMG_m_width",1,10,1,"");
+	$validator->validt_number("articleIMG_height",1,10,1,"");
+	$validator->validt_number("articleIMG_m_height",1,10,1,"");
+	
+	/*
+	홈페이지, 모바일페이지 각각의 옵션 설정값을 하나의 필드로 결합
+	*/
+	$use_list = $use_list."|".$use_m_list;
+	$list_limit = $list_limit."|".$list_m_limit;
+	$length_limit = $length_limit."|".$length_m_limit;
+	$article_length = $article_length."|".$article_m_length;
+	$thumb_width = $thumb_width."|".$thumb_m_width;
+	$thumb_height = $thumb_height."|".$thumb_m_height;
+	$articleIMG_width = $articleIMG_width."|".$articleIMG_m_width;
+	$articleIMG_height = $articleIMG_height."|".$articleIMG_m_height;
+	$top_file = $top_file."{||||||||||}".$top_m_file;
+	$bottom_file = $bottom_file."{||||||||||}".$bottom_m_file;
+	$top_source = $top_source."{||||||||||}".$top_m_source;
+	$bottom_source = $bottom_source."{||||||||||}".$bottom_m_source;
+	
+	/**************************************************
+	추가 모드인 경우
+	**************************************************/
+	if($type=="new"){
 		/*
 		DB입력
 		*/
@@ -55,24 +82,11 @@
 	**************************************************/
 	if($type=="modify"){
 		/*
-		검사
-		*/
-		$validator->validt_null("name","");
-		$validator->validt_number("list_limit",1,10,1,"");
-		$validator->validt_number("length_limit",1,10,1,"");
-		$validator->validt_number("file_limit",1,10,1,"");
-		$validator->validt_number("article_length",1,10,1,"");
-		$validator->validt_number("write_point",1,10,1,"");
-		$validator->validt_number("read_point",1,10,1,"");
-		$validator->validt_number("thumb_width",1,10,1,"");
-		$validator->validt_number("thumb_height",1,10,1,"");
-		
-		/*
 		DB수정
 		*/
 		$mysql->query("
 			UPDATE toony_module_board_config
-			SET skin='$skin',name='$name',use_list='$use_list',use_category='$use_category',category='$category',use_comment='$use_comment',use_likes='$use_likes',use_reply='$use_reply',use_file1='$use_file1',use_file2='$use_file2',file_limit='$file_limit',list_limit='$list_limit',length_limit='$length_limit',array_level='$array_level',write_level='$write_level',secret_level='$secret_level',comment_level='$comment_level',delete_level='$delete_level',read_level='$read_level',controll_level='$controll_level',reply_level='$reply_level',write_point='$write_point',read_point='$read_point',top_file='$top_file',top_source='$top_source',bottom_file='$bottom_file',bottom_source='$bottom_source',thumb_width='$thumb_width',thumb_height='$thumb_height',article_length='$article_length',tc_1='$tc_1',tc_2='$tc_2',tc_3='$tc_3',tc_4='$tc_4',tc_5='$tc_5'
+			SET skin='$skin',name='$name',use_secret='$use_secret',use_list='$use_list',use_category='$use_category',category='$category',use_comment='$use_comment',use_likes='$use_likes',use_reply='$use_reply',use_file1='$use_file1',use_file2='$use_file2',file_limit='$file_limit',list_limit='$list_limit',length_limit='$length_limit',array_level='$array_level',write_level='$write_level',secret_level='$secret_level',comment_level='$comment_level',delete_level='$delete_level',read_level='$read_level',controll_level='$controll_level',reply_level='$reply_level',write_point='$write_point',read_point='$read_point',top_file='$top_file',top_source='$top_source',bottom_file='$bottom_file',bottom_source='$bottom_source',thumb_width='$thumb_width',thumb_height='$thumb_height',articleIMG_width='$articleIMG_width',articleIMG_height='$articleIMG_height',article_length='$article_length',tc_1='$tc_1',tc_2='$tc_2',tc_3='$tc_3',tc_4='$tc_4',tc_5='$tc_5'
 			WHERE board_id='$board_id'
 		");
 		

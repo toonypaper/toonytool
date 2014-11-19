@@ -138,9 +138,16 @@ $(window).load(function(){
 	if($("#board_memo_area img").length>0){
 		$("#board_memo_area img").each(function(){
 			//width값 조정
-			if(parseInt($(this).width())>=parseInt($("#board_memo_area").width())){
+			if(parseInt($(this).width())>articleIMG_width){
 				$(this).css({
-					"width":"100%",
+					"width":articleIMG_width,
+					"cursor":"pointer"
+				});
+			}
+			//height값 조정
+			if(parseInt($(this).height())>articleIMG_height){
+				$(this).css({
+					"height":articleIMG_height,
 					"cursor":"pointer"
 				});
 			}
