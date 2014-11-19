@@ -382,9 +382,9 @@
 		,('p','search','통합검색','16','1','16','','','search_board','fm',now(),'N','Y')
 		,('p','search_board','전체 게시판 검색','16','2','17','','search_board','','mp',now(),'N','Y')
 		
-		,('m','main','메인화면','17','1','1','?p=main','','','pm',now(),'Y','Y')
-		,('m','introduce','투니툴 소개','17','1','2','','','greetings','fm',now(),'Y','N')
-		,('m','greetings','투니툴 주요기능 안내','17','2','3','?m=page&p=greetings','','','pm',now(),'Y','N')
+		,('m','main','메인화면','18','1','1','?p=main','','','pm',now(),'Y','Y')
+		,('m','introduce','투니툴 소개','19','1','2','','','greetings','fm',now(),'Y','N')
+		,('m','greetings','투니툴 주요기능 안내','19','2','3','?m=page&p=greetings','','','pm',now(),'Y','N')
 		,('m','customer','고객지원','21','1','4','','','contactUs','fm',now(),'Y','Y')
 		,('m','contactUs','1:1문의하기','21','2','5','','contactUs','','mp',now(),'Y','Y')
 		,('m','notice','공지사항','21','2','6','?m=board&board_id=notice','','','pm',now(),'Y','N')

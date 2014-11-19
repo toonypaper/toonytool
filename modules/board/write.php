@@ -139,19 +139,17 @@
 	/*
 	상단 파일&소스코드 출력
 	*/
-	if(!isset($read_true)){
-		$top_file_ex = explode("{||||||||||}",$c_array['top_file']);
-		$top_source_ex = explode("{||||||||||}",$c_array['top_source']);
-		if($viewType=="p"){
-			$ex_slt = 0;
-		}else{
-			$ex_slt = 1;
-		}
-		if($top_file_ex[$ex_slt]){
-			include $top_file_ex[$ex_slt];
-		}
-		echo $top_source_ex[$ex_slt];
+	$top_file_ex = explode("{||||||||||}",$c_array['top_file']);
+	$top_source_ex = explode("{||||||||||}",$c_array['top_source']);
+	if($viewType=="p"){
+		$ex_slt = 0;
+	}else{
+		$ex_slt = 1;
 	}
+	if($top_file_ex[$ex_slt]){
+		include $top_file_ex[$ex_slt];
+	}
+	echo $top_source_ex[$ex_slt];
 	
 	/*
 	스킨 템플릿 로드
@@ -362,18 +360,16 @@
 	/*
 	하단 파일&소스코드 출력
 	*/
-	if(!isset($read_true)){
-		$bottom_file_ex = explode("{||||||||||}",$c_array['bottom_file']);
-		$bottom_source_ex = explode("{||||||||||}",$c_array['bottom_source']);
-		if($viewType=="p"){
-			$ex_slt = 0;
-		}else{
-			$ex_slt = 1;
-		}
-		echo $bottom_source_ex[$ex_slt];
-		if($bottom_file_ex[$ex_slt]){
-			include $bottom_file_ex[$ex_slt];
-		}
+	$bottom_file_ex = explode("{||||||||||}",$c_array['bottom_file']);
+	$bottom_source_ex = explode("{||||||||||}",$c_array['bottom_source']);
+	if($viewType=="p"){
+		$ex_slt = 0;
+	}else{
+		$ex_slt = 1;
+	}
+	echo $bottom_source_ex[$ex_slt];
+	if($bottom_file_ex[$ex_slt]){
+		include $bottom_file_ex[$ex_slt];
 	}
 	
 ?>

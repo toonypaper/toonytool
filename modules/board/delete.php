@@ -37,10 +37,19 @@
 	/*
 	상단 파일&소스코드 출력
 	*/
-	if($c_array['top_file']){
-		include $c_array['top_file'];
+	if(!isset($read_true)){
+		$top_file_ex = explode("{||||||||||}",$c_array['top_file']);
+		$top_source_ex = explode("{||||||||||}",$c_array['top_source']);
+		if($viewType=="p"){
+			$ex_slt = 0;
+		}else{
+			$ex_slt = 1;
+		}
+		if($top_file_ex[$ex_slt]){
+			include $top_file_ex[$ex_slt];
+		}
+		echo $top_source_ex[$ex_slt];
 	}
-	echo $c_array['top_source'];
 	
 	/*
 	게시물 기본 정보 로드
@@ -175,9 +184,18 @@
 	/*
 	하단 파일&소스코드 출력
 	*/
-	echo $c_array['bottom_source'];
-	if($c_array['bottom_file']){
-		include $c_array['bottom_file'];
+	if(!isset($read_true)){
+		$bottom_file_ex = explode("{||||||||||}",$c_array['bottom_file']);
+		$bottom_source_ex = explode("{||||||||||}",$c_array['bottom_source']);
+		if($viewType=="p"){
+			$ex_slt = 0;
+		}else{
+			$ex_slt = 1;
+		}
+		echo $bottom_source_ex[$ex_slt];
+		if($bottom_file_ex[$ex_slt]){
+			include $bottom_file_ex[$ex_slt];
+		}
 	}
 	
 ?>
