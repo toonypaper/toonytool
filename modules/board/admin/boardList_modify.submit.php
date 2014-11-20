@@ -7,7 +7,7 @@
 	$method = new methodController();
 	$validator = new validator();
 	
-	$method->method_param("POST","type,board_id,skin,name,use_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$method->method_param("POST","type,board_id,skin,name,use_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,list_m_limit,length_limit,length_m_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_m_width,thumb_height,thumb_m_height,articleIMG_width,articleIMG_m_width,articleIMG_height,articleIMG_m_height,article_length,article_m_length,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	
