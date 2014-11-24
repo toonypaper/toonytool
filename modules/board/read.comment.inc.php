@@ -10,7 +10,7 @@
 	$mysql = new mysqlConnection();
 	
 	
-	$method->method_param("GET","board_id,read,viewDir,viewType");
+	$method->method_param("GET","article,board_id,read,viewDir,viewType");
 	
 	/*
 	게시물 기본 정보 로드

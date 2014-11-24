@@ -23,7 +23,7 @@ function read_comment_include(){
 	var board_id = $("#read_form input[name='board_id']").val();
 	var read = $("#read_form input[name='read']").val();
 	var article = $("#read_form input[name='article']").val();
-	$("._CALLING_COMMENT").load(__URL_PATH__+"modules/board/read.comment.inc.php?board_id="+board_id+"&read="+read+"&article="+article+"&viewDir=&viewType=p",function(){
+	$("._CALLING_COMMENT").load(__URL_PATH__+"modules/board/read.comment.inc.php?article="+article+"&board_id="+board_id+"&read="+read+"&article="+article+"&viewDir=&viewType=p",function(){
 		textareaResize($(".comment_form"));
 		comment_replace_url();
 	});
