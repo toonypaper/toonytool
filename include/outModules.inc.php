@@ -63,7 +63,7 @@
 	관리모드에서 설정한 페이지를 적용
 	*/
 	function call_design_page($vtype,$name){
-		global $viewType,$site_config,$member,$viewDir;
+		global $viewType,$site_config,$member,$viewDir,$member_type_var,$article,$m,$p;
 		$mysql = new mysqlConnection();
 		$lib = new libraryClass();
 		$subpage = new skinController();
@@ -117,7 +117,7 @@
 	}
 	//아이템을 출력
 	function call_admin_mainPage($vtype){
-		global $viewType,$site_config,$member,$viewDir;
+		global $viewType,$site_config,$member,$viewDir,$member_type_var,$article,$m,$p;
 		//type 변수 내용에 따른 DB 필드명 선언
 		if($vtype=="p"){
 			$field = "ad_site_jsmain";
@@ -261,7 +261,7 @@
 					case "href" :
 						//외부 문서 출력
 						$sort[$i] = $data[4];
-						if(!call_admin_mainPage_item(__DIR_PATH__."upload/siteInformations/".$data[2].".php")){
+						if(!call_admin_mainPage_item(__DIR_PATH__.$data[2].".php")){
 							$sort_html[$i] = "
 								<div class=\"include\" style=\"margin-bottom:10px;\">
 									설정한 외부 문서 파일이 존재하지 않습니다.

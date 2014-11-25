@@ -99,6 +99,9 @@
 	if(!$type||$type>2||$type<1){
 		$validator->validt_diserror("","변수 값이 지정 되지 않았습니다.");
 	}
+	if($member['me_level']>$c_array['write_level']&&$member['me_level']>$c_array['controll_level']){
+		$validator->validt_diserror("","글 작성 권한이 없습니다.");
+	}
 	$validator->validt_null("subject","");
 	$validator->validt_strLen("ment",30,"",1,"내용은 30자 이상 입력해야 합니다.");
 	if($type==1){
