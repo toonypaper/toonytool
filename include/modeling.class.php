@@ -181,6 +181,17 @@
 						}
 					}
 				}
+				//article,m,p 기본 파라미터 처리
+				global $article,$m,$p;
+				if(isset($_POST['article'])){
+					$article = $_POST['article'];
+				}
+				if(isset($_POST['m'])){
+					$m = $_POST['m'];
+				}
+				if(isset($_POST['p'])){
+					$p = $_POST['p'];
+				}
 			}else if($type=="FILE"){
 				global $_FILES;
 				$expl = explode(",",$name);

@@ -162,12 +162,12 @@
 			$dateNow = date("Y-m-d H:i:s");
 			$dateRe = array();
 			$dateRe['FULL'] = date("Y-m-d H:i:s",strtotime($dateNow)-strtotime("$dateOrg GMT"));
-			$dateRe['Y'] = date("Y",strtotime($dateRe));
-			$dateRe['m'] = date("m",strtotime($dateRe));
-			$dateRe['d'] = date("d",strtotime($dateRe));
-			$dateRe['H'] = date("H",strtotime($dateRe));
-			$dateRe['i'] = date("i",strtotime($dateRe));
-			$dateRe['s'] = date("s",strtotime($dateRe));
+			$dateRe['Y'] = date("Y",strtotime($dateRe['FULL']));
+			$dateRe['m'] = date("m",strtotime($dateRe['FULL']));
+			$dateRe['d'] = date("d",strtotime($dateRe['FULL']));
+			$dateRe['H'] = date("H",strtotime($dateRe['FULL']));
+			$dateRe['i'] = date("i",strtotime($dateRe['FULL']));
+			$dateRe['s'] = date("s",strtotime($dateRe['FULL']));
 			if($dateRe['Y']>=1971||$dateRe['m']>=2||$dateRe['d']>=2){
 				if($dateRe['d']==2&&$dateRe['Y']==1&&$dateRe['m']==1){
 					return "어제";

@@ -1,8 +1,11 @@
 <?php
+	$mysql = new mysqlConnection();
+	$lib = new libraryClass();
+	
 	/*
 	모듈이 설치되어 있는지 검사
 	*/
-	if(!$mysql->is_table("toony_module_board_config")){
+	if(!$mysql->is_table("toony_module_board_config")&&$viewType){
 		$lib->error_alert_location("게시판 모듈 추가 설치가 필요합니다.",__URL_PATH__."admin/?m=board&p=install","A");
 	}
 	

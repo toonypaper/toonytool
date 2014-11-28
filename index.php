@@ -112,16 +112,6 @@
 	}
 	
 	/*
-	모든 모듈의 global.php 를 인클루드
-	*/
-	$globalEnginePath = opendir(__DIR_PATH__."modules/");
-	while($dir = readdir($globalEnginePath)){
-		if(($dir!="."&&$dir!="..")){
-			include_once __DIR_PATH__."modules/".$dir."/include/global.php";
-		}
-	}
-	
-	/*
 	페이지 호출
 	*/
 	$loadFile = $incDir.$p.".php";

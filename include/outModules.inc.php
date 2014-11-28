@@ -202,11 +202,13 @@
 								</div>
 							";
 						}else{
+							ob_start();
+							include __DIR_PATH__.$data[2].".php";
+							$include_html = ob_get_contents();
+							ob_end_clean();
 							echo "
 								<div class=\"include\" style=\"position:absolute; left:{$box_left}px; top:{$box_top}px; width:{$box_width}px; height:{$box_height}px; overflow:hidden;\">
-							";
-							include __DIR_PATH__.$data[2].".php";
-							echo "
+							".$include_html."
 								</div>
 							";
 						}

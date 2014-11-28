@@ -56,4 +56,20 @@
 	$lib->func_visiter_counter_status(); //방문자 수 기록
 	$lib->func_member_online_status(); //현재 접속자 구하기 위한 기록
 	$lib->func_index_security(); //블랙리스트 회원 차단을 위한 검사
+	
+	/*
+	모든 모듈의 global.php 를 인클루드,
+	모듈 리스트를 Array변수에 저장
+	*/
+	if($globalMysql->is_table("toony_admin_siteconfig")){
+		$modulePath = opendir(__DIR_PATH__."modules/");
+		$path_count = 0;
+		while($dir = readdir($modulePath)){
+			if(($dir!="."&&$dir!="..")){
+				$modulesDir[$path_count] = $dir;
+				$path_count++;
+				include_once __DIR_PATH__."modules/".$dir."/include/global.php";
+			}
+		}
+	}
 ?>

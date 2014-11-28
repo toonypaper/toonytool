@@ -248,8 +248,14 @@
 		$tpl->skin_modeling_hideArea("[{have_lockMenu_start}]","[{have_lockMenu_end}]","hide");
 	}else{
 		$tpl->skin_modeling_hideArea("[{deleteBtn_start}]","[{deleteBtn_end}]","hide");
-		$tpl->skin_modeling_hideArea("[{not_mainPage_start}]","[{not_mainPage_end}]","hide");
-		$tpl->skin_modeling_hideArea("[{have_lockMenu_start}]","[{have_lockMenu_end}]","show");
+		if($array['callName']=="main"){
+			$tpl->skin_modeling_hideArea("[{not_mainPage_start}]","[{not_mainPage_end}]","hide");
+			$tpl->skin_modeling_hideArea("[{have_lockMenu_start}]","[{have_lockMenu_end}]","show");
+		}else{
+			$tpl->skin_modeling_hideArea("[{not_mainPage_start}]","[{not_mainPage_end}]","show");
+			$tpl->skin_modeling_hideArea("[{have_lockMenu_start}]","[{have_lockMenu_end}]","hide");
+
+		}
 	}
 	if($array['title_img']==""){
 		$tpl->skin_modeling_hideArea("[title_img_hidden_start]","[title_img_hidden_end]","hide");

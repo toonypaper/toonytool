@@ -97,10 +97,24 @@ function validt_returnAjax($form,msg){
 		});
 }
 
+//form 내부에 article,m,p input을 생성하여 함께 submit 보냄
+function ajaxSubmitInfoInputs($form){
+	if($("input[name=article]",$form).length<1){
+		$form.append('<input type="hidden" name="article" value="'+article+'" />');
+	}
+	if($("input[name=m]",$form).length<1){
+		$form.append('<input type="hidden" name="m" value="'+m+'" />');
+	}
+	if($("input[name=p]",$form).length<1){
+		$form.append('<input type="hidden" name="p" value="'+p+'" />');
+	}
+}
+
 //첨부파일이 포함된 AJAX Submit을 시작함
 function ajaxFormSubmit($form){
 	var ajaxDefault = $form.attr("ajaxFormSubmit");
 	var ajaxAction = $form.attr("ajaxAction");
+	ajaxSubmitInfoInputs($form)
 	ajaxFormSubmit_val = true;
 	$form.attr("action",__URL_PATH__+ajaxAction);
 	$form.ajaxForm({
@@ -135,6 +149,7 @@ function ajaxFormSubmit($form){
 function ajaxSubmit($form){
 	var ajaxAction = $form.attr("ajaxAction");
 	var ajaxType = $form.attr("ajaxType");
+	ajaxSubmitInfoInputs($form)
 	$.ajax({
 		type		:	"POST",
 		url			:	__URL_PATH__+ajaxAction,

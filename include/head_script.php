@@ -1,10 +1,7 @@
 <?php
-
-
-
 /**************************************LICENSE**************************************/
 /*                                                                                 */
-/* [GPL라이선스]                                                                   */
+/* [GPL라이선스]                                                                     */
 /* 투니툴은 GPL라이선스를 따릅니다.                                                */
 /* 아래 Copyright는 라이선스 정책에 따라 절대 삭제 해서는 안됩니다.                */
 /*                                                                                 */
@@ -18,10 +15,7 @@ Copyright(C) Toonypaper(www.toonypaper.com) All Right Reserved.
 
 /*                                                                                 */
 /***********************************************************************************/
-
-
-
-
+	
 	//Index.php 거치지 않고 단독으로 Include되어 사용되는 경우를 위한 변수 초기화
 	if(strstr($_SERVER['PHP_SELF'],"index.php")!=true){
 		if(isset($_GET['m'])){
@@ -74,21 +68,21 @@ Copyright(C) Toonypaper(www.toonypaper.com) All Right Reserved.
 	}
 	echo "\n<link href=\"".__URL_PATH__."layoutskin/".$layoutDir."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	//모듈별 CSS
-	if($m){
-		echo "\n<link href=\"".__URL_PATH__."modules/{$m}/library/css/{$viewDir}global.css\" rel=\"stylesheet\" type=\"text/css\" />";
+	for($i=0;$i<count($modulesDir);$i++){
+		echo "\n<link href=\"".__URL_PATH__."modules/{$modulesDir[$i]}/library/css/{$viewDir}global.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	}
 	//사용자 정의 CSS
 	echo call_admin_design_bodyStyle("p");
 	//JS
-	echo "\n<script type=\"text/javascript\">__URL_PATH__ = \"".__URL_PATH__."\"; viewType = \"".$viewType."\"; viewDir = \"".$viewDir."\";</script>";
+	echo "\n<script type=\"text/javascript\">__URL_PATH__ = \"".__URL_PATH__."\"; viewType = \"".$viewType."\"; viewDir = \"".$viewDir."\"; article = \"".$article."\"; m=\"".$m."\"; p=\"".$p."\";</script>";
 	echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."library/js/jquery-1.7.1.js\"></script>";
 	echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."library/js/jquery-ui.js\"></script>";
 	echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."library/js/ghost_html5.js\"></script>";
 	echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."library/js/jquery.form.js\"></script>";
 	echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."library/js/global.js\"></script>";
 	//모듈별 JS
-	if($m){
-		echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."modules/{$m}/library/js/{$viewDir}global.js\"></script>";
+	for($i=0;$i<count($modulesDir);$i++){
+		echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."modules/{$modulesDir[$i]}/library/js/{$viewDir}global.js\"></script>";
 	}
 	//모바일 접속을 해도 유효하지 않은 페이지 선언
 	$dont_msite = array(
@@ -133,5 +127,4 @@ if(saveViewType=="p"){
 </script>
 ';
 	}
-	
 ?>

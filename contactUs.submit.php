@@ -15,7 +15,7 @@
 	/*
 	검사
 	*/
-	$validator->validt_name("name",1,"");
+	$validator->validt_nick("name",1,"");
 	$validator->validt_email("email",1,"");
 	$validator->validt_phone("phone",1,"");
 	$validator->validt_null("memo","");
