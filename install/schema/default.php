@@ -394,7 +394,7 @@
 		,('m','login','회원 로그인','26','2','10','','login','','mp',now(),'N','Y')
 		,('m','findPassword','비밀번호 찾기','26','2','11','','findPassword','','mp',now(),'N','Y')
 		,('m','account','신규 회원가입','26','2','12','','account','','mp',now(),'N','Y')
-		,('m','mypage','마이페이지','30','1','13','','','myInformation','fm',now(),'N','N')
+		,('m','mypage','마이페이지','30','1','13','','','myInformation','fm',now(),'N','Y')
 		,('m','myInformation','개인정보 변경','30','2','14','','myInformation','','mp',now(),'N','Y')
 		,('m','myPoint','나의 포인트 내역','30','2','15','','myPoint','','mp',now(),'N','Y')
 		,('m','search','통합검색','33','1','16','','','search_board','fm',now(),'N','Y')

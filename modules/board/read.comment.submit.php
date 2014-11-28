@@ -64,8 +64,10 @@
 			VALUES
 			('{$ln_array['ln_max']}','$read','$me_idno','$writer','$comment','{$_SERVER['REMOTE_ADDR']}',now(),'$tr_1','$tr_2','$tr_3','$tr_4','$tr_5')
 		");
+		//완료후 리턴
 		$validator->validt_success_function("read_comment_include()");
 	}
+	
 	
 	/*
 	대댓글 등록
@@ -126,6 +128,7 @@
 			VALUES
 			('$ln_insert','$rn_next','$read','$me_idno','$writer','$reply_comment_o','$_SERVER[REMOTE_ADDR]',now(),'$tr_1','$tr_2','$tr_3','$tr_4','$tr_5')
 		");
+		//완료후 리턴
 		$validator->validt_success_function("read_comment_include()");
 	}
 	

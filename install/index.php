@@ -13,7 +13,7 @@
 		if($functions->file_permission($file)){
 			return "<span style='color:blue;font-size:11px;letter-spacing:-1px;padding-left:10px;'>변경 완료됨</span>";
 		}else{
-			return "<span style='color:red;font-size:11px;letter-spacing:-1px;padding-left:10px;'>퍼미션 변경되지 않음</span>";
+			return "<span style='color:red;font-size:11px;letter-spacing:-1px;padding-left:10px;'>변경되지 않음</span>";
 		}
 	}
 	function module_check_txt($module){

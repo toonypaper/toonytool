@@ -42,7 +42,7 @@
 		//PHP버전 확인
 		public function php_versionCheck(){
 			$ver = phpversion();
-			if(version_compare($ver,'5.2.0','>')){  
+			if(version_compare($ver,'5.1.6','>')){  
 				return TRUE;  
 			}else{  
 				return FALSE;
