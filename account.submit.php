@@ -66,7 +66,7 @@
 	*/
 	//인증 메일 발송
 	$idCheckCode = md5(date("YmdHis").$id);
-	$idCheckUrl = __URL_PATH__."?article=account&p=account.idCheck&code=".$idCheckCode;
+	$idCheckUrl = __URL_PATH__."?article=account&p=account.idCheck&code=".$idCheckCode."&keepViewType=true";
 	$mailSender->template = "account";
 	$mailSender->t_email = $id;
 	$mailSender->t_name = $nick;

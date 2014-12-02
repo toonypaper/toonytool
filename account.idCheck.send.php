@@ -27,7 +27,7 @@
 	인증 메일 발송
 	*/
 	$idCheckCode = md5(date("YmdHis").$id);
-	$idCheckUrl = __URL_PATH__."?article=account&p=account.idCheck&code=".$idCheckCode;
+	$idCheckUrl = __URL_PATH__."?article=account&p=account.idCheck&code=".$idCheckCode."&keepViewType=true";
 	$mailSender->account_check_url = "<a href=\"{$idCheckUrl}\" target=\"_blank\">".$idCheckUrl."</a>";
 	$mailSender->template = "account";
 	$mailSender->t_email = $id;

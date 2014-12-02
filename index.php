@@ -22,7 +22,7 @@
 	$subpage = new skinController();
 	$mysql = new mysqlConnection();
 	
-	$method->method_param("GET","article,m,p,saveViewType");
+	$method->method_param("GET","article,m,p,saveViewType,keepViewType");
 	
 	/*
 	관리자 정보가 생성 되었되어 있는지 검사 (없다면 설치 3단계로 이동)

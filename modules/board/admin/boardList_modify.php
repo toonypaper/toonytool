@@ -229,6 +229,8 @@
 	}else{
 		$tpl->skin_modeling("[use_comment_checked_Y]","checked");
 		$tpl->skin_modeling("[use_comment_checked_N]","");
+		$tpl->skin_modeling("[use_secret_checked_Y]","checked");
+		$tpl->skin_modeling("[use_secret_checked_N]","");
 		$tpl->skin_modeling("[use_likes_checked_Y]","checked");
 		$tpl->skin_modeling("[use_likes_checked_N]","");
 		$tpl->skin_modeling("[use_reply_checked_Y]","checked");

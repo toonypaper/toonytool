@@ -33,6 +33,11 @@ Copyright(C) Toonypaper(www.toonypaper.com) All Right Reserved.
 		}else{
 			$saveViewType = "";
 		}
+		if(isset($_GET['keepViewType'])){
+			$keepViewType = $_GET['keepViewType'];
+		}else{
+			$keepViewType = "";
+		}
 		if(isset($_GET['viewType'])){
 			$viewType = $_GET['viewType'];
 		}else{
@@ -84,10 +89,6 @@ Copyright(C) Toonypaper(www.toonypaper.com) All Right Reserved.
 	for($i=0;$i<count($modulesDir);$i++){
 		echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."modules/{$modulesDir[$i]}/library/js/{$viewDir}global.js\"></script>";
 	}
-	//모바일 접속을 해도 유효하지 않은 페이지 선언
-	$dont_msite = array(
-		"account.idCheck"=>TRUE
-	);
 	//설치 도메인과 접속 도메인이 다른 경우(Corss Domain) 설치 도메인으로 재접속
 echo '
 <script type="text/javascript">
@@ -100,7 +101,7 @@ echo '
 </script>
 ';
 	//모바일 기기로 접속한 경우 모바일 페이지로 이동
-	if($site_config['ad_use_msite']=="Y"&&!array_key_exists($p,$dont_msite)){
+	if($site_config['ad_use_msite']=="Y"&&!array_key_exists($m.",".$p,$dont_msite)&&$keepViewType!="true"){
 echo '
 <script type="text/javascript">
 var viewType = "'.$viewType.'";

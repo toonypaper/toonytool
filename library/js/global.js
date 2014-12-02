@@ -97,7 +97,7 @@ function validt_returnAjax($form,msg){
 		});
 }
 
-//form 내부에 article,m,p input을 생성하여 함께 submit 보냄
+//form 내부에 article,m,p,viewType,viewDir input을 생성하여 함께 submit 보냄
 function ajaxSubmitInfoInputs($form){
 	if($("input[name=article]",$form).length<1){
 		$form.append('<input type="hidden" name="article" value="'+article+'" />');
@@ -107,6 +107,12 @@ function ajaxSubmitInfoInputs($form){
 	}
 	if($("input[name=p]",$form).length<1){
 		$form.append('<input type="hidden" name="p" value="'+p+'" />');
+	}
+	if($("input[name=viewType]",$form).length<1){
+		$form.append('<input type="hidden" name="viewType" value="'+viewType+'" />');
+	}
+	if($("input[name=viewDir]",$form).length<1){
+		$form.append('<input type="hidden" name="viewDir" value="'+viewDir+'" />');
 	}
 }
 

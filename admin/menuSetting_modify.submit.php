@@ -259,10 +259,10 @@
 		if(trim($class)!=""){
 			//parent 변수 값이 없는 경우 2차 메뉴 등록으로 간주하여 부모 메뉴의 자식 중 가장 큰 zindex값을 가져온다.
 			if($parent==""){
-				$where = "class='$class'";
+				$where = "class='$class' AND vtype='$vtype'";
 			//parent 변수 값이 있는 경우 3차 메뉴 등록으로 간주하여 parent 의 zindex값을 가져온다.
 			}else{
-				$where = "class='$class' AND idno='$parent'";
+				$where = "class='$class' AND idno='$parent' AND vtype='$vtype'";
 			}
 			$mysql->select("
 				SELECT zindex
@@ -276,7 +276,7 @@
 			$mysql->query("
 				UPDATE toony_admin_menuInfo
 				SET zindex=zindex+1
-				WHERE zindex>($zindex_val-1)
+				WHERE zindex>($zindex_val-1) AND vtype='$vtype'
 			");
 		}else{
 			$zindex_val = $newArray['max_zindex']+1;
@@ -306,7 +306,7 @@
 		$mysql->query("
 			UPDATE toony_admin_menuInfo
 			SET zindex=zindex-1
-			WHERE zindex>(".$mysql->fetch("zindex").")
+			WHERE zindex>(".$mysql->fetch("zindex").") AND vtype='$vtype'
 		");
 		//자신을 삭제 처리
 		$mysql->query("

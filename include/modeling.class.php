@@ -181,8 +181,8 @@
 						}
 					}
 				}
-				//article,m,p 기본 파라미터 처리
-				global $article,$m,$p;
+				//article,m,p,viewType,viewDir 기본 파라미터 처리
+				global $article,$m,$p,$viewType,$viewDir;
 				if(isset($_POST['article'])){
 					$article = $_POST['article'];
 				}
@@ -191,6 +191,12 @@
 				}
 				if(isset($_POST['p'])){
 					$p = $_POST['p'];
+				}
+				if(isset($_POST['viewType'])){
+					$viewType = $_POST['viewType'];
+				}
+				if(isset($_POST['viewDir'])){
+					$viewDir = $_POST['viewDir'];
 				}
 			}else if($type=="FILE"){
 				global $_FILES;
