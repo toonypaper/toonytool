@@ -28,7 +28,7 @@ function read_comment_include(){
 		comment_replace_url();
 	});
 }
-$(window).load(function(){
+$(document).ready(function(){
 	read_comment_include();
 	//글 삭제
 	$("#read_delete_btn").click(function(){
