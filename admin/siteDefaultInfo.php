@@ -41,6 +41,7 @@
 	}
 	$tpl->skin_modeling("[pavicon_file_name]",$site_config['ad_pavicon']);
 	$tpl->skin_modeling("[logo_file_name]",logo_file_name());
+	$tpl->skin_modeling("[logo_file_ed]",$site_config['ad_logo']);
 	$tpl->skin_modeling("[site_name_value]",$site_config['ad_site_name']);
 	$tpl->skin_modeling("[site_url_value]",$site_config['ad_site_url']);
 	$tpl->skin_modeling("[msite_url_value]",$site_config['ad_msite_url']);

@@ -8,7 +8,7 @@
 	$fileUploader = new fileUploader();
 	$validator = new validator();
 	
-	$method->method_param("POST","site_name,site_title,use_msite,ad_email,ad_phone,del_pavicon,pavicon_ed");
+	$method->method_param("POST","site_name,site_title,use_msite,ad_email,ad_phone,del_pavicon,pavicon_ed,logo_ed");
 	$method->method_param("FILE","pavicon");
 	$method->method_param("FILE","logo");
 	$lib->security_filter("referer");
@@ -76,16 +76,16 @@
 		//경로 및 파일 검사
 		$fileUploader->filePathCheck();
 		if($fileUploader->fileNameCheck()==false){
-			$validator->validt_diserror("pavicon","지원되지 않는 로고 이미지입니다.");
+			$validator->validt_diserror("logo","지원되지 않는 로고 이미지입니다.");
 		}
 		//파일저장
 		$logo_name = date("ymdtis",mktime())."_".substr(md5($logo['name']),4,10).".".$fileUploader->fileNameType();
 		$logo_name = str_replace(" ","_",$logo_name);
 		if($fileUploader->fileUpload($logo_name)==false){
-			$validator->validt_diserror("pavicon","로고 이미지 저장에 실패 하였습니다.");
+			$validator->validt_diserror("logo","로고 이미지 저장에 실패 하였습니다.");
 		}
 		//이전에 첨부한 파일이 있다면 삭제
-		if($logo_ed&&$del_logo!="checked"){
+		if($logo_ed){
 			$fileUploader->fileDelete($logo_ed);
 		}
 	}else{

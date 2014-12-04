@@ -344,7 +344,7 @@
 		if($array['use_html']=="Y"){
 			return $array['ment'];
 		}else{
-			return htmlspecialchars(nl2br($array['ment']));
+			return nl2br(htmlspecialchars($array['ment']));
 		}
 	}
 	//카테고리명 출력
@@ -406,6 +406,7 @@
 		}else{
 			$skin_read->skin_modeling_hideArea("[{read_likes_start}]","[{read_likes_end}]","hide");
 		}
+		$skin_read->skin_modeling("[viewDir_value]",$viewDir);
 		$skin_read->skin_modeling("[article_value]",$article);
 		$skin_read->skin_modeling("[category_value]",$category);
 		$skin_read->skin_modeling("[board_id_value]",$board_id);
