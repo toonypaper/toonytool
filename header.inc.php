@@ -63,7 +63,7 @@
 		}
 		//관리자인 경우
 		if($member['me_level']==1){
-			$btn .= "<li><a href=\"".__URL_PATH__."admin/\" target=\"_blank\">관리모드</a></li>";
+			$btn .= "<li><a href=\"".__URL_PATH__."admin/\">관리모드</a></li>";
 		}
 		return $btn;
 	}

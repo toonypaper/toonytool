@@ -25,7 +25,7 @@
 			$btn .= "<li><a href=\"".__URL_PATH__."{$viewDir}?article=member&p=logout.submit\">로그아웃</a></li>";
 		}
 		if($member['me_level']==1){
-			$btn .= "<li><a href=\"".__URL_PATH__."admin/\" target=\"_blank\">관리모드</a></li>";
+			$btn .= "<li><a href=\"".__URL_PATH__."admin/\">관리모드</a></li>";
 		}
 		return $btn;
 	}
