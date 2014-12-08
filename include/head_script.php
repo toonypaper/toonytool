@@ -101,7 +101,7 @@ echo '
 </script>
 ';
 	//모바일 기기로 접속한 경우 모바일 페이지로 이동
-	if($site_config['ad_use_msite']=="Y"&&!array_key_exists($m.",".$p,$dont_msite)&&$keepViewType!="true"){
+	if($site_config['ad_use_msite']=="Y"&&$keepViewType!="true"){
 echo '
 <script type="text/javascript">
 var viewType = "'.$viewType.'";

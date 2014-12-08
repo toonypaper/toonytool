@@ -12,7 +12,7 @@
 		
 		//Mysql 연결 초기화
 		public function __construct(){
-			$this->connect = mysql_connect($this->host,$this->db_user,$this->db_pass ,TRUE);
+			$this->connect = mysql_connect($this->host,$this->db_user,$this->db_pass,FALSE);
 			if(!$this->connect){
 				die("DB에 접속할 수 없습니다.");
 			}
@@ -97,10 +97,6 @@
 			for($i=0;$i<sizeof($expl);$i++){
 				$this->array[$expl[$i]] = stripslashes($this->fetch($expl[$i]));
 			}
-		}
-		//Mysql 연결 해제
-		public function __destruct(){
-			mysql_close($this->connect);
 		}
 	}
 ?>
