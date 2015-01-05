@@ -77,7 +77,7 @@ Copyright(C) Toonypaper(www.toonypaper.com) All Right Reserved.
 		echo "\n<link href=\"".__URL_PATH__."modules/{$modulesDir[$i]}/library/css/{$viewDir}global.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	}
 	//사용자 정의 CSS
-	echo call_admin_design_bodyStyle("p");
+	echo call_admin_design_bodyStyle($viewType);
 	//JS
 	echo "\n<script type=\"text/javascript\">__URL_PATH__ = \"".__URL_PATH__."\"; viewType = \"".$viewType."\"; viewDir = \"".$viewDir."\"; article = \"".$article."\"; m=\"".$m."\"; p=\"".$p."\";</script>";
 	echo "\n<script type=\"text/javascript\" src=\"".__URL_PATH__."library/js/jquery-1.7.1.js\"></script>";
