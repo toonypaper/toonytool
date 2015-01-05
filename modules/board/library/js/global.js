@@ -1,17 +1,6 @@
 /*
 글읽기
 */
-//본문내 링크 값이 있는 경우 자동 _blank(새창) 처리
-$(document).ready(function(){
-	$("a").each(function(){
-		if($(this).attr("target")=="_self"){
-			return false;
-		}else{
-			$(this).attr("target","_blank");
-		}
-	});
-});
-
 //댓글 내에서 url 문자열을 자동링크
 function comment_replace_url(){
 	var url_patt = /((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\wㄱ-ㅎㅏ-ㅣ가-힣\;\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?)/gi;

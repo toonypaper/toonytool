@@ -13,8 +13,7 @@
 	
 	$file = new stdClass;
 	$file->name = rawurldecode($headers['file_name']);
-	$file_type = array_pop(explode(".",strtolower($headers['file_name'])));
-	$file->replace_name = rawurldecode(date("YmdHis")."_".substr(md5($headers['file_name']),0,20)).".".$file_type;
+	$file->replace_name = rawurldecode(date("YmdHis")."_".$headers['file_name']);
 	$file->size = $headers['file_size'];
 	$file->content = file_get_contents("php://input");
 	

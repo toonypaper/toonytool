@@ -61,6 +61,19 @@
 	";
 	
 	/*
+	회원 접속경로 기록 테이블
+	*/
+	$db_toony_admin_referer = "
+		create table toony_admin_referer(
+			idno int(11) auto_increment,
+			referer_sub text not null,
+			referer text not null,
+			regdate datetime,
+			primary key(idno)
+		)engine=innodb default charset=utf8
+	";
+	
+	/*
 	IP 차단 기록 테이블
 	*/
 	$db_toony_admin_security_ip = "

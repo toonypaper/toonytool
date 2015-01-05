@@ -10907,9 +10907,9 @@ nhn.husky.SE2M_Hyperlink = jindo.$Class({
 		if(this._validateURL(sURL)){
 			//if(this.oCbNewWin.checked){
 			// if(false){
-				sTarget = "_blank";
+				// sTarget = "_blank";
 			// }else{
-				//sTarget = "_self";
+				sTarget = "_self";
 			//}
 			
 			this.oApp.exec("RECORD_UNDO_BEFORE_ACTION", ["HYPERLINK", {sSaveTarget:(this.bModify ? "A" : null)}]);

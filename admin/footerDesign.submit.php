@@ -23,5 +23,5 @@
 	/*
 	완료 후 리턴
 	*/
-	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=footerDesign&vtype=$vtype");
+	$validator->validt_success("성공적으로 수정 되었습니다.","admin/?p=footerDesign");
 ?>
