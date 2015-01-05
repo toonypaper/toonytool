@@ -9,8 +9,8 @@ $bSuccessUpload = is_uploaded_file($_FILES['Filedata']['tmp_name']);
 if(bSuccessUpload) {
 	$tmp_name = $_FILES['Filedata']['tmp_name'];
 	$name = $_FILES['Filedata']['name'];
-	$replace_name = date("YmdHis")."_".$_FILES['Filedata']['name'];
-	
+	$file_type = array_pop(explode(".",strtolower($_FILES['Filedata']['name'])));
+	$replace_name = date("YmdHis")."_".substr(md5($_FILES['Filedata']['name']),0,20).".".$file_type;
 	$filename_ext = strtolower(array_pop(explode('.',$name)));
 	$allow_file = array("jpg", "png", "bmp", "gif");
 	

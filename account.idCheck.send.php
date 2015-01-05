@@ -20,8 +20,8 @@
 		FROM toony_member_list
 		WHERE me_id='$id' AND me_drop_regdate IS NULL
 	");
-	$member[me_nick] = $mysql->fetch("me_nick");
-	$member[me_idno] = $mysql->fetch("me_idno");
+	$member['me_nick'] = $mysql->fetch("me_nick");
+	$member['me_idno'] = $mysql->fetch("me_idno");
 	
 	/*
 	인증 메일 발송

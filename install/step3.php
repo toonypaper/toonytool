@@ -60,7 +60,6 @@
 		mysql_query($db_insert_toony_admin_siteconfig,$connect);
 		mysql_query($db_toony_admin_counter,$connect);
 		mysql_query($db_toony_admin_member_online,$connect);
-		mysql_query($db_toony_admin_referer,$connect);
 		mysql_query($db_toony_admin_security_ip,$connect);
 		mysql_query($db_toony_admin_security_member,$connect);
 		mysql_query($db_toony_admin_popupconfig,$connect);
