@@ -356,7 +356,7 @@
 			$mysql->fetchArray("category,writer,subject,name,ment,me_nick,idno,me_idno,regdate,view,vote,cmtnum,use_notice,use_secret,use_html,file1,file2,rn,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
 			$array = $mysql->array;
 			
-			include_once __DIR_PATH__."modules/board/skin/".$c_array['skin']."/plugins/index_notice.inc.php";
+			include __DIR_PATH__."modules/board/skin/".$c_array['skin']."/plugins/index_notice.inc.php";
 			$notice_loop->skin_modeling("[/boardskinDir/]",__URL_PATH__."modules/board/skin/".$c_array['skin']."/".$viewDir);
 			$notice_loop->skin_modeling("[controll_chk]",array_subject_controll_chk());
 			$notice_loop->skin_modeling("[link]",__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword);
@@ -434,7 +434,7 @@
 			$mysql->fetchArray("category,writer,subject,name,ment,me_idno,idno,regdate,view,vote,cmtnum,use_notice,use_secret,use_html,file1,file2,rn,likes_count,unlikes_count,td_1,td_2,td_3,td_4,td_5");
 			$array = $mysql->array;
 			
-			include_once __DIR_PATH__."modules/board/skin/".$c_array['skin']."/plugins/index_array.inc.php";
+			include __DIR_PATH__."modules/board/skin/".$c_array['skin']."/plugins/index_array.inc.php";
 			$array_loop->skin_modeling("[/boardskinDir/]",__URL_PATH__."modules/board/skin/".$c_array['skin']."/".$viewDir);
 			$array_loop->skin_modeling("[controll_chk]",array_subject_controll_chk());
 			$array_loop->skin_modeling("[link]",__URL_PATH__."{$viewDir}?article={$article}&category=".urlencode($category)."&p=read&read=".$array['idno']."&page=".$page."&where=".$where."&keyword=".$keyword);
