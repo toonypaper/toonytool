@@ -53,6 +53,7 @@ $(function(){
 				$mysql->select("
 					SELECT DATE_FORMAT(regdate,'%m') month,DATE_FORMAT(regdate,'%Y') year
 					FROM toony_admin_counter 
+					WHERE regdate>DATE_SUB(now(),INTERVAL 5 month)
 					GROUP BY year,month
 					ORDER BY year ASC, month ASC
 					LIMIT 6
@@ -79,6 +80,7 @@ $(function(){
 						SELECT COUNT(*) count_re,
 						DATE_FORMAT(regdate,'%Y.%m') date_re
 						FROM toony_admin_counter
+						WHERE regdate>DATE_SUB(now(),INTERVAL 5 month)
 						GROUP BY date_re
 						HAVING date_re='".$month[$i]."'
 					");
@@ -98,7 +100,7 @@ $(function(){
 						SELECT COUNT(*) count_re,
 						DATE_FORMAT(regdate,'%Y.%m') date_re
 						FROM toony_admin_counter
-						WHERE me_idno!=0
+						WHERE me_idno!=0 AND regdate>DATE_SUB(now(),INTERVAL 5 month)
 						GROUP BY date_re
 						HAVING date_re='".$month[$i]."'
 					");
@@ -118,7 +120,7 @@ $(function(){
 						SELECT COUNT(*) count_re,
 						DATE_FORMAT(regdate,'%Y.%m') date_re
 						FROM toony_admin_counter
-						WHERE me_idno=0
+						WHERE me_idno=0 AND regdate>DATE_SUB(now(),INTERVAL 5 month)
 						GROUP BY date_re
 						HAVING date_re='".$month[$i]."'
 					");
@@ -138,7 +140,7 @@ $(function(){
 						SELECT COUNT(*) count_re,
 						DATE_FORMAT(me_regdate,'%Y.%m') date_re
 						FROM toony_member_list
-						WHERE me_drop_regdate IS NULL
+						WHERE me_drop_regdate IS NULL AND me_regdate>DATE_SUB(now(),INTERVAL 5 month)
 						GROUP BY date_re
 						HAVING date_re='".$month[$i]."'
 					");
