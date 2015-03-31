@@ -113,7 +113,6 @@ A:hover{text-decoration:underline; color:#000000}
 body{ margin:0; padding:0; }
 header{ width:408px; margin:0 auto; margin-top:100px; }
 article{ background-color:#dedede; padding:20px; margin-top:25px; text-align:center; }
-article .alert{ margin:0 auto; width:388px; text-align:left; color:#ff0000; padding:10px; margin-bottom:10px; border:1px solid #ff0000; font-size:12px; background:#fff; }
 article .inner{ width:408px; margin:0 auto; text-align:left; }
 article .t{ background:#343549; font-size:13px; color:#fff; letter-spacing:-1px; padding:15px; padding-left:10px; }
 article .t strong{ padding-right:10px; }

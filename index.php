@@ -1,5 +1,12 @@
 <?php
 	/*
+	엔진이 설치되어 있는지 검사
+	*/
+	if(!is_file("include/mysql.info.php")||!is_file("include/path.info.php")){
+		echo '<script type="text/javascript">document.location.href = "install/index.php";</script>'; exit; 
+	}
+	
+	/*
 	PC버전으로 출력함
 	*/
 	$viewType = "p";
@@ -9,13 +16,6 @@
 	include __DIR_PATH__."include/global.php";
 	include __DIR_PATH__."include/outModules.inc.php";
 	
-	/*
-	엔진이 설치되어 있는지 검사
-	*/
-	if(!is_file("include/mysql.info.php")||!is_file("include/path.info.php")||!defined('__HOST__')||!defined('__DB_NAME__')||!defined('__DB_USER__')||!defined('__DB_PASS__')||!defined('__URL_PATH__')||!defined('__DIR_PATH__')||strstr("http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'],__URL_PATH__)==FALSE||strstr(str_replace("\\","/",realpath(__FILE__)),__DIR_PATH__)==FALSE){
-		echo '<script type="text/javascript">document.location.href = "install/index.php";</script>'; exit;
-	}
-	
 	$lib = new libraryClass();
 	$method = new methodController();
 	$innerCont = new skinController();
@@ -23,6 +23,18 @@
 	$mysql = new mysqlConnection();
 	
 	$method->method_param("GET","article,m,p,saveViewType,keepViewType");
+	
+	/*
+	관리자 정보가 생성 되었되어 있는지 검사 (없다면 설치 3단계로 이동)
+	*/
+	$mysql->select("
+		SELECT *
+		FROM toony_member_list
+		WHERE me_admin='Y' AND me_drop_regdate IS NULL
+	");
+	if($mysql->numRows()<1){
+		$lib->error_location(__URL_PATH__."install/step3.php","A");
+	}
 	
 	/*
 	검사

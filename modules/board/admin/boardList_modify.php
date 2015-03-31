@@ -23,7 +23,7 @@
 			FROM toony_module_board_config
 			WHERE board_id='$act'
 		");
-		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_secret,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,ico_file,ico_mobile,ico_secret,ico_secret_def,ico_new,ico_new_def,ico_hot,ico_hot_def,tc_1,tc_2,tc_3,tc_4,tc_5");
+		$mysql->fetchArray("write_point,read_point,skin,board_id,name,list_limit,length_limit,use_secret,use_comment,use_likes,use_category,category,use_reply,use_vote,use_file1,use_file2,use_list,file_limit,void_html,controll_level,write_level,read_level,secret_level,comment_level,array_level,reply_level,delete_level,top_file,bottom_file,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
 		$array = $mysql->array;
 		$mysql->htmlspecialchars = 0;
 		$mysql->nl2br = 0;
@@ -70,26 +70,6 @@
 	$bottom_source_exp = explode("{||||||||||}",$array['bottom_source']);
 	$array['bottom_source'] = $bottom_source_exp[0];
 	$array['bottom_m_source'] = $bottom_source_exp[1];
-	$ico_file_exp = explode("|",$array['ico_file']);
-	$array['use_ico_file_p'] = $ico_file_exp[0];
-	$array['use_ico_file_m'] = $ico_file_exp[1];
-	$ico_mobile_exp = explode("|",$array['ico_mobile']);
-	$array['use_ico_mobile_p'] = $ico_mobile_exp[0];
-	$array['use_ico_mobile_m'] = $ico_mobile_exp[1];
-	$ico_secret_exp = explode("|",$array['ico_secret']);
-	$array['use_ico_secret_p'] = $ico_secret_exp[0];
-	$array['use_ico_secret_m'] = $ico_secret_exp[1];
-	$array['use_ico_secret_def'] = $array['ico_secret_def'];
-	$ico_new_exp = explode("|",$array['ico_new']);
-	$array['use_ico_new_p'] = $ico_new_exp[0];
-	$array['use_ico_new_m'] = $ico_new_exp[1];
-	$ico_hot_exp = explode("|",$array['ico_hot']);
-	$array['use_ico_hot_p'] = $ico_hot_exp[0];
-	$array['use_ico_hot_m'] = $ico_hot_exp[1];
-	$ico_hot_def_exp = explode("|",$array['ico_hot_def']);
-	$array['ico_hot_def0'] = $ico_hot_def_exp[0];
-	$array['ico_hot_def1'] = $ico_hot_def_exp[1];
-	$array['ico_hot_def2'] = $ico_hot_def_exp[2];
 	
 	/*
 	검사
@@ -111,11 +91,22 @@
 	*/
 	function use_checked($var,$fieldName){
 		global $array;
-		switch($array['use_'."$fieldName"]){
-			case "$var" : 
-				return "checked";
-				break;
-			default :
+		if($var=="Y"){
+			switch($array['use_'."$fieldName"]){
+				case "Y" : 
+					return "checked";
+					break;
+				default :
+			}
+		}
+		if($var=="N"){
+			switch($array['use_'."$fieldName"]){
+				case "N" : 
+					return "checked";
+					break;
+				default :
+					return "";
+			}
 		}
 	}
 	function level_option_value($fieldName,$slt){
@@ -159,24 +150,6 @@
 			$option .= "<option value=\"".$val."\" ".$selected_var.">".$val."</option>\n";
 		}
 		return $option;
-	}
-	
-	function ico_hot_def_options_value(){
-		global $ico_hot_def_exp;
-		if($ico_hot_def_exp[1]=="OR"){
-			$selected_var_or = "selected";
-			$selected_var_and = "";
-		}else if($ico_hot_def_exp[1]=="AND"){
-			$selected_var_or = "";
-			$selected_var_and = "selected";
-		}else{
-			$selected_var_or = "";
-			$selected_var_and = "";
-		}
-		return "
-			<option value=\"OR\" $selected_var_or>또는</option>\n
-			<option value=\"AND\" $selected_var_and>그리고</option>
-		";
 	}
 
 	/*
@@ -247,32 +220,6 @@
 		$tpl->skin_modeling("[articleIMG_m_height_value]",$array['articleIMG_m_height']);
 		$tpl->skin_modeling("[article_length_value]",$array['article_length']);
 		$tpl->skin_modeling("[article_m_length_value]",$array['article_m_length']);
-		$tpl->skin_modeling("[ico_secret_def_checked_Y]",use_checked("Y","ico_secret_def"));
-		$tpl->skin_modeling("[ico_secret_def_checked_N]",use_checked("N","ico_secret_def"));
-		$tpl->skin_modeling("[ico_file_p_checked_Y]",use_checked("Y","ico_file_p"));
-		$tpl->skin_modeling("[ico_file_p_checked_N]",use_checked("N","ico_file_p"));
-		$tpl->skin_modeling("[ico_file_m_checked_Y]",use_checked("Y","ico_file_m"));
-		$tpl->skin_modeling("[ico_file_m_checked_N]",use_checked("N","ico_file_m"));
-		$tpl->skin_modeling("[ico_secret_p_checked_Y]",use_checked("Y","ico_secret_p"));
-		$tpl->skin_modeling("[ico_secret_p_checked_N]",use_checked("N","ico_secret_p"));
-		$tpl->skin_modeling("[ico_secret_m_checked_Y]",use_checked("Y","ico_secret_m"));
-		$tpl->skin_modeling("[ico_secret_m_checked_N]",use_checked("N","ico_secret_m"));
-		$tpl->skin_modeling("[ico_new_def_value]",$array['ico_new_def']);
-		$tpl->skin_modeling("[ico_new_p_checked_Y]",use_checked("Y","ico_new_p"));
-		$tpl->skin_modeling("[ico_new_p_checked_N]",use_checked("N","ico_new_p"));
-		$tpl->skin_modeling("[ico_new_m_checked_Y]",use_checked("Y","ico_new_m"));
-		$tpl->skin_modeling("[ico_new_m_checked_N]",use_checked("N","ico_new_m"));
-		$tpl->skin_modeling("[ico_hot_def_read_value]",$array['ico_hot_def2']);
-		$tpl->skin_modeling("[ico_hot_def_options_value]",ico_hot_def_options_value());
-		$tpl->skin_modeling("[ico_hot_def_vote_value]",$array['ico_hot_def0']);
-		$tpl->skin_modeling("[ico_hot_p_checked_Y]",use_checked("Y","ico_hot_p"));
-		$tpl->skin_modeling("[ico_hot_p_checked_N]",use_checked("N","ico_hot_p"));
-		$tpl->skin_modeling("[ico_hot_m_checked_Y]",use_checked("Y","ico_hot_m"));
-		$tpl->skin_modeling("[ico_hot_m_checked_N]",use_checked("N","ico_hot_m"));
-		$tpl->skin_modeling("[ico_mobile_p_checked_Y]",use_checked("Y","ico_mobile_p"));
-		$tpl->skin_modeling("[ico_mobile_p_checked_N]",use_checked("N","ico_mobile_p"));
-		$tpl->skin_modeling("[ico_mobile_m_checked_Y]",use_checked("Y","ico_mobile_m"));
-		$tpl->skin_modeling("[ico_mobile_m_checked_N]",use_checked("N","ico_mobile_m"));
 		$tpl->skin_modeling("[tc_1]",$array['tc_1']);
 		$tpl->skin_modeling("[tc_2]",$array['tc_2']);
 		$tpl->skin_modeling("[tc_3]",$array['tc_3']);
@@ -335,32 +282,6 @@
 		$tpl->skin_modeling("[articleIMG_m_width_value]","250");
 		$tpl->skin_modeling("[articleIMG_height_value]","400");
 		$tpl->skin_modeling("[articleIMG_m_height_value]","250");
-		$tpl->skin_modeling("[ico_secret_def_checked_Y]","");
-		$tpl->skin_modeling("[ico_secret_def_checked_N]","checked");
-		$tpl->skin_modeling("[ico_file_p_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_file_p_checked_N]","");
-		$tpl->skin_modeling("[ico_file_m_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_file_m_checked_N]","");
-		$tpl->skin_modeling("[ico_secret_p_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_secret_p_checked_N]","");
-		$tpl->skin_modeling("[ico_secret_m_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_secret_m_checked_N]","");
-		$tpl->skin_modeling("[ico_new_def_value]","4320");
-		$tpl->skin_modeling("[ico_new_p_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_new_p_checked_N]","");
-		$tpl->skin_modeling("[ico_new_m_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_new_m_checked_N]","");
-		$tpl->skin_modeling("[ico_hot_def_read_value]","50");
-		$tpl->skin_modeling("[ico_hot_def_options_value]",ico_hot_def_options_value());
-		$tpl->skin_modeling("[ico_hot_def_vote_value]","10");
-		$tpl->skin_modeling("[ico_hot_p_checked_Y]","");
-		$tpl->skin_modeling("[ico_hot_p_checked_N]","checked");
-		$tpl->skin_modeling("[ico_hot_m_checked_Y]","");
-		$tpl->skin_modeling("[ico_hot_m_checked_N]","checked");
-		$tpl->skin_modeling("[ico_mobile_p_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_mobile_p_checked_N]","");
-		$tpl->skin_modeling("[ico_mobile_m_checked_Y]","checked");
-		$tpl->skin_modeling("[ico_mobile_m_checked_N]","");
 		$tpl->skin_modeling("[tc_1]","");
 		$tpl->skin_modeling("[tc_2]","");
 		$tpl->skin_modeling("[tc_3]","");

@@ -58,30 +58,6 @@
 	$footer->skin_loop_footer("[{loop_end}]");
 	
 	/*
-	템플릿 함수
-	*/
-	function confCopy_options(){
-		global $array;
-		$options = NULL;
-		$mysql = new mysqlConnection();
-		$mysql->select("
-			SELECT *
-			FROM toony_module_board_config
-			WHERE board_id!='{$array['board_id']}'
-			ORDER BY name ASC
-		");
-		if($mysql->numRows()>0){
-			$options = "<option value=\"NONE\">게시판 선택</option>";
-			do{
-				$options .= "<option value=\"".$mysql->fetch("board_id")."\">".$mysql->fetch("name")." (".$mysql->fetch("board_id").")</option>";
-			}while($mysql->nextRec());
-			return $options;
-		}else{
-			return $options .= "<option value=\"NONE\">복사 대상 없음</option>";
-		}
-	}
-	
-	/*
 	템플릿 치환
 	*/
 	//header
@@ -90,7 +66,7 @@
 	if($array_total>0){
 		$i = 0;
 		do{
-			$mysql->fetchArray("board_id,name,regdate,skin");
+			$mysql->fetchArray("board_id,title,name,regdate,skin");
 			$array = $mysql->array;
 			$loop->skin_modeling("[title]","<a href=\"".__URL_PATH__."admin/?m=board&p=boardList_modify&type=modify&act=".$array['board_id']."\">".$array['name']."</a>");
 			$loop->skin_modeling("[name]",$array['board_id']);
@@ -102,8 +78,6 @@
 			$loop->skin_modeling("[skin]",$array['skin']);
 			$loop->skin_modeling("[modify_btn]","<a href=\"".__URL_PATH__."admin/?m=board&p=boardList_modify&type=modify&act=".$array['board_id']."\" class=\"__btn_s_setting\" title=\"설정 변경\"></a>");
 			$loop->skin_modeling("[regdate]","<span title=\"".$array['regdate']."\">".date("Y.m.d",strtotime($array['regdate']))."</span>");
-			$loop->skin_modeling("[confCopy_parent_id]",$array['board_id']);
-			$loop->skin_modeling("[confCopy_options]",confCopy_options());
 			echo $loop->skin_echo();
 		}while($mysql->nextRec());
 	}

@@ -1,43 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function(){
-	$('a[copy_optionsBtn]').click(function(){
-		if(confirm("이 게시판의 설정 값을\n\n선택한 게시판으로 복사 하시겠습니까?")==true){
-			var board_id = $('select option:selected',$(this).parent()).val();
-			var parent_id = $(this).parent().attr('copy_optionsBox');
-			if(board_id!="NONE"){
-				$.ajax({
-					cache		:	false,
-					async		:	false,
-					type		:	"POST",
-					url			:	__URL_PATH__+"modules/board/admin/boardList.submit.php",
-					data		:	{
-										'board_id':board_id,
-										'parent_id':parent_id
-									},
-					dataType	:	"HTML",
-					success		:	function(msg){
-										switch(msg){
-											case "<!--error::null_board_id-->" :
-												alert("설정값을 받을 게시판이 선택되지 않았습니다.");
-												break;
-											case "<!--error::null_parent_id-->" :
-												alert("설정값을 보낼 게시판이 선택되지 않았습니다.");
-												break;
-											case "<!--success::1-->" :
-												alert("설정값이 복사 되었습니다.");
-												window.document.location.reload();
-												break;
-										}
-									}
-				});
-			}else{
-				alert('게시판이 선택되지 않았습니다.');
-			}
-		}
-	});
-});
-</script>
-
 <div id="layout">
 	<?php include_once __DIR_PATH__."admin/header.inc.php"; ?>
 	<article class="wrap">
@@ -47,7 +7,7 @@ $(document).ready(function(){
 				<h2>게시판 리스트</h2>
 			</div>
 			<div class="cont">
-				<div class="__article_notice">naver.com
+				<div class="__article_notice">
 					생성된 게시판을 관리 하세요.
 				</div>
 				<div class="contArticle">
@@ -59,7 +19,6 @@ $(document).ready(function(){
 								<th style="width:80px;">등록글수</th>
 								<th style="width:150px;">스킨</th>
 								<th style="width:60px;">생성일</th>
-								<th style="width:150px;">설정 보내기</th>
 								<th class="___l" style="width:35px;">관리</th>
 							</tr>
 						</thead>
@@ -71,12 +30,6 @@ $(document).ready(function(){
 								<td style="text-align:center;"><strong>[data_count]</strong>개의 글</td>
 								<td style="text-align:center;">[skin]</td>
 								<td class="___number">[regdate]</td>
-								<td style="text-align:center; font-size:0;" copy_optionsBox="[confCopy_parent_id]">
-									<select name="copy_optionsSelect" style="width:120px; font-size:11px; letter-spacing:-1px; padding:4px 2px;">
-										[confCopy_options]
-									</select>
-									<a href="#" class="__btn_s_add" title="설정 보내기" copy_optionsBtn></a>
-								</td>
 								<td style="text-align:center;">[modify_btn]</td>
 							</tr>
 							[{loop_end}]

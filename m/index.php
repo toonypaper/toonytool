@@ -9,13 +9,6 @@
 	include __DIR_PATH__."include/global.php";
 	include __DIR_PATH__."include/outModules.inc.php";
 	
-	/*
-	엔진이 설치되어 있는지 검사
-	*/
-	if(!is_file("../include/mysql.info.php")||!is_file("../include/path.info.php")||!defined('__HOST__')||!defined('__DB_NAME__')||!defined('__DB_USER__')||!defined('__DB_PASS__')||!$mysql->is_table("toony_admin_siteconfig")||strstr("http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'],__URL_PATH__)===FALSE||strstr(str_replace("\\","/",realpath(__FILE__)),__DIR_PATH__)===FALSE){
-		echo '<script type="text/javascript">document.location.href = "../install/index.php";</script>'; exit;
-	}
-	
 	$lib = new libraryClass();
 	$method = new methodController();
 	$innerCont = new skinController();
@@ -29,6 +22,13 @@
 	*/
 	if($site_config['ad_use_msite']=="N"){
 		$lib->error_location($site_config['ad_site_url'],"A");
+	}
+	
+	/*
+	엔진이 설치되어 있는지 검사
+	*/
+	if(!is_file("../include/mysql.info.php")||!is_file("../include/path.info.php")||!$mysql->is_table("toony_admin_siteconfig")){
+		$lib->error_location("../install","A");
 	}
 	
 	/*

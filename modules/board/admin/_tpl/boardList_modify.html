@@ -146,16 +146,10 @@ var $form = $("form[name=boardList_modifyForm]");
 									</td>
 								</tr>
 								<tr>
-									<th rowspan="2">비밀글 작성 기능</th>
+									<th>비밀글 작성 기능</th>
 									<td>
 										<label><input type="radio" name="use_secret" value="Y" [use_secret_checked_Y] />사용</label>
 										<label><input type="radio" name="use_secret" value="N" [use_secret_checked_N] />사용안함</label>
-									</td>
-								<tr>		
-									<td>
-										<span class="__article_sment" style="display:inline-block; *display:inline; *zoom:1; letter-spacing:-1px;"><strong>비밀글 기본 사용 설정</strong></span>
-										<label><input type="radio" name="ico_secret_def" value="Y" [ico_secret_def_checked_Y] />기본으로 사용함</label>
-										<label><input type="radio" name="ico_secret_def" value="N" [ico_secret_def_checked_N] />기본으로 사용하지 않음</label>
 									</td>
 								</tr>
 								<tr>
@@ -308,107 +302,7 @@ var $form = $("form[name=boardList_modifyForm]");
 								</tr>
 							</tbody>
 						</table>
-						<table cellpadding="0" cellspacing="0" class="__article_table_read" style="margin-top:30px;">
-							<thead>
-								<tr>
-									<th colspan="2">아이콘 설정</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th rowspan="2">첨부파일 아이콘 <img src="../modules/board/images/array_list_file.gif" /></th>
-									<td>
-										<img src="images/pc_ico.jpg" alt="홈페이지" title="홈페이지" />
-										<label><input type="radio" name="ico_file_p" value="Y" [ico_file_p_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_file_p" value="N" [ico_file_p_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/mobile_ico.jpg" alt="모바일페이지" title="모바일페이지" />
-										<label><input type="radio" name="ico_file_m" value="Y" [ico_file_m_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_file_m" value="N" [ico_file_m_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<th rowspan="2">비밀글 아이콘 <img src="../modules/board/images/array_list_secret.gif" /></th>
-									<td>
-										<img src="images/pc_ico.jpg" alt="홈페이지" title="홈페이지" />
-										<label><input type="radio" name="ico_secret_p" value="Y" [ico_secret_p_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_secret_p" value="N" [ico_secret_p_checked_N]  />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/mobile_ico.jpg" alt="모바일페이지" title="모바일페이지" />
-										<label><input type="radio" name="ico_secret_m" value="Y" [ico_secret_m_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_secret_m" value="N" [ico_secret_m_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<th rowspan="3">NEW 아이콘 <img src="../modules/board/images/array_list_new.gif" /></th>
-									<td>
-										<input type="text" name="ico_new_def" value="[ico_new_def_value]" title="NEW 아이콘 수치" style="width:100px;" /> 분
-										전에 올라온 글에 노출합니다.
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/pc_ico.jpg" alt="홈페이지" title="홈페이지" />
-										<label><input type="radio" name="ico_new_p" value="Y" [ico_new_p_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_new_p" value="N" [ico_new_p_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/mobile_ico.jpg" alt="모바일페이지" title="모바일페이지" />
-										<label><input type="radio" name="ico_new_m" value="Y" [ico_new_m_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_new_m" value="N" [ico_new_m_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<th rowspan="3">HOT 아이콘 <img src="../modules/board/images/array_list_hot.gif" /></th>
-									<td>
-										<input type="text" name="ico_hot_def_v" value="[ico_hot_def_vote_value]" title="HOT 아이콘 추천 수치" style="width:50px;" /> 회 추천
-										<select name="ico_hot_def_type">
-											[ico_hot_def_options_value]
-										</select>
-										<input type="text" name="ico_hot_def_r" value="[ico_hot_def_read_value]" title="HOT 아이콘 조회 수치" style="width:50px;" /> 회 조회
-										된 글에 노출합니다.
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/pc_ico.jpg" alt="홈페이지" title="홈페이지" />
-										<label><input type="radio" name="ico_hot_p" value="Y" [ico_hot_p_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_hot_p" value="N" [ico_hot_p_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/mobile_ico.jpg" alt="모바일페이지" title="모바일페이지" />
-										<label><input type="radio" name="ico_hot_m" value="Y" [ico_hot_m_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_hot_m" value="N" [ico_hot_m_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<th rowspan="2">모바일글 아이콘 <img src="../modules/board/images/array_list_mobile.gif" /></th>
-									<td>
-										<img src="images/pc_ico.jpg" alt="홈페이지" title="홈페이지" />
-										<label><input type="radio" name="ico_mobile_p" value="Y" [ico_mobile_p_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_mobile_p" value="N" [ico_mobile_p_checked_N] />노출안함</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<img src="images/mobile_ico.jpg" alt="모바일페이지" title="모바일페이지" />
-										<label><input type="radio" name="ico_mobile_m" value="Y" [ico_mobile_m_checked_Y] />노출</label>
-										<label><input type="radio" name="ico_mobile_m" value="N" [ico_mobile_m_checked_N] />노출안함</label>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<table cellpadding="0" cellspacing="0" class="__article_table_read" style="margin-top:30px;">
+						<table cellpadding="0" cellspacing="0" class="__article_table_read" style="margin-top:10px;">
 							<thead>
 								<tr>
 									<th colspan="2">권한 설정</th>

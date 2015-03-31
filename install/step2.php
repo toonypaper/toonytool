@@ -2,33 +2,21 @@
 	include_once "functions.inc.php";
 	$functions = new functions();
 	
-	$ad_password = $_POST['ad_password'];
-	$installed_file = @fopen("../upload/siteInformations/installed.info.txt","r");
-	$installed_pass = @fread($installed_file,1000);
-	@fclose($installed_file);
-		
-	if($functions->reinstallCheck()==FALSE&&($functions->file_permission("../include/")==FALSE || $functions->file_permission("../upload/sessionCookies/")==FALSE || $functions->file_permission("../upload/siteInformations/")==FALSE || $functions->file_permission("../upload/smartEditor/")==FALSE)){
+	if($functions->file_permission("../include/")==FALSE || $functions->file_permission("../upload/sessionCookies/")==FALSE || $functions->file_permission("../upload/siteInformations/")==FALSE || $functions->file_permission("../upload/smartEditor/")==FALSE){
 		$functions->error_alert_location("1단계가 진행되지 않았습니다.","index.php");
 	}
-	if($functions->reinstallCheck()==TRUE&&($functions->file_permission("../include/path.info.php")==FALSE||$functions->file_permission("../include/mysql.info.php")==FALSE)){
-		$functions->error_alert_location("재설치인 경우 include/path.info.php, include/mysql.info.php 퍼미션이 707이상으로 설정 되어야 합니다.","index.php");
-	}
-	if($functions->reinstallCheck()==TRUE&&getenv("REQUEST_METHOD")=="GET"){
-			$functions->error_alert_location("정상적으로 접근 바랍니다.","index.php");
-	}
-	if($functions->reinstallCheck()==TRUE&&$ad_password!=$installed_pass){
-		$functions->error_alert_location("관리자 비밀번호가 일치하지 않습니다.","index.php");
+	if($functions->file_check("../include/path.info.php")==TRUE && $functions->file_check("../include/mysql.info.php")==TRUE){
+		$functions->error_alert_location("이미 1~2단계가 진행 되었습니다.","step3.php");
 	}
 	
-	@unlink("../include/path.info.php");
 	$file = @fopen("../include/path.info.php","w");
 	@fwrite($file,"<?php\n    define(\"__DIR_PATH__\",\"".str_replace('install/'.basename(__FILE__),'',str_replace("\\","/",realpath(__FILE__)))."\");\n    define(\"__URL_PATH__\",\"".str_replace('install/'.basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'])."\");\n?>");
 	@fclose($file);
 	
-	@unlink("../include/engine.info.php");
 	$file = @fopen("../include/engine.inc.php","w");
-	@fwrite($file,"<?php\n    header(\"Content-Type: text/html; charset=UTF-8\");\n    ini_set(\"display_errors\", 1);\n    ini_set(\"error_reporting\",\"E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE\");\n    include_once \"".str_replace('install/'.basename(__FILE__),"",str_replace("\\","/",realpath(__FILE__)))."include/path.info.php\";\n    include_once __DIR_PATH__.\"include/session.info.php\";\n    include_once __DIR_PATH__.\"include/mysql.info.php\";\n    include_once __DIR_PATH__.\"include/mysql.class.php\";\n    include_once __DIR_PATH__.\"include/lib.class.php\";\n    include_once __DIR_PATH__.\"include/paging.class.php\";\n    include_once __DIR_PATH__.\"include/modeling.class.php\";\n    include_once __DIR_PATH__.\"include/mailSender.class.php\";\n    include_once __DIR_PATH__.\"include/fileUploader.class.php\";\n    include_once __DIR_PATH__.\"include/validator.class.php\";\n?>");
+	@fwrite($file,"<?php\n    header(\"Content-Type: text/html; charset=UTF-8\");\n    ini_set(\"display_errors\", 1);\n    ini_set(\"error_reporting\",\"E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE\");\n    include_once \"".str_replace('install/'.basename(__FILE__),"",str_replace("\\","/",realpath(__FILE__)))."include/path.info.php\";\n    include_once __DIR_PATH__.\"/include/session.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.info.php\";\n    include_once __DIR_PATH__.\"/include/mysql.class.php\";\n    include_once __DIR_PATH__.\"/include/lib.class.php\";\n    include_once __DIR_PATH__.\"/include/paging.class.php\";\n    include_once __DIR_PATH__.\"/include/modeling.class.php\";\n    include_once __DIR_PATH__.\"/include/mailSender.class.php\";\n    include_once __DIR_PATH__.\"/include/fileUploader.class.php\";\n    include_once __DIR_PATH__.\"/include/validator.class.php\";\n?>");
 	@fclose($file);
+	
 ?>
 <!DOCTYPE HTML>
 <html>

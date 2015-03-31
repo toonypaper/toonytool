@@ -7,7 +7,7 @@
 	$method = new methodController();
 	$validator = new validator();
 	
-	$method->method_param("POST","type,board_id,skin,name,use_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,list_m_limit,length_limit,length_m_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_m_width,thumb_height,thumb_m_height,articleIMG_width,articleIMG_m_width,articleIMG_height,articleIMG_m_height,article_length,article_m_length,ico_file_p,ico_file_m,ico_mobile_p,ico_mobile_m,ico_secret_p,ico_secret_m,ico_secret_def,ico_new_p,ico_new_m,ico_new_def,ico_hot_def_v,ico_hot_def_r,ico_hot_def_type,ico_hot_p,ico_hot_m,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$method->method_param("POST","type,board_id,skin,name,use_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,list_m_limit,length_limit,length_m_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_m_width,thumb_height,thumb_m_height,articleIMG_width,articleIMG_m_width,articleIMG_height,articleIMG_m_height,article_length,article_m_length,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	
@@ -43,9 +43,6 @@
 	$validator->validt_number("articleIMG_m_width",1,10,1,"");
 	$validator->validt_number("articleIMG_height",1,10,1,"");
 	$validator->validt_number("articleIMG_m_height",1,10,1,"");
-	$validator->validt_number("ico_new_def",1,10,1,"");
-	$validator->validt_number("ico_hot_def_v",1,10,1,"");
-	$validator->validt_number("ico_hot_def_r",1,10,1,"");
 	
 	/*
 	홈페이지, 모바일페이지 각각의 옵션 설정값을 하나의 필드로 결합
@@ -62,12 +59,6 @@
 	$bottom_file = $bottom_file."{||||||||||}".$bottom_m_file;
 	$top_source = $top_source."{||||||||||}".$top_m_source;
 	$bottom_source = $bottom_source."{||||||||||}".$bottom_m_source;
-	$ico_file = $ico_file_p."|".$ico_file_m;
-	$ico_mobile = $ico_mobile_p."|".$ico_mobile_m;
-	$ico_secret = $ico_secret_p."|".$ico_secret_m;
-	$ico_new = $ico_new_p."|".$ico_new_m;
-	$ico_hot = $ico_hot_p."|".$ico_hot_m;
-	$ico_hot_def = $ico_hot_def_v."|".$ico_hot_def_type."|".$ico_hot_def_r;
 	
 	/**************************************************
 	추가 모드인 경우
@@ -95,7 +86,7 @@
 		*/
 		$mysql->query("
 			UPDATE toony_module_board_config
-			SET skin='$skin',name='$name',use_secret='$use_secret',use_list='$use_list',use_category='$use_category',category='$category',use_comment='$use_comment',use_likes='$use_likes',use_reply='$use_reply',use_file1='$use_file1',use_file2='$use_file2',file_limit='$file_limit',list_limit='$list_limit',length_limit='$length_limit',array_level='$array_level',write_level='$write_level',secret_level='$secret_level',comment_level='$comment_level',delete_level='$delete_level',read_level='$read_level',controll_level='$controll_level',reply_level='$reply_level',write_point='$write_point',read_point='$read_point',top_file='$top_file',top_source='$top_source',bottom_file='$bottom_file',bottom_source='$bottom_source',thumb_width='$thumb_width',thumb_height='$thumb_height',articleIMG_width='$articleIMG_width',articleIMG_height='$articleIMG_height',article_length='$article_length',ico_file='$ico_file',ico_mobile='$ico_mobile',ico_secret='$ico_secret',ico_secret_def='$ico_secret_def',ico_new='$ico_new',ico_new_def='$ico_new_def',ico_hot='$ico_hot',ico_hot_def='$ico_hot_def',tc_1='$tc_1',tc_2='$tc_2',tc_3='$tc_3',tc_4='$tc_4',tc_5='$tc_5'
+			SET skin='$skin',name='$name',use_secret='$use_secret',use_list='$use_list',use_category='$use_category',category='$category',use_comment='$use_comment',use_likes='$use_likes',use_reply='$use_reply',use_file1='$use_file1',use_file2='$use_file2',file_limit='$file_limit',list_limit='$list_limit',length_limit='$length_limit',array_level='$array_level',write_level='$write_level',secret_level='$secret_level',comment_level='$comment_level',delete_level='$delete_level',read_level='$read_level',controll_level='$controll_level',reply_level='$reply_level',write_point='$write_point',read_point='$read_point',top_file='$top_file',top_source='$top_source',bottom_file='$bottom_file',bottom_source='$bottom_source',thumb_width='$thumb_width',thumb_height='$thumb_height',articleIMG_width='$articleIMG_width',articleIMG_height='$articleIMG_height',article_length='$article_length',tc_1='$tc_1',tc_2='$tc_2',tc_3='$tc_3',tc_4='$tc_4',tc_5='$tc_5'
 			WHERE board_id='$board_id'
 		");
 		
