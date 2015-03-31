@@ -20,7 +20,12 @@
 			ad_site_main text,
 			ad_msite_main text,
 			ad_site_jsmain text,
-			ad_msite_jsmain text
+			ad_msite_jsmain text,
+			ad_use_smtp char(1) NOT NULL default 'N',
+			ad_smtp_server varchar(255) default 'ssl\\:\\/\\/',
+			ad_smtp_port int(11) default '465',
+			ad_smtp_id text,
+			ad_smtp_pwd text
 		)engine=innodb default charset=utf8
 	";
 	$db_insert_toony_admin_siteconfig_ad_site_main = "<LI class=latest itemtype=\"latest\" itemclass=\"c2014912213762\" data-col=\"1\" data-row=\"1\" data-sizex=\"5\" data-sizey=\"7\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014912213762</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>공지사항 (notice)</SPAN><SPAN class=_itemBoxSize>490 x 260</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>notice|c2014912213762|notice|toony_list|7|30|25|180|100|0|1</DIV></LI><LI class=latest itemtype=\"latest\" itemclass=\"c20149122137144\" data-col=\"6\" data-row=\"1\" data-sizex=\"5\" data-sizey=\"7\"><DIV class=_tb>&lt;div class=\"<SPAN>c20149122137144</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>웹진 게시판 (webzine)</SPAN><SPAN class=_itemBoxSize>490 x 260</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>webzine|c20149122137144|webzine|toony_webzine|2|10|25|180|110|0|2</DIV></LI><LI class=latest itemtype=\"latest\" itemclass=\"c2014912213835\" data-col=\"1\" data-row=\"8\" data-sizex=\"10\" data-sizey=\"7\"><DIV class=_tb>&lt;div class=\"<SPAN>c2014912213835</SPAN>\"&gt;</DIV><A class=_d href=\"#\"></A><SPAN class=_title>게시판 모듈 최근게시물</SPAN><SPAN class=_article>포토갤러리 (gallery)</SPAN><SPAN class=_itemBoxSize>1000 x 260</SPAN> <DIV style=\"DISPLAY: none\" class=_itemData>gallery|c2014912213835|gallery|toony_gallery|6|10|25|150|150|0|1</DIV></LI>";

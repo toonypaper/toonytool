@@ -3,7 +3,7 @@
 	$functions = new functions();
 	
 	if($functions->file_check("../include/mysql.info.php")==TRUE){
-		include "../include/engine.inc.php";
+		@include "../include/engine.inc.php";
 		$connect = @mysql_connect(__HOST__,__DB_USER__,__DB_PASS__);
 		mysql_select_db(__DB_NAME__,$connect);
 	}
@@ -27,7 +27,7 @@
 	$method = new methodController();
 	$method->method_param("POST","id,password,password02,name");
 	
-	if($id){
+	if(getenv("REQUEST_METHOD")=="POST"){
 		mb_internal_encoding('UTF-8');
 		if(trim($id)==""){
 			$functions->error_alert_back("아이디를 입력해 주세요");
@@ -55,7 +55,7 @@
 		if(!preg_match($filter,$name)){
 			$functions->error_alert_back("이름이 올바르지 않습니다.");
 		}
-		if(mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1){
+		if(mysql_num_rows(mysql_query("select * from toony_member_list where me_admin='Y'",$connect))<1){
 			mysql_query("set names UTF8",$connect);
 			mysql_query("
 				insert into toony_member_list
@@ -63,7 +63,27 @@
 				values
 				('Y','$id',password('$password'),'$name','1',now(),'Y')
 			",$connect);
+			
+			$file = @fopen("../upload/siteInformations/installed.info.txt","w");
+			@fwrite($file,$password);
+			@fclose($file);
+			
+		}else{
+			mysql_query("set names UTF8",$connect);
+			mysql_query("
+				update toony_member_list SET
+				me_id='$id',me_password=password('$password'),me_nick='$name'
+				where me_admin='Y'
+			",$connect);
+			
+			@unlink("../upload/siteInformations/installed.info.txt");
+			$file = @fopen("../upload/siteInformations/installed.info.txt","w");
+			@fwrite($file,$password);
+			@fclose($file);
+			
 		}
+	}else{
+		$functions->error_alert_location("정상적으로 접근 바랍니다.","index.php");	
 	}
 ?>
 <!DOCTYPE HTML>

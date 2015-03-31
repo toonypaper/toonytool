@@ -1,3 +1,6 @@
+
+
+<!--------------------s:header-------------------->
 <style type="text/css">
 div#latest_toony_webzine{ background:#fff; }
 div#latest_toony_webzine .latest_wrap{  }
@@ -16,18 +19,21 @@ div#latest_toony_webzine .list > li .comment{ font:11px arial; font-weight:bold;
 div#latest_toony_webzine .list > li .ment{ font-size:12px; padding:5px 0; color:#666; word-break:break-all; }
 div#latest_toony_webzine .list > li .regdate{ font-size:11px; color:#999; font-family:arial; }
 </style>
-
 <div id="latest_toony_webzine" class="latest_wrap">
 	<div class="title">
 		<h4><a href="[board_link]" class="more">[title]</a></h4>
 		<a href="[board_link]" class="more">더보기</a>
 	</div>
 	<ul class="list">
+<!--------------------e:header-------------------->
+
+
+<!--------------------s:loop-------------------->
 		[{loop_start}]
 		<li>
 			<a class="thumb" href="[link]">[thumbnail]</a>
 			<div class="zine_cont">
-				<a class="subject" href="[link]">[subject]</a>
+				<a class="subject" href="[link]">[secret_ico][subject][new_ico][hot_ico]</a>
 				<span class="comment">[comment]</span>
 				<a class="ment" href="[link]">[ment]</a>
 				<span class="name">[nick]</span><span class="regdate">[date]</span>
@@ -39,5 +45,11 @@ div#latest_toony_webzine .list > li .regdate{ font-size:11px; color:#999; font-f
 			등록된 글이 없습니다.
 		</li>
 		[{not_loop_end}]
+<!--------------------e:loop-------------------->
+
+
+<!--------------------s:footer-------------------->
 	</ul>
 </div>
+<!--------------------e:footer-------------------->
+

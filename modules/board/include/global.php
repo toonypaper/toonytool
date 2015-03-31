@@ -20,6 +20,27 @@
 			return "";
 		}
 	}
+	//NEW 아이콘 출력
+	function latest_new_ico($ico_new_def,$regdate){
+		$now_date = date("Y-m-d H:i:s");
+		$sign_date = date("Y-m-d H:i:s",strtotime($regdate));
+		if(((strtotime($now_date)-strtotime($sign_date))/60)<$ico_new_def){
+			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_new.gif\" title=\"NEW\" alt=\"NEW\" style=\"padding-left:5px;\" />";
+		}
+	}
+	//HOT 아이콘 출력
+	function latest_hot_ico($ico_hot_def,$likes_count,$view){
+		$ico_hot_def_exp = explode("|",$ico_hot_def);
+		if(($ico_hot_def_exp[1]=="AND"&&$likes_count>=$ico_hot_def_exp[0]&&$view>=$ico_hot_def_exp[2]) || ($ico_hot_def_exp[1]=="OR"&&($likes_count>=$ico_hot_def_exp[0]||$view>=$ico_hot_def_exp[2]))){
+			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_hot.gif\" title=\"NEW\" alt=\"NEW\" style=\"padding-left:5px;\" />";
+		}
+	}
+	//비밀글 아이콘 출력
+	function latest_secret_ico($use_secret){
+		if($use_secret=="Y"){
+			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_secret.gif\" title=\"비밀글\" alt=\"비밀글\" style=\"padding-right:5px;\" />";
+		}
+	}
 	
 	/*
 	최근게시물 출력
@@ -62,6 +83,16 @@
 				FROM toony_module_board_comment_$board_id
 				WHERE bo_idno=A.idno
 			) comment,
+			(
+				SELECT ico_new_def
+				FROM toony_module_board_config
+				WHERE board_id='$board_id'
+			) ico_new_def,
+			(
+				SELECT ico_hot_def
+				FROM toony_module_board_config
+				WHERE board_id='$board_id'
+			) ico_hot_def,
 			A.*
 			FROM toony_module_board_data_$board_id A
 			WHERE A.use_notice='N' AND rn=0
@@ -89,7 +120,7 @@
 			do{
 				$array['memo'] = strip_tags($mysql->fetch("memo"));
 				$mysql->htmlspecialchars = 0;
-				$mysql->fetchArray("board_id,idno,subject,ment,regdate,idno,file1,file2,comment,writer");
+				$mysql->fetchArray("board_id,idno,subject,ment,regdate,idno,file1,file2,comment,writer,ico_new_def,ico_hot_def,view,use_secret");
 				$array = $mysql->array;
 				$loop->skin_modeling('[/latestskinDir/]',__URL_PATH__."modules/board/latestskin/".$skin."/");
 				$loop->skin_modeling('[thumbnail]',call_board_latest_thumbnail_func($viewType,$article,$board_id,$array['idno'],$array['file1'],$array['file2'],$array['ment'],$width,$height,$quard,$margin));
@@ -99,6 +130,10 @@
 				$loop->skin_modeling('[nick]',$array['writer']);
 				$loop->skin_modeling('[comment]',latest_comment_func($array['comment']));
 				$loop->skin_modeling('[link]',__URL_PATH__.$viewDir.'?article='.$article.'&p=read&read='.$array['idno']);
+				$loop->skin_modeling('[new_ico]',latest_new_ico($array['ico_new_def'],$array['regdate']));
+				$loop->skin_modeling('[hot_ico]',latest_hot_ico($array['ico_hot_def'],$array['likes_count'],$array['view']));
+				$loop->skin_modeling('[secret_ico]',latest_secret_ico($array['use_secret']));
+
 				$tpl .= $loop->skin_echo();
 			}while($mysql->nextRec());
 		}

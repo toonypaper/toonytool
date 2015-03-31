@@ -1,3 +1,6 @@
+
+
+<!--------------------s:header-------------------->
 <style type="text/css">
 div#latest_toony_webzine{ background:#fff; }
 div#latest_toony_webzine .title{ border-bottom:1px solid #D9D9D9; position:relative; padding:7px; }
@@ -20,11 +23,15 @@ div#latest_toony_webzine .list > li .regdate{ font-size:11px; color:#999; font-f
 		<a href="[board_link]" class="more">더보기</a>
 	</div>
 	<ul class="list">
+<!--------------------e:header-------------------->
+
+
+<!--------------------s:loop-------------------->
 		[{loop_start}]
 		<li>
 			<a class="thumb" href="[link]">[thumbnail]</a>
 			<div class="zine_cont">
-				<a class="subject" href="[link]">[subject]</a>
+				<a class="subject" href="[link]">[secret_ico][subject][new_ico][hot_ico]</a>
 				<span class="comment">[comment]</span>
 				<a class="ment" href="[link]">[ment]</a>
 				<span class="name">[nick]</span><span class="regdate">[date]</span>
@@ -36,5 +43,11 @@ div#latest_toony_webzine .list > li .regdate{ font-size:11px; color:#999; font-f
 			등록된 글이 없습니다.
 		</li>
 		[{not_loop_end}]
+<!--------------------e:loop-------------------->
+
+
+<!--------------------s:footer-------------------->
 	</ul>
 </div>
+<!--------------------e:footer-------------------->
+

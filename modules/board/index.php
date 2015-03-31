@@ -21,7 +21,7 @@
 		FROM toony_module_board_config 
 		WHERE board_id='$board_id'
 	");
-	$mysql->fetchArray("board_id,name,use_list,use_comment,use_category,use_likes,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,regdate,skin,top_file,bottom_file,thumb_width,thumb_height,article_length,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$mysql->fetchArray("board_id,name,use_list,use_comment,use_category,use_likes,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,regdate,skin,top_file,bottom_file,thumb_width,thumb_height,article_length,ico_file,ico_secret,ico_new,ico_new_def,ico_hot,ico_hot_def,ico_mobile,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
@@ -163,8 +163,9 @@
 	}
 	//모바일 작성 아이콘 출력
 	function array_subject_mobile(){
-		global $array;
-		if($array['use_html']=="N"){
+		global $c_array,$array,$viewType;
+		$ico_mobile = explode("|",$c_array['ico_mobile']);
+		if($array['use_html']=="N"&&(($viewType=="p"&&$ico_mobile[0]=="Y")||($viewType=="m"&&$ico_mobile[1]=="Y"))){
 			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_mobile.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"모바일에서 작성\" alt=\"모바일에서 작성\" />";
 		}else{
 			return "";
@@ -172,18 +173,21 @@
 	}
 	//파일 아이콘 출력
 	function array_subject_file(){
-		global $array,$url_path;
+		global $c_array,$array,$url_path,$viewType;
 		$file1_type = strtolower(array_pop(explode(".",$array['file1'])));
 		$file2_type = strtolower(array_pop(explode(".",$array['file2'])));
-		if($file1_type=="gif"||$file1_type=="jpg"||$file1_type=="bmp"||$file1_type=="png"){
-			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_img.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"그림파일\" alt=\"그림파일\" />";
-		}else if($array['file1']!=""){
-			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_file.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"파일\" alt=\"파일\" />";
-		}
-		if($file2_type=="gif"||$file2_type=="jpg"||$file2_type=="bmp"||$file2_type=="png"){
-			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_img.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"그림파일\" alt=\"그림파일\" />";
-		}else if($array['file2']!=""){
-			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_file.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"파일\" alt=\"파일\" />";
+		$ico_file = explode("|",$c_array['ico_file']);
+		if(($viewType=="p"&&$ico_file[0]=="Y")||($viewType=="m"&&$ico_file[1]=="Y")){
+			if($file1_type=="gif"||$file1_type=="jpg"||$file1_type=="bmp"||$file1_type=="png"){
+				return "<img src=\"".__URL_PATH__."modules/board/images/array_list_img.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"그림파일\" alt=\"그림파일\" />";
+			}else if($array['file1']!=""){
+				return "<img src=\"".__URL_PATH__."modules/board/images/array_list_file.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"파일\" alt=\"파일\" />";
+			}
+			if($file2_type=="gif"||$file2_type=="jpg"||$file2_type=="bmp"||$file2_type=="png"){
+				return "<img src=\"".__URL_PATH__."modules/board/images/array_list_img.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"그림파일\" alt=\"그림파일\" />";
+			}else if($array['file2']!=""){
+				return "<img src=\"".__URL_PATH__."modules/board/images/array_list_file.gif\" align=\"middle\" style=\"margin:0 0 0 3px;\" title=\"파일\" alt=\"파일\" />";
+			}
 		}
 	}
 	//답글 아이콘 출력
@@ -199,9 +203,31 @@
 	}
 	//비밀글 아이콘 출력
 	function array_subject_secret(){
-		global $array;
-		if($array['use_secret']=="Y"){
+		global $c_array,$array,$viewType;
+		$ico_secret = explode("|",$c_array['ico_secret']);
+		if($array['use_secret']=="Y"&&(($viewType=="p"&&$ico_secret[0]=="Y")||($viewType=="m"&&$ico_secret[1]=="Y"))){
 			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_secret.gif\" title=\"비밀글\" alt=\"비밀글\" style=\"padding-right:5px;\" />";
+		}
+	}
+	//NEW 아이콘 출력
+	function array_subject_new(){
+		global $c_array,$array,$viewType;
+		$ico_new = explode("|",$c_array['ico_new']);
+		$now_date = date("Y-m-d H:i:s");
+		$sign_date = date("Y-m-d H:i:s",strtotime($array['regdate']));
+		if(((strtotime($now_date)-strtotime($sign_date))/60)<$c_array['ico_new_def']&&(($viewType=="p"&&$ico_new[0]=="Y")||($viewType=="m"&&$ico_new[1]=="Y"))){
+			return "<img src=\"".__URL_PATH__."modules/board/images/array_list_new.gif\" title=\"NEW\" alt=\"NEW\" style=\"padding-left:5px;\" />";
+		}
+	}
+	//HOT 아이콘 출력
+	function array_subject_hot(){
+		global $c_array,$array,$viewType;
+		$ico_hot = explode("|",$c_array['ico_hot']);
+		$ico_hot_def_exp = explode("|",$array['ico_hot_def']);
+		if(($viewType=="p"&&$ico_hot[0]=="Y")||($viewType=="m"&&$ico_hot[1]=="Y")){
+			if(($ico_hot_def_exp[1]=="AND"&&$array['likes_count']>=$ico_hot_def_exp[0]&&$array['view']>=$ico_hot_def_exp[2]) || ($ico_hot_def_exp[1]=="OR"&&($array['likes_count']>=$ico_hot_def_exp[0]||$array['view']>=$ico_hot_def_exp[2]))){
+				return "<img src=\"".__URL_PATH__."modules/board/images/array_list_hot.gif\" title=\"NEW\" alt=\"NEW\" style=\"padding-left:5px;\" />";
+			}
 		}
 	}
 	//댓글 갯수 출력
@@ -369,6 +395,8 @@
 			$notice_loop->skin_modeling("[file_ico]",array_subject_file());
 			$notice_loop->skin_modeling("[secret_ico]",array_subject_secret());
 			$notice_loop->skin_modeling("[mobile_ico]",array_subject_mobile());
+			$notice_loop->skin_modeling("[new_ico]",array_subject_new());
+			$notice_loop->skin_modeling("[hot_ico]",array_subject_hot());
 			$notice_loop->skin_modeling("[likes]",$array['likes_count']);
 			$notice_loop->skin_modeling("[unlikes]",$array['unlikes_count']);
 			$notice_loop->skin_modeling("[category]",array_category_name());
@@ -450,6 +478,8 @@
 			$array_loop->skin_modeling("[file_ico]",array_subject_file());
 			$array_loop->skin_modeling("[secret_ico]",array_subject_secret());
 			$array_loop->skin_modeling("[mobile_ico]",array_subject_mobile());
+			$array_loop->skin_modeling("[new_ico]",array_subject_new());
+			$array_loop->skin_modeling("[hot_ico]",array_subject_hot());
 			$array_loop->skin_modeling("[likes]",$array['likes_count']);
 			$array_loop->skin_modeling("[unlikes]",$array['unlikes_count']);
 			$array_loop->skin_modeling("[category]",array_category_name());

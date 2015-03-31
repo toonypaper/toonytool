@@ -1,16 +1,15 @@
 <?php
-	/*
-	엔진이 설치되어 있는지 검사
-	*/
-	if(!is_file("../include/mysql.info.php")||!is_file("../include/path.info.php")){
-		echo '<script type="text/javascript">document.location.href = "../install/index.php";</script>'; exit; 
-	}
-	
 	include "../include/engine.inc.php";
 	include __DIR_PATH__."include/global.php";
 	
-	$method = new methodController();
+	/*
+	엔진이 설치되어 있는지 검사
+	*/
+	if(!is_file("../include/mysql.info.php")||!is_file("../include/path.info.php")||!defined('__HOST__')||!defined('__DB_NAME__')||!defined('__DB_USER__')||!defined('__DB_PASS__')||!defined('__URL_PATH__')||!defined('__DIR_PATH__')||strstr("http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'],__URL_PATH__)==FALSE||strstr(str_replace("\\","/",realpath(__FILE__)),__DIR_PATH__)==FALSE){
+		echo '<script type="text/javascript">document.location.href = "../install/index.php";</script>'; exit; 
+	}
 	
+	$method = new methodController();
 	$method->method_param("GET","m,p");
 ?>
 <!DOCTYPE HTML>

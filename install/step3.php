@@ -2,29 +2,35 @@
 	include_once "functions.inc.php";
 	$functions = new functions();
 	
+	if(getenv("REQUEST_METHOD")=="GET"){
+		$functions->error_alert_location("정상적으로 접근 바랍니다.","index.php");
+	}
+	
+	@unlink("../include/mysql.info.php");
+	
 	if($functions->file_permission("../include/")==FALSE || $functions->file_permission("../upload/sessionCookies/")==FALSE || $functions->file_permission("../upload/siteInformations/")==FALSE || $functions->file_permission("../upload/smartEditor/")==FALSE){
 		$functions->error_alert_location("1단계가 진행되지 않았습니다.","index.php");
 	}
 	if($functions->file_check("../include/path.info.php")==FALSE){
 		$functions->error_alert_location("1단계가 진행되지 않았습니다.","index.php");
 	}
-	if($functions->file_check("../include/mysql.info.php")){
-		include "../include/mysql.info.php";
-		$host = __HOST__;
-		$db = __DB_NAME__;
-		$id = __DB_USER__;
-		$password = __DB_PASS__;
-	}else{
-		$host = $_POST['host'];
-		$db = $_POST['db'];
-		$id = $_POST['id'];
-		$password = $_POST['password'];
-	}
+	
+	$host = $_POST['host'];
+	$db = $_POST['db'];
+	$id = $_POST['id'];
+	$password = $_POST['password'];
 	
 	$connect = @mysql_connect($host,$id,$password);
 	mysql_select_db($db,$connect);
 	if(mysql_query("select * from toony_member_list",$connect) && mysql_num_rows(mysql_query("select * from toony_member_list",$connect))>0){
-		$functions->error_alert_location("이미 3단계가 진행 되었습니다.","step4.php");
+		$installedDB = TRUE;
+		$insertAdminDB = TRUE;
+	}else if(mysql_query("select * from toony_member_list",$connect) && mysql_num_rows(mysql_query("select * from toony_member_list",$connect))<1){
+		$installedDB = TRUE;
+		$insertAdminDB = FALSE;
+	}else{
+		$installedDB = FALSE;
+		$insertAdminDB = FALSE;
 	}
 	
 	if(trim($host)==""){
@@ -53,7 +59,7 @@
 	@fwrite($file,"<?php\n    define(\"__HOST__\",\"".$host."\");\n    define(\"__DB_NAME__\",\"".$db."\");\n    define(\"__DB_USER__\",\"".$id."\");\n    define(\"__DB_PASS__\",\"".$password."\");\n?>");
 	@fclose($file);
 	
-	if(!mysql_query("select * from toony_admin_siteconfig")){
+	if($installedDB==FALSE && $insertAdminDB==FALSE){
 		include "./schema/default.php";
 		mysql_query('set names UTF8',$connect);
 		mysql_query($db_toony_admin_siteconfig,$connect);
@@ -80,6 +86,11 @@
 		mysql_query($db_toony_admin_design_footer,$connect);
 		mysql_query($db_insert_db_toony_admin_design_footer,$connect);
 		mysql_query($db_toony_customer_qna,$connect);
+	}else if($installedDB==TRUE && $insertAdminDB==FALSE){
+		mysql_query("
+			UPDATE toony_admin_siteconfig SET
+			ad_site_url='".__URL_PATH__."',ad_msite_url='".__URL_PATH__."m/'
+		");
 	}
 	
 ?>

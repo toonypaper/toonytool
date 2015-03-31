@@ -1,10 +1,11 @@
 
+
+<!--------------------s:header-------------------->
 <form name="array_form" id="array_form">
 	<input type="hidden" name="article" value="[article_value]" />
 	<input type="hidden" name="category" value="[category_value]" />
 	<input type="hidden" name="board_id" value="[board_id_value]" />
 	<input type="hidden" name="page" value="[page_value]" />
-	<!-- List Start-->
 	<div class="settingArea">
 		<table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
 			<tr>
@@ -31,15 +32,16 @@
 	</table>
 	<table cellpadding="0" cellspacing="0" style="width:100%; border:none;" class="board_table">
 		<tbody>
-		
-<!--------------------s:loop영역-------------------->
-			<!--Notice-->
+<!--------------------e:header-------------------->
+
+
+<!--------------------s:notice_loop-------------------->
 			[{notice_loop_start}]
 			<tr class="notice">
 				<td style="border-right:none;" colspan="2">
 					[{controll_chk_start}][controll_chk][{controll_chk_end}]
 					<strong class="category">[category]</strong>
-					[secret_ico]<strong><a href="[link]" class="subject">[subject]</a></strong>
+					[secret_ico]<strong><a href="[link]" class="subject">[subject]</a></strong>[new_ico][hot_ico]
 					[file_ico][mobile_ico]
 					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
 					<span style="font-size:11px; font-weight:normal; padding-left:20px; color:#666;">
@@ -54,7 +56,10 @@
 				</td>
 			</tr>
 			[{notice_loop_end}]
-			<!--Array-->
+<!--------------------e:notice_loop-------------------->
+
+
+<!--------------------s:array_loop-------------------->
 			[{array_loop_start}]
 				[{array_first_item_start}]
 				<tr>
@@ -64,7 +69,7 @@
 								<a href="[link]">[thumbnail]</a>
 								<span class="img_title">
 									[{controll_chk_start}][controll_chk][{controll_chk_end}] <strong class="category">[category]</strong> [secret_ico]
-									<strong><a href="[link]" class="subject">[subject]</a></strong>[file_ico][secret_ico][mobile_ico]
+									<strong><a href="[link]" class="subject">[subject]</a></strong>[file_ico][mobile_ico][new_ico][hot_ico]
 									[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
 								</span>
 								<span class="img_info">
@@ -91,9 +96,10 @@
 	[{array_not_loop_start}]
 	<span class="not_loop_span">등록된 글이 없습니다.</span>
 	[{array_not_loop_end}]
-	<!-- List End -->
-<!--------------------e:loop영역-------------------->
+<!--------------------e:array_loop-------------------->
 
+
+<!--------------------s:footer-------------------->
 	[paging_area]
 	<div class="btnArea">
 		[write_btn][controll_btn]
@@ -107,3 +113,5 @@
 		<input type="text" name="keyword" class="keyword" value="[keyword_value]" style="width:120px;"> [search_btn][search_cancel_btn]
 	</div>
 </form>
+<!--------------------e:footer-------------------->
+

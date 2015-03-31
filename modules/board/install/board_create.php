@@ -6,12 +6,12 @@
 		insert into toony_module_board_config
 		(
 			board_id,skin,name,use_list,use_secret,use_comment,use_category,category,use_reply,use_file1,use_file2,use_likes,file_limit,list_limit,length_limit,
-			array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,regdate
+			array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_height,articleIMG_width,articleIMG_height,article_length,regdate,ico_file,ico_mobile,ico_secret,ico_secret_def,ico_new,ico_new_def,ico_hot,ico_hot_def
 		)
 		values
 		(
 			'$board_id','$skin','$name','$use_list','$use_secret','$use_comment','$use_category','$category','$use_reply','$use_file1','$use_file2','$use_likes','$file_limit','$list_limit','$length_limit',
-			'$array_level','$write_level','$secret_level','$comment_level','$delete_level','$read_level','$controll_level','$reply_level','$write_point','$read_point','$thumb_width','$thumb_height','$articleIMG_width','$articleIMG_height','$article_length',now()
+			'$array_level','$write_level','$secret_level','$comment_level','$delete_level','$read_level','$controll_level','$reply_level','$write_point','$read_point','$top_file','$top_source','$bottom_file','$bottom_source','$thumb_width','$thumb_height','$articleIMG_width','$articleIMG_height','$article_length',now(),'$ico_file','$ico_mobile','$ico_secret','$ico_secret_def','$ico_new','$ico_new_def','$ico_hot','$ico_hot_def'
 		)
 	";
 	/*

@@ -30,6 +30,14 @@
 			return "";
 		}
 	}
+	function use_smtp_func(){
+		global $site_config;
+		if($site_config['ad_use_smtp']=="Y"){
+			return "checked";
+		}else{
+			return "";
+		}
+	}
 	
 	/*
 	템플릿 치환
@@ -49,6 +57,11 @@
 	$tpl->skin_modeling("[site_title_value]",$site_config['ad_site_title']);
 	$tpl->skin_modeling("[ad_email_value]",$site_config['ad_email']);
 	$tpl->skin_modeling("[ad_phone_value]",$site_config['ad_phone']);
+	$tpl->skin_modeling("[use_smtp_checked]",use_smtp_func());
+	$tpl->skin_modeling("[smtp_server]",$site_config['ad_smtp_server']);
+	$tpl->skin_modeling("[smtp_port]",$site_config['ad_smtp_port']);
+	$tpl->skin_modeling("[smtp_id]",$site_config['ad_smtp_id']);
+	$tpl->skin_modeling("[smtp_pwd]",$site_config['ad_smtp_pwd']);
 	
 	echo $tpl->skin_echo();
 ?>
