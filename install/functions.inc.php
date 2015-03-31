@@ -48,5 +48,13 @@
 				return FALSE;
 			}  
 		}
+		//재설치 여부 확인
+		public function reinstallCheck(){
+			if($this->file_check("../include/path.info.php")==TRUE&&$this->file_check("../include/mysql.info.php")==TRUE){
+				return TRUE;
+			}else{
+				return FALSE;
+			}
+		}
 	}
 ?>

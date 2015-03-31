@@ -2,6 +2,7 @@
 	$globalMysql = new mysqlConnection();
 	$session = new sessionController();
 	$lib = new libraryClass();
+	$mysql = new mysqlConnection();
 	
 	/*
 	회원의 기본 정보를 가져옴
@@ -47,7 +48,7 @@
 		SELECT *
 		FROM toony_admin_siteconfig
 	");
-	$globalMysql->fetchArray("ad_site_layout,ad_msite_layout,ad_site_name,ad_site_url,ad_msite_url,ad_use_msite,ad_site_title,ad_email,ad_phone,ad_pavicon,ad_logo");
+	$globalMysql->fetchArray("ad_site_layout,ad_msite_layout,ad_site_name,ad_site_url,ad_msite_url,ad_use_msite,ad_site_title,ad_email,ad_phone,ad_pavicon,ad_logo,ad_use_smtp,ad_smtp_server,ad_smtp_port,ad_smtp_id,ad_smtp_pwd");
 	$site_config = $globalMysql->array;
 	
 	/*
@@ -56,6 +57,18 @@
 	$lib->func_visiter_counter_status(); //방문자 수 기록
 	$lib->func_member_online_status(); //현재 접속자 구하기 위한 기록
 	$lib->func_index_security(); //블랙리스트 회원 차단을 위한 검사
+	
+	/*
+	관리자 정보가 생성 되었되어 있는지 검사 (없다면 설치 2단계로 이동)
+	*/
+	$mysql->select("
+		SELECT *
+		FROM toony_member_list
+		WHERE me_admin='Y' AND me_drop_regdate IS NULL
+	");
+	if($mysql->numRows()<1){
+		$lib->error_location(__URL_PATH__."install/step2.php","A");
+	}
 	
 	/*
 	모든 모듈의 global.php 를 인클루드,

@@ -1,10 +1,11 @@
 
+
+<!--------------------s:header-------------------->
 <form name="array_form" id="array_form">
 	<input type="hidden" name="article" value="[article_value]" />
 	<input type="hidden" name="category" value="[category_value]" />
 	<input type="hidden" name="board_id" value="[board_id_value]" />
 	<input type="hidden" name="page" value="[page_value]" />
-	<!-- List Start-->
 	<div class="settingArea">
 		<table style="width:100%;" cellpadding="0" cellspacing="0" border="0">
 			<tr>
@@ -24,13 +25,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!--Notice-->
+<!--------------------e:header-------------------->
+
+
+<!--------------------s:notice_loop-------------------->
 			[{notice_loop_start}]
 			<tr class="notice">
 				<td style="font-size:11px; color:#666; text-align:center;"><strong>공지</strong></td>
 				<td colspan="2">
 					<strong class="category">[category]</strong>
-					[secret_ico]<strong><a href="[link]" class="subject">[subject]</a></strong>[file_ico][mobile_ico]
+					[secret_ico]<strong><a href="[link]" class="subject">[subject]</a></strong>[file_ico][mobile_ico][new_ico][hot_ico]
 					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
 					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [date] / <strong>조회</strong> [hit]</span>
 				</td>
@@ -39,7 +43,10 @@
 				[{likes_end}]
 			</tr>
 			[{notice_loop_end}]
-			<!--Array-->
+<!--------------------e:notice_loop-------------------->
+
+
+<!--------------------s:array_loop-------------------->
 			[{array_loop_start}]
 			<tr>
 				<td style="font-size:11px; color:#666; text-align:center; border-right:none;">[number]</td>
@@ -48,7 +55,7 @@
 				</td>
 				<td style="border-right:none; word-break:break-all;">
 					<strong class="category">[category]</strong>
-					[secret_ico]<strong class="webzine_sbj"><a href="[link]" class="subject">[subject]</a></strong>[file_ico][mobile_ico]
+					[secret_ico]<strong class="webzine_sbj"><a href="[link]" class="subject">[subject]</a></strong>[file_ico][mobile_ico][new_ico][hot_ico]
 					[{comment_start}]<span class="comment">[comment]</span>[{comment_end}]
 					<a href="[link]" class="webzine_ment">[ment]</a>
 					<span style="font-size:11px; color:#999;"><strong>작성자</strong> [writer] / <strong>작성일</strong> [date] / <strong>조회</strong> [hit]</span>
@@ -63,7 +70,10 @@
 	[{array_not_loop_start}]
 	<span class="not_loop_span">등록된 글이 없습니다.</span>
 	[{array_not_loop_end}]
-	<!-- List End -->
+<!--------------------e:array_loop-------------------->
+
+
+<!--------------------s:footer-------------------->
 	[paging_area]
 	<div class="btnArea">
 		[write_btn]
@@ -77,3 +87,5 @@
 		<input type="text" name="keyword" class="keyword" value="[keyword_value]" style="width:80px;"> [search_btn][search_cancel_btn]
 	</div>
 </form>
+<!--------------------e:footer-------------------->
+

@@ -35,7 +35,7 @@
 		FROM toony_module_board_config
 		WHERE board_id='$board_id'
 	");
-	$mysql->fetchArray("skin,title,use_comment,use_list,use_secret,use_category,category,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,top_file,bottom_file,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$mysql->fetchArray("skin,title,use_comment,use_list,use_secret,use_category,category,use_reply,use_file1,use_file2,void_html,file_limit,list_limit,length_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,reply_level,controll_level,top_file,bottom_file,ico_secret_def,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$c_array = $mysql->array;
 	$mysql->htmlspecialchars = 0;
 	$mysql->nl2br = 0;
@@ -217,7 +217,7 @@
 	//비밀글 옵션 출력
 	function write_option_secret(){
 		global $c_array,$array;
-		if($c_array['use_secret']=="Y"&&$array['use_secret']=="Y"){
+		if($c_array['use_secret']=="Y"&&($array['use_secret']=="Y"||$c_array['ico_secret_def']=='Y')){
 			return "<label><input type=\"checkbox\" name=\"use_secret\" id=\"use_secret\" checked />비밀글</label>";
 		}else if($c_array['use_secret']=="Y"){
 			return "<label><input type=\"checkbox\" name=\"use_secret\" id=\"use_secret\" />비밀글</label>";

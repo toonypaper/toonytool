@@ -8,7 +8,7 @@
 	$fileUploader = new fileUploader();
 	$validator = new validator();
 	
-	$method->method_param("POST","site_name,site_title,use_msite,ad_email,ad_phone,del_pavicon,pavicon_ed,logo_ed");
+	$method->method_param("POST","site_name,site_title,use_msite,ad_email,ad_phone,del_pavicon,pavicon_ed,logo_ed,use_smtp,smtp_server,smtp_port,smtp_id,smtp_pwd");
 	$method->method_param("FILE","pavicon");
 	$method->method_param("FILE","logo");
 	$lib->security_filter("referer");
@@ -22,6 +22,11 @@
 	}else{
 		$use_msite = "N";
 	}
+	if($use_smtp=="checked"){
+		$use_smtp = "Y";
+	}else{
+		$use_smtp = "N";
+	}
 	
 	/*
 	검사
@@ -30,6 +35,14 @@
 	$validator->validt_null("site_title","");
 	$validator->validt_email("ad_email",1,"");
 	$validator->validt_null("ad_phone","");
+	if($use_smtp=="Y"){
+		$validator->validt_null("smtp_server","");
+		$validator->validt_number("smtp_port",1,"");
+		$validator->validt_null("smtp_id","");
+		$validator->validt_null("smtp_pwd","");
+	}else{
+		$validator->validt_number("smtp_port",0,"");
+	}
 	
 	/*
 	파비콘 업로드
@@ -97,7 +110,7 @@
 	*/
 	$mysql->query("
 		UPDATE toony_admin_siteconfig
-		SET ad_site_name='$site_name', ad_site_title='$site_title', ad_email='$ad_email', ad_phone='$ad_phone', ad_pavicon='$pavicon_name', ad_logo='$logo_name', ad_use_msite='$use_msite'
+		SET ad_site_name='$site_name',ad_site_title='$site_title',ad_email='$ad_email',ad_phone='$ad_phone',ad_pavicon='$pavicon_name',ad_logo='$logo_name',ad_use_msite='$use_msite',ad_use_smtp='$use_smtp',ad_smtp_server='$smtp_server',ad_smtp_port='$smtp_port',ad_smtp_id='$smtp_id',ad_smtp_pwd='$smtp_pwd'
 	");
 	
 	/*
