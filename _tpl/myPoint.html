@@ -1,3 +1,6 @@
+
+
+<!--------------------s:header-------------------->
 <div name="myPointBone" id="myPointBone">
 	<span class="totalPoint">현재 <strong>[total]</strong>포인트 보유중</span>
 	<table cellpadding="0" cellspacing="0" class="__article_table">
@@ -10,8 +13,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			
-<!--------------------s:loop영역-------------------->
+<!--------------------e:header-------------------->
+
+
+<!--------------------s:loop-------------------->
 			[{loop_start}]
 			<tr>
 				<td class="___number">[date]</td>
@@ -25,9 +30,13 @@
 				<td colspan="4">포인트 내역이 없습니다.</td>
 			</tr>
 			[{not_loop_end}]
-<!--------------------e:loop영역-------------------->
-			
+<!--------------------e:loop-------------------->
+
+
+<!--------------------s:footer-------------------->
 		</tbody>
 	</table>
 	[paging_area]
 </div>
+<!--------------------s:footer-------------------->
+

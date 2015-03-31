@@ -1,3 +1,6 @@
+
+
+<!--------------------s:header-------------------->
 <script type="text/javascript">
 //Tab active 처리
 $(document).ready(function(){
@@ -40,19 +43,32 @@ $(document).ready(function(){
 		<li tabName="">
 			<a href="?article=search_board&chk_where=[chk_where_value]&keyword=[keyword]&tab_value=">전체</a>
 		</li>
+		
+		
+		<!--------------------s:tab-------------------->
 		[{tab_start}]
 		<li tabName="[tab_name]">
 			<a href="?article=search_board&chk_where=[chk_where_value]&keyword=[keyword]&tab_value=[tab_link_name]">[tab_name]</a>
 		</li>
 		[{tab_end}]
+		<!--------------------e:tab-------------------->
+		
+		
 	</ul>
 	<ul class="search_board_list">
+<!--------------------e:header-------------------->
+
+
+<!--------------------s:loop-------------------->
 		[{loop_start}]
 		<li class="title">
 			<a href="[article_link]" class="article_name">[article_name_txt]</a>
 			<span class="total_count">(<strong>[total_count]</strong>건 검색)</span>
 			<a href="?article=search_board&keyword=[keyword]&tab_value=[article_name]" class="more">더보기</a>
 		</li>
+		
+		
+			<!--------------------s:data_loop-------------------->
 			[{data_loop_start}]
 			<li class="data_li">
 				<a href="[data_link]" class="data_title">[data_title]</a>
@@ -62,6 +78,15 @@ $(document).ready(function(){
 				</a>
 			</li>
 			[{data_loop_end}]
+			<!--------------------e:data_loop-------------------->
+			
+			
 		[{loop_end}]
+<!--------------------e:loop-------------------->
+
+
+<!--------------------s:footer-------------------->
 	</ul>
 </div>
+<!--------------------e:footer-------------------->
+

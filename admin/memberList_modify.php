@@ -20,9 +20,6 @@
 	/*
 	검사
 	*/
-	if($member['me_level']>1){
-		$lib->error_alert_location("접근 권한이 없습니다.",$site_config['ad_site_url'],"A");
-	}
 	if($mysql->numRows()<1){
 		$lib->error_alert_back("회원이 존재하지 않거나 수정할 수 없는 회원입니다.","A");
 	}

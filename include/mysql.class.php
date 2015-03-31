@@ -13,9 +13,6 @@
 		//Mysql 연결 초기화
 		public function __construct(){
 			$this->connect = mysql_connect($this->host,$this->db_user,$this->db_pass,FALSE);
-			if(!$this->connect){
-				die("DB에 접속할 수 없습니다.");
-			}
 			mysql_select_db($this->db_name,$this->connect);
 			mysql_query('SET NAMES UTF8');
 			$this->htmlspecialchars = 1;
