@@ -89,7 +89,7 @@
 #search_board .search_board_list .title{ position:relative; display:block; padding-bottom:10px; margin:30px 0 20px 0; border-bottom:1px solid #000; }
 #search_board .search_board_list .title .article_name{ font-size:16px; font-weight:bold; letter-spacing:-1px; font-family:MalgunGothic; color:#000; }
 #search_board .search_board_list .title .total_count{ font-size:11px; color:#999; padding-left:10px; }
-#search_board .search_board_list .title .more{ position:absolute; bottom:10px; right:0; font-size:11px; color:000; font-size:11px; }
+#search_board .search_board_list .title .more{ position:absolute; bottom:10px; right:0; color:000; font-size:11px; }
 #search_board .search_board_list .data_li{ font-size:0; display:block; padding:8px 0 8px 10px; }
 #search_board .search_board_list .data_li .data_title{ font-size:12px; font-weight:bold; color:#000; text-decoration:underline; }
 #search_board .search_board_list .data_li .balnk_window{ vertical-align:top; margin-left:10px; display:inline-block; *display:inline; *zoom:1; width:18px; height:18px; background:url(../../images/window.gif); }

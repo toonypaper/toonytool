@@ -61,6 +61,7 @@
 		WHERE me_id='$id' AND me_password=password('$password') AND me_drop_regdate IS NULL
 	");
 	$member['me_idno'] = $mysql->fetch("me_idno");
+	
 	/*
 	가입 이력이 없는 새로운 가입인 경우 아이디 인증 메일 발송
 	*/
