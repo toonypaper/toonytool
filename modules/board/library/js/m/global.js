@@ -137,18 +137,16 @@ $(window).load(function(){
 $(window).load(function(){
 	if($("#board_memo_area img").length>0){
 		$("#board_memo_area img").each(function(){
-			//width값 조정
-			if(parseInt($(this).width())>articleIMG_width){
+			//사이즈 조절
+			if((height>width)&&(height>articleIMG_height)){
+				$(this).css({
+					"width":articleIMG_height*size_per,
+					"height":articleIMG_height
+				});
+			}else if((width>height)&&(width>articleIMG_height)){
 				$(this).css({
 					"width":articleIMG_width,
-					"cursor":"pointer"
-				});
-			}
-			//height값 조정
-			if(parseInt($(this).height())>articleIMG_height){
-				$(this).css({
-					"height":articleIMG_height,
-					"cursor":"pointer"
+					"height":articleIMG_width/size_per
 				});
 			}
 			//새창 링크 연결

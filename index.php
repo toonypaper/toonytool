@@ -217,13 +217,36 @@
 	}
 	//팝업 출력
 	if($mysql->numRows()>0){
+		echo '
+			<script type="text/javascript">
+				function show_popup(pop_name){ 
+						if(getCookie("toony_popup_1week_"+pop_name)!="true"){
+						$(".__toony_popup_"+pop_name).show();
+					}
+				}
+				function pos_popup(pop_name,bleft,btop){
+					$(".__toony_popup_"+pop_name).css({
+						"position":"absolute",
+						"z-index":999,
+						"left":(($(window).width()-1000)/2)+bleft,
+						"top":btop
+					});
+				}
+				function close_popup(pop_name){
+					$(".__toony_popup_"+pop_name).hide();
+					if($(".__toony_popup_"+pop_name+" input[name=toony_popup_1week_"+pop_name+"]").is(":checked")==true){
+						setCookie("toony_popup_1week_"+pop_name,"true",1);
+					}
+				}
+			</script>
+		';
 		do{
 			$pop_use_val = "N";
 			$mysql->fetchArray("name,img,memo,void_link,link,bleft,btop,target,start_level,end_level,pop_article,pop_article_txt");
 			$popup = $mysql->array;
 			//팝업을 띄우는 조건에 부합하는지 검사
-			if($member['me_level']<=$popup['start_level']&&$member['me_level']>=$popup['end_level']){
-				switch($popup['pop_article']){
+			if($member[me_level]<=$popup[start_level]&&$member[me_level]>=$popup[end_level]){
+				switch($popup[pop_article]){
 					case "main" :
 						if($article=="main"){
 							$pop_use_val = "Y";
@@ -233,7 +256,7 @@
 						$pop_use_val = "Y";
 						break;
 					case "select" :
-						$pop_article_expl = explode(",",$popup['pop_article_txt']);
+						$pop_article_expl = explode(",",$popup[pop_article_txt]);
 						for($i=0;$i<sizeof($pop_article_expl);$i++){
 							if($article==$pop_article_expl[$i]){
 								$pop_use_val = "Y";
@@ -245,49 +268,37 @@
 			
 			//팝업을 띄우는 조건에 부합하는 경우 팝업 출력
 			if($pop_use_val=="Y"){
-				if($popup['void_link']=="Y"){
-					$link = $popup['link'];
+				if($popup[void_link]=="Y"){
+					$link = $popup[link];
 				}else{
 					$link = "#";
 				}
 				//팝업 엘리먼트를 작성
-				$popup_elements = '
-					<div class="__toony_popup_'.$popup['name'].'" style="display:none; padding:10px; background-color:#fff; border:1px solid #999;">
-						<a href="'.$link.'" target="'.$popup['target'].'"><img src="'.__URL_PATH__.'upload/siteInformations/'.$popup['img'].'" alt="'.$popup['memo'].'" title="'.$popup['memo'].'" /></a>
+				echo '
+					<div class="__toony_popup_'.$popup[name].'" style="display:none; padding:10px; background-color:#fff; border:1px solid #999;">
+						<a href="'.$link.'" target="'.$popup[target].'"><img src="'.__URL_PATH__.'upload/siteInformations/'.$popup[img].'" alt="'.$popup[memo].'" title="'.$popup[memo].'" /></a>
 						<div style="background:#333; padding:3px; color:#fff; font-size:11px; letter-spacing:-1px; position:relative;">
-							<label><input type="checkbox" name="toony_popup_1week_'.$popup['name'].'" /> 오늘 하루 이 창을 열지 않음</label>
+							<label><input type="checkbox" name="toony_popup_1week_'.$popup[name].'" /> 오늘 하루 이 창을 열지 않음</label>
 							<a href="#" class="___close" style="position:absolute; top:5px; right:8px; color:#AFAFAF;">닫기</a>
 						</div>
 					</div>
 				';
-				echo $popup_elements;
 				//팝업 스크립트를 작성
-				$popup_script = '
+				echo '
 					<script type="text/javascript">
 						$(document).ready(function(){
-				';
-				$popup_script .= '
-						//팝업 - '.$popup['name'].'
-						if(getCookie("toony_popup_1week_'.$popup['name'].'")!="true"){
-							$(".__toony_popup_'.$popup['name'].'").css({
-								"position":"absolute",
-								"z-index":800,
-								"left":"'.$popup['bleft'].'px",
-								"top":"'.$popup['btop'].'px"
-							}).show();
-							$(".__toony_popup_'.$popup['name'].' .___close").click(function(){
-								$(".__toony_popup_'.$popup['name'].'").hide();
-								if($(".__toony_popup_'.$popup['name'].' input[name=toony_popup_1week_'.$popup['name'].']").is(":checked")==true){
-									setCookie("toony_popup_1week_'.$popup['name'].'","true",1);
-								}
+							show_popup("'.$popup[name].'");
+							pos_popup("'.$popup[name].'",'.$popup[bleft].','.$popup[btop].');
+							$(".__toony_popup_'.$popup[name].' .___close").click(function(e){
+								e.preventDefault();
+								close_popup("'.$popup[name].'");
 							});
-						}
-				';
-				$popup_script .= "
+						});
+						$(window).resize(function(){
+							pos_popup("'.$popup[name].'",'.$popup[bleft].','.$popup[btop].');
 						});
 					</script>
-				";
-				echo $popup_script;
+				';
 			}
 		}while($mysql->nextRec());
 	}

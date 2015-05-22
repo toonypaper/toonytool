@@ -7,7 +7,7 @@
 	$method = new methodController();
 	$validator = new validator();
 	
-	$method->method_param("POST","type,board_id,skin,name,use_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,list_m_limit,length_limit,length_m_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_m_width,thumb_height,thumb_m_height,articleIMG_width,articleIMG_m_width,articleIMG_height,articleIMG_m_height,article_length,article_m_length,ico_file_p,ico_file_m,ico_mobile_p,ico_mobile_m,ico_secret_p,ico_secret_m,ico_secret_def,ico_new_p,ico_new_m,ico_new_def,ico_hot_def_v,ico_hot_def_r,ico_hot_def_type,ico_hot_p,ico_hot_m,tc_1,tc_2,tc_3,tc_4,tc_5");
+	$method->method_param("POST","type,board_id,skin,name,use_list,use_m_list,use_secret,use_comment,use_likes,use_reply,use_category,category,use_file1,use_file2,file_limit,list_limit,list_m_limit,length_limit,length_m_limit,array_level,write_level,secret_level,comment_level,delete_level,read_level,controll_level,reply_level,write_point,read_point,top_file,top_source,bottom_file,bottom_source,thumb_width,thumb_m_width,thumb_height,thumb_m_height,articleIMG_width,articleIMG_m_width,articleIMG_height,articleIMG_m_height,article_length,article_m_length,ico_file_p,ico_file_m,ico_mobile_p,ico_mobile_m,ico_secret_p,ico_secret_m,ico_secret_def,ico_new_p,ico_new_m,ico_new_def,ico_hot_def_v,ico_hot_def_r,ico_hot_def_type,ico_hot_p,ico_hot_m,tc_1,tc_2,tc_3,tc_4,tc_5");
 	$lib->security_filter("referer");
 	$lib->security_filter("request_get");
 	

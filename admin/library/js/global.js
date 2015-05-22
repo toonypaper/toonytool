@@ -52,6 +52,9 @@ function validt_success($form,msg){
 				case "window.document.location.reload" :
 					window.document.location.reload();
 					break;
+				case "history.back" :
+					history.back();
+					break;
 				case "" :
 					return;
 					break;

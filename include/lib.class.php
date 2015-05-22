@@ -124,7 +124,7 @@
 		*/
 		public function func_member_point_add($me_idno,$mode,$point,$memo){
 			$memo = addslashes($memo);
-			if(!$me_idno||$me_idno<1){
+			if(!$me_idno||$me_idno<1||$point<1){
 				return;
 			}
 			if($mode=="in"){

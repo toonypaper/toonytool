@@ -2,7 +2,9 @@
 	include_once "functions.inc.php";
 	$functions = new functions();
 	
-	$ad_password = $_POST['ad_password'];
+	if(isset($ad_password)){
+		$ad_password = $_POST['ad_password'];
+	}
 	$installed_file = @fopen("../upload/siteInformations/installed.info.txt","r");
 	$installed_pass = @fread($installed_file,1000);
 	@fclose($installed_file);

@@ -142,8 +142,12 @@
 				WHERE $search_where
 				$search_limit
 			");
+			$dataCount = number_format($dataSql->fetch("dataCount"));
+			if(!$dataCount){
+				$dataCount = 0;
+			}
 			$loop->skin_modeling_hideArea("[{data_loop_start}]","[{data_loop_end}]","hide");
-			$loop->skin_modeling("[total_count]",number_format($dataSql->fetch("dataCount")));
+			$loop->skin_modeling("[total_count]",number_format($dataCount));
 			$loop->skin_modeling("[tab_value]",$tab_value);
 			echo $loop->skin_echo();
 			//검색 결과 리스트 노출
